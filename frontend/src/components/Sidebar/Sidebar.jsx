@@ -7,7 +7,7 @@ const Sidebar = ({ setActiveTab }) => {
       <h2>Project Hub</h2>
       <div className="sidebar-content">
         <ul>
-          <li onClick={() => setActiveTab('createEvent')}>Home</li>
+          <li onClick={() => setActiveTab('Home')}>Home</li>
           <li onClick={() => setActiveTab('myProjects')}>My Projects</li>
           <li onClick={() => setActiveTab('admin')}>Admin</li>
           {/* <li onClick={() => setActiveTab('statistics')}>Statistics</li> */}

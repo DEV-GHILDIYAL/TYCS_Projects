@@ -1,21 +1,24 @@
 .sidebar {
   margin: 0;
   width: 250px;
-  background: linear-gradient(135deg, #1e3c72, #2a5298); /* Gradient background */
-  color: #ecf0f1; /* Light text color */
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  color: #ecf0f1;
   display: flex;
   flex-direction: column;
   padding: 20px;
   min-height: 90vh;
-  border-radius: 8px; /* Add subtle corner rounding */
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: width 0.3s ease;
 }
 
 .sidebar h2 {
   margin-bottom: 20px;
-  font-size: 1.6em;
+  font-size: 1.8em;
   text-align: center;
-  color: #f5f6fa; /* Lighter title color */
-  font-weight: 600;
+  color: #f5f6fa;
+  font-weight: 700;
+  letter-spacing: 1px;
 }
 
 .sidebar-content {
@@ -31,32 +34,62 @@
 }
 
 .sidebar ul li {
-  color: #dcdde1; /* Slightly lighter than the default text */
+  color: #dcdde1;
   padding: 12px;
   margin-bottom: 10px;
-  background-color: #34495e; /* Muted dark background */
+  background-color: #34495e;
   cursor: pointer;
   text-align: left;
   border-radius: 6px;
-  transition: background-color 0.3s ease, transform 0.3s ease; /* Add smooth transitions */
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .sidebar ul li:hover {
-  background-color: #2ecc71; /* Green hover effect */
-  color: white; /* Change text color on hover */
-  transform: translateY(-3px); /* Subtle hover lift */
+  background-color: #2ecc71;
+  color: white;
+  transform: translateY(-3px);
+  box-shadow: 0 4px 10px rgba(46, 204, 113, 0.5);
 }
 
-/* Ensure the Login/Register links are aligned at the bottom */
 .auth-links {
   margin-top: auto;
 }
 
 .auth-links li {
-  background-color: #e74c3c; /* Red background for login/register */
+  background-color: #e74c3c;
   color: white;
+  padding: 12px;
+  text-align: center;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
 }
 
 .auth-links li:hover {
-  background-color: #c0392b; /* Darker hover effect */
+  background-color: #c0392b;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 200px;
+    padding: 15px;
+  }
+  
+  .sidebar h2 {
+    font-size: 1.5em;
+  }
+
+  .sidebar ul li {
+    font-size: 0.9em;
+  }
+
+  .auth-links li {
+    font-size: 0.9em;
+  }
+}
+
+@media (max-width: 480px) {
+  .sidebar {
+    width: 100%;
+    min-height: 100vh;
+  }
 }

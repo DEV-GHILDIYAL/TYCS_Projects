@@ -2,30 +2,28 @@
   display: flex;
   flex-wrap: wrap;
   overflow-y: hidden;
-  justify-content: flex-start; /* Align cards to the left */
+  justify-content: flex-start;
   padding: 10px;
   margin-left: 25px;
-  /* height: 400px; */
   margin-right: 25px;
-  /* background-color: #f9f9f9; */
-  gap :3px;
+  gap: 3px;
 }
 
 .card-section .card {
-  flex: 1 1 calc(33.333% - 20px); /* Adjusts card size for responsive design */
+  flex: 1 1 calc(33.333% - 20px);
   margin: 5px;
-  box-sizing: border-box; /* Ensure padding and border are included in width/height */
-  padding : 20px;
+  box-sizing: border-box;
+  padding: 20px;
 }
 
 @media (max-width: 768px) {
   .card-section .card {
-      flex: 1 1 calc(50% - 20px); /* 2 cards per row on medium screens */
+      flex: 1 1 calc(50% - 20px);
   }
 }
 
 @media (max-width: 480px) {
   .card-section .card {
-      flex: 1 1 calc(100% - 20px); /* 1 card per row on small screens */
+      flex: 1 1 calc(100% - 20px);
   }
 }
