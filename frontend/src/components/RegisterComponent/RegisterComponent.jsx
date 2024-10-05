@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import "./RegisterPage.css";
-import Navbar from "../components/navbar";
+import "./Register.css";
 import { useNavigate } from 'react-router-dom';
 
 const RegisterPage = () => {
@@ -9,23 +8,20 @@ const RegisterPage = () => {
   const [name, setName] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(""); // State for error messages
-  const [loading, setLoading] = useState(false); // State for loading indicator
   
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const handleRegister = async (e) => {
     e.preventDefault();
-    setLoading(true);
     setErrorMessage("");
 
     if (password !== confirmPassword) {
       setErrorMessage("Passwords do not match!");
-      setLoading(false);
       return;
     }
 
     try {
-      const response = await fetch("http://localhost:4000/api/register", {
+      const response = await fetch(`http://localhost:5500/auth/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -46,14 +42,11 @@ const RegisterPage = () => {
     } catch (error) {
       console.error("Error during registration:", error);
       setErrorMessage("Registration failed");
-    } finally {
-      setLoading(false);
     }
   };
 
   return (
     <>
-      <Navbar />
       <div className="login-register-container">
         <div className="login-register-card">
           <h2>Register</h2>
@@ -100,8 +93,8 @@ const RegisterPage = () => {
                   required
                 />
               </div>
-            <button type="submit" className="login-button" disabled={loading}>
-            {loading ? "Processing..." : ( "Register")}
+            <button type="submit" className="login-button" >
+            {"Register"}
             </button>
           </form>
           <p className="toggle-link">
