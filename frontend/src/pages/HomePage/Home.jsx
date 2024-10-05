@@ -15,14 +15,14 @@ const Home = () => {
       case "Home":
         return <HomeComponent />;
       case "myProjects":
-        return <MyProjects />;
+        return <MyProjects setActiveTab={setActiveTab} />;
       case "admin":
         return <Admin />;
       case "login":
         return <LoginComponent />;
       case "register":
         return <RegisterComponent />;
-      case <MyProjects />:
+      case 'createEvent':
         return <EventDetailsForm />;
       default:
         return <HomeComponent />;
