@@ -1,0 +1,62 @@
+.sidebar {
+  margin: 0;
+  width: 250px;
+  background: linear-gradient(135deg, #1e3c72, #2a5298); /* Gradient background */
+  color: #ecf0f1; /* Light text color */
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  min-height: 90vh;
+  border-radius: 8px; /* Add subtle corner rounding */
+}
+
+.sidebar h2 {
+  margin-bottom: 20px;
+  font-size: 1.6em;
+  text-align: center;
+  color: #f5f6fa; /* Lighter title color */
+  font-weight: 600;
+}
+
+.sidebar-content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: space-between;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar ul li {
+  color: #dcdde1; /* Slightly lighter than the default text */
+  padding: 12px;
+  margin-bottom: 10px;
+  background-color: #34495e; /* Muted dark background */
+  cursor: pointer;
+  text-align: left;
+  border-radius: 6px;
+  transition: background-color 0.3s ease, transform 0.3s ease; /* Add smooth transitions */
+}
+
+.sidebar ul li:hover {
+  background-color: #2ecc71; /* Green hover effect */
+  color: white; /* Change text color on hover */
+  transform: translateY(-3px); /* Subtle hover lift */
+}
+
+/* Ensure the Login/Register links are aligned at the bottom */
+.auth-links {
+  margin-top: auto;
+}
+
+.auth-links li {
+  background-color: #e74c3c; /* Red background for login/register */
+  color: white;
+}
+
+.auth-links li:hover {
+  background-color: #c0392b; /* Darker hover effect */
+}

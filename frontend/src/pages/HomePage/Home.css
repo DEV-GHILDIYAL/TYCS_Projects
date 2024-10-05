@@ -1,0 +1,16 @@
+.home {
+  display: flex;
+  max-height: 100vh;
+  margin: 0;
+}
+
+.home-content {
+  display: flex;
+  flex: 1;
+  width: 1220px;
+}
+
+.main-content {
+  flex: 1; /* Adjusted to fill remaining space */
+  padding: 20px;
+}
