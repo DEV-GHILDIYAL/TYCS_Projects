@@ -18,7 +18,6 @@ const EventDetailsForm = () => {
   const [twitterLink, setTwitterLink] = useState('');
   const [instagramLink, setInstagramLink] = useState('');
   const [linkedinLink, setLinkedinLink] = useState('');
-  const [facebookLink, setFacebookLink] = useState('');
 
   const handleApkChange = (e) => {
     setApkFile(e.target.files[0]);
@@ -46,11 +45,9 @@ const EventDetailsForm = () => {
       deployedLink: projectCategory === 'Mobile App Development' ? apkFile : deployedLink,
       githubLink,
       futureEnhancements,
-      youtubeLink,
       twitterLink,
       instagramLink,
       linkedinLink,
-      facebookLink,
     };
 
     const formData = new FormData();
@@ -79,11 +76,9 @@ const EventDetailsForm = () => {
       setDeployedLink('');
       setGithubLink('');
       setFutureEnhancements('');
-      setYoutubeLink('');
       setTwitterLink('');
       setInstagramLink('');
       setLinkedinLink('');
-      setFacebookLink('');
       setCompletionPercentage(0);
       setProgressColor('red');
     } else {
@@ -92,7 +87,7 @@ const EventDetailsForm = () => {
   };
 
   const calculateCompletionPercentage = () => {
-    const totalFields = 13;
+    const totalFields = 11;
     let completedFields = 0;
 
     if (name) completedFields++;
@@ -109,11 +104,9 @@ const EventDetailsForm = () => {
 
     if (githubLink) completedFields++;
     if (futureEnhancements) completedFields++;
-    if (youtubeLink) completedFields++;
     if (twitterLink) completedFields++;
     if (instagramLink) completedFields++;
     if (linkedinLink) completedFields++;
-    if (facebookLink) completedFields++;
 
     const percentage = (completedFields / totalFields) * 100;
     setCompletionPercentage(percentage);
@@ -124,6 +117,7 @@ const EventDetailsForm = () => {
       projectTitle &&
       projectDescription &&
       projectCategory &&
+      githubLink &&
       ((projectCategory === 'Mobile App Development' && apkFile) || 
       (projectCategory !== 'Mobile App Development' && deployedLink));
 
@@ -132,182 +126,159 @@ const EventDetailsForm = () => {
 
   useEffect(() => {
     calculateCompletionPercentage();
-  }, [name, rollNo, projectTitle, projectDescription, projectCategory, apkFile, deployedLink, githubLink, futureEnhancements, youtubeLink, twitterLink, instagramLink, linkedinLink, facebookLink]);
+  }, [name, rollNo, projectTitle, projectDescription, projectCategory, apkFile, deployedLink, githubLink, futureEnhancements, twitterLink, instagramLink, linkedinLink]);
 
   return (
     <form className="event-details-form" onSubmit={handleSubmit}>
-      <h3>Create Project</h3>
+  <h3>Create Project</h3>
 
-      <div className="progress-bar">
-        <div 
-          className="progress" 
-          style={{ width: `${completionPercentage}%`, backgroundColor: progressColor }} 
-        />
-      </div>
-      <div className="progress-percentage">{completionPercentage.toFixed(0)}%</div>
+  <div className="progress-bar">
+    <div className="progress" style={{ width: `${completionPercentage}%`, backgroundColor: progressColor }} />
+  </div>
+  <div className="progress-percentage">{completionPercentage.toFixed(0)}%</div>
 
-      <div className="form-row">
-        <div className="form-group">
-          <label>Name: <span className="required">*</span></label>
+  <div className="form-row">
+    <div className="form-group">
+      <label>Name: <span className="required">*</span></label>
+      <input 
+        type="text" 
+        value={name} 
+        onChange={(e) => setName(e.target.value)} 
+        placeholder="Enter your name" 
+        required 
+      />
+    </div>
+    <div className="form-group">
+      <label>Roll No: <span className="required">*</span></label>
+      <input 
+        type="number" 
+        value={rollNo} 
+        onChange={(e) => setRollNo(e.target.value)} 
+        placeholder="Enter your roll number" 
+        required 
+      />
+    </div>
+    <div className="form-group">
+      <label>Project Title: <span className="required">*</span></label>
+      <input 
+        type="text" 
+        value={projectTitle} 
+        onChange={(e) => setProjectTitle(e.target.value)} 
+        placeholder="Enter the project title" 
+        required 
+      />
+    </div>
+  </div>
+
+  <div className="form-row full-width">
+    <div className="form-group full-width">
+      <label>Project Description: <span className="required">*</span></label>
+      <textarea 
+        value={projectDescription} 
+        onChange={(e) => setProjectDescription(e.target.value)} 
+        placeholder="Describe your project..." 
+        required 
+      />
+    </div>
+  </div>
+
+  <div className="form-row">
+    <div className="form-group half-width">
+      <label>Project Category: <span className="required">*</span></label>
+      <select 
+        value={projectCategory} 
+        onChange={(e) => setProjectCategory(e.target.value)} 
+        required
+      >
+        <option value="" disabled>Select Category</option>
+        <option value="Web Development">Web Development</option>
+        <option value="Mobile App Development">Mobile App Development</option>
+        <option value="Machine Learning">Machine Learning</option>
+        <option value="Data Science">Data Science</option>
+        <option value="Game Development">Game Development</option>
+        <option value="Blockchain">Blockchain</option>
+      </select>
+    </div>
+    <div className="form-group half-width">
+      {projectCategory === 'Mobile App Development' ? (
+        <>
+          <label>APK File: <span className="required">*</span></label>
           <input 
-            type="text" 
-            value={name} 
-            onChange={(e) => setName(e.target.value)} 
-            placeholder="Enter your name" 
+            type="file" 
+            accept=".apk" 
+            onChange={handleApkChange} 
             required 
           />
-        </div>
-        <div className="form-group">
-          <label>Roll No: <span className="required">*</span></label>
+        </>
+      ) : (
+        <>
+          <label>Deployed Link: <span className="required">*</span></label>
           <input 
-            type="number" 
-            value={rollNo} 
-            onChange={(e) => setRollNo(e.target.value)} 
-            placeholder="Enter your roll number" 
+            type="url" 
+            value={deployedLink} 
+            onChange={(e) => setDeployedLink(e.target.value)} 
+            placeholder="Enter the deployed link" 
             required 
           />
-        </div>
-      </div>
+        </>
+      )}
+    </div>
+  </div>
 
-      <div className="form-row">
-        <div className="form-group">
-          <label>Project Title: <span className="required">*</span></label>
-          <input 
-            type="text" 
-            value={projectTitle} 
-            onChange={(e) => setProjectTitle(e.target.value)} 
-            placeholder="Enter the project title" 
-            required 
-          />
-        </div>
-        <div className="form-group">
-          <label>Project Description: <span className="required">*</span></label>
-          <textarea 
-            value={projectDescription} 
-            onChange={(e) => setProjectDescription(e.target.value)} 
-            placeholder="Describe your project..." 
-            required 
-          />
-        </div>
-      </div>
+  <div className="form-row">
+    <div className="form-group full-width">
+      <label>Future Enhancements:</label>
+      <textarea 
+        value={futureEnhancements} 
+        onChange={(e) => setFutureEnhancements(e.target.value)} 
+        placeholder="Describe future enhancements (optional)" 
+      />
+    </div>
+  </div>
 
-      <div className="form-row">
-        <div className="form-group">
-          <label>Project Category: <span className="required">*</span></label>
-          <select 
-            value={projectCategory} 
-            onChange={(e) => setProjectCategory(e.target.value)} 
-            required
-          >
-            <option value="" disabled>Select Category</option>
-            <option value="Web Development">Web Development</option>
-            <option value="Mobile App Development">Mobile App Development</option>
-            <option value="Machine Learning">Machine Learning</option>
-            <option value="Data Science">Data Science</option>
-            <option value="Game Development">Game Development</option>
-            <option value="Blockchain">Blockchain</option>
-          </select>
-        </div>
-      </div>
+  <h4 className="social-media-title">Social Media Links</h4>
+  <div className="social-media-links">
+    <div className="form-group">
+      <label>Twitter Link:</label>
+      <input 
+        type="url" 
+        value={twitterLink} 
+        onChange={(e) => setTwitterLink(e.target.value)} 
+        placeholder="Enter Twitter link (optional)" 
+      />
+    </div>
+    <div className="form-group">
+      <label>Instagram Link:</label>
+      <input 
+        type="url" 
+        value={instagramLink} 
+        onChange={(e) => setInstagramLink(e.target.value)} 
+        placeholder="Enter Instagram link (optional)" 
+      />
+    </div>
+    <div className="form-group">
+      <label>LinkedIn Link:</label>
+      <input 
+        type="url" 
+        value={linkedinLink} 
+        onChange={(e) => setLinkedinLink(e.target.value)} 
+        placeholder="Enter LinkedIn link (optional)" 
+      />
+    </div>
+    <div className="form-group">
+      <label>GitHub Link: <span className="required">*</span></label>
+      <input 
+        type="url" 
+        value={githubLink} 
+        onChange={(e) => setGithubLink(e.target.value)} 
+        placeholder="Enter GitHub link (optional)" 
+      />
+    </div>
+  </div>
 
-      <div className="form-row">
-        <div className="form-group">
-          {projectCategory === 'Mobile App Development' ? (
-            <>
-              <label>APK File: <span className="required">*</span></label>
-              <input 
-                type="file" 
-                accept=".apk" 
-                onChange={handleApkChange} 
-                required 
-              />
-            </>
-          ) : (
-            <>
-              <label>Deployed Link: <span className="required">*</span></label>
-              <input 
-                type="url" 
-                value={deployedLink} 
-                onChange={(e) => setDeployedLink(e.target.value)} 
-                placeholder="Enter the deployed link" 
-                required 
-              />
-            </>
-          )}
-        </div>
-        <div className="form-group">
-          <label>GitHub Link:</label>
-          <input 
-            type="url" 
-            value={githubLink} 
-            onChange={(e) => setGithubLink(e.target.value)} 
-            placeholder="Enter GitHub link (optional)" 
-          />
-        </div>
-      </div>
+  <button type="submit" className="submit-button">Submit</button>
+</form>
 
-      <div className="form-row">
-        <div className="form-group">
-          <label>Future Enhancements:</label>
-          <textarea 
-            value={futureEnhancements} 
-            onChange={(e) => setFutureEnhancements(e.target.value)} 
-            placeholder="Describe future enhancements (optional)" 
-          />
-        </div>
-      </div>
-
-      <h4 className='scoial-media-title'>Social Media Links</h4>
-      <div className="social-media-links">
-        <div className="form-group">
-          <label>YouTube Link:</label>
-          <input 
-            type="url" 
-            value={youtubeLink} 
-            onChange={(e) => setYoutubeLink(e.target.value)} 
-            placeholder="Enter YouTube link (optional)" 
-          />
-        </div>
-        <div className="form-group">
-          <label>Twitter Link:</label>
-          <input 
-            type="url" 
-            value={twitterLink} 
-            onChange={(e) => setTwitterLink(e.target.value)} 
-            placeholder="Enter Twitter link (optional)" 
-          />
-        </div>
-        <div className="form-group">
-          <label>Instagram Link:</label>
-          <input 
-            type="url" 
-            value={instagramLink} 
-            onChange={(e) => setInstagramLink(e.target.value)} 
-            placeholder="Enter Instagram link (optional)" 
-          />
-        </div>
-        <div className="form-group">
-          <label>LinkedIn Link:</label>
-          <input 
-            type="url" 
-            value={linkedinLink} 
-            onChange={(e) => setLinkedinLink(e.target.value)} 
-            placeholder="Enter LinkedIn link (optional)" 
-          />
-        </div>
-        <div className="form-group">
-          <label>Facebook Link:</label>
-          <input 
-            type="url" 
-            value={facebookLink} 
-            onChange={(e) => setFacebookLink(e.target.value)} 
-            placeholder="Enter Facebook link (optional)" 
-          />
-        </div>
-      </div>
-
-      <button type="submit" className="submit-button">Submit</button>
-    </form>
   );
 };
 

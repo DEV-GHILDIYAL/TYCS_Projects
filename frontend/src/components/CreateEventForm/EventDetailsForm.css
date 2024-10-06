@@ -21,15 +21,18 @@
 
 .form-row {
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 10px;
+  justify-content: space-between;
+  gap: 20px;
 }
 
 .form-group {
-  flex: 1 1 calc(50% - 10px);
-  display: flex;
-  flex-direction: column;
+  flex: 1;
+}
+.full-width {
+  width: 100%;
+}
+.half-width {
+  flex: 0.48;
 }
 
 .form-group label {
@@ -54,6 +57,11 @@
   height: 70px;
 }
 
+.social-media-title {
+  margin-top: 20px;
+  margin-bottom: 0;
+  font-weight: bold;
+}
 .social-media-links {
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -72,9 +80,6 @@
 
 .social-media-links input {
   height: 38px;
-}
-.scoial-media-title{
-  margin: 0;
 }
 
 button[type="submit"] {

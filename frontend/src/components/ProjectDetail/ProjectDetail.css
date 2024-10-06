@@ -1,0 +1,106 @@
+/* ProjectDetail.css */
+
+.project-detail-container {
+    min-height: 90vh; /* Minimum height */
+    max-width: 1200px; /* Maximum width */
+    max-width: auto;
+    margin: 20px auto; /* Centering the container */
+    padding: 20px; /* Padding inside the container */
+    background-color: #ffffff; /* White background */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Shadow for elevation */
+    border-radius: 10px; /* Rounded corners */
+    font-family: 'Arial', sans-serif; /* Font family */
+    overflow-y: auto; /* Enable vertical scrolling */
+    max-height: 90vh; /* Set max height to allow scrolling */
+}
+
+/* Header Style */
+.project-detail-container h2 {
+    font-size: 28px; /* Heading font size */
+    margin-bottom: 20px; /* Space below heading */
+    color: #333; /* Darker color for the heading */
+    text-align: center; /* Centered heading */
+}
+
+/* Project Details Row */
+.project-detail-row {
+    display: flex; /* Flex display for responsive layout */
+    justify-content: space-between; /* Space between items */
+    margin-bottom: 20px; /* Space below each row */
+    flex-wrap: wrap; /* Allow wrapping of items */
+}
+
+.project-detail-row div {
+    font-size: 16px; /* Font size */
+    color: #555; /* Text color */
+    flex: 1 1 45%; /* Flex properties for responsiveness */
+    word-wrap: break-word; /* Break long words */
+    padding: 10px; /* Padding inside each item */
+}
+
+/* Project Description */
+.project-detail-description {
+    font-size: 16px; /* Font size */
+    line-height: 1.6; /* Line height for readability */
+    color: #444; /* Text color */
+    background-color: #f9f9f9; /* Subtle background color */
+    padding: 15px; /* Padding */
+    border-left: 4px solid #007BFF; /* Accent line */
+    border-radius: 5px; /* Rounded corners */
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1); /* Shadow effect */
+    margin-bottom: 20px; /* Space below */
+    overflow-y: auto; /* Enable scrolling if content exceeds */
+}
+
+/* Social Media Section */
+.social-media-section {
+    margin-top: 40px; /* Margin at the top */
+    text-align: center; /* Centering the text */
+}
+
+.social-media-section h3 {
+    font-size: 24px; /* Heading font size */
+    margin-bottom: 20px; /* Space below heading */
+    color: #444; /* Text color */
+}
+
+/* Social Media Icons */
+.social-media-icons {
+    display: flex; /* Flex display for icons */
+    justify-content: center; /* Center the icons */
+    gap: 20px; /* Space between icons */
+}
+
+.social-media-icons a {
+    display: inline-block; /* Inline block for icons */
+    width: 40px; /* Width for icons */
+    height: 40px; /* Height for icons */
+}
+
+.social-media-icons a img {
+    width: 100%; /* Full width for images */
+    height: 100%; /* Full height for images */
+    object-fit: cover; /* Cover the image */
+    border-radius: 50%; /* Round shape for icons */
+    transition: transform 0.3s ease, filter 0.3s ease; /* Transition effect */
+}
+
+.social-media-icons a:hover img {
+    transform: scale(1.1); /* Scale effect on hover */
+    filter: brightness(1.1); /* Slight brightness on hover */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .project-detail-row {
+        flex-direction: column; /* Stack items vertically */
+    }
+
+    .project-detail-container h2 {
+        font-size: 24px; /* Adjust title size */
+    }
+
+    .project-detail-row div {
+        font-size: 14px; /* Adjust font size */
+    }
+}
