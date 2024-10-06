@@ -7,23 +7,26 @@ const EventDetailsForm = () => {
   const [projectTitle, setProjectTitle] = useState('');
   const [projectDescription, setProjectDescription] = useState('');
   const [projectCategory, setProjectCategory] = useState('');
-  const [tags, setTags] = useState('');
-  const [images, setImages] = useState([]);
+  const [apkFile, setApkFile] = useState(null); // For APK file upload
   const [deployedLink, setDeployedLink] = useState('');
   const [githubLink, setGithubLink] = useState('');
-  const [linkedinLink, setLinkedinLink] = useState('');
+  const [futureEnhancements, setFutureEnhancements] = useState(''); // For future enhancements
 
-  const handleImageChange = (e) => {
-    const files = Array.from(e.target.files);
-    setImages(files);
+  const handleApkChange = (e) => {
+    setApkFile(e.target.files[0]); // Handling only one APK file upload
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Check if at least one image is selected
-    if (images.length === 0) {
-      alert('Please upload at least one image.');
+    // Check if either APK file or deployed link is provided based on category
+    if (projectCategory === 'Mobile App Development' && !apkFile) {
+      alert('Please upload an APK file for Mobile App Development.');
+      return;
+    }
+
+    if (projectCategory !== 'Mobile App Development' && !deployedLink) {
+      alert('Please enter a deployed link for this project.');
       return;
     }
 
@@ -33,18 +36,23 @@ const EventDetailsForm = () => {
       projectTitle,
       projectDescription,
       projectCategory,
-      tags,
-      images,
-      deployedLink,
+      deployedLink: projectCategory === 'Mobile App Development' ? apkFile : deployedLink, // APK or deployed link
       githubLink,
+      futureEnhancements,
     };
+
+    const formData = new FormData();
+    for (const key in projectDetails) {
+      if (key === 'apkFile' && apkFile) {
+        formData.append('apkFile', apkFile);
+      } else {
+        formData.append(key, projectDetails[key]);
+      }
+    }
 
     const response = await fetch('http://localhost:5050/api/projects', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(projectDetails),
+      body: formData,
       credentials: 'include',
     });
 
@@ -56,10 +64,10 @@ const EventDetailsForm = () => {
       setProjectTitle('');
       setProjectDescription('');
       setProjectCategory('');
-      setTags('');
-      setImages([]);
+      setApkFile(null);
       setDeployedLink('');
       setGithubLink('');
+      setFutureEnhancements('');
     } else {
       console.error('Failed to create the project');
     }
@@ -76,6 +84,7 @@ const EventDetailsForm = () => {
             type="text" 
             value={name} 
             onChange={(e) => setName(e.target.value)} 
+            placeholder="Enter your name" // Added placeholder
             required 
           />
         </div>
@@ -85,6 +94,7 @@ const EventDetailsForm = () => {
             type="number" 
             value={rollNo} 
             onChange={(e) => setRollNo(e.target.value)} 
+            placeholder="Enter your roll number" // Added placeholder
             required 
           />
         </div>
@@ -97,6 +107,7 @@ const EventDetailsForm = () => {
             type="text" 
             value={projectTitle} 
             onChange={(e) => setProjectTitle(e.target.value)} 
+            placeholder="Enter the project title" // Added placeholder
             required 
           />
         </div>
@@ -105,6 +116,7 @@ const EventDetailsForm = () => {
           <textarea 
             value={projectDescription} 
             onChange={(e) => setProjectDescription(e.target.value)} 
+            placeholder="Describe your project..." // Added placeholder
             required 
           />
         </div>
@@ -127,46 +139,51 @@ const EventDetailsForm = () => {
             <option value="Blockchain">Blockchain</option>
           </select>
         </div>
-        <div className="form-group">
-          <label>Tags:</label>
-          <input 
-            type="text" 
-            value={tags} 
-            onChange={(e) => setTags(e.target.value)} 
-          />
-        </div>
       </div>
 
       <div className="form-row">
         <div className="form-group">
-          <label>Images: <span className="required">*</span></label>
-          <input 
-            type="file" 
-            accept="image/*" 
-            multiple 
-            onChange={handleImageChange} 
-            required // Marked as required
-          />
+          {projectCategory === 'Mobile App Development' ? (
+            <>
+              <label>APK File: <span className="required">*</span></label>
+              <input 
+                type="file" 
+                accept=".apk" 
+                onChange={handleApkChange} 
+                required 
+              />
+            </>
+          ) : (
+            <>
+              <label>Deployed Link: <span className="required">*</span></label>
+              <input 
+                type="url" 
+                value={deployedLink} 
+                onChange={(e) => setDeployedLink(e.target.value)} 
+                placeholder="Enter the deployed link" // Added placeholder
+                required // Set this as required when not uploading APK
+              />
+            </>
+          )}
         </div>
-      </div>
-
-      <div className="form-row">
         <div className="form-group">
-          <label>Deployed Link: <span className="required">*</span></label>
-          <input 
-            type="url" 
-            value={deployedLink} 
-            onChange={(e) => setDeployedLink(e.target.value)} 
-            required // Marked as required
-          />
-        </div>
-        <div className="form-group">
-          <label>GitHub Link: <span className="required">*</span></label>
+          <label>GitHub Link: <span className="optional-text"> (optional)</span></label>
           <input 
             type="url" 
             value={githubLink} 
             onChange={(e) => setGithubLink(e.target.value)} 
-            required // Marked as required
+            placeholder="Enter the GitHub link" // Added placeholder
+          />
+        </div>
+      </div>
+
+      <div className="form-row">
+        <div className="form-group">
+          <label>Future Enhancements: <span className="optional-text"> (optional)</span></label>
+          <textarea 
+            value={futureEnhancements} 
+            onChange={(e) => setFutureEnhancements(e.target.value)} 
+            placeholder="Describe any future enhancements you plan for this project..." // Added placeholder
           />
         </div>
       </div>
