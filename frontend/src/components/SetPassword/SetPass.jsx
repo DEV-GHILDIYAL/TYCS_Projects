@@ -1,52 +1,52 @@
 import React, { useState } from "react";
-import { useParams } from "react-router-dom"; // Import useParams to access URL parameters
+import { useParams, useNavigate } from "react-router-dom"; // Import useNavigate for redirection
 import { toast } from "react-toastify";
 import "./SetPassword.css";
 
 const SetPass = () => {
   const { email, ltoken } = useParams(); // Get email and ltoken from URL
-  console.log("userparams from setpass",useParams())
-  console.log("email from setpass",email)
-  console.log("ltoken from setpass",ltoken)
+  const navigate = useNavigate(); // Initialize useNavigate for navigation
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false); // Loading state for button
 
   const handleSetPassword = async (e) => {
-    e.preventDefault();
-    console.log("passwrdfs",password)
+    e.preventDefault(); // Prevent default form submission
     if (!password) {
       toast.error("Please enter a new password!", { autoClose: 1000 });
       return;
     }
 
     if (password.length < 8) {
-        toast.error("Password must be at least 8 characters long!", { autoClose: 1000 });
-        return;
+      toast.error("Password must be at least 8 characters long!", { autoClose: 1000 });
+      return;
     }
 
-    try {
+    setLoading(true); // Set loading to true
 
+    try {
       const response = await fetch(`http://localhost:5500/auth/setpassword/${email}/${ltoken}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ password: password }), // Include the new password in the request body
+        body: JSON.stringify({ password }), // Include the new password in the request body
       });
 
       const data = await response.json();
 
       if (response.ok) {
         toast.success("Password set successfully!", { autoClose: 1000 });
-        // Redirect to login or another page if needed
         setTimeout(() => {
-          setActiveTab("login")
-        }, 1500); 
+          navigate("/"); // Redirect to the login page
+        }, 1500);
       } else {
         toast.error(data.status || "Failed to set password!", { autoClose: 1000 });
       }
     } catch (error) {
       console.error("Error setting password:", error);
       toast.error("An error occurred!", { autoClose: 1000 });
+    } finally {
+      setLoading(false); // Set loading back to false
     }
   };
 
@@ -54,7 +54,7 @@ const SetPass = () => {
     <div className="login-register-container">
       <div className="login-register-card">
         <h2>Set New Password</h2>
-        <form method="post">
+        <form onSubmit={handleSetPassword}>
           <div className="input-group">
             <label htmlFor="newPassword">New Password:</label>
             <input
@@ -65,8 +65,8 @@ const SetPass = () => {
               required
             />
           </div>
-          <button type="submit" onSubmit={handleSetPassword} className="login-button">
-            Set Password
+          <button type="submit" className="login-button" disabled={loading}>
+            {loading ? "Setting Password..." : "Set Password"}
           </button>
         </form>
       </div>

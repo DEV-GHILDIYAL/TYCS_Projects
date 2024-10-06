@@ -48,6 +48,12 @@
   margin: 12px 0;
 }
 
+.card-name {
+  font-size: 0.70rem;
+  color: #2a2929; /* Softer text color */
+  line-height: 1.6; /* More line height for readability */
+  margin: 12px 0;
+}
 .card-button {
   background-color: #28a745; /* Softer green for positive interaction */
   color: #ffffff;

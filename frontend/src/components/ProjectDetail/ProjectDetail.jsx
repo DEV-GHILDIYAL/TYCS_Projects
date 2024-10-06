@@ -9,6 +9,7 @@ import linkedinIcon from '../../assets/images/linkedin-icon.jpg';
 import githubIcon from '../../assets/images/github-icon.png';
 
 const ProjectDetail = ({ project, onBack }) => { // Accept onBack prop
+    console.log('project from projectDetail;',project)
     return (
         <div className="project-detail-container">
             <button onClick={onBack} className="back-button">Back</button> {/* Back button */}
