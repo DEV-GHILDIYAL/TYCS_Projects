@@ -13,4 +13,5 @@
 .main-content {
   flex: 1; /* Adjusted to fill remaining space */
   padding: 20px;
+  width: auto;
 }

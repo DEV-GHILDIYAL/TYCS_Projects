@@ -7,6 +7,7 @@ import Admin from "../../components/Admin/Admin";
 import LoginComponent from "../../components/LoginComponent/LoginComponent";
 import RegisterComponent from "../../components/SetPassword/SetPassword";
 import HomeComponent from "../../components/HomeComponent/HomeComponent";
+
 const Home = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
 
@@ -19,10 +20,10 @@ const Home = () => {
       case "admin":
         return <Admin />;
       case "login":
-        return <LoginComponent />;
+        return <LoginComponent setActiveTab={setActiveTab} />;
       case "register":
-        return <RegisterComponent />;
-      case 'createEvent':
+        return <RegisterComponent setActiveTab={setActiveTab}/>;
+      case "createEvent":
         return <EventDetailsForm />;
       default:
         return <HomeComponent />;
@@ -30,7 +31,6 @@ const Home = () => {
   };
 
   return (
-    <>
     <div className="home">
       <Sidebar setActiveTab={setActiveTab} />
       <div className="home-content">
@@ -39,7 +39,6 @@ const Home = () => {
         </div>
       </div>
     </div>
-    </>
   );
 };
 
