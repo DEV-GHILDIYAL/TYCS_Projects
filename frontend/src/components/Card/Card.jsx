@@ -3,10 +3,11 @@ import img from '../../assets/images/images.png';
 import './Card.css';
 import { useNavigate } from 'react-router-dom';
 
-const Card = ({ image, title, description, location, time, ngoName }) => {
+const Card = ({ image, title, description, location, time, ngoName, setActiveTab}) => {
   const navigate = useNavigate();
 
   const handleButtonClick = () => {
+    setActiveTab('projectDetails');
     navigate('/event');
   };
 
