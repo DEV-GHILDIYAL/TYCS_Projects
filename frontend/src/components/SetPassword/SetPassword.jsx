@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import "./SetPassword.css";
+
 import { toast, Slide } from "react-toastify";
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
-
+import { toast } from "react-toastify";
+import MailOutlineIcon from "@mui/icons-material/MailOutline";
 const SetPassword = ({ setActiveTab }) => {
   const [email, setEmail] = useState("");
 
@@ -10,6 +12,7 @@ const SetPassword = ({ setActiveTab }) => {
     e.preventDefault();
 
     if (!email) {
+
       toast.error("Provide email!", {
         position: "top-right",
         theme: "light",
@@ -18,16 +21,30 @@ const SetPassword = ({ setActiveTab }) => {
       return;
     }
 
+      toast.error("Provide email!", { autoClose: 1000 });
+      return;
+    }
+
+    // Example regex for G.N. Khalsa email validation
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@gnkhalsa\.edu\.in$/;
+    if (!emailRegex.test(email)) {
+    if (!email) {
+      toast.error("Please enter a valid G.N. Khalsa email!", { autoClose: 1000 });
+      return;
+    }
     try {
-      const response = await fetch(`http://localhost:5500/auth/setpassword`, {
+      const response = await fetch("http://localhost:5500/auth/setpassword", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ email }),
+
+        credentials: "include",
+
       });
 
-      const data = await response.json();
+      const checkdata = await response.json();
 
       if (response.ok) {
         toast.success("Email has been sent on your email", {
@@ -50,6 +67,17 @@ const SetPassword = ({ setActiveTab }) => {
         theme: "light",
         transition: Slide,
       });
+// =======
+//       if (response.ok && checkdata.status === "Email sent") {
+//         toast.success("Check your email!", { autoClose: 1000 });
+//         setEmail(""); // Clear email field
+//       } else {
+//         toast.error(checkdata.status || "Email does not exist!", { autoClose: 1000 });
+//       }
+//     } catch (error) {
+//       console.error("Error during email sending:", error);
+//       toast.error("An error occurred while sending the email. Please try again.", { autoClose: 1000 });
+// >>>>>>> main
     }
   };
 
@@ -85,7 +113,7 @@ const SetPassword = ({ setActiveTab }) => {
           </p>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
