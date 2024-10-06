@@ -11,12 +11,13 @@ import ProjectDetail from "../../components/ProjectDetail/ProjectDetail";
 
 const Home = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
+  const [selectedCard, setSelectedCard] = useState(null); // State to hold selected card details
 
   const renderContent = () => {
+    console.log(activeTab);
     switch (activeTab) {
       case "Home":
-        return <ProjectDetail/>;
-        // return <HomeComponent />;
+        return <HomeComponent setActiveTab={setActiveTab} setSelectedCard={setSelectedCard} />;
       case "myProjects":
         return <MyProjects setActiveTab={setActiveTab} />;
       case "admin":
@@ -24,13 +25,13 @@ const Home = () => {
       case "login":
         return <LoginComponent setActiveTab={setActiveTab} />;
       case "register":
-        return <RegisterComponent setActiveTab={setActiveTab}/>;
+        return <RegisterComponent setActiveTab={setActiveTab} />;
       case "createEvent":
         return <EventDetailsForm />;
       case "projectDetails":
-        return <ProjectDetail />;
+        return <ProjectDetail selectedCard={selectedCard} />; // Pass selected card details to ProjectDetail
       default:
-        return <HomeComponent />;
+        return <HomeComponent setActiveTab={setActiveTab} setSelectedCard={setSelectedCard} />;
     }
   };
 
