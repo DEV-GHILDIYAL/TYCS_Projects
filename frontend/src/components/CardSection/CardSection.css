@@ -1,29 +1,94 @@
 .card-section {
   display: flex;
-  flex-wrap: wrap;
-  overflow-y: hidden;
-  justify-content: flex-start;
-  padding: 10px;
-  margin-left: 25px;
-  margin-right: 25px;
-  gap: 3px;
+  flex-wrap: wrap; /* Allow cards to wrap in multiple rows */
+  gap: 20px; /* Space between cards */
+  padding: 20px;
+  margin: 0 25px;
+  box-sizing: border-box;
+  max-height: 500px; /* Set a fixed height for the container */
+  overflow-y: auto; /* Enable vertical scrolling */
 }
 
 .card-section .card {
-  flex: 1 1 calc(33.333% - 20px);
+  width: 320px;
   margin: 5px;
+  padding: 0;
   box-sizing: border-box;
-  padding: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-@media (max-width: 768px) {
-  .card-section .card {
-      flex: 1 1 calc(50% - 20px);
-  }
+.card {
+  display: flex;
+  flex-direction: row;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 100%; /* Ensures the card takes up the defined flex width */
 }
 
-@media (max-width: 480px) {
-  .card-section .card {
-      flex: 1 1 calc(100% - 20px);
-  }
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.card-image {
+  width: 35%; /* Reduced image width to match the smaller card size */
+  height: auto;
+  object-fit: cover;
+}
+
+.card-content {
+  padding: 10px; /* Reduced padding for smaller card */
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card-title {
+  font-size: 1rem; /* Reduced title size */
+  margin: 0;
+  font-weight: 600;
+  color: #333333;
+}
+
+.card-description {
+  font-size: 0.8rem; /* Reduced description font size */
+  color: #666666;
+  line-height: 1.4;
+  margin: 10px 0 0;
+}
+
+.card-button {
+  background-color: #007BFF;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  padding: 6px 12px; /* Reduced button size */
+  font-size: 0.8rem; /* Reduced font size */
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%;
+  text-align: center;
+  margin-top: auto;
+}
+
+.card-button:hover {
+  background-color: #0056b3;
+}
+
+/* Optional: Scrollbar styling for vertical scroll */
+.card-section::-webkit-scrollbar {
+  width: 8px;
+}
+
+.card-section::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+.card-section::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.3);
 }
