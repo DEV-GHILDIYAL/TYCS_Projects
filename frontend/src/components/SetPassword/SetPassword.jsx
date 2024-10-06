@@ -39,6 +39,13 @@ const SetPassword = ({ setActiveTab }) => {
 
       if (response.ok) {
         toast.success("Email has been sent to your email", {
+          autoClose: 4000,
+          position: "top-right",
+          theme: "light",
+          transition: Slide,
+        });
+        toast.success("Link to create password will be only working for 5 minute", {
+          autoClose: 5000,
           position: "top-right",
           theme: "light",
           transition: Slide,

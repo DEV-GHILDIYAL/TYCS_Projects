@@ -1,6 +1,36 @@
 const express = require("express");
 const User = require("../Model/User");
+const Email = require("../Model/Email");
 const { body, validationResult } = require("express-validator");
+
+const setpassword = async(req,res)=>{
+  const { email, ltoken } = req.params;
+  const {password} = req.body;
+  try{
+
+      const user = await Email.findOne({ email });
+      if (!user) {
+        return res.status(400).json({ status: "User not exist" });
+      }
+
+      const secret = process.env.JWT_SECRET_KEY + user._id; // Your JWT secret
+      const verify = jwt.verify(ltoken,secret)
+      const hashedPassword = await bcrypt.hash(password, 10);
+
+      const newUser = new User({
+          email: user.email, 
+          password: hashedPassword, 
+      });
+
+      await newUser.save(); // Save the new user
+
+    res.json({message:"User has been added"})
+    return res.status(200).json({ status: "Email sent", link });
+  } catch (error) {
+      res.send("not verified");
+      return res.status(400).json({ status: error.message });
+  }
+}
 
 const loginUser = () => {
   body("email")
@@ -53,4 +83,4 @@ const logoutUser = (req, res) => {
   }
 };
 
-module.exports = { logoutUser, loginUser };
+module.exports = {setpassword, logoutUser, loginUser };

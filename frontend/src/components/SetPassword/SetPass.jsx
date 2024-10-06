@@ -5,12 +5,14 @@ import "./SetPassword.css";
 
 const SetPass = () => {
   const { email, ltoken } = useParams(); // Get email and ltoken from URL
-  console.log('ltoken from params',ltoken)
+  console.log("userparams from setpass",useParams())
+  console.log("email from setpass",email)
+  console.log("ltoken from setpass",ltoken)
   const [password, setPassword] = useState("");
 
   const handleSetPassword = async (e) => {
     e.preventDefault();
-    
+    console.log("passwrdfs",password)
     if (!password) {
       toast.error("Please enter a new password!", { autoClose: 1000 });
       return;
@@ -22,6 +24,7 @@ const SetPass = () => {
     }
 
     try {
+
       const response = await fetch(`http://localhost:5500/auth/setpassword/${email}/${ltoken}`, {
         method: "POST",
         headers: {
@@ -35,6 +38,9 @@ const SetPass = () => {
       if (response.ok) {
         toast.success("Password set successfully!", { autoClose: 1000 });
         // Redirect to login or another page if needed
+        setTimeout(() => {
+          setActiveTab("login")
+        }, 1500); 
       } else {
         toast.error(data.status || "Failed to set password!", { autoClose: 1000 });
       }
@@ -59,7 +65,7 @@ const SetPass = () => {
               required
             />
           </div>
-          <button type="submit" className="login-button">
+          <button type="submit" onSubmit={handleSetPassword} className="login-button">
             Set Password
           </button>
         </form>
