@@ -5,7 +5,7 @@ import MyProjects from "../../components/MyProjects/MyProjects";
 import EventDetailsForm from "../../components/CreateEventForm/EventDetailsFrom";
 import Admin from "../../components/Admin/Admin";
 import LoginComponent from "../../components/LoginComponent/LoginComponent";
-import RegisterComponent from "../../components/RegisterComponent/RegisterComponent";
+import RegisterComponent from "../../components/SetPassword/SetPassword";
 import HomeComponent from "../../components/HomeComponent/HomeComponent";
 const Home = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
