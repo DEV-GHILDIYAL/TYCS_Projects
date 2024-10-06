@@ -1,41 +1,31 @@
+// HomeComponent.jsx
 import React, { useState } from 'react';
 import './HomeComponent.css';
 import CardSection from '../CardSection/CardSection';
+import ProjectDetail from '../ProjectDetail/ProjectDetail';
 
 const HomeComponent = () => {
-  const [filterValue, setFilterValue] = useState(''); // State to hold input value
-  const [isRollNoFilter, setIsRollNoFilter] = useState(false); // State to toggle between name and roll no
+  const [selectedProject, setSelectedProject] = useState(null); // State to hold selected project
 
-  const handleInputChange = (e) => {
-    setFilterValue(e.target.value);
+  const handleViewDetail = (projectDetails) => {
+    setSelectedProject(projectDetails); // Update the selected project
   };
 
-  const toggleFilterMode = () => {
-    setIsRollNoFilter(!isRollNoFilter); // Toggle between name and roll no
-    setFilterValue(''); // Reset the input when toggling
+  const handleBack = () => {
+    setSelectedProject(null); // Reset selected project to go back
   };
 
   return (
     <div className="home-container">
-      {/* Heading */}
-      <h1 className="header">All Projects</h1>
+      {/* Conditionally render the heading based on the selected project */}
+      {!selectedProject && <h1 className="header">All Projects</h1>}
 
-      {/* Filters */}
-      <div className="filter-container">
-        <input
-          type="text"
-          value={filterValue}
-          onChange={handleInputChange}
-          placeholder={isRollNoFilter ? 'Search by Roll No' : 'Search by Name'}
-          className="filter-input"
-        />
-        <button onClick={toggleFilterMode} className="toggle-button">
-          {isRollNoFilter ? 'Search by Name' : 'Search by Roll No'}
-        </button>
-      </div>
-
-      {/* Example: Later you can display filtered data */}
-      <CardSection />
+      {/* Render Project Detail if a project is selected */}
+      {selectedProject ? (
+        <ProjectDetail project={selectedProject} onBack={handleBack} /> // Pass the onBack prop
+      ) : (
+        <CardSection onViewDetail={handleViewDetail} /> // Pass the handler to CardSection
+      )}
     </div>
   );
 };

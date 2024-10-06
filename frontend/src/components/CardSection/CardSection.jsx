@@ -1,91 +1,48 @@
+// CardSection.jsx
 import React from 'react';
 import Card from '../Card/Card';
 import img from '../../assets/images/images.png';
 import './CardSection.css';
 
-const CardSection = () => {
-  
+const CardSection = ({ onViewDetail }) => {
   const cards = [
     {
       image: img,
-      title: 'Event 1',
+      title: 'The Hearts Of Shadow',
       description: 'Brief description of Event 1.',
-      location: 'Mumbai',
-      time: '10:00 AM - 2:00 PM',
-      ngoName:"Ocean Conservancy",
+      details: {
+        title: 'The Hearts Of Shadow',
+        name: 'Dev Ghildiyal',
+        rollNumber: '1234567890',
+        category: 'Web Development',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+        deployedLink: 'https://example.com',
+        futureEnhancement: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+        twitterLink: 'https://twitter.com/example',
+        instagramLink: 'https://www.instagram.com/example',
+        githubLink: 'https://github.com/example',
+        linkedinLink: 'https://www.linkedin.com/',
+      },
     },
     {
       image: img,
-      title: 'Event 2',
-      description: 'Brief description of Event 2.',
-      location: 'Mumbai',
-      time: '10:00 AM - 2:00 PM',
-      ngoName:"Ocean Conservancy",
+      title: 'BilBanao',
+      description: 'Brief description of Event 1.',
+      details: {
+        title: 'BilBanao',
+        name: 'Shiwans',
+        rollNumber: '1234567890',
+        category: 'Web Development',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+        deployedLink: 'https://example.com',
+        futureEnhancement: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+        twitterLink: 'https://twitter.com/example',
+        instagramLink: 'https://www.instagram.com/example',
+        githubLink: 'https://github.com/example',
+        linkedinLink: 'https://www.linkedin.com/',
+      },
     },
-    {
-      image: img,
-      title: 'Event 3',
-      description: 'Brief description of Event 3.',
-      location: 'Mumbai',
-      time: '10:00 AM - 2:00 PM',
-      ngoName:"Ocean Conservancy",
-    },
-    {
-      image: img,
-      title: 'Event 3',
-      description: 'Brief description of Event 3.',
-      location: 'Mumbai',
-      time: '10:00 AM - 2:00 PM',
-      ngoName:"Ocean Conservancy",
-    },
-    {
-      image: img,
-      title: 'Event 3',
-      description: 'Brief description of Event 3.',
-      location: 'Mumbai',
-      time: '10:00 AM - 2:00 PM',
-      ngoName:"Ocean Conservancy",
-    },
-    {
-      image: img,
-      title: 'Event 3',
-      description: 'Brief description of Event 3.',
-      location: 'Mumbai',
-      time: '10:00 AM - 2:00 PM',
-      ngoName:"Ocean Conservancy",
-    },
-    {
-      image: img,
-      title: 'Event 3',
-      description: 'Brief description of Event 3.',
-      location: 'Mumbai',
-      time: '10:00 AM - 2:00 PM',
-      ngoName:"Ocean Conservancy",
-    },
-    {
-      image: img,
-      title: 'Event 3',
-      description: 'Brief description of Event 3.',
-      location: 'Mumbai',
-      time: '10:00 AM - 2:00 PM',
-      ngoName:"Ocean Conservancy",
-    },
-    {
-      image: img,
-      title: 'Event 3',
-      description: 'Brief description of Event 3.',
-      location: 'Mumbai',
-      time: '10:00 AM - 2:00 PM',
-      ngoName:"Ocean Conservancy",
-    },
-    {
-      image: img,
-      title: 'Event 3',
-      description: 'Brief description of Event 3.',
-      location: 'Mumbai',
-      time: '10:00 AM - 2:00 PM',
-      ngoName:"Ocean Conservancy",
-    },
+    // Add more cards as needed
   ];
 
   return (
@@ -96,9 +53,8 @@ const CardSection = () => {
           image={card.image}
           title={card.title}
           description={card.description}
-          location={card.location}
-          time={card.time}
-          ngoName={card.ngoName}
+          projectDetails={card.details} // Pass project details to Card
+          onViewDetail={onViewDetail} // Pass the callback function
         />
       ))}
     </div>
