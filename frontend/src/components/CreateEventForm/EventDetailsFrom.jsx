@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './EventDetailsForm.css';
 
 const EventDetailsForm = () => {
@@ -7,19 +7,26 @@ const EventDetailsForm = () => {
   const [projectTitle, setProjectTitle] = useState('');
   const [projectDescription, setProjectDescription] = useState('');
   const [projectCategory, setProjectCategory] = useState('');
-  const [apkFile, setApkFile] = useState(null); // For APK file upload
+  const [apkFile, setApkFile] = useState(null);
   const [deployedLink, setDeployedLink] = useState('');
   const [githubLink, setGithubLink] = useState('');
-  const [futureEnhancements, setFutureEnhancements] = useState(''); // For future enhancements
+  const [futureEnhancements, setFutureEnhancements] = useState('');
+  const [completionPercentage, setCompletionPercentage] = useState(0);
+  const [progressColor, setProgressColor] = useState('red');
+
+  const [youtubeLink, setYoutubeLink] = useState('');
+  const [twitterLink, setTwitterLink] = useState('');
+  const [instagramLink, setInstagramLink] = useState('');
+  const [linkedinLink, setLinkedinLink] = useState('');
+  const [facebookLink, setFacebookLink] = useState('');
 
   const handleApkChange = (e) => {
-    setApkFile(e.target.files[0]); // Handling only one APK file upload
+    setApkFile(e.target.files[0]);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Check if either APK file or deployed link is provided based on category
     if (projectCategory === 'Mobile App Development' && !apkFile) {
       alert('Please upload an APK file for Mobile App Development.');
       return;
@@ -36,9 +43,14 @@ const EventDetailsForm = () => {
       projectTitle,
       projectDescription,
       projectCategory,
-      deployedLink: projectCategory === 'Mobile App Development' ? apkFile : deployedLink, // APK or deployed link
+      deployedLink: projectCategory === 'Mobile App Development' ? apkFile : deployedLink,
       githubLink,
       futureEnhancements,
+      youtubeLink,
+      twitterLink,
+      instagramLink,
+      linkedinLink,
+      facebookLink,
     };
 
     const formData = new FormData();
@@ -58,7 +70,6 @@ const EventDetailsForm = () => {
 
     if (response.ok) {
       console.log('Project created successfully');
-      // Reset form fields
       setName('');
       setRollNo('');
       setProjectTitle('');
@@ -68,14 +79,72 @@ const EventDetailsForm = () => {
       setDeployedLink('');
       setGithubLink('');
       setFutureEnhancements('');
+      setYoutubeLink('');
+      setTwitterLink('');
+      setInstagramLink('');
+      setLinkedinLink('');
+      setFacebookLink('');
+      setCompletionPercentage(0);
+      setProgressColor('red');
     } else {
       console.error('Failed to create the project');
     }
   };
 
+  const calculateCompletionPercentage = () => {
+    const totalFields = 13;
+    let completedFields = 0;
+
+    if (name) completedFields++;
+    if (rollNo) completedFields++;
+    if (projectTitle) completedFields++;
+    if (projectDescription) completedFields++;
+    if (projectCategory) completedFields++;
+    
+    if (projectCategory === 'Mobile App Development' && apkFile) {
+      completedFields++;
+    } else if (projectCategory !== 'Mobile App Development' && deployedLink) {
+      completedFields++;
+    }
+
+    if (githubLink) completedFields++;
+    if (futureEnhancements) completedFields++;
+    if (youtubeLink) completedFields++;
+    if (twitterLink) completedFields++;
+    if (instagramLink) completedFields++;
+    if (linkedinLink) completedFields++;
+    if (facebookLink) completedFields++;
+
+    const percentage = (completedFields / totalFields) * 100;
+    setCompletionPercentage(percentage);
+
+    const requiredFieldsFilled = 
+      name &&
+      rollNo &&
+      projectTitle &&
+      projectDescription &&
+      projectCategory &&
+      ((projectCategory === 'Mobile App Development' && apkFile) || 
+      (projectCategory !== 'Mobile App Development' && deployedLink));
+
+    setProgressColor(requiredFieldsFilled ? '#007bff' : 'red');
+  };
+
+  useEffect(() => {
+    calculateCompletionPercentage();
+  }, [name, rollNo, projectTitle, projectDescription, projectCategory, apkFile, deployedLink, githubLink, futureEnhancements, youtubeLink, twitterLink, instagramLink, linkedinLink, facebookLink]);
+
   return (
     <form className="event-details-form" onSubmit={handleSubmit}>
       <h3>Create Project</h3>
+
+      <div className="progress-bar">
+        <div 
+          className="progress" 
+          style={{ width: `${completionPercentage}%`, backgroundColor: progressColor }} 
+        />
+      </div>
+      <div className="progress-percentage">{completionPercentage.toFixed(0)}%</div>
 
       <div className="form-row">
         <div className="form-group">
@@ -84,7 +153,7 @@ const EventDetailsForm = () => {
             type="text" 
             value={name} 
             onChange={(e) => setName(e.target.value)} 
-            placeholder="Enter your name" // Added placeholder
+            placeholder="Enter your name" 
             required 
           />
         </div>
@@ -94,7 +163,7 @@ const EventDetailsForm = () => {
             type="number" 
             value={rollNo} 
             onChange={(e) => setRollNo(e.target.value)} 
-            placeholder="Enter your roll number" // Added placeholder
+            placeholder="Enter your roll number" 
             required 
           />
         </div>
@@ -107,7 +176,7 @@ const EventDetailsForm = () => {
             type="text" 
             value={projectTitle} 
             onChange={(e) => setProjectTitle(e.target.value)} 
-            placeholder="Enter the project title" // Added placeholder
+            placeholder="Enter the project title" 
             required 
           />
         </div>
@@ -116,7 +185,7 @@ const EventDetailsForm = () => {
           <textarea 
             value={projectDescription} 
             onChange={(e) => setProjectDescription(e.target.value)} 
-            placeholder="Describe your project..." // Added placeholder
+            placeholder="Describe your project..." 
             required 
           />
         </div>
@@ -160,35 +229,84 @@ const EventDetailsForm = () => {
                 type="url" 
                 value={deployedLink} 
                 onChange={(e) => setDeployedLink(e.target.value)} 
-                placeholder="Enter the deployed link" // Added placeholder
-                required // Set this as required when not uploading APK
+                placeholder="Enter the deployed link" 
+                required 
               />
             </>
           )}
         </div>
         <div className="form-group">
-          <label>GitHub Link: <span className="optional-text"> (optional)</span></label>
+          <label>GitHub Link:</label>
           <input 
             type="url" 
             value={githubLink} 
             onChange={(e) => setGithubLink(e.target.value)} 
-            placeholder="Enter the GitHub link" // Added placeholder
+            placeholder="Enter GitHub link (optional)" 
           />
         </div>
       </div>
 
       <div className="form-row">
         <div className="form-group">
-          <label>Future Enhancements: <span className="optional-text"> (optional)</span></label>
+          <label>Future Enhancements:</label>
           <textarea 
             value={futureEnhancements} 
             onChange={(e) => setFutureEnhancements(e.target.value)} 
-            placeholder="Describe any future enhancements you plan for this project..." // Added placeholder
+            placeholder="Describe future enhancements (optional)" 
           />
         </div>
       </div>
 
-      <button type="submit">Submit Project</button>
+      <h4 className='scoial-media-title'>Social Media Links</h4>
+      <div className="social-media-links">
+        <div className="form-group">
+          <label>YouTube Link:</label>
+          <input 
+            type="url" 
+            value={youtubeLink} 
+            onChange={(e) => setYoutubeLink(e.target.value)} 
+            placeholder="Enter YouTube link (optional)" 
+          />
+        </div>
+        <div className="form-group">
+          <label>Twitter Link:</label>
+          <input 
+            type="url" 
+            value={twitterLink} 
+            onChange={(e) => setTwitterLink(e.target.value)} 
+            placeholder="Enter Twitter link (optional)" 
+          />
+        </div>
+        <div className="form-group">
+          <label>Instagram Link:</label>
+          <input 
+            type="url" 
+            value={instagramLink} 
+            onChange={(e) => setInstagramLink(e.target.value)} 
+            placeholder="Enter Instagram link (optional)" 
+          />
+        </div>
+        <div className="form-group">
+          <label>LinkedIn Link:</label>
+          <input 
+            type="url" 
+            value={linkedinLink} 
+            onChange={(e) => setLinkedinLink(e.target.value)} 
+            placeholder="Enter LinkedIn link (optional)" 
+          />
+        </div>
+        <div className="form-group">
+          <label>Facebook Link:</label>
+          <input 
+            type="url" 
+            value={facebookLink} 
+            onChange={(e) => setFacebookLink(e.target.value)} 
+            placeholder="Enter Facebook link (optional)" 
+          />
+        </div>
+      </div>
+
+      <button type="submit" className="submit-button">Submit</button>
     </form>
   );
 };

@@ -2,6 +2,8 @@ import React from 'react'
 import { Routes, Route } from "react-router-dom";
 import Home from './pages/HomePage/Home';
 import SetPass from './components/SetPassword/SetPass';
+import '@fortawesome/fontawesome-free/css/all.min.css';
+
 
 const App = () => {
   return (
