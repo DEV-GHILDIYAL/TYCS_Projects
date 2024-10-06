@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./Sidebar.css";
 
 const Sidebar = ({ setActiveTab }) => {
-  const [isOpen, setIsOpen] = useState(true); // State to control the sidebar
+  const [isOpen, setIsOpen] = useState(true);
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);

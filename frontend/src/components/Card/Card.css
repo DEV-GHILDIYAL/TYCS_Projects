@@ -1,85 +1,92 @@
 .card {
-  background: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background: #f9f9f9; /* Light theme background */
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05); /* Softer shadow for elegance */
   overflow: hidden;
   max-width: 500px; /* Adjust the width for a landscape style */
   margin: 10px;
   display: flex;
-  flex-direction: row; /* Change to row for landscape */
+  flex-direction: row; /* Landscape style */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  transform: translateY(-8px); /* Slightly more hover lift for interaction */
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1); /* Subtle shadow on hover */
 }
 
 .card-image {
   width: 40%; /* Set width relative to the card */
   height: auto;
   object-fit: cover;
+  border-top-left-radius: 12px; /* Smooth rounded corner for the image */
+  border-bottom-left-radius: 12px;
 }
 
 .card-content {
-  padding: 15px;
+  padding: 20px; /* Slightly more padding for comfort */
   flex-grow: 1;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  background-color: #ffffff; /* White background for contrast */
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
 }
 
 .card-title {
-  font-size: 1.2rem;
-  margin: 0px;
-  font-weight: 600;
-  color: #333333;
+  font-size: 1.4rem; /* Slightly larger for professionalism */
+  margin: 0;
+  font-weight: 700;
+  color: #333333; /* Keep it dark and legible */
 }
 
 .card-description {
-  font-size: 0.9rem;
-  color: #666666;
-  line-height: 1.4;
-  margin: 10px 0;
+  font-size: 0.95rem;
+  color: #666666; /* Softer text color */
+  line-height: 1.6; /* More line height for readability */
+  margin: 12px 0;
 }
 
 .card-button {
-  background-color: #007BFF;
+  background-color: #28a745; /* Softer green for positive interaction */
   color: #ffffff;
   border: none;
-  border-radius: 5px;
-  padding: 8px 16px;
-  font-size: 0.9rem;
+  border-radius: 6px;
+  padding: 10px 18px; /* More padding for a comfortable button */
+  font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
   width: 100%;
   text-align: center;
 }
 
 .card-button:hover {
-  background-color: #0056b3;
+  background-color: #218838; /* Slightly darker green on hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Button hover shadow */
 }
 
 @media (max-width: 768px) {
   .card {
     max-width: 100%;
     flex-direction: column; /* Revert to column on smaller screens */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); /* Lighter shadow for mobile */
   }
 
   .card-content {
-    padding: 10px;
+    padding: 15px;
   }
 
   .card-title {
-    font-size: 1rem;
+    font-size: 1.2rem;
   }
 
   .card-description {
-    font-size: 0.85rem;
+    font-size: 0.9rem;
   }
 
   .card-button {
-    font-size: 0.85rem;
-    padding: 7px 14px;
+    font-size: 0.9rem;
+    padding: 8px 16px;
   }
 }
