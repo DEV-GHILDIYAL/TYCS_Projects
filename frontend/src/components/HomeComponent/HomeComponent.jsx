@@ -3,15 +3,16 @@ import './HomeComponent.css';
 import CardSection from '../CardSection/CardSection';
 
 const HomeComponent = () => {
-  const [nameFilter, setNameFilter] = useState('');
-  const [rollNoFilter, setRollNoFilter] = useState('');
+  const [filterValue, setFilterValue] = useState(''); // State to hold input value
+  const [isRollNoFilter, setIsRollNoFilter] = useState(false); // State to toggle between name and roll no
 
-  const handleNameChange = (e) => {
-    setNameFilter(e.target.value);
+  const handleInputChange = (e) => {
+    setFilterValue(e.target.value);
   };
 
-  const handleRollNoChange = (e) => {
-    setRollNoFilter(e.target.value);
+  const toggleFilterMode = () => {
+    setIsRollNoFilter(!isRollNoFilter); // Toggle between name and roll no
+    setFilterValue(''); // Reset the input when toggling
   };
 
   return (
@@ -20,31 +21,21 @@ const HomeComponent = () => {
       <h1 className="header">All Projects</h1>
 
       {/* Filters */}
-      <div className="filters">
-        <div className="filter-group">
-          <label htmlFor="name-filter">Filter by Name:</label>
-          <input 
-            type="text" 
-            id="name-filter" 
-            value={nameFilter} 
-            onChange={handleNameChange} 
-            placeholder="Enter name" 
-          />
-        </div>
-        <div className="filter-group">
-          <label htmlFor="rollno-filter">Filter by Roll No:</label>
-          <input 
-            type="text" 
-            id="rollno-filter" 
-            value={rollNoFilter} 
-            onChange={handleRollNoChange} 
-            placeholder="Enter roll number" 
-          />
-        </div>
+      <div className="filter-container">
+        <input
+          type="text"
+          value={filterValue}
+          onChange={handleInputChange}
+          placeholder={isRollNoFilter ? 'Search by Roll No' : 'Search by Name'}
+          className="filter-input"
+        />
+        <button onClick={toggleFilterMode} className="toggle-button">
+          {isRollNoFilter ? 'Search by Name' : 'Search by Roll No'}
+        </button>
       </div>
 
       {/* Example: Later you can display filtered data */}
-      <CardSection/>
+      <CardSection />
     </div>
   );
 };

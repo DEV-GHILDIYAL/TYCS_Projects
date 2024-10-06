@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import "./Home.css";
-import Sidebar from "../../components/Sidebar/Sidebar";
-import HomeComponent from "../../components/HomeComponent/HomeCOmponent";
+import Sidebar from "../../components/SidebarImprove/Sidebar";
 import MyProjects from "../../components/MyProjects/MyProjects";
 import EventDetailsForm from "../../components/CreateEventForm/EventDetailsFrom";
 import Admin from "../../components/Admin/Admin";
 import LoginComponent from "../../components/LoginComponent/LoginComponent";
 import RegisterComponent from "../../components/RegisterComponent/RegisterComponent";
+import HomeComponent from "../../components/HomeComponent/HomeComponent";
 const Home = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
 
