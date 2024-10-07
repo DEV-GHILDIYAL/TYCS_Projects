@@ -26,7 +26,7 @@ const SetPassword = ({ setActiveTab }) => {
     }
 
     try {
-      const response = await fetch("http://localhost:5500/auth/setpassword", {
+      const response = await fetch("https://tycs-projects-backend.onrender.com/auth/setpassword", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
