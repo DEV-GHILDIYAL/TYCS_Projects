@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import "./Sidebar.css";
 import { toast, Slide } from "react-toastify";
+import LoginComponent from "../LoginComponent/LoginComponent";
 
 const Sidebar = ({ setActiveTab }) => {
   const navigate = useNavigate();
@@ -47,6 +48,7 @@ const Sidebar = ({ setActiveTab }) => {
 
   const handleProtectedNavigation = (tab) => {
     if (isAuthenticated) {
+      
       setActiveTab(tab); // If authenticated, change the active tab
     } else {
       setActiveTab("login"); // If not authenticated, redirect to login

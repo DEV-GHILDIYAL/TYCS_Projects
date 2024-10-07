@@ -1,4 +1,3 @@
-/* ProjectCard.css */
 .project-card {
     border: 1px solid #ccc;
     border-radius: 8px;
@@ -6,46 +5,62 @@
     margin: 16px;
     padding: 16px;
     text-align: center;
-    width: 200px; /* Adjust the width as needed */
-    /* display: flex; */
-    /* flex-direction: column; */
-    align-items: center; /* Center align the content */
+    width: 200px;
+    align-items: center;
 }
 
 .project-image {
     width: 100%;
-    height: 120px; /* Adjust the height as needed */
-    object-fit: cover; /* Maintain aspect ratio */
-    border-radius: 4px; /* Optional rounded corners */
+    height: 120px;
+    object-fit: cover;
+    border-radius: 4px;
 }
 
+<<<<<<< Updated upstream
 .project-titles {
     font-size: 1.3rem;
     margin: 12px 0; /* Add margin for spacing */
     
+=======
+.project-title-myproject {
+    font-size: 1.2rem;
+    margin: 12px 0;
+>>>>>>> Stashed changes
 }
 
 .project-buttons {
     margin-top: 30px;
     display: flex;
     justify-content: space-between;
-    width: 100%; /* Make the buttons span the full width */
+    width: 100%;
 }
 
 .edit-button {
-    background-color: transparent; /* Make the button background transparent for an outlined style */
-    color: blue; /* Adjust color as needed */
-    border: 2px solid blue; /* Add a border for the outlined effect */
+    background-color: transparent;
+    color: blue;
+    border: 2px solid blue;
     border-radius: 4px;
     padding: 8px 12px;
     cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.edit-button:hover {
+    background-color: blue;
+    color: white;
 }
 
 .delete-button {
     background-color: transparent;
-    color: red; /* Adjust color as needed */
+    color: red;
     border: 2px solid red;
     border-radius: 4px;
     padding: 8px 12px;
     cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.delete-button:hover {
+    background-color: red;
+    color: white;
 }
