@@ -89,7 +89,7 @@ router.post('/setpassword/:email/:ltoken', async (req, res) => {
     // Hash the new password
     const hashedPassword = await bcrypt.hash(password, 10);
     await User.updateOne({ _id: user._id }, { $set: { password: hashedPassword } });
-
+    // const token = userCreated.generateToken();
     return res.status(200).json({ status: "Password updated successfully" });
   } catch (error) {
     return res.status(400).json({ status: error.message });
@@ -98,6 +98,6 @@ router.post('/setpassword/:email/:ltoken', async (req, res) => {
 
 // Auth Routes
 router.post('/login', authController.loginUser);
-router.post('/logout', authController.logoutUser);
+// router.post('/logout', authController.logoutUser);
 
 module.exports = router;

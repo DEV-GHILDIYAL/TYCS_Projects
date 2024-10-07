@@ -4,6 +4,7 @@ const express =require("express")
 const cors =require("cors") 
 const morgan =require("morgan") 
 const dotenv =require("dotenv") 
+const authenticate = require("./middleware/authenticate")
 dotenv.config({ path: "./config/.env" });
 
 connectMongo()

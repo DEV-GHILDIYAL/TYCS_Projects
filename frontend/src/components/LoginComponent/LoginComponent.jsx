@@ -1,14 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Login.css";
 import { useNavigate } from "react-router-dom";
+import { toast, Slide } from "react-toastify";
 
 const LoginComponent = ({ setActiveTab }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState(""); // State for error messages
-
+  const [errorMessage, setErrorMessage] = useState(""); 
+  const [isLoggedIn, setIsLoggedIn] = useState(false); 
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      toast.success("Login successful!", {
+        position: "top-right",
+        theme: "light",
+        transition: Slide,
+      });
+      navigate('/home')
+    }
+  }, [isLoggedIn]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -24,7 +36,7 @@ const LoginComponent = ({ setActiveTab }) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          
         },
         body: JSON.stringify({ email, password }),
         credentials: "include",
@@ -33,7 +45,9 @@ const LoginComponent = ({ setActiveTab }) => {
       const data = await response.json();
 
       if (response.ok) {
-        localStorage.setItem("token", data.token); // Adjust this line based on your server response structure
+        localStorage.setItem("token", data.token); 
+        setIsLoggedIn(true); // Update login status to trigger useEffect
+        setActiveTab("home"); // Redirect to home after login success
       } else {
         setErrorMessage(data.message || "Login failed");
       }
@@ -42,6 +56,7 @@ const LoginComponent = ({ setActiveTab }) => {
       setErrorMessage("Login failed");
     }
   };
+
   return (
     <>
       <div className="login-register-container">
@@ -71,7 +86,7 @@ const LoginComponent = ({ setActiveTab }) => {
               />
             </div>
             <button type="submit" className="login-button">
-              {"Loading"}
+              {"Login"}
             </button>
           </form>
           <p className="toggle-link">
@@ -89,3 +104,4 @@ const LoginComponent = ({ setActiveTab }) => {
 };
 
 export default LoginComponent;
+

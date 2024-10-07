@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import "./EventDetailsForm.css";
 import { toast } from "react-toastify";
 
-// const token = localStorage.getItem("token");
 
 const EventDetailsForm = () => {
   const [name, setName] = useState("");
@@ -19,6 +18,8 @@ const EventDetailsForm = () => {
   const [twitterLink, setTwitterLink] = useState("");
   const [instagramLink, setInstagramLink] = useState("");
   const [linkedinLink, setLinkedinLink] = useState("");
+  
+  const token = localStorage.getItem("token");
 
   // const handleApkChange = (e) => {
   //   setApkFile(e.target.files[0]);
@@ -42,7 +43,7 @@ const EventDetailsForm = () => {
           method:"POST",
           headers: {
             "Content-Type": "application/json",
-            // Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
             name,
