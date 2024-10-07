@@ -179,7 +179,7 @@ const EventDetailsForm = () => {
       projectTitle &&
       projectDescription &&
       projectCategory &&
-      githubLink &&
+      // githubLink &&
       ((projectCategory === "Mobile App Development" && apkFile) ||
         (projectCategory !== "Mobile App Development" && deployedLink));
 
@@ -368,7 +368,7 @@ const EventDetailsForm = () => {
         </div>
         <div className="form-group">
           <label>
-            GitHub Link: <span className="required">*</span>
+            GitHub Link:
           </label>
           <input
             type="url"
