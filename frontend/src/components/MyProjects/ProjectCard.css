@@ -19,8 +19,8 @@
     border-radius: 4px; /* Optional rounded corners */
 }
 
-.project-title {
-    font-size: 10px;
+.project-titles {
+    font-size: 1.3rem;
     margin: 12px 0; /* Add margin for spacing */
     
 }

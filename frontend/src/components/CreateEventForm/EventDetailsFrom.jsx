@@ -2,163 +2,123 @@ import React, { useState, useEffect } from "react";
 import "./EventDetailsForm.css";
 import { toast } from "react-toastify";
 
-
-const EventDetailsForm = () => {
-  const [name, setName] = useState("");
-  const [rollNo, setRollNo] = useState("");
-  const [projectTitle, setProjectTitle] = useState("");
-  const [projectDescription, setProjectDescription] = useState("");
-  const [projectCategory, setProjectCategory] = useState("");
-  const [apkFile, setApkFile] = useState(null);
-  const [deployedLink, setDeployedLink] = useState("");
-  const [githubLink, setGithubLink] = useState("");
-  const [futureEnhancements, setFutureEnhancements] = useState("");
-  const [completionPercentage, setCompletionPercentage] = useState(0);
+const EventDetailsForm = ({
+  editingProjectId,
+  setEditingProjectId,
+  initialData = {},
+}) => {
+  const [name, setName] = useState(initialData.name || "");
+  const [rollNo, setRollNo] = useState(initialData.rollno || "");
+  const [projectTitle, setProjectTitle] = useState(initialData.title || "");
+  const [projectDescription, setProjectDescription] = useState(
+    initialData.description || ""
+  );
+  const [projectCategory, setProjectCategory] = useState(
+    initialData.category || ""
+  );
+  const [deployedLink, setDeployedLink] = useState(initialData.deployed || "");
+  const [githubLink, setGithubLink] = useState(initialData.github || "");
+  const [futureEnhancements, setFutureEnhancements] = useState(
+    initialData.future || ""
+  );
+  const [twitterLink, setTwitterLink] = useState(initialData.twitter || "");
+  const [instagramLink, setInstagramLink] = useState(
+    initialData.instagram || ""
+  );
+  const [linkedinLink, setLinkedinLink] = useState(initialData.linkedin || "");
   const [progressColor, setProgressColor] = useState("red");
-  const [twitterLink, setTwitterLink] = useState("");
-  const [instagramLink, setInstagramLink] = useState("");
-  const [linkedinLink, setLinkedinLink] = useState("");
-  
-  const token = localStorage.getItem("token");
+  const [completionPercentage, setCompletionPercentage] = useState(0);
+  // const [apkFile, setApkFile] = useState(null);
 
+  const token = localStorage.getItem("token");
   // const handleApkChange = (e) => {
   //   setApkFile(e.target.files[0]);
   // };
 
+  const resetForm = () => {
+    setName("");
+    setRollNo("");
+    setProjectTitle("");
+    setProjectDescription("");
+    setProjectCategory("");
+    setDeployedLink("");
+    setGithubLink("");
+    setFutureEnhancements("");
+    setTwitterLink("");
+    setInstagramLink("");
+    setLinkedinLink("");
+
+    setCompletionPercentage(0);
+    setProgressColor("red");
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-     // Convert the name to uppercase
-     const upperCaseName = name.toUpperCase();
+    // Convert the name to uppercase
+    const upperCaseName = name.toUpperCase();
+    try {
+      const url = editingProjectId
+        ? `http://localhost:5500/${editingProjectId}`
+        : "http://localhost:5500/";
+      const method = editingProjectId ? "PUT" : "POST";
+      const response = await fetch(url, {
+        method: method,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          name: upperCaseName,
+          rollno: rollNo,
+          description: projectDescription,
+          category: projectCategory,
+          title: projectTitle,
+          deployed: deployedLink,
+          future: futureEnhancements,
+          github: githubLink,
+          twitter: twitterLink,
+          linkedin: linkedinLink,
+          instagram: instagramLink,
+        }),
+        credentials: "include",
+      });
+      const data = await response.json();
+      console.log("Response Data:", data);
 
-    // if (projectCategory === 'Mobile App Development' && !apkFile) {
-    //   alert('Please upload an APK file for Mobile App Development.');
-    //   return;
-    // }
+      if (response.ok) {
+        toast.success(
+          editingProjectId ? "Project updated!" : "Project added!",
+          { autoClose: 1000 }
+        );
 
-    // if (projectCategory !== 'Mobile App Development' && !deployedLink) {
-    //   alert('Please enter a deployed link for this project.');
-    //   return;
-    // }
-
-      try {
-        const response = await fetch(`http://localhost:5500/`, {
-          method:"POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            name: upperCaseName,
-            rollno: rollNo,
-            description: projectDescription,
-            category:projectCategory ,
-            title:projectTitle,
-            deployed:deployedLink ,
-            future: futureEnhancements,
-            github: githubLink,
-            twitter: twitterLink,
-            linkedin: linkedinLink,
-            instagram: instagramLink,
-          }),
-          credentials: "include",
-        });
-        const data = await response.json();
-        console.log("Response Data:", data);
-
-        if (response.ok) {
-          toast.success("Project has been added!",{autoClose: 1000,});
-          setName("");
-      setRollNo("");
-      setProjectTitle("");
-      setProjectDescription("");
-      setProjectCategory("");
-      setApkFile(null);
-      setDeployedLink("");
-      setGithubLink("");
-      setFutureEnhancements("");
-      setTwitterLink("");
-      setInstagramLink("");
-      setLinkedinLink("");
-      setCompletionPercentage(0);
-      setProgressColor("red");
-        } else {
-          // Show error message with response data
-          toast.error(`Error saving project!`,{autoClose: 1000,});
-        }
-      } catch (error) {
-        console.error("Error occurred while saving project:", error);
-        toast.error("Unable to save project!", {autoClose: 1000,});}
-    };
-
-    // const projectDetails = {
-    //   name,
-    //   rollNo,
-    //   projectTitle,
-    //   projectDescription,
-    //   projectCategory,
-    //   // deployedLink: projectCategory === 'Mobile App Development' ? apkFile : deployedLink,
-    //   deployedLink,
-    //   githubLink,
-    //   futureEnhancements,
-    //   twitterLink,
-    //   instagramLink,
-    //   linkedinLink,
-    // };
-
-    // const formData = new FormData();
-    // for (const key in projectDetails) {
-    //   if (key === 'apkFile' && apkFile) {
-    //     formData.append('apkFile', apkFile);
-    //   } else {
-    //     formData.append(key, projectDetails[key]);
-    //   }
-    // }
-
-  // const handleEdit = (customer) => {
-  //   setEditingCustomerId(customer._id);
-  //   setName(customer.name);
-  //   setPhone(customer.contactInfo.phone);
-  //   setEmail(customer.contactInfo.email);
-  //   setUpi(customer.contactInfo.upi);
-  //   setTotalAmount(customer.totalAmount);
-  //   setTotalPaid(customer.totalPaid);
-  //   setTotalDue(customer.totalDue);
-  // }
-
-  // const handleDelete = async (id) => {
-  //   try {
-  //     const response = await fetch(`http://localhost:5500/${id}`, {
-  //       method: "DELETE",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         // Authorization: `Bearer ${token}`,
-  //       },
-  //       credentials: "include",
-  //     });
-  //     if (response.ok) {
-  //       setProjects((prevCust) =>
-  //         prevCust.filter((project) => project._id !== id)
-  //       );
-  //       toast.success("project deleted succesfully!", { autoClose: 1000 });
-  //     } else {
-  //       toast.error("Error deleting project!", { autoClose: 1000 });
-  //     }
-  //   } catch (error) {
-  //     toast.error("Unable to delete project!", { autoClose: 1000 });
-  //   }
-  // };
+        resetForm(); // Clear form after successful submission
+        setEditingProjectId(null); // Reset edit mode
+        // navigate("/")
+      } else {
+        toast.error(
+          `Error ${editingProjectId ? "updating" : "saving"} project!`,
+          { autoClose: 1000 }
+        );
+      }
+    } catch (error) {
+      console.error("Error occurred while saving project:", error);
+      toast.error("Unable to save project!", { autoClose: 1000 });
+    }
+  };
 
   const calculateCompletionPercentage = () => {
-    const totalFields = 11;
+    const totalFields = 11; // Total fields to track
     let completedFields = 0;
 
+    // Count filled fields
     if (name) completedFields++;
     if (rollNo) completedFields++;
     if (projectTitle) completedFields++;
     if (projectDescription) completedFields++;
     if (projectCategory) completedFields++;
 
-    if (projectCategory === "Mobile App Development" && apkFile) {
+    // Check for deployed or apk link based on category
+    if (projectCategory === "Mobile App Development" && deployedLink) {
       completedFields++;
     } else if (projectCategory !== "Mobile App Development" && deployedLink) {
       completedFields++;
@@ -179,8 +139,7 @@ const EventDetailsForm = () => {
       projectTitle &&
       projectDescription &&
       projectCategory &&
-      // githubLink &&
-      ((projectCategory === "Mobile App Development" && apkFile) ||
+      ((projectCategory === "Mobile App Development" && deployedLink) ||
         (projectCategory !== "Mobile App Development" && deployedLink));
 
     setProgressColor(requiredFieldsFilled ? "#007bff" : "red");
@@ -194,7 +153,6 @@ const EventDetailsForm = () => {
     projectTitle,
     projectDescription,
     projectCategory,
-    apkFile,
     deployedLink,
     githubLink,
     futureEnhancements,
@@ -297,32 +255,16 @@ const EventDetailsForm = () => {
           </select>
         </div>
         <div className="form-group half-width">
-          {/* {projectCategory === "Mobile App Development" ? ( 
-          //   <>
-          //     <label>
-          //       APK File: <span className="required">*</span>
-          //     </label>
-          //     <input
-          //       type="file"
-          //       accept=".apk"
-          //       // onChange={handleApkChange}
-          //       required
-          //     />
-          //   </>
-          // ) : (*/}
-            {/* <> */}
-              <label>
-                Deployed Link: <span className="required">*</span>
-              </label>
-              <input
-                type="url"
-                value={deployedLink}
-                onChange={(e) => setDeployedLink(e.target.value)}
-                placeholder="Enter the deployed link"
-                required
-              />
-            {/* </> */}
-          {/* )} */}
+          <label>
+            Deployed Link: <span className="required">*</span>
+          </label>
+          <input
+            type="url"
+            value={deployedLink}
+            onChange={(e) => setDeployedLink(e.target.value)}
+            placeholder="Enter the deployed link"
+            required
+          />
         </div>
       </div>
 
@@ -345,7 +287,7 @@ const EventDetailsForm = () => {
             type="url"
             value={twitterLink}
             onChange={(e) => setTwitterLink(e.target.value)}
-            placeholder="Enter Twitter link (optional)"
+            placeholder="Enter Twitter link"
           />
         </div>
         <div className="form-group">
@@ -354,7 +296,7 @@ const EventDetailsForm = () => {
             type="url"
             value={instagramLink}
             onChange={(e) => setInstagramLink(e.target.value)}
-            placeholder="Enter Instagram link (optional)"
+            placeholder="Enter Instagram link"
           />
         </div>
         <div className="form-group">
@@ -363,24 +305,32 @@ const EventDetailsForm = () => {
             type="url"
             value={linkedinLink}
             onChange={(e) => setLinkedinLink(e.target.value)}
-            placeholder="Enter LinkedIn link (optional)"
+            placeholder="Enter LinkedIn link"
           />
         </div>
         <div className="form-group">
-          <label>
-            GitHub Link:
-          </label>
+          <label>Github Link:</label>
           <input
             type="url"
             value={githubLink}
             onChange={(e) => setGithubLink(e.target.value)}
-            placeholder="Enter GitHub link (optional)"
+            placeholder="Enter GitHub link"
           />
         </div>
       </div>
 
+      {/* Uncomment the below lines to enable APK file upload */}
+      {/* <div className="form-group">
+        <label>APK File:</label>
+        <input
+          type="file"
+          accept=".apk"
+          onChange={handleApkChange}
+        />
+      </div> */}
+
       <button type="submit" className="submit-button">
-        Submit
+        {editingProjectId ? "Update Project" : "Add Project"}
       </button>
     </form>
   );

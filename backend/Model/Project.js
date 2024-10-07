@@ -28,6 +28,8 @@ const ProjectSchema = new mongoose.Schema({
     deployed:{
         type:String,
         required:true,
+
+        
     },
     future:{
         type:String,

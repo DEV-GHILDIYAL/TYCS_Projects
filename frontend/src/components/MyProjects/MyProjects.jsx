@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from "react";
 import "./MyProjects.css";
-import ProjectCard from "./ProjectCard";
-import { toast } from 'react-toastify'; // Import toast for notifications
+// import ProjectCard from "./ProjectCard";
+import EventDetailsForm from '../CreateEventForm/EventDetailsFrom'; 
+import { toast } from "react-toastify"; // Import toast for notifications
+import img from '../../assets/images/images.png';
+import './ProjectCard.css'
+
 
 const MyProjects = ({ setActiveTab }) => {
   const [hasProject, setHasProject] = useState(false);
   const [projects, setProjects] = useState([]);
+  const [editingProjectId, setEditingProjectId] = useState(null);
+  const [editingProjectData, setEditingProjectData] = useState({});
   const [loading, setLoading] = useState(true); // State for loading
   const token = localStorage.getItem("token");
 
@@ -20,7 +26,7 @@ const MyProjects = ({ setActiveTab }) => {
   const [twitter, setTwitter] = useState("");
   const [instagram, setInstagram] = useState("");
   const [linkedin, setLinkedin] = useState("");
-  
+
 
   useEffect(() => {
     const fetchUserProjects = async () => {
@@ -47,7 +53,9 @@ const MyProjects = ({ setActiveTab }) => {
       } catch (error) {
         console.error("Error fetching user projects:", error);
         setHasProject(false);
-        toast.error("Failed to fetch projects. Please try again.", { autoClose: 3000 });
+        toast.error("Failed to fetch projects. Please try again.", {
+          autoClose: 3000,
+        });
       } finally {
         setLoading(false); // Stop loading regardless of success or failure
       }
@@ -57,66 +65,21 @@ const MyProjects = ({ setActiveTab }) => {
   }, [token]);
 
   const handleEdit = async (projectId) => {
-    try {
-      const url = `http://localhost:5500/${projectId}`;
-      const method = "PUT";
-  
-      const projectToEdit = projects.find((proj) => proj._id === projectId);
-  
-      const requestBody = {
-        name: projectToEdit.name,
-        rollno: projectToEdit.rollno,
-        title: projectToEdit.title,
-        description: projectToEdit.description,
-        category: projectToEdit.category,
-        deployed: projectToEdit.deployed,
-        future: projectToEdit.future,
-        github: projectToEdit.github,
-        twitter: projectToEdit.twitter,
-        linkedin: projectToEdit.linkedin,
-        instagram: projectToEdit.instagram,
-      };
-  
-      const response = await fetch(url, {
-        method,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(requestBody),
-        credentials: "include",
-      });
-  
-      if (response.ok) {
-        toast.success("Project has been updated!", { autoClose: 1000 });
-        setProjects((prevProjects) =>
-          prevProjects.map((proj) =>
-            proj._id === projectId ? { ...proj, ...requestBody } : proj
-          )
-        );
-      } else {
-        toast.error("Error saving project!", { autoClose: 1000 });
-      }
-    } catch (error) {
-      console.error("Error occurred while saving Project:", error);
-      toast.error("Unable to save project!", { autoClose: 1000 });
-    }
+    const projectToEdit = projects.find((proj) => proj._id === projectId);
+    setEditingProjectId(projectId);
+    setEditingProjectData(projectToEdit);
+    setName(projectToEdit.name);
+    setRollno(projectToEdit.rollno);
+    setTitle(projectToEdit.title);
+    setDescription(projectToEdit.description);
+    setCategory(projectToEdit.category);
+    setDeployed(projectToEdit.deployed);
+    setGithub(projectToEdit.github);
+    setFuture(projectToEdit.future);
+    setTwitter(projectToEdit.twitter);
+    setInstagram(projectToEdit.instagram);
+    setLinkedin(projectToEdit.linkedin);
   };
-  
-  const resetForm = () => {
-    setName("");
-    setRollno("");
-    setTitle("");
-    setDescription("");
-    setCategory("");
-    setDeployed("");
-    setGithub("");
-    setFuture("");
-    setTwitter("");
-    setInstagram("");
-    setLinkedin("");
-  };
-  
 
   const handleDelete = async (projectId) => {
     try {
@@ -128,7 +91,9 @@ const MyProjects = ({ setActiveTab }) => {
         },
       });
       if (response.ok) {
-        setProjects((prevProjects) => prevProjects.filter((project) => project._id !== projectId)); // Use projectId here
+        setProjects((prevProjects) =>
+          prevProjects.filter((project) => project._id !== projectId)
+        ); // Use projectId here
         toast.success("Project deleted!", { autoClose: 1000 });
       } else {
         toast.error("Error deleting project!", { autoClose: 1000 });
@@ -139,39 +104,66 @@ const MyProjects = ({ setActiveTab }) => {
   };
 
   return (
-    <div className="my-project-container">
-      <h2 className="my-project-header">My Projects</h2>
-      
-      {/* Show loading state */}
-      {loading ? (
-        <p>Loading projects...</p>
-      ) : (
-        <>
-          {/* Conditionally render projects */}
-          {hasProject ? (
-            projects.map((project) => (
-              <ProjectCard
-                key={project._id}
-                project={project}
-                onEdit={handleEdit}
-                onDelete={handleDelete}
+      <div className="my-project-container">
+        <h2 className="my-project-header">My Projects</h2>
+    
+        {/* Show loading state */}
+        {loading ? (
+          <p>Loading projects...</p>
+        ) : (
+          <>
+            {/* Check if we are in edit mode */}
+            {editingProjectId ? (
+              <EventDetailsForm
+                editingProjectId={editingProjectId}
+                initialData={editingProjectData} // Pass the editing data to the form
+                setEditingProjectId={setEditingProjectId}
               />
-            ))
-          ) : (
-            <div className="projectCard">
-              <button
-                onClick={() => setActiveTab("createEvent")}
-                className="add-project-btn"
-              >
-                +
-              </button>
-              <p className="create-project-text">Create a Project</p>
-            </div>
-          )}
-        </>
-      )}
-    </div>
-  );
+            ) : (
+              <>
+                {/* Check if there are any projects */}
+                {projects.length > 0 ? (
+                  // <ProjectCard onEdit={handleEdit} onDelete={handleDelete} project={projects} />
+                  //   <div key={project._id} className="projectCard">
+                  //     {/* Project Details */}
+                  //     <h3>{project.title}</h3>
+                  //     <p>{project.description}</p>
+                  //     <button onClick={() => handleEdit(project._id)}>Edit</button>
+                  //     <button onClick={() => handleDelete(project._id)}>Delete</button>
+                  //   </div>
+                  projects.map((project) => (
+                    <div className="project-card">
+                  <img src={img} alt={project.title} className="project-image" />
+                  <div>
+                  <h3 className="project-titles">{project.title}</h3>
+                  <p>{project.description}</p>
+      
+                  </div>
+                  <div className="project-buttons">
+                      <button className="edit-button" onClick={() => handleEdit(project._id)}>Edit</button>
+                      <button className="delete-button" onClick={() => handleDelete(project._id)}> Delete</button>
+                  </div>
+              </div>
+                    ))
+                ) : (
+                  /* Show the "Create a Project" button if there are no projects */
+                  <div className="projectCard">
+                    <button
+                      onClick={() => setActiveTab("createEvent")}
+                      className="add-project-btn"
+                    >
+                      +
+                    </button>
+                    <p className="create-project-text">Create a Project</p>
+                  </div>
+                )}
+              </>
+            )}
+          </>
+        )}
+      </div>
+    );
+    
 };
 
 export default MyProjects;
