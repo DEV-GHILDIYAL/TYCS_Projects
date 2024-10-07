@@ -163,7 +163,8 @@ const EventDetailsForm = ({
 
   return (
     <form className="event-details-form" onSubmit={handleSubmit}>
-      <h3>Create Project</h3>
+      <h3>        {editingProjectId ? "Update Project" : "Add Project"}
+      </h3>
 
       <div className="progress-bar">
         <div
