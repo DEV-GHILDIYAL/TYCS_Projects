@@ -12,7 +12,6 @@ const HomeComponent = () => {
     setSelectedProject(projectDetails); // Update the selected project
   };
   
-
   const handleBack = () => {
     setSelectedProject(null); // Reset selected project to go back
   };
@@ -28,12 +27,9 @@ const HomeComponent = () => {
 
   return (
     <div className="home-container">
-      {/* Conditionally render the heading and search bar based on the selected project */}
       {!selectedProject && (
         <>
           <h1 className="header">All Projects</h1>
-
-          {/* Search Bar and Toggle Button */}
           <div className="filter-container">
             <input
               type="text"
@@ -48,8 +44,6 @@ const HomeComponent = () => {
           </div>
         </>
       )}
-
-      {/* Render Project Detail if a project is selected */}
       {selectedProject ? (
         <ProjectDetail project={selectedProject} onBack={handleBack} />
       ) : (

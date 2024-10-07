@@ -3,7 +3,7 @@ import Card from "../Card/Card";
 import img from "../../assets/images/images.png";
 import "./CardSection.css";
 
-const CardSection = ({ onViewDetail }) => {
+const CardSection = ({ onViewDetail, searchTerm, searchByRollNumber }) => {
   const [projects, setProjects] = useState([]);
 
   useEffect(() => {
@@ -21,21 +21,32 @@ const CardSection = ({ onViewDetail }) => {
         console.log("all projects", projects);
       } catch (error) {
         console.error("Unable to fetch projects", error);
-        toast.error("Unable to fetch projects!", { autoClose: 1000 });
       }
     };
     fetchProject();
   }, []);
 
+  // Filtering projects based on search input and mode
+  const filteredProjects = projects.filter((project) => {
+    const term = searchTerm.toLowerCase();
+    if (searchByRollNumber) {
+      // If searching by roll number, check only roll number
+      return project.rollno.toString().includes(term);
+    } else {
+      // If searching by name, check only name
+      return project.name.toLowerCase().includes(term);
+    }
+  });
+
   return (
     <div className="card-section">
-      {projects.length > 0 ? (
-        projects.map((project) => (
+      {filteredProjects.length > 0 ? (
+        filteredProjects.map((project) => (
           <Card
             key={project._id}
             image={img}
-            title={project.title}
-            description={project.description}
+            title={project.title} // Retained if you want to show it on the card
+            description={project.description} // Retained if you want to show it on the card
             name={project.name}
             project={project} // Pass the entire project object to the Card component
             onViewDetail={onViewDetail} // Trigger the function when clicked

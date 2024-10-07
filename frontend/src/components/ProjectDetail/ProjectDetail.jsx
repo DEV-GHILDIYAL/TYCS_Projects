@@ -32,10 +32,10 @@ const ProjectDetail = ({ project, onBack }) => {
                 <div><strong>Deployed Link:</strong> <a href={project.deployed} target="_blank" rel="noopener noreferrer">{project.deployed}</a></div>
             </div>
 
-            {project.futureEnhancement && project.futureEnhancement.trim() !== "" && (
-                <div className="project-detail-row">
-                    <div><strong>Future Enhancement:</strong></div>
-                    <p>{project.futureEnhancement}</p>
+            {project.future && project.future.trim() !== "" && (
+                <div className="project-detail-future">
+                    <strong>Future Enhancement:</strong>
+                    <p>{project.future}</p>
                 </div>
             )}
 
