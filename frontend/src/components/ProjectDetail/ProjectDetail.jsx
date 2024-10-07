@@ -1,23 +1,25 @@
-// ProjectDetail.jsx
 import React from 'react';
 import './ProjectDetail.css';
 
-// Import social media icons
-import twitterIcon from '../../assets/images/twitter_icon.png';
-import instagramIcon from '../../assets/images/instagram-icon.png';
-import linkedinIcon from '../../assets/images/linkedin-icon.jpg';
-import githubIcon from '../../assets/images/github-icon.png';
+// Import Font Awesome components
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTwitter, faInstagram, faLinkedin, faGithub } from '@fortawesome/free-brands-svg-icons';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
-const ProjectDetail = ({ project, onBack }) => { // Accept onBack prop
-    console.log('project from projectDetail;',project)
+const ProjectDetail = ({ project, onBack }) => {
     return (
         <div className="project-detail-container">
-            <button onClick={onBack} className="back-button">Back</button> {/* Back button */}
-            <h2>{project.title}</h2>
+            <div className="title-button-container">
+                <button onClick={onBack} className="back-button">
+                    <FontAwesomeIcon icon={faArrowLeft} className="back-button-icon" />
+                    Back
+                </button>
+                <h2 className="project-title">{project.title}</h2>
+            </div>
 
             <div className="project-detail-row">
                 <div><strong>Name:</strong> {project.name}</div>
-                <div><strong>Roll Number:</strong> {project.rollNumber}</div>
+                <div><strong>Roll Number:</strong> {project.rollno}</div>
                 <div><strong>Category:</strong> {project.category}</div>
             </div>
 
@@ -27,39 +29,43 @@ const ProjectDetail = ({ project, onBack }) => { // Accept onBack prop
             </div>
 
             <div className="project-detail-row">
-                <div><strong>Deployed Link:</strong> <a href={project.deployedLink} target="_blank" rel="noopener noreferrer">{project.deployedLink}</a></div>
+                <div><strong>Deployed Link:</strong> <a href={project.deployed} target="_blank" rel="noopener noreferrer">{project.deployed}</a></div>
             </div>
 
-            <div className="project-detail-row">
-                <div><strong>Future Enhancement:</strong></div>
-                <p>{project.futureEnhancement}</p>
-            </div>
-
-            <div className="social-media-section">
-                <h3>Social Media Links</h3>
-                <div className="social-media-icons">
-                    {project.twitterLink && (
-                        <a href={project.twitterLink} target="_blank" rel="noopener noreferrer">
-                            <img src={twitterIcon} alt="Twitter" />
-                        </a>
-                    )}
-                    {project.instagramLink && (
-                        <a href={project.instagramLink} target="_blank" rel="noopener noreferrer">
-                            <img src={instagramIcon} alt="Instagram" />
-                        </a>
-                    )}
-                    {project.linkedinLink && (
-                        <a href={project.linkedinLink} target="_blank" rel="noopener noreferrer">
-                            <img src={linkedinIcon} alt="LinkedIn" />
-                        </a>
-                    )}
-                    {project.githubLink && (
-                        <a href={project.githubLink} target="_blank" rel="noopener noreferrer">
-                            <img src={githubIcon} alt="GitHub" />
-                        </a>
-                    )}
+            {project.futureEnhancement && project.futureEnhancement.trim() !== "" && (
+                <div className="project-detail-row">
+                    <div><strong>Future Enhancement:</strong></div>
+                    <p>{project.futureEnhancement}</p>
                 </div>
-            </div>
+            )}
+
+            {(project.twitter || project.instagram || project.linkedin || project.github) && (
+                <div className="social-media-section">
+                    <h3>Social Media Links</h3>
+                    <div className="social-media-icons">
+                        {project.twitter && (
+                            <a href={project.twitter} target="_blank" rel="noopener noreferrer">
+                                <FontAwesomeIcon icon={faTwitter} className="social-icon" />
+                            </a>
+                        )}
+                        {project.instagram && (
+                            <a href={project.instagram} target="_blank" rel="noopener noreferrer">
+                                <FontAwesomeIcon icon={faInstagram} className="social-icon" />
+                            </a>
+                        )}
+                        {project.linkedin && (
+                            <a href={project.linkedin} target="_blank" rel="noopener noreferrer">
+                                <FontAwesomeIcon icon={faLinkedin} className="social-icon" />
+                            </a>
+                        )}
+                        {project.github && (
+                            <a href={project.github} target="_blank" rel="noopener noreferrer">
+                                <FontAwesomeIcon icon={faGithub} className="social-icon" />
+                            </a>
+                        )}
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

@@ -12,7 +12,7 @@ const Card = ({ image, title, description, onViewDetail, name,project }) => {
         <p className="card-name">~{name}</p>
         
         <button className="card-button" onClick={() => {
-          onViewDetail(projectDetails)
+          onViewDetail(project)
         }}>
           View Detail
         </button>
