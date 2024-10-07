@@ -93,6 +93,7 @@ const EventDetailsForm = ({
 
         resetForm(); // Clear form after successful submission
         setEditingProjectId(null); // Reset edit mode
+        window.location.reload();
         // navigate("/")
       } else {
         toast.error(
