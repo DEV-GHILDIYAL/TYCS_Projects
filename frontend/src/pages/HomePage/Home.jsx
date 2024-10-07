@@ -8,6 +8,8 @@ import LoginComponent from "../../components/LoginComponent/LoginComponent";
 import RegisterComponent from "../../components/SetPassword/SetPassword";
 import HomeComponent from "../../components/HomeComponent/HomeComponent";
 import ProjectDetail from "../../components/ProjectDetail/ProjectDetail";
+import About from "../../components/About/About";
+import Contact from "../../components/Contact/Contact";
 
 const Home = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
@@ -28,6 +30,10 @@ const Home = () => {
         return <RegisterComponent setActiveTab={setActiveTab} />;
       case "createEvent":
         return <EventDetailsForm />;
+      case "about":
+        return <About/>;
+      case "contact":
+        return <Contact/>;
       case "projectDetails":
         return <ProjectDetail selectedCard={selectedCard} />; // Pass selected card details to ProjectDetail
       default:

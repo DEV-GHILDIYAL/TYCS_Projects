@@ -1,4 +1,3 @@
-// Card.jsx
 import React from 'react';
 import './Card.css';
 
@@ -11,10 +10,8 @@ const Card = ({ image, title, description, onViewDetail, name, project }) => {
         <p className="card-description">{description}</p> {/* This is where truncation happens */}
         <p className="card-name">~{name}</p>
         
-        <button className="card-button" onClick={() => {
-          onViewDetail(project);
-        }}>
-          View Detail
+        <button className="card-button" onClick={() => onViewDetail(project)}>
+          View Details
         </button>
       </div>
     </div>

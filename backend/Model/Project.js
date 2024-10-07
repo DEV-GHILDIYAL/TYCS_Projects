@@ -32,8 +32,8 @@ const ProjectSchema = new mongoose.Schema({
     future:{
         type:String,
     },
-    github:{type:String,required:true},
-    twitter:{type:String,},
+    github:{type:String},
+    twitter:{type:String},
     linkedin:{type:String},
     instagram:{type:String,},
     
