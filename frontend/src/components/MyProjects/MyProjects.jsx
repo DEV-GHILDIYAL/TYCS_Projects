@@ -31,7 +31,7 @@ const MyProjects = ({ setActiveTab }) => {
   useEffect(() => {
     const fetchUserProjects = async () => {
       try {
-        const response = await fetch("https://tycs-projects-backend.onrender.com/user", {
+        const response = await fetch("http://localhost:5500/user", {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -85,7 +85,7 @@ const MyProjects = ({ setActiveTab }) => {
 
   const handleDelete = async (projectId) => {
     try {
-      const response = await fetch(`https://tycs-projects-backend.onrender.com/${projectId}`, {
+      const response = await fetch(`http://localhost:5500/${projectId}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

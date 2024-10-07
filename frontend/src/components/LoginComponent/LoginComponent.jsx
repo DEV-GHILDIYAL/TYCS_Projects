@@ -19,7 +19,7 @@ const LoginComponent = ({ setActiveTab  }) => {
     }
 
     try {
-      const response = await fetch("https://tycs-projects-backend.onrender.com/auth/login", {
+      const response = await fetch("http://localhost:5500/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
