@@ -39,7 +39,7 @@ const Sidebar = ({ setActiveTab }) => {
             {isOpen ? "Login" : <i className="fas fa-sign-in-alt"></i>}
           </li>
           <li onClick={() => setActiveTab("register")}>
-            {isOpen ? "Register" : <i className="fas fa-user-plus"></i>}
+            {isOpen ? "Set Password" : <i className="fas fa-user-plus"></i>}
           </li>
         </ul>
       </div>
