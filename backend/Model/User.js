@@ -3,7 +3,12 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const UserSchema = new mongoose.Schema({
-    email: {
+    rollNo:{
+      type:Number,
+      required:true,
+      unique:true,
+    },
+        email: {
         type: String,
         required: true,
         unique: true,
@@ -55,8 +60,9 @@ UserSchema.methods.generateToken = function () {
     const user = this;
     try {
         const token = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET_KEY, {
-            expiresIn: '11h',
+            expiresIn: '1hr',
         });
+        console.log("token from User after loggin in",token)
         return token;
     } catch (error) {
         console.error("Token generation failed:", error);

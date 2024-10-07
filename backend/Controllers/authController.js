@@ -1,20 +1,8 @@
 const express = require("express");
 const User = require("../Model/User");
-const { body, validationResult } = require("express-validator");
 
 
 const loginUser = async (req,res) => {
-  // body("email")
-  //   .isEmail()
-  //   .withMessage("Invalid email")
-  //   .notEmpty()
-  //   .withMessage("Email is required"),
-  //   body("password").notEmpty().withMessage("Password is required"),
-  //   async (req, res) => {
-  //     const errors = validationResult(req);
-  //     if (!errors.isEmpty()) {
-  //       return res.status(400).json({ errors: errors.array() });
-  //     }
 
       try {
         const { email, password } = req.body;

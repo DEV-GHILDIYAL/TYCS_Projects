@@ -24,13 +24,13 @@ app.use(cors({
 app.use(express.static(path.join(__dirname, 'public')));
 
 //admin routes
-app.use('/admin',require('./routes/admin'))
+app.use('/auth',require('./routes/auth'))
+app.use('/admin',authenticate,require('./routes/admin'))
 
 //normal user routes
-app.use('/',require('./routes/user'))
+app.use('/',authenticate,require('./routes/user'))
 
 //auth routes
-app.use('/auth',require('./routes/auth'))
 
 
 const PORT = process.env.PORT || 6000;

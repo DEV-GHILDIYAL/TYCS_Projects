@@ -6,6 +6,8 @@ import "./CardSection.css";
 const CardSection = ({ onViewDetail, searchTerm, searchByRollNumber }) => {
   const [projects, setProjects] = useState([]);
 
+  const token = localStorage.getItem('token');
+
   useEffect(() => {
     const fetchProject = async () => {
       try {
@@ -13,6 +15,7 @@ const CardSection = ({ onViewDetail, searchTerm, searchByRollNumber }) => {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`, // Assuming you're using token-based auth
           },
           credentials: "include",
         });

@@ -11,7 +11,9 @@ import ProjectDetail from "../../components/ProjectDetail/ProjectDetail";
 
 const Home = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
-  const [selectedCard, setSelectedCard] = useState(null); // State to hold selected card details
+  const [selectedCard, setSelectedCard] = useState(null); 
+  const token = localStorage.getItem("token");
+
 
   const renderContent = () => {
     console.log(activeTab);
@@ -30,8 +32,16 @@ const Home = () => {
         return <EventDetailsForm />;
       case "projectDetails":
         return <ProjectDetail selectedCard={selectedCard} />; // Pass selected card details to ProjectDetail
-      default:
-        return <HomeComponent setActiveTab={setActiveTab} setSelectedCard={setSelectedCard} />;
+        default:
+          // Render HomeComponent if token exists, otherwise render LoginComponent
+          return token ? (
+            <HomeComponent 
+              setActiveTab={setActiveTab} 
+              setSelectedCard={setSelectedCard} 
+            />
+          ) : (
+            <LoginComponent setActiveTab={setActiveTab} />
+          );
     }
   };
 

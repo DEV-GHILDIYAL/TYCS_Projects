@@ -3,20 +3,24 @@ import { useNavigate } from 'react-router-dom';
 import "./Sidebar.css";
 import { toast, Slide } from "react-toastify";
 
-
 const Sidebar = ({ setActiveTab }) => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    // Check if token is available in localStorage when the component mounts
+    // Check if token and isLoggedIn are available in localStorage when the component mounts
     const token = localStorage.getItem("token");
+    const isLoggedIn = localStorage.getItem("isLoggedIn");
+
     if (token) {
-      setIsAuthenticated(true); // Set authenticated state to true
+      setIsAuthenticated(true);
     } else {
-      setIsAuthenticated(false); // Set authenticated state to false
+      setIsAuthenticated(false);
     }
+
+    // Set the logged-in status based on localStorage
+    setIsAuthenticated(!!isLoggedIn);
   }, []); // Empty dependency array ensures this runs only on mount
 
   const toggleSidebar = () => {
@@ -24,14 +28,21 @@ const Sidebar = ({ setActiveTab }) => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('token'); // Remove token on logout
-    toast.success("Logout successfull!", {
+    // Remove token and isLoggedIn from localStorage on logout
+    localStorage.removeItem('token');
+    localStorage.removeItem('isLoggedIn');
+
+    toast.success("Logout successful!", {
       position: "top-right",
       theme: "light",
       transition: Slide,
     });
-    setIsAuthenticated(false); // Update state after logout
-    setActiveTab("login") // Redirect to login page
+
+    // Update local state after logout
+    setIsAuthenticated(false);
+
+    // Redirect to login page
+    setActiveTab("login");
   };
 
   const handleProtectedNavigation = (tab) => {
@@ -89,3 +100,4 @@ const Sidebar = ({ setActiveTab }) => {
 };
 
 export default Sidebar;
+

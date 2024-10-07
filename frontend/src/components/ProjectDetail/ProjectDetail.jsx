@@ -1,7 +1,5 @@
 import React from 'react';
 import './ProjectDetail.css';
-
-// Import Font Awesome components
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTwitter, faInstagram, faLinkedin, faGithub } from '@fortawesome/free-brands-svg-icons';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
@@ -14,7 +12,7 @@ const ProjectDetail = ({ project, onBack }) => {
                     <FontAwesomeIcon icon={faArrowLeft} className="back-button-icon" />
                     Back
                 </button>
-                <h2 className="project-title">{project.title}</h2>
+                <h2 className="project-title">{project ? project.title : 'Add New Project'}</h2>
             </div>
 
             <div className="project-detail-row">

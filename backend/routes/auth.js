@@ -4,6 +4,7 @@ const authController = require('../Controllers/authController');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const User = require('../Model/User');
+var nodemailer = require('nodemailer');
 
 // Check Email and Send Reset Link
 router.post("/setpassword", async (req, res) => {
@@ -19,32 +20,31 @@ router.post("/setpassword", async (req, res) => {
     const link = `http://localhost:5173/setpassword/${user.email}/${ltoken}`;
 
     // Uncomment to enable email sending functionality
-    // var transporter = nodemailer.createTransport({
-    //     service: 'gmail',
-    //     auth: {
-    //       user: 'your-email@gmail.com',
-    //       pass: process.env.PASS
-    //     }
-    //   });
+    var transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: 'your-email@gmail.com',
+          pass: process.env.PASS
+        }
+      });
       
-    // var mailOptions = {
-    //     from: 'your-email@gmail.com',
-    //     to: email,
-    //     subject: 'Set your password for logging in',
-    //     text: link
-    // };
+    var mailOptions = {
+        from: 'your-email@gmail.com',
+        to: email,
+        subject: 'Set your password for logging in',
+        text: link
+    };
       
-    // transporter.sendMail(mailOptions, function(error, info){
-    //     if (error) {
-    //       console.log(error);
-    //     } else {
-    //       console.log('Email sent: ' + info.response);
-    //     }
-    //   });
+    transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+          console.log(error);
+        } else {
+          console.log('Email sent: ' + info.response);
+        }
+      });
 
     console.log(link); // For testing purposes
 
-    // In a real-world scenario, you'd send this link via email
     return res.status(200).json({ status: "Reset link sent", link });
   } catch (error) {
     console.error(error);

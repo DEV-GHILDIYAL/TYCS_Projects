@@ -297,20 +297,20 @@ const EventDetailsForm = () => {
           </select>
         </div>
         <div className="form-group half-width">
-          {projectCategory === "Mobile App Development" ? (
-            <>
-              <label>
-                APK File: <span className="required">*</span>
-              </label>
-              <input
-                type="file"
-                accept=".apk"
-                onChange={handleApkChange}
-                required
-              />
-            </>
-          ) : (
-            <>
+          {/* {projectCategory === "Mobile App Development" ? ( 
+          //   <>
+          //     <label>
+          //       APK File: <span className="required">*</span>
+          //     </label>
+          //     <input
+          //       type="file"
+          //       accept=".apk"
+          //       // onChange={handleApkChange}
+          //       required
+          //     />
+          //   </>
+          // ) : (*/}
+            {/* <> */}
               <label>
                 Deployed Link: <span className="required">*</span>
               </label>
@@ -321,8 +321,8 @@ const EventDetailsForm = () => {
                 placeholder="Enter the deployed link"
                 required
               />
-            </>
-          )}
+            {/* </> */}
+          {/* )} */}
         </div>
       </div>
 
