@@ -13,6 +13,10 @@ const ProjectDetail = ({ project, onBack }) => {
                     Back
                 </button>
                 <h2 className="project-title">{project ? project.title : 'Add New Project'}</h2>
+                {/* Email Link */}
+                <p href={`mailto:${project.email}`} className="email-link">
+                    {project.email}ghildiyaldev1325@gmail.com
+                </p>
             </div>
 
             <div className="project-detail-row">
@@ -29,8 +33,6 @@ const ProjectDetail = ({ project, onBack }) => {
                 <strong>Project Description:</strong>
                 <p>{project.description}</p>
             </div>
-
-            
 
             {project.future && project.future.trim() !== "" && (
                 <div className="project-detail-future">

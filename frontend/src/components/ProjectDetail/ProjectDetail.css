@@ -58,6 +58,9 @@
     margin-bottom: 20px;
     overflow-y: auto;
 }
+.project-detail-description p, .project-detail-future p{
+    text-align: left;
+}
 
 .social-media-section {
     margin-top: 40px;
@@ -160,6 +163,24 @@
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
     overflow-y: auto;
+}
+.email-link {
+    font-size: 16px;
+    color: #007BFF;
+    text-decoration: none;
+    margin-left: 20px;
+    align-self: flex-start;
+}
+
+.email-link:hover {
+    text-decoration: underline;
+}
+.title-button-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    position: relative;
 }
 
 

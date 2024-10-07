@@ -3,7 +3,7 @@ import "./Login.css";
 import { useNavigate } from "react-router-dom";
 import { toast, Slide } from "react-toastify";
 
-const LoginComponent = ({ setActiveTab }) => {
+const LoginComponent = ({ setActiveTab  }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(""); 
@@ -39,8 +39,9 @@ const LoginComponent = ({ setActiveTab }) => {
           transition: Slide,
           autoClose: 1000,
         });
+        window.location.reload();
         setTimeout(() => {
-          setActiveTab("home"); 
+          setActiveTab("Home"); 
           navigate("/");
         }, 1000);
       } else {
