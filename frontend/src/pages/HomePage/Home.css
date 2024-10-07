@@ -8,6 +8,7 @@
   display: flex;
   flex: 1;
   width: 1220px;
+  height: 90vh;
 }
 
 .main-content {

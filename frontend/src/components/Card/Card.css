@@ -8,6 +8,7 @@
   display: flex;
   flex-direction: row; /* Landscape style */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative; /* Position relative for better control */
 }
 
 .card:hover {
@@ -16,22 +17,23 @@
 }
 
 .card-image {
-  width: 40%; /* Set width relative to the card */
-  height: auto;
-  object-fit: cover;
+  width: 100%; /* Set width to 100% of the card's width */
+  height: auto; /* Maintain the aspect ratio */
+  object-fit: cover; /* Cover the area without stretching */
   border-top-left-radius: 12px; /* Smooth rounded corner for the image */
   border-bottom-left-radius: 12px;
+  max-height: 200px; /* Optional: Set a maximum height for the image */
 }
-
 .card-content {
-  padding: 20px; /* Slightly more padding for comfort */
-  flex-grow: 1;
+  padding: 20px; /* Existing padding for content */
+  flex-grow: 1; /* Allow content to grow */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   background-color: #ffffff; /* White background for contrast */
   border-top-right-radius: 12px;
   border-bottom-right-radius: 12px;
+  overflow: hidden; /* Ensure content doesn't overflow */
 }
 
 .card-title {
@@ -42,6 +44,13 @@
 }
 
 .card-description {
+  display: -webkit-box; /* Use flexible box layout */
+  -webkit-box-orient: vertical; /* Set box orientation to vertical */
+  -webkit-line-clamp: 3; /* Limit to 3 lines for WebKit browsers */
+  display: box; /* For compatibility with Firefox */
+  box-orient: vertical; /* Set box orientation to vertical */
+  overflow: hidden; /* Hide overflow text */
+  text-overflow: ellipsis; /* Show ellipsis (...) for overflow */
   font-size: 0.95rem;
   color: #666666; /* Softer text color */
   line-height: 1.6; /* More line height for readability */
@@ -54,6 +63,7 @@
   line-height: 1.6; /* More line height for readability */
   margin: 12px 0;
 }
+
 .card-button {
   background-color: #28a745; /* Softer green for positive interaction */
   color: #ffffff;

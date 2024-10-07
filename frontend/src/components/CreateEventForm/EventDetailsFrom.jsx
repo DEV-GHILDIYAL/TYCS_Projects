@@ -27,6 +27,8 @@ const EventDetailsForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+     // Convert the name to uppercase
+     const upperCaseName = name.toUpperCase();
 
     // if (projectCategory === 'Mobile App Development' && !apkFile) {
     //   alert('Please upload an APK file for Mobile App Development.');
@@ -46,7 +48,7 @@ const EventDetailsForm = () => {
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
-            name,
+            name: upperCaseName,
             rollno: rollNo,
             description: projectDescription,
             category:projectCategory ,
