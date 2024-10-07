@@ -13,10 +13,10 @@ const ProjectDetail = ({ project, onBack }) => {
                     Back
                 </button>
                 <h2 className="project-title">{project ? project.title : 'Add New Project'}</h2>
-                {/* Email Link */}
+                {/* Email Link
                 <p href={`mailto:${project.email}`} className="email-link">
                     {project.email}ghildiyaldev1325@gmail.com
-                </p>
+                </p> */}
             </div>
 
             <div className="project-detail-row">

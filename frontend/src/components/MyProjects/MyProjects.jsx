@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./MyProjects.css";
-// import ProjectCard from "./ProjectCard";
 import EventDetailsForm from '../CreateEventForm/EventDetailsFrom'; 
 import { toast } from "react-toastify"; // Import toast for notifications
 import img from '../../assets/images/images.png';
 import './ProjectCard.css'
-
 
 const MyProjects = ({ setActiveTab }) => {
   const [hasProject, setHasProject] = useState(false);
@@ -27,6 +25,8 @@ const MyProjects = ({ setActiveTab }) => {
   const [instagram, setInstagram] = useState("");
   const [linkedin, setLinkedin] = useState("");
 
+  const [isEditing, setIsEditing] = useState(false);
+  const [showHeader, setShowHeader] = useState(true); // New state for header visibility
 
   useEffect(() => {
     const fetchUserProjects = async () => {
@@ -79,6 +79,8 @@ const MyProjects = ({ setActiveTab }) => {
     setTwitter(projectToEdit.twitter);
     setInstagram(projectToEdit.instagram);
     setLinkedin(projectToEdit.linkedin);
+    
+    setShowHeader(false); // Hide the header when editing
   };
 
   const handleDelete = async (projectId) => {
@@ -104,66 +106,57 @@ const MyProjects = ({ setActiveTab }) => {
   };
 
   return (
-      <div className="my-project-container">
-        <h2 className="my-project-header">My Projects</h2>
+    <div className="my-project-container">
+      {/* Conditionally render the header based on showHeader state */}
+      {showHeader && <h2 className="my-project-header">My Projects</h2>}
     
-        {/* Show loading state */}
-        {loading ? (
-          <p>Loading projects...</p>
-        ) : (
-          <>
-            {/* Check if we are in edit mode */}
-            {editingProjectId ? (
-              <EventDetailsForm
-                editingProjectId={editingProjectId}
-                initialData={editingProjectData} // Pass the editing data to the form
-                setEditingProjectId={setEditingProjectId}
-              />
-            ) : (
-              <>
-                {/* Check if there are any projects */}
-                {projects.length > 0 ? (
-                  // <ProjectCard onEdit={handleEdit} onDelete={handleDelete} project={projects} />
-                  //   <div key={project._id} className="projectCard">
-                  //     {/* Project Details */}
-                  //     <h3>{project.title}</h3>
-                  //     <p>{project.description}</p>
-                  //     <button onClick={() => handleEdit(project._id)}>Edit</button>
-                  //     <button onClick={() => handleDelete(project._id)}>Delete</button>
-                  //   </div>
-                  projects.map((project) => (
-                    <div className="project-card">
-                  <img src={img} alt={project.title} className="project-image" />
-                  <div>
-                  <h3 className="project-titles">{project.title}</h3>
-                  <p>{project.description}</p>
-      
-                  </div>
-                  <div className="project-buttons">
+      {/* Show loading state */}
+      {loading ? (
+        <p>Loading projects...</p>
+      ) : (
+        <>
+          {/* Check if we are in edit mode */}
+          {editingProjectId ? (
+            <EventDetailsForm
+              editingProjectId={editingProjectId}
+              initialData={editingProjectData} // Pass the editing data to the form
+              setEditingProjectId={setEditingProjectId}
+              setShowHeader={setShowHeader} // Optionally pass function to show the header again
+            />
+          ) : (
+            <>
+              {/* Check if there are any projects */}
+              {projects.length > 0 ? (
+                projects.map((project) => (
+                  <div className="project-card" key={project._id}>
+                    <img src={img} alt={project.title} className="project-image" />
+                    <div>
+                      <h3 className="project-titles">{project.title}</h3>
+                    </div>
+                    <div className="project-buttons">
                       <button className="edit-button" onClick={() => handleEdit(project._id)}>Edit</button>
                       <button className="delete-button" onClick={() => handleDelete(project._id)}> Delete</button>
+                    </div>
                   </div>
-              </div>
-                    ))
-                ) : (
-                  /* Show the "Create a Project" button if there are no projects */
-                  <div className="projectCard">
-                    <button
-                      onClick={() => setActiveTab("createEvent")}
-                      className="add-project-btn"
-                    >
-                      +
-                    </button>
-                    <p className="create-project-text">Create a Project</p>
-                  </div>
-                )}
-              </>
-            )}
-          </>
-        )}
-      </div>
-    );
-    
+                ))
+              ) : (
+                /* Show the "Create a Project" button if there are no projects */
+                <div className="projectCard">
+                  <button
+                    onClick={() => setActiveTab("createEvent")}
+                    className="add-project-btn"
+                  >
+                    +
+                  </button>
+                  <p className="create-project-text">Create a Project</p>
+                </div>
+              )}
+            </>
+          )}
+        </>
+      )}
+    </div>
+  );
 };
 
 export default MyProjects;
