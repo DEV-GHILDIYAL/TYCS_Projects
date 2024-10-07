@@ -60,7 +60,7 @@ UserSchema.methods.generateToken = function () {
     const user = this;
     try {
         const token = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET_KEY, {
-            expiresIn: '1hr',
+            expiresIn: '12hr',
         });
         console.log("token from User after loggin in",token)
         return token;

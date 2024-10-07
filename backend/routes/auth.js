@@ -23,7 +23,7 @@ router.post("/setpassword", async (req, res) => {
     var transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-          user: 'your-email@gmail.com',
+          user: "g22.shiwans.vaishya@gnkhalsa.edu.in",
           pass: process.env.PASS
         }
       });
