@@ -21,14 +21,16 @@ const ProjectDetail = ({ project, onBack }) => {
                 <div><strong>Category:</strong> {project.category}</div>
             </div>
 
+            <div className="project-detail-row">
+                <div><strong>Deployed Link:</strong> <a href={project.deployed} target="_blank" rel="noopener noreferrer">{project.deployed}</a></div>
+            </div>
+            
             <div className="project-detail-description">
                 <strong>Project Description:</strong>
                 <p>{project.description}</p>
             </div>
 
-            <div className="project-detail-row">
-                <div><strong>Deployed Link:</strong> <a href={project.deployed} target="_blank" rel="noopener noreferrer">{project.deployed}</a></div>
-            </div>
+            
 
             {project.future && project.future.trim() !== "" && (
                 <div className="project-detail-future">

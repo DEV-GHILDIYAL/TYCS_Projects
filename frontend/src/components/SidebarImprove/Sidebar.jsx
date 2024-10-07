@@ -73,9 +73,15 @@ const Sidebar = ({ setActiveTab }) => {
           <li onClick={() => handleProtectedNavigation("myProjects")}>
             {isOpen ? "My Projects" : <i className="fas fa-folder"></i>}
           </li>
-          <li onClick={() => handleProtectedNavigation("admin")}>
+          {/* <li onClick={() => handleProtectedNavigation("admin")}>
             {isOpen ? "Admin" : <i className="fas fa-user-shield"></i>}
+          </li> */}
+          <li onClick={() => handleProtectedNavigation("about")}>
+            {isOpen ? "About Us" : <i className="fas fa-user-shield"></i>}
           </li>
+          {/* <li onClick={() => handleProtectedNavigation("contact")}>
+            {isOpen ? "Contact Us" : <i className="fas fa-user-shield"></i>}
+          </li> */}
         </ul>
 
         <ul className="auth-links">
