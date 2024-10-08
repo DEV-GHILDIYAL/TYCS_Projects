@@ -9,8 +9,8 @@ const App = () => {
   return (
     <div className="App">
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/setpassword/:email/:ltoken" element={<SetPass />} />
+        <Route path="https://tycs-projects-frontend-0ds0.onrender.com/" element={<Home />} />
+        <Route path="https://tycs-projects-frontend-0ds0.onrender.com/setpassword/:email/:ltoken" element={<SetPass />} />
 
       </Routes>
     </div>
