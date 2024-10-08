@@ -83,23 +83,28 @@ const EventDetailsForm = ({
         }),
         credentials: "include",
       });
+  
+      // Log response status
+      console.log("Response Status:", response.status);
+  
       const data = await response.json();
       console.log("Response Data:", data);
-
+  
       if (response.ok) {
         toast.success(
           editingProjectId ? "Project updated!" : "Project added!",
           { autoClose: 1000 }
         );
-
-        resetForm(); //
+        resetForm();
         setEditingProjectId(null);
-        // window.location.reload();
-        setTimeout(() => navigate("/"), 1000);
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000); // Wait for 1
+  
+        // setTimeout(() => {
+          // window.location.reload();
+        // }, 1000); // Wait for 1 second
+        window.location.reload();
       } else {
+        // Log error details
+        console.error("Error details:", data);
         toast.error(
           `Error ${editingProjectId ? "updating" : "saving"} project!`,
           { autoClose: 1000 }
@@ -110,7 +115,7 @@ const EventDetailsForm = ({
       toast.error("Unable to save project!", { autoClose: 1000 });
     }
   };
-
+  
   const calculateCompletionPercentage = () => {
     const totalFields = 11; // Total fields to track
     let completedFields = 0;

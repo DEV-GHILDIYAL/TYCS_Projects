@@ -17,7 +17,7 @@ router.post("/setpassword", async (req, res) => {
 
     const secret = process.env.JWT_SECRET_KEY + user._id;
     const ltoken = jwt.sign({ email: user.email, id: user._id }, secret, { expiresIn: "30m" });
-    const link = `http://localhost:5173/setpassword/${user.email}/${ltoken}`;
+    const link = `${process.env.FRONT_URL}/setpassword/${user.email}/${ltoken}`;
     // const link = `https://tycs-projects-frontend-0ds0.onrender.com/setpassword/${user.email}/${ltoken}`;
 
     // Uncomment to enable email sending functionality
