@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+// Home.js
+import React, { useState, useEffect } from "react";
 import "./Home.css";
 import Sidebar from "../../components/SidebarImprove/Sidebar";
 import MyProjects from "../../components/MyProjects/MyProjects";
@@ -10,18 +11,25 @@ import HomeComponent from "../../components/HomeComponent/HomeComponent";
 import ProjectDetail from "../../components/ProjectDetail/ProjectDetail";
 import About from "../../components/About/About";
 import Contact from "../../components/Contact/Contact";
+import ResponsiveWarningPopup from "../../components/ResponsiveWarningPopup/ResponsiveWarningPopup ";
 
 const Home = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
-  const [selectedCard, setSelectedCard] = useState(null); 
+  const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
+  const [showPopup, setShowPopup] = useState(false); // State to manage popup visibility
   const token = localStorage.getItem("token");
 
+  useEffect(() => {
+    // Check if the screen width is less than a certain breakpoint (e.g., 768px)
+    if (window.innerWidth < 768) {
+      setShowPopup(true);
+    }
+  }, []);
 
   const renderContent = () => {
-    console.log(activeTab);
     switch (activeTab) {
       case "Home":
-        return <HomeComponent setActiveTab={setActiveTab} setSelectedCard={setSelectedCard} />;
+        return <HomeComponent setActiveTab={setActiveTab} />;
       case "myProjects":
         return <MyProjects setActiveTab={setActiveTab} />;
       case "admin":
@@ -33,32 +41,31 @@ const Home = () => {
       case "createEvent":
         return <EventDetailsForm />;
       case "about":
-        return <About/>;
+        return <About />;
       case "contact":
-        return <Contact/>;
+        return <Contact />;
       case "projectDetails":
-        return <ProjectDetail selectedCard={selectedCard} />; // Pass selected card details to ProjectDetail
-        default:
-          // Render HomeComponent if token exists, otherwise render LoginComponent
-          return token ? (
-            <HomeComponent 
-              setActiveTab={setActiveTab} 
-              setSelectedCard={setSelectedCard} 
-            />
-          ) : (
-            <LoginComponent setActiveTab={setActiveTab} />
-          );
+        return <ProjectDetail />;
+      default:
+        return token ? <HomeComponent setActiveTab={setActiveTab} /> : <LoginComponent setActiveTab={setActiveTab} />;
     }
   };
 
+  const handleClosePopup = () => {
+    setShowPopup(false);
+  };
+
   return (
-    <div className="home">
-      <Sidebar setActiveTab={setActiveTab} />
-      <div className="home-content">
+    <div className={`home ${isSidebarExpanded ? "sidebar-expanded" : ""}`}>
+      <Sidebar className="homeSidebar" setActiveTab={setActiveTab} setIsSidebarExpanded={setIsSidebarExpanded} />
+      <div className={`home-content ${isSidebarExpanded ? "expanded" : ""}`}>
         <div className="main-content">
           {renderContent()}
         </div>
       </div>
+      
+      {/* Show the popup if showPopup is true */}
+      {showPopup && <ResponsiveWarningPopup onClose={handleClosePopup} />}
     </div>
   );
 };
