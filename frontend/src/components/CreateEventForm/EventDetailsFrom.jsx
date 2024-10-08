@@ -58,8 +58,10 @@ const EventDetailsForm = ({
     const upperCaseName = name.toUpperCase();
     try {
       const url = editingProjectId
-        ? `http://localhost:5500/${editingProjectId}`
-        : "http://localhost:5500/";
+        // ? `http://localhost:5500/${editingProjectId}`
+        ? `https://tycs-projects-backend-bnlr.onrender.com/${editingProjectId}`
+        // : "http://localhost:5500/";
+        : "https://tycs-projects-backend-bnlr.onrender.com/";
       const method = editingProjectId ? "PUT" : "POST";
       const response = await fetch(url, {
         method: method,

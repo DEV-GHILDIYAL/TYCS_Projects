@@ -85,7 +85,8 @@ const MyProjects = ({ setActiveTab }) => {
 
   const handleDelete = async (projectId) => {
     try {
-      const response = await fetch(`http://localhost:5500/${projectId}`, {
+      // const response = await fetch(`http://localhost:5500/${projectId}`, {
+      const response = await fetch(`https://tycs-projects-backend-bnlr.onrender.com/${projectId}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
