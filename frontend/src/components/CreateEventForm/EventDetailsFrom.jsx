@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./EventDetailsForm.css";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const EventDetailsForm = ({
   editingProjectId,
@@ -31,9 +32,8 @@ const EventDetailsForm = ({
   // const [apkFile, setApkFile] = useState(null);
 
   const token = localStorage.getItem("token");
-  // const handleApkChange = (e) => {
-  //   setApkFile(e.target.files[0]);
-  // };
+  const navigate = useNavigate(); // Use navigate for routing
+
 
   const resetForm = () => {
     setName("");
@@ -88,13 +88,16 @@ const EventDetailsForm = ({
       if (response.ok) {
         toast.success(
           editingProjectId ? "Project updated!" : "Project added!",
-          { autoClose: 1000 }
+          { autoClose: 1000 ,}
         );
 
-        resetForm(); // Clear form after successful submission
-        setEditingProjectId(null); // Reset edit mode
+        resetForm(); // 
+        setEditingProjectId(null); 
         window.location.reload();
-        // navigate("/")
+        // setTimeout(() => navigate("/"), 1000);
+        // setTimeout(() => {
+        //   window.location.reload();
+        // }, 1000); // Wait for 1
       } else {
         toast.error(
           `Error ${editingProjectId ? "updating" : "saving"} project!`,
@@ -118,12 +121,12 @@ const EventDetailsForm = ({
     if (projectDescription) completedFields++;
     if (projectCategory) completedFields++;
 
-    // Check for deployed or apk link based on category
-    if (projectCategory === "Mobile App Development" && deployedLink) {
-      completedFields++;
-    } else if (projectCategory !== "Mobile App Development" && deployedLink) {
-      completedFields++;
-    }
+    // // Check for deployed or apk link based on category
+    // if (projectCategory === "Mobile App Development" && deployedLink) {
+    //   completedFields++;
+    // } else if (projectCategory !== "Mobile App Development" && deployedLink) {
+    //   completedFields++;
+    // }
 
     if (githubLink) completedFields++;
     if (futureEnhancements) completedFields++;

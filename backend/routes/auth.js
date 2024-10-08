@@ -17,7 +17,7 @@ router.post("/setpassword", async (req, res) => {
 
     const secret = process.env.JWT_SECRET_KEY + user._id;
     const ltoken = jwt.sign({ email: user.email, id: user._id }, secret, { expiresIn: "5m" });
-    const link = `http://localhost:5173//setpassword/${user.email}/${ltoken}`;
+    const link = `http://localhost:5173/setpassword/${user.email}/${ltoken}`;
 
     // Uncomment to enable email sending functionality
     var transporter = nodemailer.createTransport({
