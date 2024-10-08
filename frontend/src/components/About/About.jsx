@@ -30,7 +30,7 @@ const About = () => {
       <div className="about-section">
         <h2>Meet the Developers</h2>
         <p className="about-section-p">
-          This website was developed by <strong>Dev (Roll No. 421)</strong> and <strong>Shivansh (Roll No. 477)</strong>, students from the TYCS class at <strong>Guru Nanak Khalsa College</strong>. We built this platform in just <strong>28 hours</strong>, so it's still a work in progress. If you encounter any bugs or have suggestions for improvement, please feel free to <a href="https://forms.gle/MewwVorSko7ctt3C8" target="_blank" rel="noopener noreferrer">fill out this form</a>.
+          This website was developed by <strong>Dev (Roll No. 421)</strong> and <strong>Shiwans (Roll No. 477)</strong>, students from the TYCS class at <strong>Guru Nanak Khalsa College</strong>. We built this platform in just <strong>28 hours</strong>, so it's still a work in progress. If you encounter any bugs or have suggestions for improvement, please feel free to <a href="https://forms.gle/MewwVorSko7ctt3C8" target="_blank" rel="noopener noreferrer">fill out this form</a>.
         </p>
       </div>
     </div>
