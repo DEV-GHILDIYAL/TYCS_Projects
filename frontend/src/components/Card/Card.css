@@ -25,7 +25,6 @@
 }
 
 .card-content {
-  padding: 25px; /* More padding for a spacious feel */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -45,6 +44,8 @@
 }
 
 .card-description {
+  
+  width: 160px;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
@@ -52,10 +53,10 @@
   box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-size: 1rem; /* Slightly larger for clarity */
-  color: #555555; /* Softer gray for description */
-  line-height: 1.7; /* More line height for readability */
-  margin: 12px 0;
+  /* font-size: 1rem; Slightly larger for clarity */
+  /* color: #555555; Softer gray for description */
+  /* line-height: 1.7; More line height for readability */
+  /* margin: 12px 0; */
   text-align: left; /* Align description to the left */
 }
 

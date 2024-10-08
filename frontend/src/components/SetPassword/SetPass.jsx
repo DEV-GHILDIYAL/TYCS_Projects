@@ -27,8 +27,8 @@ const SetPass = () => {
     setLoading(true); // Set loading to true
 
     try {
-      // const response = await fetch(`http://localhost:5500/auth/setpassword/${email}/${ltoken}`, {
-      const response = await fetch(`https://tycs-projects-backend-bnlr.onrender.com/auth/setpassword/${email}/${ltoken}`, {
+      const response = await fetch(`http://localhost:5500/auth/setpassword/${email}/${ltoken}`, {
+      // const response = await fetch(`https://tycs-projects-backend-bnlr.onrender.com/auth/setpassword/${email}/${ltoken}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

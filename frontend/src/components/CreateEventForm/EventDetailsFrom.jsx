@@ -34,7 +34,6 @@ const EventDetailsForm = ({
   const token = localStorage.getItem("token");
   const navigate = useNavigate(); // Use navigate for routing
 
-
   const resetForm = () => {
     setName("");
     setRollNo("");
@@ -58,10 +57,10 @@ const EventDetailsForm = ({
     const upperCaseName = name.toUpperCase();
     try {
       const url = editingProjectId
-        // ? `http://localhost:5500/${editingProjectId}`
-        ? `https://tycs-projects-backend-bnlr.onrender.com/${editingProjectId}`
-        // : "http://localhost:5500/";
-        : "https://tycs-projects-backend-bnlr.onrender.com/";
+        ? `http://localhost:5500/${editingProjectId}`
+        : // ? `https://tycs-projects-backend-bnlr.onrender.com/${editingProjectId}`
+          "http://localhost:5500/";
+      // : "https://tycs-projects-backend-bnlr.onrender.com/";
       const method = editingProjectId ? "PUT" : "POST";
       const response = await fetch(url, {
         method: method,
@@ -90,16 +89,16 @@ const EventDetailsForm = ({
       if (response.ok) {
         toast.success(
           editingProjectId ? "Project updated!" : "Project added!",
-          { autoClose: 1000 ,}
+          { autoClose: 1000 }
         );
 
-        resetForm(); // 
-        setEditingProjectId(null); 
-        window.location.reload();
-        // setTimeout(() => navigate("/"), 1000);
-        // setTimeout(() => {
-        //   window.location.reload();
-        // }, 1000); // Wait for 1
+        resetForm(); //
+        setEditingProjectId(null);
+        // window.location.reload();
+        setTimeout(() => navigate("/"), 1000);
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000); // Wait for 1
       } else {
         toast.error(
           `Error ${editingProjectId ? "updating" : "saving"} project!`,
@@ -130,6 +129,7 @@ const EventDetailsForm = ({
     //   completedFields++;
     // }
 
+    if (deployedLink) completedFields++;
     if (githubLink) completedFields++;
     if (futureEnhancements) completedFields++;
     if (twitterLink) completedFields++;
@@ -169,8 +169,7 @@ const EventDetailsForm = ({
 
   return (
     <form className="event-details-form" onSubmit={handleSubmit}>
-      <h3>        {editingProjectId ? "Update Project" : "Add Project"}
-      </h3>
+      <h3> {editingProjectId ? "Update Project" : "Add Project"}</h3>
 
       <div className="progress-bar">
         <div
@@ -195,6 +194,8 @@ const EventDetailsForm = ({
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Enter your name"
+            minLength={3}
+            maxLength={20}
             required
           />
         </div>
@@ -203,13 +204,21 @@ const EventDetailsForm = ({
             Roll No: <span className="required">*</span>
           </label>
           <input
-            type="number"
+            type="text"
             value={rollNo}
-            onChange={(e) => setRollNo(e.target.value)}
+            onChange={(e) => {
+              const value = e.target.value;
+              if (value.length <= 3 && /^[4][0-9]{0,2}$/.test(value)) {
+                setRollNo(value);
+              }
+            }}
             placeholder="Enter your roll number"
             required
+            minLength="3"
+            maxLength="3"
           />
         </div>
+
         <div className="form-group">
           <label>
             Project Title: <span className="required">*</span>
@@ -220,6 +229,8 @@ const EventDetailsForm = ({
             onChange={(e) => setProjectTitle(e.target.value)}
             placeholder="Enter the project title"
             required
+            minLength={3}
+            maxLength={30}
           />
         </div>
       </div>
@@ -233,6 +244,7 @@ const EventDetailsForm = ({
             value={projectDescription}
             onChange={(e) => setProjectDescription(e.target.value)}
             placeholder="Describe your project..."
+            minLength={100}
             required
           />
         </div>

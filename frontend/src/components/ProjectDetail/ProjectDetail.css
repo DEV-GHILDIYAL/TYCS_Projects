@@ -56,9 +56,12 @@
     border-radius: 5px;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
+    width: auto;
     overflow-y: auto;
 }
 .project-detail-description p, .project-detail-future p{
+    overflow-wrap: break-word;
+    padding-right: 50px;
     text-align: left;
 }
 
