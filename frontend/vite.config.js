@@ -10,14 +10,14 @@ export default defineConfig({
   server: {
     proxy: {
       // Adjusted the proxy path based on your backend route structure
-      '/auth': {
-        target: process.env.VITE_BACK_URL,  // Use process.env to access the variable
-        changeOrigin: true,
-      },
-      '/admin': {
-        target: process.env.VITE_BACK_URL,
-        changeOrigin: true,
-      },
+      // '/auth': {
+      //   target: process.env.VITE_BACK_URL,  // Use process.env to access the variable
+      //   changeOrigin: true,
+      // },
+      // '/admin': {
+      //   target: process.env.VITE_BACK_URL,
+      //   changeOrigin: true,
+      // },
       '/api': {
         target: process.env.VITE_BACK_URL,
         changeOrigin: true,
