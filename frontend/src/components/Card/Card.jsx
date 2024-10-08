@@ -8,7 +8,7 @@ const Card = ({ image, title, description, onViewDetail, name, project }) => {
       <div className="card-content">
         <h3 className="card-title">{title}</h3>
         <p className="card-description">{description}</p> {/* This is where truncation happens */}
-        <p className="card-name">~{name}</p>
+        <p className="card-name">~{name.split(' ')[0]}</p>
         
         <button className="card-button" onClick={() => onViewDetail(project)}>
           View Details

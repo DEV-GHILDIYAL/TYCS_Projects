@@ -11,7 +11,7 @@ connectMongo()
 const app = express()
 
 app.use(cors({
-  origin: ['http://localhost:5173', 'https://tycs-projects-frontend-0ds0.onrender.com'],
+  origin: ['http://localhost:5173'],
   methods: "GET,POST,PUT,DELETE",
   credentials: true,
 }));
