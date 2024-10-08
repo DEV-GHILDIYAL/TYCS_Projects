@@ -8,19 +8,14 @@ const connectMongo = async () =>{
         console.log(error)
     }
 }
-module.exports = connectMongo;
 
 
 // const students = [
-//   { rollNo: 403, email: "g22.mohdanas.riyasat@gnkhalsa.edu.in" },
-//   { rollNo: 404, email: "g22.mohdaman.mohdkhursheed@gnkhalsa.edu.in" },
-//   { rollNo: 407, email: "g22.maskeensingh.harjitsingh@gnkhalsa.edu.in" },
-//   { rollNo: 410, email: "g22.vishwajeet.barai@gnkhalsa.edu.in" },
-//   { rollNo: 412, email: "g22.tanvi.ajit@gnkhalsa.edu.in" },
-//   { rollNo: 413, email: "g22.mehmoodali.ashrafali@gnkhalsa.edu.in" },
-//   { rollNo: 414, email: "g22.mohammedawais.abdul@gnkhalsa.edu.in" },
-//   { rollNo: 415, email: "g22.sanjana.chaurasiya@gnkhalsa.edu.in" },
-// ];
+//     {
+//       rollNo: 477,
+//       email: "g22.shiwans.vaishya@gnkhalsa.edu.in"
+//     },
+//   ];
 
 // const connectMongo = async () => {
 //   try {
