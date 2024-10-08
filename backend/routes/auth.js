@@ -90,12 +90,18 @@ router.post('/setpassword/:email/:ltoken', async (req, res) => {
     // Hash the new password
     const hashedPassword = await bcrypt.hash(password, 10);
     await User.updateOne({ _id: user._id }, { $set: { password: hashedPassword } });
-    // const token = userCreated.generateToken();
+
     return res.status(200).json({ status: "Password updated successfully" });
   } catch (error) {
-    return res.status(400).json({ status: error.message });
+    if (error instanceof jwt.JsonWebTokenError) {
+      return res.status(401).json({ status: "Invalid token" });
+    } else if (error instanceof jwt.TokenExpiredError) {
+      return res.status(401).json({ status: "Token expired" });
+    }
+    return res.status(500).json({ status: "Internal server error", error: error.message });
   }
 });
+
 
 // Auth Routes
 router.post('/login', authController.loginUser);
