@@ -64,7 +64,9 @@
   margin-top: 10px;
   color: #555;
 }
-
+.project-titles{
+  overflow-wrap: break-word;
+}
 body {
   font-family: 'Roboto', sans-serif;
   background-color: #fafafa;
