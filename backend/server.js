@@ -30,6 +30,9 @@ app.use('/admin',authenticate,require('./routes/admin'))
 
 //normal user routes
 app.use('/',authenticate,require('./routes/user'))
+// app.get('*', (req, res) => {
+//   res.sendFile(path.resolve(__dirname, 'public', 'index.html'));
+// });
 
 //auth routes
 
