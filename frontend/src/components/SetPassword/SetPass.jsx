@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom"; // Import useNavigate for redirection
 import { toast } from "react-toastify";
 import "./SetPassword.css";
@@ -27,7 +27,7 @@ const SetPass = () => {
     setLoading(true); // Set loading to true
 
     try {
-      const response = await fetch(`http://localhost:5500/auth/setpassword/${email}/${ltoken}`, {
+      const response = await fetch(`${import.meta.env.VITE_BACK_URL}/auth/setpassword/${email}/${ltoken}`, {
       // const response = await fetch(`https://tycs-projects-backend-bnlr.onrender.com/auth/setpassword/${email}/${ltoken}`, {
         method: "POST",
         headers: {

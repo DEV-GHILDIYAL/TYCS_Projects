@@ -11,7 +11,7 @@ const CardSection = ({ onViewDetail, searchTerm, searchByRollNumber }) => {
   useEffect(() => {
     const fetchProject = async () => {
       try {
-        const response = await fetch("http://localhost:5500/", {
+        const response = await fetch(`${import.meta.env.VITE_BACK_URL}`, {
         // const response = await fetch("https://tycs-projects-backend-bnlr.onrender.com/", {
           method: "GET",
           headers: {

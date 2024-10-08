@@ -57,9 +57,9 @@ const EventDetailsForm = ({
     const upperCaseName = name.toUpperCase();
     try {
       const url = editingProjectId
-        ? `http://localhost:5500/${editingProjectId}`
+        ? `${import.meta.env.VITE_BACK_URL}/${editingProjectId}`
         : // ? `https://tycs-projects-backend-bnlr.onrender.com/${editingProjectId}`
-          "http://localhost:5500/";
+          `${import.meta.env.VITE_BACK_URL}`;
       // : "https://tycs-projects-backend-bnlr.onrender.com/";
       const method = editingProjectId ? "PUT" : "POST";
       const response = await fetch(url, {
@@ -250,6 +250,7 @@ const EventDetailsForm = ({
             onChange={(e) => setProjectDescription(e.target.value)}
             placeholder="Describe your project..."
             minLength={100}
+            maxLength={4000}
             required
           />
         </div>

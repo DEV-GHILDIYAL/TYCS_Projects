@@ -19,7 +19,7 @@ const LoginComponent = ({ setActiveTab  }) => {
     }
 
     try {
-      const response = await fetch("http://localhost:5500/auth/login", {
+      const response = await fetch(`${import.meta.env.VITE_BACK_URL}/auth/login`, {
       // const response = await fetch("https://tycs-projects-backend-bnlr.onrender.com/auth/login", {
         method: "POST",
         headers: {
