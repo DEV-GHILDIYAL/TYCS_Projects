@@ -8,7 +8,10 @@ const SetPass = () => {
   const navigate = useNavigate(); // Initialize useNavigate for navigation
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false); // Loading state for button
-
+  useEffect(() => {
+    console.log("Params:", email, ltoken);
+  }, [email, ltoken]);
+  
   const handleSetPassword = async (e) => {
     e.preventDefault(); // Prevent default form submission
     if (!password) {
