@@ -18,41 +18,89 @@ const LoginComponent = ({ setActiveTab  }) => {
       return;
     }
 
-    try {
-      const response = await fetch(`${import.meta.env.VITE_BACK_URL}/auth/login`, {
-      // const response = await fetch("https://tycs-projects-backend-bnlr.onrender.com/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-        credentials: "include",
-      });
+  //   try {
+  //     const response = await fetch(`${import.meta.env.VITE_BACK_URL}/auth/login`, {
+  //     // const response = await fetch("https://tycs-projects-backend-bnlr.onrender.com/auth/login", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({ email, password }),
+  //       credentials: "include",
+  //     });
 
-      const data = await response.json();
+  //     const data = await response.json();
 
-      if (response.ok) {
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("isLoggedIn", true); // Ensure this is stored
-        toast.success("Login successful!", {
-          position: "top-right",
-          theme: "light",
-          transition: Slide,
-          autoClose: 1000,
-        });
-        window.location.reload();
-        setTimeout(() => {
-          setActiveTab("Home"); 
-          navigate("/");
-        }, 1000);
-      } else {
-        setErrorMessage(data.message || "Login failed");
+  //     if (response.ok) {
+  //       localStorage.setItem("token", data.token);
+  //       localStorage.setItem("isLoggedIn", true); // Ensure this is stored
+  //       toast.success("Login successful!", {
+  //         position: "top-right",
+  //         theme: "light",
+  //         transition: Slide,
+  //         autoClose: 1000,
+  //       });
+  //       window.location.reload();
+  //       setTimeout(() => {
+  //         setActiveTab("Home"); 
+  //         navigate("/");
+  //       }, 1000);
+  //     } else {
+  //       setErrorMessage(data.message || "Login failed");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error during login:", error);
+  //     setErrorMessage("Login failed");
+  //   }
+  // };
+
+  try {
+    const response = await fetch(`${import.meta.env.VITE_BACK_URL}/auth/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+      credentials: "include",
+    });
+  
+    // Check if the response is okay (status in the range 200-299)
+    if (!response.ok) {
+      // Attempt to parse error response
+      const errorText = await response.text(); // Get the response as text
+      let errorMessage = "Login failed"; // Default error message
+  
+      try {
+        const errorData = JSON.parse(errorText); // Try parsing error response
+        errorMessage = errorData.message || errorMessage; // Use provided message if available
+      } catch (jsonError) {
+        console.error("Error parsing JSON:", jsonError);
       }
-    } catch (error) {
-      console.error("Error during login:", error);
-      setErrorMessage("Login failed");
+  
+      setErrorMessage(errorMessage);
+      return; // Exit the function on error
     }
-  };
+  
+    // Successful response; parse the JSON data
+    const data = await response.json();
+    localStorage.setItem("token", data.token);
+    localStorage.setItem("isLoggedIn", true);
+    toast.success("Login successful!", {
+      position: "top-right",
+      theme: "light",
+      transition: Slide,
+      autoClose: 1000,
+    });
+  
+    window.location.reload();
+    setTimeout(() => {
+      setActiveTab("Home");
+      navigate("/");
+    }, 1000);
+  } catch (error) {
+    console.error("Error during login:", error);
+    setErrorMessage("Login failed");
+  }}
 
   return (
     <div className="login-register-container">
