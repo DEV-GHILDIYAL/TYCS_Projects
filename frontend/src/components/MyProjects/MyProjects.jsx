@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./MyProjects.css";
 import EventDetailsForm from '../CreateEventForm/EventDetailsFrom'; 
 import { toast } from "react-toastify"; // Import toast for notifications
-import img from '../../assets/images/images3.png';
+import img from '../../assets/images/images1.png';
 import './ProjectCard.css'
 
 const MyProjects = ({ setActiveTab }) => {
