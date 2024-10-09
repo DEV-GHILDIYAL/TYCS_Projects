@@ -59,7 +59,7 @@ const Sidebar = ({ setActiveTab }) => {
     <div className={`sidebar ${isOpen ? "open" : "closed"}`}>
       {/* Hamburger Icon */}
       <div className="title">
-        <h2 className="sidebar-logo">{isOpen ? "Project Hub" : "PH"}</h2>
+        <h2 className="sidebar-logo">{isOpen ? "Project Library" : "PL"}</h2>
         <div className="hamburger" onClick={toggleSidebar}>
           <span className="hamburger-line"></span>
           <span className="hamburger-line"></span>
@@ -93,7 +93,7 @@ const Sidebar = ({ setActiveTab }) => {
                 {isOpen ? "Login" : <i className="fas fa-sign-in-alt"></i>}
               </li>
               <li onClick={() => setActiveTab("register")}>
-                {isOpen ? "Register" : <i className="fas fa-user-plus"></i>}
+                {isOpen ? "Set Password" : <i className="fas fa-user-plus"></i>}
               </li>
             </>
           ) : (
