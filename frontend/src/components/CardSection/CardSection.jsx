@@ -5,6 +5,7 @@ import img3 from "../../assets/images/images2.png";
 import img4 from "../../assets/images/images3.png";
 import img5 from "../../assets/images/images4.png";
 import img6 from "../../assets/images/images5.png";
+import img from '../../assets/images/images3.png'
 import "./CardSection.css";
 
 const CardSection = ({ onViewDetail, searchTerm, searchByRollNumber }) => {
@@ -55,9 +56,8 @@ const CardSection = ({ onViewDetail, searchTerm, searchByRollNumber }) => {
             key={project._id}
             image={randomImages[index]}
             title={project.title} 
-            description={project.description} 
+            description={project.description}
             name={project.name}
-            project={project}
             onViewDetail={onViewDetail}
           />
         ))
