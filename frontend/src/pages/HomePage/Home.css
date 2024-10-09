@@ -1,7 +1,7 @@
 .home {
   display: flex;
   width: 100%;
-  max-height: 100vh;
+  height: 100vh;
   margin: 0;
 }
 
@@ -9,7 +9,7 @@
   display: flex;
   flex: 1;
   width: 1220px;
-  height: 90vh;
+  height: 93vh;
 }
 
 .main-content {

@@ -39,6 +39,7 @@
   font-size: 1.6rem; /* Larger, more impactful title */
   margin: 0;
   font-weight: 700;
+  overflow-wrap: break-word;
   color: #222222; /* Stronger dark color */
   text-align: left; /* Align text to the left */
 }

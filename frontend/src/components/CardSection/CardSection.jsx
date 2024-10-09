@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from "react";
 import Card from "../Card/Card";
+import img2 from "../../assets/images/images1.png";
+import img3 from "../../assets/images/images2.png";
+import img4 from "../../assets/images/images3.png";
+import img5 from "../../assets/images/images4.png";
+import img6 from "../../assets/images/images5.png";
 import img from '../../assets/images/images3.png'
 import "./CardSection.css";
 
 const CardSection = ({ onViewDetail, searchTerm, searchByRollNumber }) => {
   const [projects, setProjects] = useState([]);
-
+  const images = [img2, img3, img4, img5, img6];
   const token = localStorage.getItem('token');
 
   useEffect(() => {
@@ -21,7 +26,7 @@ const CardSection = ({ onViewDetail, searchTerm, searchByRollNumber }) => {
         });
         const data = await response.json();
         setProjects(data.data);
-        console.log("all projects", projects);
+        console.log("all projects", data.data);
       } catch (error) {
         console.error("Unable to fetch projects", error);
       }
@@ -29,31 +34,31 @@ const CardSection = ({ onViewDetail, searchTerm, searchByRollNumber }) => {
     fetchProject();
   }, []);
 
-  // Filtering projects based on search input and mode
   const filteredProjects = projects.filter((project) => {
     const term = searchTerm.toLowerCase();
     if (searchByRollNumber) {
-      // If searching by roll number, check only roll number
       return project.rollno.toString().includes(term);
     } else {
-      // If searching by name, check only name
       return project.name.toLowerCase().includes(term);
     }
   });
 
+  const randomImages = filteredProjects.map(() => {
+    const randomIndex = Math.floor(Math.random() * images.length);
+    return images[randomIndex];
+  });
 
   return (
     <div className="card-section">
       {filteredProjects.length > 0 ? (
-        filteredProjects.map((project) => (
+        filteredProjects.map((project, index) => (
           <Card
             key={project._id}
-            image={img}
-            title={project.title} // Retained if you want to show it on the card
-            description={project.description} // Retained if you want to show it on the card
+            image={randomImages[index]}
+            title={project.title} 
+            description={project.description}
             name={project.name}
-            project={project} // Pass the entire project object to the Card component
-            onViewDetail={onViewDetail} // Trigger the function when clicked
+            onViewDetail={onViewDetail}
           />
         ))
       ) : (
