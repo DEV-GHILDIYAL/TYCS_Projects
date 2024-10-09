@@ -1,18 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Card from "../Card/Card";
-// import img1 from "../../assets/images/images.png";
-import img2 from "../../assets/images/images1.png";
-import img3 from "../../assets/images/images2.png";
-import img4 from "../../assets/images/images3.png";
-import img5 from "../../assets/images/images4.png";
-import img6 from "../../assets/images/images5.png";
+import img from '../../assets/images/images3.png'
 import "./CardSection.css";
 
 const CardSection = ({ onViewDetail, searchTerm, searchByRollNumber }) => {
   const [projects, setProjects] = useState([]);
-  const images = [
-    img2,img3,img4,img5,img6
-  ]
+
   const token = localStorage.getItem('token');
 
   useEffect(() => {
@@ -48,11 +41,6 @@ const CardSection = ({ onViewDetail, searchTerm, searchByRollNumber }) => {
     }
   });
 
-  const randomImages = filteredProjects.map(() => {
-    const randomIndex = Math.floor(Math.random() * images.length);
-    return images[randomIndex]; // Get a random image for each project
-    // return randomIndex;
-  });
 
   return (
     <div className="card-section">
@@ -60,7 +48,7 @@ const CardSection = ({ onViewDetail, searchTerm, searchByRollNumber }) => {
         filteredProjects.map((project) => (
           <Card
             key={project._id}
-            image={randomImages}
+            image={img}
             title={project.title} // Retained if you want to show it on the card
             description={project.description} // Retained if you want to show it on the card
             name={project.name}
