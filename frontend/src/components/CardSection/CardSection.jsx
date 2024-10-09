@@ -59,6 +59,7 @@ const CardSection = ({ onViewDetail, searchTerm, searchByRollNumber }) => {
             description={project.description}
             name={project.name}
             onViewDetail={onViewDetail}
+            project={project}
           />
         ))
       ) : (
