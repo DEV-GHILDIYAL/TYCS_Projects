@@ -18,12 +18,12 @@ const SetPassword = ({ setActiveTab }) => {
       return;
     }
 
-    // Example regex for G.N. Khalsa email validation
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@gnkhalsa\.edu\.in$/;
-    if (!emailRegex.test(email)) {
-      toast.error("Please enter a valid G.N. Khalsa email!", { autoClose: 1000 });
-      return;
-    }
+    // // Example regex for G.N. Khalsa email validation
+    // const emailRegex = /^[a-zA-Z0-9._%+-]+@gnkhalsa\.edu\.in$/;
+    // if (!emailRegex.test(email)) {
+    //   toast.error("Please enter a valid G.N. Khalsa email!", { autoClose: 1000 });
+    //   return;
+    // }
 
     try {
       const response = await fetch(`${import.meta.env.VITE_BACK_URL}/auth/setpassword`, {
