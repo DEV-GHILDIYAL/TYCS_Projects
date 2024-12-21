@@ -17,43 +17,6 @@ const LoginComponent = ({ setActiveTab  }) => {
       setErrorMessage("Email and password are required!");
       return;
     }
-
-  //   try {
-  //     const response = await fetch(`${import.meta.env.VITE_BACK_URL}/auth/login`, {
-  //     // const response = await fetch("https://tycs-projects-backend-bnlr.onrender.com/auth/login", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({ email, password }),
-  //       credentials: "include",
-  //     });
-
-  //     const data = await response.json();
-
-  //     if (response.ok) {
-  //       localStorage.setItem("token", data.token);
-  //       localStorage.setItem("isLoggedIn", true); // Ensure this is stored
-  //       toast.success("Login successful!", {
-  //         position: "top-right",
-  //         theme: "light",
-  //         transition: Slide,
-  //         autoClose: 1000,
-  //       });
-  //       window.location.reload();
-  //       setTimeout(() => {
-  //         setActiveTab("Home"); 
-  //         navigate("/");
-  //       }, 1000);
-  //     } else {
-  //       setErrorMessage(data.message || "Login failed");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error during login:", error);
-  //     setErrorMessage("Login failed");
-  //   }
-  // };
-
   try {
     const response = await fetch(`${import.meta.env.VITE_BACK_URL}/auth/login`, {
       method: "POST",

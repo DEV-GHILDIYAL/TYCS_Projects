@@ -1,0 +1,244 @@
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import userModel from "../models/userModel.js";
+import transporter from "../config/nodemailer.js";
+
+export const register = async (req, res) => {
+  const { name, email, password } = req.body;
+
+  if (!name || !email || !password) {
+    return res
+      .status(400)
+      .json({ success: false, msg: "Please fill all fields" });
+  }
+
+  try {
+    //Check if user already exists
+    const existingUser = await userModel.findOne({ email });
+    if (existingUser) {
+      return res
+        .status(400)
+        .json({ success: false, msg: "User already exists" });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const user = new userModel({ name, email, password: hashedPassword });
+
+    await user.save();
+
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "7d",
+    });
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV == "production",
+      sameSite: process.env.NODE_ENV == "production" ? "none" : "strict",
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+    });
+
+    // Sending welcome email
+    const mailOptions = {
+      from: process.env.SENDER_EMAIL,
+      to: email,
+      subject: "Welcome to My Website",
+      text: `Welcome to My Website, Your account has been created with email id: ${email}.`,
+    };
+
+    await transporter.sendMail(mailOptions);
+    return res.json({ success: true });
+  } catch (error) {
+    res.json({ success: false, msg: error.message });
+  }
+};
+
+export const login = async (req, res) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res
+      .status(400)
+      .json({ success: false, msg: "Please fill all fields" });
+  }
+
+  try {
+    const user = await userModel.findOne({ email: email });
+
+    if (!user) {
+      return res.status(400).json({ success: false, msg: "Invalid email" });
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (!isMatch) {
+      return res.status(400).json({ success: false, msg: "Invalid password" });
+    }
+
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "7d",
+    });
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV == "production",
+      sameSite: process.env.NODE_ENV == "production" ? "none" : "strict",
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+    });
+
+    return res.json({ success: true });
+  } catch (error) {
+    return res.json({ success: false, msg: error.message });
+  }
+};
+
+export const logout = async (req, res) => {
+  try {
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV == "production",
+      sameSite: process.env.NODE_ENV == "production" ? "none" : "strict",
+    });
+    return res.json({ success: true, message: "logout" });
+  } catch (error) {
+    return res.json({ success: false, msg: error.message });
+  }
+};
+
+export const sendVerifyOtp = async (req, res) => {
+  try {
+    const { userId } = req.body;
+
+    const user = await userModel.findById(userId);
+
+    if (user.isAccountVerified) {
+      return res.json({ success: false, message: "Account Already Verified" });
+    }
+    const otp = String(Math.floor(100000 + Math.random() * 900000));
+
+    user.verifyOtp = otp;
+    user.verifyOtpExpireAt = Date.now() + 24 * 60 * 60 * 1000;
+
+    await user.save();
+
+    const mailOptions = {
+      from: process.env.SENDER_EMAIL,
+      to: user.email,
+      subject: "Account Verification OTP",
+      text: `Your OTP for verifying your account is: ${otp}. This OTP will expire in 24 hours.`,
+    };
+
+    await transporter.sendMail(mailOptions);
+
+    res.json({ success: true, message: "Verification OTP sent successfully" });
+  } catch (error) {
+    res.json({ success: false, msg: error.message });
+  }
+};
+
+export const verifyEmail = async (req, res) => {
+  const { userId, otp } = req.body;
+
+  if (!userId || !otp) {
+    return res.json({ success: false, message: "Invalid OTP or User ID" });
+  }
+
+  try {
+    const user = await userModel.findById(userId);
+    if (!user) {
+      return res.json({ success: false, message: "User not found" });
+    }
+    if(user.verifyOtp === '' || user.verifyOtp !== otp){
+        return res.json({ success: false, message: "Invalid OTP" });
+    }
+    if(user.verifyOtpExpireAt < Date.now()){
+        return res.json({ success: false, message: "OTP expired" });
+    }
+
+    user.isAccountVerified = true;
+    user.verifyOtp = '';
+    user.verifyOtpExpireAt = 0;
+    await user.save();
+    return res.json({success: true, message:"Email verified successfully"});
+  } catch (error) {
+    res.json({ success: false, message: error.message });
+  }
+};
+
+export const isAuthenticated = async (req, res) => {
+    try {
+        return res.json({ success: tru});
+    } catch (error) {
+        res.json({ success: false, message:error.message})
+    }
+}
+
+//Send Password Reset OTP
+export const sendResetOtp = async (req, res) => {
+  const {email} = req.body;
+
+  if(!email){
+    return res.json({ success: false, message: "Please provide an email" });
+  }
+
+  try {
+    const user = await userModel.findOne({email});
+    if(!user){
+      return res.json({ success: false, message: "User not found" });
+    }
+
+    const otp = String(Math.floor(100000 + Math.random() * 900000));
+
+    user.resetOtp = otp;
+    user.resetOtpExpireAt = 15 * 60 * 1000;
+
+    await user.save();
+
+    const mailOptions = {
+      from: process.env.SENDER_EMAIL,
+      to: user.email,
+      subject: "Password Reset OTP",
+      text: `Your OTP for resetting your password is ${otp}. Use this OTP to proceed with resetting your password`
+    };
+
+    await transporter.sendMail(mailOptions);
+
+    return res.json({ success: true, message: "Reset OTP sent successfully" });
+
+  } catch (error) {
+    return res.json({ success: false, message: error.message});
+  }
+}
+
+// RESET User Password
+
+export const resetPassword = async (req, res) => {
+  const {email, otp, newPassword} = req.body;
+  if(!email || !otp || !newPassword){
+    return res.json({ success: false, message: "Please provide all required fields" });
+  }
+
+  try {
+    const user = await userModel.findOne({email});
+    if(!user){
+      return res.json({ success: false, message: "User not found" });
+    }
+
+    if(user.resetOtp === "" || user.resetOtp !== otp){
+      return res.json({ success: false, message: "Invalid OTP" });
+    }
+    if(user.resetOtpExpireAt < Date.now()){
+      return res.json({ success: false, message: "OTP expired" });
+    }
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashedPassword;
+    user.resetOtp = "";
+    user.resetOtpExpireAt = 0;
+
+    await user.save();
+    
+    return res.json({ success: true, message: "Password reset successfully" });
+  } catch (error) {
+    return res.json({ success: false, message: error.message });
+  }
+}
