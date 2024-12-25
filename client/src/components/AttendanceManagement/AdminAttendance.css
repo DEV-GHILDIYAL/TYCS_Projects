@@ -1,0 +1,51 @@
+/* src/pages/AdminAttendance.css */
+.admin-attendance-page {
+    display: flex; /* Use Flexbox to position Sidebar and Content side by side */
+    height: 100vh; /* Ensure the layout fills the entire viewport height */
+  }
+  
+  .content {
+    flex-grow: 1; /* Let Content take up the remaining space */
+    padding: 20px;
+    background-color: #ecf0f1;
+    overflow-y: auto; /* Allow scrolling for content if it overflows */
+  }
+  /* src/pages/AdminAttendance.css */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  table th,
+  table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+  }
+  
+  table th {
+    background-color: #2c3e50;
+    color: white;
+  }
+  
+  table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  table tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  button {
+    padding: 5px 10px;
+    margin: 0 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:focus {
+    outline: none;
+  }
+  

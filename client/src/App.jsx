@@ -3,21 +3,15 @@ import SideBar from "./components/Sidebar/SideBar";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import Dashboard from "./pages/AdminPages/Dashboard";
-import Users from "./pages/Users";
-import Messages from "./pages/Messages";
-import FileManager from "./pages/FileManager";
-import Analytics from "./pages/Analytics";
-import Order from "./pages/Order";
-import Saved from "./pages/Saved";
-import Setting from "./pages/Setting";
 import { Home } from "./pages/Home";
 import About from "./pages/About";
-import StudentManagements from "./pages/AdminPages/StudentManagements";
-import AttendanceManagement from "./pages/AdminPages/AttendanceManagement";
-import ProjectManagement from "./pages/AdminPages/ProjectManagement";
 import LoginComponent from "./components/LoginComponent/LoginComponent";
 import SetPassword from "./components/SetPassword/SetPassword";
 import MyProjects from "./components/MyProjects/MyProjects";
+import AdminAttendance from "./components/AttendanceManagement/AdminAttendance";
+import ProjectManagement from "./components/ProjectManagement/ProjectManagement";
+
+import StudentManagement from "./components/StudentManagement/StudentManagement";
 function App() {
   return (
     <Router>
@@ -29,9 +23,9 @@ function App() {
           <Route path="/my-projects" element={<MyProjects />} />
           {/* ADMIN USER */}
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/students-management" element={<StudentManagements />} />
-          <Route path="/attendance-management" element={<AttendanceManagement />} />
-          <Route path="/project-management" element={<ProjectManagement />} />
+          <Route path="/management/students" element={<StudentManagement />} />
+          <Route path="/management/attendance" element={<AdminAttendance />} />
+          <Route path="/management/projects" element={<ProjectManagement />} />
           {/* FOR ALL */}
           <Route path="/login" element={<LoginComponent />} />
           <Route path="/register" element={<SetPassword />} />

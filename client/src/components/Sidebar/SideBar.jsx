@@ -1,6 +1,5 @@
 import { NavLink } from "react-router-dom";
 import { FaFileAlt, FaFolderOpen, FaHome, FaLock, FaMoneyBill, FaUser } from "react-icons/fa";
-import { AiTwotoneFileExclamation } from "react-icons/ai";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import SidebarMenu from "./SidebarMenu";
@@ -33,7 +32,7 @@ const routes = [
     icon: <FaFolderOpen />,
     subRoutes: [
       {
-        path: "/management/student",
+        path: "/management/students",
         name: "Student",
         icon: <FaUser />,
       },
