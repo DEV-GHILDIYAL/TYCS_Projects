@@ -3,7 +3,8 @@ node_modules/
 
 # Environment variables
 config/.env
-
+.env/
+server/.env
 # Logs
 logs
 *.log
