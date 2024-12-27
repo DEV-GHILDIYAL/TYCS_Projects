@@ -1,4 +1,5 @@
 .login-register-container {
+  width: 1250px;
   color: black;
   display: flex;
   justify-content: center;

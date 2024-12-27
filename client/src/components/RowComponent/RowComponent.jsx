@@ -1,6 +1,6 @@
 // src/components/RowComponent.jsx
 import React, { useState } from "react";
-
+import { FaLink } from "react-icons/fa"; // Import link icon
 export const RowComponentForAttendance = ({ srNo, rollNumber, name, projectName }) => {
   const [attendance, setAttendance] = useState(null); // null, "present", or "absent"
 
@@ -53,7 +53,16 @@ export const RowComponentForProjects = ({ srNo, rollNumber, name, projectName, p
       <td>{rollNumber}</td>
       <td>{name}</td>
       <td>{projectName}</td>
-      <td>{projectLink}</td>
+      <td>
+        {/* Display the link icon only if a valid projectLink exists */}
+        {projectLink ? (
+          <a href={projectLink} target="_blank" rel="noopener noreferrer">
+            <FaLink size={20} /> {/* The link icon */}
+          </a>
+        ) : (
+          "No link available"
+        )}
+      </td>
     </tr>
   );
 };

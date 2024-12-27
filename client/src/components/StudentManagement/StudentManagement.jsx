@@ -8,7 +8,7 @@ const ProjectManagement = () => {
   return (
     <div className="admin-attendance-page">
       <div className="content">
-        <h1>Attendance Management</h1>
+        <h1>Student Management</h1>
         <p>Here you can mark and manage attendance for students.</p>
         <table>
           <thead>

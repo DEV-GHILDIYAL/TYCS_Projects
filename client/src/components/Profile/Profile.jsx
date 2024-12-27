@@ -15,10 +15,12 @@ const Profile = () => {
       sem5: {
         title: "Library Management System",
         category: "Website Development",
+        image: "https://via.placeholder.com/300", // Replace with actual project image
       },
       sem6: {
         title: "AI Chatbot",
         category: "App Development",
+        image: "https://via.placeholder.com/300", // Replace with actual project image
       },
     },
   };
@@ -84,6 +86,11 @@ const Profile = () => {
           <h2>Projects</h2>
           <div className="projects">
             <div className="project-card">
+              <img
+                src={profileData.projects.sem5.image}
+                alt="Project Image"
+                className="project-image"
+              />
               <h3>Semester 5</h3>
               <p className="profile-project-title">{profileData.projects.sem5.title}</p>
               <p className="project-category">
@@ -91,6 +98,11 @@ const Profile = () => {
               </p>
             </div>
             <div className="project-card">
+              <img
+                src={profileData.projects.sem6.image}
+                alt="Project Image"
+                className="project-image"
+              />
               <h3>Semester 6</h3>
               <p className="profile-project-title">{profileData.projects.sem6.title}</p>
               <p className="project-category">

@@ -34,6 +34,10 @@ const EventDetailsForm = ({
   const token = localStorage.getItem("token");
   const navigate = useNavigate(); // Use navigate for routing
 
+  const [selectedProject, setSelectedProject] = useState(initialData.project || "");
+  const [selectedBatch, setSelectedBatch] = useState(initialData.batch || "");
+
+
   const resetForm = () => {
     setName("");
     setRollNo("");
@@ -80,6 +84,8 @@ const EventDetailsForm = ({
           twitter: twitterLink,
           linkedin: linkedinLink,
           instagram: instagramLink,
+          project: selectedProject,
+          batch: selectedBatch, 
         }),
         credentials: "include",
       });
@@ -117,7 +123,7 @@ const EventDetailsForm = ({
   };
   
   const calculateCompletionPercentage = () => {
-    const totalFields = 11; // Total fields to track
+    const totalFields = 13; // Total fields to track
     let completedFields = 0;
 
     // Count filled fields
@@ -140,6 +146,8 @@ const EventDetailsForm = ({
     if (twitterLink) completedFields++;
     if (instagramLink) completedFields++;
     if (linkedinLink) completedFields++;
+    if (selectedProject) completedFields++; // Project selection
+    if (selectedBatch) completedFields++;    // Batch selection
 
     const percentage = (completedFields / totalFields) * 100;
     setCompletionPercentage(percentage);
@@ -150,6 +158,8 @@ const EventDetailsForm = ({
       projectTitle &&
       projectDescription &&
       projectCategory &&
+      selectedProject &&    // Check for selected project
+      selectedBatch &&        // Check for selected batch
       ((projectCategory === "Mobile App Development" && deployedLink) ||
         (projectCategory !== "Mobile App Development" && deployedLink));
 
@@ -170,6 +180,8 @@ const EventDetailsForm = ({
     twitterLink,
     instagramLink,
     linkedinLink,
+    selectedProject,
+    selectedBatch,
   ]);
 
   return (
@@ -279,6 +291,45 @@ const EventDetailsForm = ({
             <option value="Blockchain">Blockchain</option>
           </select>
         </div>
+        {/* New Project Selection Dropdown */}
+      <div className="form-row">
+        <div className="form-group">
+          <label>
+            Project: <span className="required">*</span>
+          </label>
+          <select
+            value={selectedProject}
+            onChange={(e) => setSelectedProject(e.target.value)}
+            required
+          >
+            <option value="" disabled>
+              Select Project
+            </option>
+            <option value="Project One">Project One</option>
+            <option value="Project Two">Project Two</option>
+          </select>
+        </div>
+      </div>
+
+      {/* New Batch Selection Dropdown */}
+      <div className="form-row">
+        <div className="form-group">
+          <label>
+            Batch: <span className="required">*</span>
+          </label>
+          <select
+            value={selectedBatch}
+            onChange={(e) => setSelectedBatch(e.target.value)}
+            required
+          >
+            <option value="" disabled>
+              Select Batch
+            </option>
+            <option value="2024-2025">2024-2025</option>
+            <option value="2026-2027">2026-2027</option>
+          </select>
+        </div>
+      </div>
         <div className="form-group half-width">
           <label>
             Deployed Link: <span className="required">*</span>
