@@ -159,6 +159,24 @@ const SideBar = ({ children }) => {
 
             {/* Add Login and Register buttons */}
             <div className="bottom_section">
+            <NavLink to="/profile" className="link" activeClassName="active">
+                <div className="icon">
+                  <FaLock />
+                </div>
+                <AnimatePresence>
+                  {isOpen && (
+                    <motion.div
+                      variants={showAnimation}
+                      initial="hidden"
+                      animate="show"
+                      exit="hidden"
+                      className="link_text"
+                    >
+                      Profile
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </NavLink>
               <NavLink to="/login" className="link" activeClassName="active">
                 <div className="icon">
                   <FaLock />
