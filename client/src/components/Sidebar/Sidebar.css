@@ -1,29 +1,49 @@
-.main-container {
-  display: flex;
-}
-main {
-  padding: 10px;
+/* Global Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f4f9; /* Light background for the whole page */
+  color: #333; /* Dark text for contrast */
+  line-height: 1.6;
+}
+
+.main-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+main {
+  padding: 20px;
+  flex-grow: 1; /* Main content takes remaining space */
+  background-color: #ffffff; /* White background for content */
+}
+
+/* Title */
 .title {
-  font-size: 3rem;
-  display: grid;
-  place-items: center;
+  font-size: 2.5rem;
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
 }
 
 /* Sidebar */
-
 .sidebar {
-    width: 250px;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between; /* Push bottom_section to the bottom */
-    background: rgb(0, 7, 61);
-    color: white;
-    height: 100vh; /* Full height of the viewport */
-    overflow-y: auto;
+  width: 250px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: #f0f0f5; /* Light gray background for sidebar */
+  color: #333; /* Dark text for the sidebar */
+  border-right: 1px solid #ddd; /* Light border for separation */
+  height: 100vh;
+  overflow-y: auto;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Slight shadow for a clean effect */
 }
 
 .top_section {
@@ -32,79 +52,104 @@ main {
   justify-content: space-between;
   padding: 15px 10px;
 }
+
 .logo {
   font-size: 18px;
-  line-height: 0;
+  font-weight: 600;
 }
+
 .bars {
   width: 30px;
 }
+
 .hide {
   display: none;
 }
 
+/* Search Bar */
 .search {
   display: flex;
   align-items: center;
-  margin: 10px 0;
-  height: 30px;
+  margin: 15px 0;
+  height: 35px;
   padding: 10px;
+  background-color: #e0e0e0; /* Slightly darker background for search bar */
+  border-radius: 5px;
 }
+
 .search input {
-  border: none;
+  border: 1px solid #ccc;
   margin-left: 10px;
   border-radius: 5px;
-  background: rgb(238, 238, 238);
-
-  color: white;
+  background: #ffffff;
+  padding: 5px;
+  font-size: 14px;
+  color: #333;
 }
 
+/* Sidebar Routes */
 .routes {
-  margin-top: 15px;
+  margin-top: 20px;
   display: flex;
   flex-direction: column;
   gap: 5px;
 }
+
 .link {
   display: flex;
-  color: white;
+  color: #333;
   gap: 10px;
-  padding: 5px 10px;
+  padding: 10px 15px;
   border-right: 4px solid transparent;
-  transition: 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
+  transition: 0.3s ease;
+  font-size: 16px;
 }
+
 .link:hover {
-  border-right: 4px solid white;
-  background: rgb(45, 51, 89);
-  transition: 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
+  border-right: 4px solid #007bff; /* Highlight color */
+  background: #e0e0e0; /* Lighter background on hover */
+  cursor: pointer; /* Change the cursor to indicate interactivity */
+  transition: 0.3s ease;
 }
+
 .active {
-  border-right: 4px solid white;
-  background: rgb(45, 51, 89);
+  border-right: 4px solid #007bff; /* Highlight active item */
+  background: #e0e0e0; /* Active item background */
 }
+
 .link_text {
   white-space: nowrap;
-  font-size: 15px;
+  font-size: 14px;
 }
 
+/* Sidebar Menu */
 .menu {
   display: flex;
-  color: white;
-
-  padding: 5px 10px;
+  color: #333;
+  padding: 10px 15px;
   border-right: 4px solid transparent;
-  transition: 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
+  transition: 0.3s ease;
   justify-content: space-between;
+  font-size: 16px;
 }
+
 .menu_item {
   display: flex;
   gap: 10px;
 }
+
 .menu_container {
   display: flex;
   flex-direction: column;
 }
+
 .menu_container .link {
   padding-left: 20px;
-  border-bottom: #fff 0.5px solid;
+  border-bottom: 1px solid #ddd;
 }
+
+.menu:hover {
+  background-color: #f1f1f1;
+  cursor: pointer;
+}
+

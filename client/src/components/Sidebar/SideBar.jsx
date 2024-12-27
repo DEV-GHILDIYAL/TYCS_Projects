@@ -57,13 +57,18 @@ const SideBar = ({ children }) => {
           </section>
         </div>
         <div className="bottom_section">
-        <NavLink to="/otp" className="link" activeClassName="active" onClick={() => isMobileOpen && toggleMobileMenu()}>
+        {/* <NavLink to="/otp" className="link" activeClassName="active" onClick={() => isMobileOpen && toggleMobileMenu()}>
             <div className="icon"><FaUser /></div>
             {isOpen && <div className="link_text">OTP TEST</div>}
-          </NavLink>
+          </NavLink> */}
+          
           <NavLink to="/profile" className="link" activeClassName="active" onClick={() => isMobileOpen && toggleMobileMenu()}>
             <div className="icon"><FaUser /></div>
             {isOpen && <div className="link_text">Profile</div>}
+          </NavLink>
+          <NavLink to="/logout" className="link" activeClassName="active" onClick={() => isMobileOpen && toggleMobileMenu()}>
+            <div className="icon"><FaUser /></div>
+            {isOpen && <div className="link_text">Logout</div>}
           </NavLink>
           <NavLink to="/login" className="link" activeClassName="active" onClick={() => isMobileOpen && toggleMobileMenu()}>
             <div className="icon"><FaLock /></div>

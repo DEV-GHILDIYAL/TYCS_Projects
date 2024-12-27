@@ -86,6 +86,7 @@ const OtpComponent = () => {
   };
 
   return (
+    <div className="otp-main-component">
     <div className="otp-component">
       <h1>Reset Password</h1>
       <p className="otp-description">
@@ -124,6 +125,7 @@ const OtpComponent = () => {
       <button className="submit-button" onClick={handleSubmit}>
         Submit
       </button>
+    </div>
     </div>
   );
 };

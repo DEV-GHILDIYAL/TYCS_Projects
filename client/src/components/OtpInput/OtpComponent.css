@@ -1,4 +1,8 @@
 /* Center the component */
+
+.otp-main-component{
+  width: 1250px;
+}
 .otp-component {
   max-width: 400px;
   margin: 50px auto;

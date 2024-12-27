@@ -14,6 +14,7 @@ import Dashboard from "./components/Dashboard/Dashboard";
 import Profile from "./components/Profile/Profile";
 import EventDetailsForm from "./components/CreateEventForm/EventDetailsFrom";
 import OtpInput from "./components/OtpInput/OtpComponent";
+import AddStudent from "./components/AddStudent/AddStudent";
 function App() {
   const handleExport = () => {
     console.log("Exporting data...");
@@ -47,6 +48,7 @@ function App() {
             }
           />
           <Route path="/management/students" element={<StudentManagement />} />
+          <Route path="/add-student" element={<AddStudent />} />
           <Route path="/management/attendance" element={<AdminAttendance />} />
           <Route path="/management/projects" element={<ProjectManagement />} />
           {/* FOR ALL */}

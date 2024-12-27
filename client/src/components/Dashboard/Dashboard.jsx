@@ -8,12 +8,15 @@ import {
   Tooltip,
   Legend
 } from "chart.js";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 import "./Dashboard.css";
 
 // Register Chart.js components
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
-const Dashboard = ({ noOfStudents, noOfProjects, attendanceToday, pendingReviews, onExport, onAddStudent }) => {
+const Dashboard = ({ noOfStudents, noOfProjects, attendanceToday, pendingReviews, onExport }) => {
+  const navigate = useNavigate(); // Initialize useNavigate hook
+
   const chartData = {
     labels: ["January", "February", "March", "April", "May", "June"],
     datasets: [
@@ -42,6 +45,10 @@ const Dashboard = ({ noOfStudents, noOfProjects, attendanceToday, pendingReviews
     },
   };
 
+  const handleAddStudent = () => {
+    navigate("/add-student"); // Navigate to the add-student page when the button is clicked
+  };
+
   return (
     <div className="dashboard-container redesigned">
       <header className="dashboard-header">
@@ -50,7 +57,7 @@ const Dashboard = ({ noOfStudents, noOfProjects, attendanceToday, pendingReviews
           <button className="button primary" onClick={onExport}>
             Export Data
           </button>
-          <button className="button secondary" onClick={onAddStudent}>
+          <button className="button secondary" onClick={handleAddStudent}>
             Add Student
           </button>
         </div>
