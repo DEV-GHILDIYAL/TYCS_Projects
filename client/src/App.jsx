@@ -10,6 +10,7 @@ import ProjectManagement from "./components/ProjectManagement/ProjectManagement"
 import StudentManagement from "./components/StudentManagement/StudentManagement";
 import About from "./components/About/About";
 import Dashboard from "./components/Dashboard/Dashboard";
+import Profile from "./components/Profile/Profile";
 function App() {
   const handleExport = () => {
     console.log("Exporting data...");
@@ -43,6 +44,7 @@ function App() {
           {/* FOR ALL */}
           <Route path="/login" element={<LoginComponent />} />
           <Route path="/register" element={<SetPassword />} />
+          <Route path="/profile" element={<Profile />} />
 
 
           <Route path="*" element={<> not found</>} />
