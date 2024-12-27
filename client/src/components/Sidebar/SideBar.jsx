@@ -52,7 +52,6 @@ const routes = [
 
 const SideBar = ({ children }) => {
   const [isOpen, setIsOpen] = useState(true);
-  const toggle = () => setIsOpen(!isOpen);
 
   const inputAnimation = {
     hidden: {
@@ -123,10 +122,10 @@ const SideBar = ({ children }) => {
                   if (route.subRoutes) {
                     return (
                       <SidebarMenu
-                        setIsOpen={setIsOpen}
-                        route={route}
-                        showAnimation={showAnimation}
-                        isOpen={isOpen}
+                      route={route}
+                      showAnimation={showAnimation}
+                      isOpen={isOpen}
+                      setIsOpen={setIsOpen}
                       />
                     );
                   }
