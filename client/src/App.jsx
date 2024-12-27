@@ -13,6 +13,7 @@ import About from "./components/About/About";
 import Dashboard from "./components/Dashboard/Dashboard";
 import Profile from "./components/Profile/Profile";
 import EventDetailsForm from "./components/CreateEventForm/EventDetailsFrom";
+import OtpInput from "./components/OtpInput/OtpComponent";
 function App() {
   const handleExport = () => {
     console.log("Exporting data...");
@@ -53,6 +54,8 @@ function App() {
           <Route path="/login" element={<LoginComponent />} />
           <Route path="/register" element={<SetPassword />} />
           <Route path="/profile" element={<Profile />} />
+          
+          <Route path="/otp" element={<OtpInput />} />
 
           <Route path="/auth/setpassword/:email/:ltoken" element={<SetPass />} />
           <Route path="*" element={<> not found</>} />

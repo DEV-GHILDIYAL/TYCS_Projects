@@ -5,17 +5,21 @@ import img3 from "../../assets/images/images2.png";
 import img4 from "../../assets/images/images3.png";
 import img5 from "../../assets/images/images4.png";
 import img6 from "../../assets/images/images5.png";
-import img from '../../assets/images/images3.png'
+import img from '../../assets/images/images3.png';
 import "./CardSection.css";
 
-const CardSection = ({ onViewDetail, searchTerm, searchByRollNumber }) => {
+const CardSection = ({ onViewDetail, searchTerm = "", searchByRollNumber = false }) => {
   const [projects, setProjects] = useState([]);
   const images = [img2, img3, img4, img5, img6];
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     const fetchProject = async () => {
       try {
+        if (!token) {
+          console.error("Token is missing!");
+          return;
+        }
         const response = await fetch(`${import.meta.env.VITE_BACK_URL}`, {
           method: "GET",
           headers: {
@@ -25,8 +29,12 @@ const CardSection = ({ onViewDetail, searchTerm, searchByRollNumber }) => {
           credentials: "include",
         });
         const data = await response.json();
-        setProjects(data.data);
-        console.log("all projects", data.data);
+        if (Array.isArray(data.data)) {
+          setProjects(data.data);
+          console.log("Projects fetched and set:", data.data);
+        } else {
+          console.error("Fetched data is not an array:", data.data);
+        }
       } catch (error) {
         console.error("Unable to fetch projects", error);
       }
@@ -36,11 +44,12 @@ const CardSection = ({ onViewDetail, searchTerm, searchByRollNumber }) => {
 
   const filteredProjects = projects.filter((project) => {
     const term = searchTerm.toLowerCase();
-    if (searchByRollNumber) {
+    if (searchByRollNumber && project.rollno) {
       return project.rollno.toString().includes(term);
-    } else {
+    } else if (project.name) {
       return project.name.toLowerCase().includes(term);
     }
+    return false;
   });
 
   const randomImages = filteredProjects.map(() => {
@@ -55,7 +64,7 @@ const CardSection = ({ onViewDetail, searchTerm, searchByRollNumber }) => {
           <Card
             key={project._id}
             image={randomImages[index]}
-            title={project.title} 
+            title={project.title}
             description={project.description}
             name={project.name}
             onViewDetail={onViewDetail}

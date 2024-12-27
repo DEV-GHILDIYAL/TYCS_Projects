@@ -45,8 +45,8 @@ const LoginComponent = ({ setActiveTab  }) => {
     }
   
     // Successful response; parse the JSON data
-    const data = await response.json();
-    localStorage.setItem("token", data.token);
+    // const data = await response.json();
+    // localStorage.setItem("token", data.token);
     localStorage.setItem("isLoggedIn", true);
     toast.success("Login successful!", {
       position: "top-right",

@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import "./SetPassword.css";
 import { toast, Slide } from "react-toastify";
 import { FaEnvelope } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const SetPassword = ({ setActiveTab }) => {
   const [email, setEmail] = useState("");
+  const navigate = useNavigate(); // Initialize navigate
 
   const handleSetpass = async (e) => {
     e.preventDefault();
@@ -26,8 +28,10 @@ const SetPassword = ({ setActiveTab }) => {
     // }
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_BACK_URL}/auth/setpassword`, {
+      // const response = await fetch(`${import.meta.env.VITE_BACK_URL}/auth/setpassword`, {
       // const response = await fetch("https://tycs-projects-backend-bnlr.onrender.com/auth/setpassword", {
+      
+      const response = await fetch(`${import.meta.env.VITE_BACK_URL}/auth/send-reset-otp`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -45,12 +49,14 @@ const SetPassword = ({ setActiveTab }) => {
           theme: "light",
           transition: Slide,
         });
+
         toast.success("Link to create password will be only working for 5 minute", {
           autoClose: 5000,
           position: "top-right",
           theme: "light",
           transition: Slide,
         });
+        navigate("/otp");
       } else {
         console.log("Registration failed", checkdata.errorMessage || checkdata.message);
         toast.error("Unable to send data to server", {

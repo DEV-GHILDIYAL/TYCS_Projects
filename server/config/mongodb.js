@@ -9,8 +9,8 @@ import userModel from '../models/userModel.js';
 
 const students = [
     {
-      rollNo: 477,
-      email: "g22.shiwans.vaishya@gnkhalsa.edu.in",
+      rollNo: 421,
+      email: "g22.dev.ghildiyal@gnkhalsa.edu.in",
       role:"Student"
     },
   ];
