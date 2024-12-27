@@ -1,7 +1,7 @@
 /* src/pages/AdminAttendance.css */
 .admin-attendance-page {
     display: flex; /* Use Flexbox to position Sidebar and Content side by side */
-    height: 100vh; /* Ensure the layout fills the entire viewport height */
+    height: 95vh; /* Ensure the layout fills the entire viewport height */
   }
   
   .content {

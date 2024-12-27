@@ -1,9 +1,10 @@
+import { NavLink } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import "./MyProjects.css";
-import EventDetailsForm from '../CreateEventForm/EventDetailsFrom'; 
+import EventDetailsForm from "../CreateEventForm/EventDetailsFrom";
 import { toast } from "react-toastify"; // Import toast for notifications
-import img from '../../assets/images/images1.png';
-import './ProjectCard.css'
+import img from "../../assets/images/images1.png";
+import "./ProjectCard.css";
 
 const MyProjects = ({ setActiveTab }) => {
   const [hasProject, setHasProject] = useState(false);
@@ -79,20 +80,23 @@ const MyProjects = ({ setActiveTab }) => {
     setTwitter(projectToEdit.twitter);
     setInstagram(projectToEdit.instagram);
     setLinkedin(projectToEdit.linkedin);
-    
+
     setShowHeader(false); // Hide the header when editing
   };
 
   const handleDelete = async (projectId) => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_BACK_URL}/${projectId}`, {
-      // const response = await fetch(`https://tycs-projects-backend-bnlr.onrender.com/${projectId}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_BACK_URL}/${projectId}`,
+        {
+          // const response = await fetch(`https://tycs-projects-backend-bnlr.onrender.com/${projectId}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       if (response.ok) {
         setProjects((prevProjects) =>
           prevProjects.filter((project) => project._id !== projectId)
@@ -110,7 +114,7 @@ const MyProjects = ({ setActiveTab }) => {
     <div className="my-project-container">
       {/* Conditionally render the header based on showHeader state */}
       {showHeader && <h2 className="my-project-header">My Projects</h2>}
-    
+
       {/* Show loading state */}
       {loading ? (
         <p>Loading projects...</p>
@@ -130,25 +134,43 @@ const MyProjects = ({ setActiveTab }) => {
               {projects.length > 0 ? (
                 projects.map((project) => (
                   <div className="project-card" key={project._id}>
-                    <img src={img} alt={project.title} className="project-image" />
+                    <img
+                      src={img}
+                      alt={project.title}
+                      className="project-image"
+                    />
                     <div>
                       <h3 className="project-titles">{project.title}</h3>
                     </div>
                     <div className="project-buttons">
-                      <button className="edit-button" onClick={() => handleEdit(project._id)}>Edit</button>
-                      <button className="delete-button" onClick={() => handleDelete(project._id)}> Delete</button>
+                      <button
+                        className="edit-button"
+                        onClick={() => handleEdit(project._id)}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        className="delete-button"
+                        onClick={() => handleDelete(project._id)}
+                      >
+                        {" "}
+                        Delete
+                      </button>
                     </div>
                   </div>
                 ))
               ) : (
                 /* Show the "Create a Project" button if there are no projects */
                 <div className="projectCard">
-                  <button
+                  {/* <button
                     onClick={() => setActiveTab("createEvent")}
                     className="add-project-btn"
                   >
                     +
-                  </button>
+                  </button> */}
+                  <NavLink to="/create-event" className="add-project-btn">
+                    +
+                  </NavLink>
                   <p className="create-project-text">Create a Project</p>
                 </div>
               )}
