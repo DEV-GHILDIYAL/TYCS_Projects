@@ -11,6 +11,7 @@ import StudentManagement from "./components/StudentManagement/StudentManagement"
 import About from "./components/About/About";
 import Dashboard from "./components/Dashboard/Dashboard";
 import Profile from "./components/Profile/Profile";
+import EventDetailsForm from "./components/CreateEventForm/EventDetailsFrom";
 function App() {
   const handleExport = () => {
     console.log("Exporting data...");
@@ -29,6 +30,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/about-us" element={<About />} />
           <Route path="/my-projects" element={<MyProjects />} />
+          <Route path="/create-event" element={<EventDetailsForm />} />
           {/* ADMIN USER */}
           <Route path="/dashboard" element={<Dashboard
       noOfStudents={200}
