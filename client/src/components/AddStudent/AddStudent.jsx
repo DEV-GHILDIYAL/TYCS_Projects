@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 
+import "./AddStudent.css";
 const AddStudent = () => {
   const [student, setStudent] = useState({
     name: "",
