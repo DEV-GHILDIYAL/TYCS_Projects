@@ -32,6 +32,7 @@ const ProjectSchema = new mongoose.Schema({
     future:{
         type:String,
     },
+    projectSem:{type:String},//this is for project pehchano
     github:{type:String,required:true},
     twitter:{type:String},
     linkedin:{type:String},

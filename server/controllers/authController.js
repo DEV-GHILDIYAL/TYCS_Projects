@@ -1,4 +1,6 @@
 import userModel from "../models/userModel.js";
+import jwt from "jsonwebtoken";
+import nodemailer from 'nodemailer';
 
 export const loginUser = async (req, res) => {
     const { email, password } = req.body;

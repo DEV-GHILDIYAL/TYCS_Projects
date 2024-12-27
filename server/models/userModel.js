@@ -17,7 +17,8 @@ const UserSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        default: process.env.DefaultPassword, // This default password should ideally be removed or handled differently for security.
+        // default: process.env.DefaultPassword, // This default password should ideally be removed or handled differently for security.
+        default:"fdljkasfhdflijkashfld",
         required: true,
     },
     role: { type: String, enum: ['Admin', 'Student'], required: true },
