@@ -96,9 +96,9 @@ const LoginComponent = ({ setActiveTab  }) => {
           </button>
         </form>
         <p className="toggle-link">
-          Don't have an account?{" "}
+          Don't have an passsword?{" "}
           <button type="button" onClick={() => setActiveTab("register")}>
-            Register
+            Set password
           </button>
         </p>
       </div>

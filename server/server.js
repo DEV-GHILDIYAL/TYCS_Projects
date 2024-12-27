@@ -19,6 +19,13 @@ app.use(cookieParser());
 app.use(cors({credentials: true}));
 // app.use(morgan("dev"));
 
+
+app.use(cors({
+    origin: process.env.FRONT_URL,
+    methods: "GET,POST,PUT,DELETE",
+    credentials: true,
+  }));
+
 //APT Endpoints
 app.use('/auth', authRouter);
 app.use('/',authenticate, userRouter);
