@@ -86,7 +86,7 @@ const OtpComponent = () => {
           theme: "light",
           transition: Slide,
         });
-        navigate("/");
+        navigate("/login");
       } else {
         toast.error("Registration failed", {
           position: "top-right",

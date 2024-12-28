@@ -17,6 +17,7 @@ const ProjectDetail = ({ project, onBack }) => {
             <div className="project-detail-row">
                 <div><strong>Name:</strong> {project.name}</div>
                 <div><strong>Roll Number:</strong> {project.rollno}</div>
+                <div><strong>Email:</strong> {project.email}</div>
                 <div><strong>Category:</strong> {project.category}</div>
             </div>
 

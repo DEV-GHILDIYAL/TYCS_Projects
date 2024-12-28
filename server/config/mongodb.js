@@ -9,8 +9,18 @@ import userModel from '../models/userModel.js';
 
 const students = [
     {
+<<<<<<< Updated upstream
       rollNo: 478,
       email: "shiwans.vaishya@gmail.com",
+=======
+      rollNo: 477,
+      email: "g22.shiwans.vaishya@gnkhalsa.edu.in",
+      role:"student"
+    },
+    {
+      rollNo: 421,
+      email: "g22.dev.ghildiyal@gnkhalsa.edu.in",
+>>>>>>> Stashed changes
       role:"student"
     },
     {

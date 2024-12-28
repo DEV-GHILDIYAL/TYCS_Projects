@@ -12,6 +12,10 @@ const ProjectSchema = new mongoose.Schema({
     unique: true,
     trim: true,
   },
+  email:{
+    type:String,
+    required:true,
+  },
   rollno: {
     type: Number,
     required: true,
@@ -34,7 +38,7 @@ const ProjectSchema = new mongoose.Schema({
     type: String,
   },
   batch:{type:String,required:true},
-  projectSem: { type: String, required:true, unique:true }, //this is for project pehchano 1 or2
+  project: { type: String, required:true,}, //this is for project pehchano 1 or2  ...for unique true we need to check for each person not from everyone
   github: { type: String, required: true },
   twitter: { type: String },
   linkedin: { type: String },

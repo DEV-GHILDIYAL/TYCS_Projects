@@ -4,7 +4,7 @@ import { toast, Slide } from "react-toastify";
 import { FaEnvelope } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
-const SetPassword = ({ setActiveTab }) => {
+const SetPassword = () => {
   const [email, setEmail] = useState("");
   const navigate = useNavigate(); // Initialize navigate
 

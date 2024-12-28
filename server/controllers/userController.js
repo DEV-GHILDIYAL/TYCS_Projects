@@ -54,17 +54,20 @@ export const UserProject = async(req,res) => {
 
 export const addProject = async (req, res) => {
     try {
-
+        const main = req.user.id;
+        const user = await userModel.findById(main);
         const existingProject = await Project.findOne({ userId: req.user.id }); 
         if (existingProject) {
             return res.status(409).json({ message: 'You can only create one project.' });
         }
+        const email = user.email;
 
-        const { name, rollno,description,title,category,projectSem,batch,deployed,future,github,twitter,linkedin,instagram } = req.body;
+        // console.log("email from addproejct usercontroller",emailhere);
+        const { name, rollno,description,title,category,project,batch,deployed,future,github,twitter,linkedin,instagram } = req.body;
         const newP = new Project({
             userId: req.user.id, 
             name,
-            rollno,description,category,title,deployed,projectSem,batch,twitter,linkedin,future,github,instagram
+            rollno,description,category,title,deployed,project,batch,twitter,email,linkedin,future,github,instagram
         });
         
         await newP.save();
