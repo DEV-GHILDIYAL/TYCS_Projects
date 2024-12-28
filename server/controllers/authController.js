@@ -2,6 +2,8 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import userModel from "../models/userModel.js";
 import transporter from "../config/nodemailer.js";
+import dotenv from "dotenv";
+dotenv.config();
 
 export const loginUser = async (req, res) => {
   const { email, password } = req.body;
@@ -98,8 +100,13 @@ export const sendResetOtp = async (req, res) => {
       text: `Your OTP for Setting your password is ${otp}. Use this OTP to proceed with setting your password`
     };
 
-    await transporter.sendMail(mailOptions);
-
+    try {
+      await transporter.sendMail(mailOptions);
+      console.log("Email sent successfully");
+    } catch (emailError) {
+      console.error("Error while sending email:", emailError);
+    }
+    
     return res.json({ success: true, message: "OTP sent successfully" });
 
   } catch (error) {

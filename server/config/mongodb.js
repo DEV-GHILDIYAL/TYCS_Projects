@@ -11,12 +11,12 @@ const students = [
     {
       rollNo: 478,
       email: "shiwans.vaishya@gmail.com",
-      role:"Student"
+      role:"student"
     },
     {
       rollNo: 421,
       email: "g22.dev.ghildiyal@gnkhalsa.edu.in",
-      role:"Student"
+      role:"student"
     },
   ];
 
