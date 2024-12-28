@@ -59,7 +59,7 @@ function App() {
           
           <Route path="/otp" element={<OtpInput />} />
 
-          <Route path="/auth/setpassword/:email/:ltoken" element={<SetPass />} />
+          {/* <Route path="/auth/setpassword/:email/:ltoken" element={<SetPass />} /> */}
           <Route path="*" element={<> not found</>} />
         </Routes>
       </SideBar>

@@ -56,7 +56,8 @@ const SetPassword = ({ setActiveTab }) => {
           theme: "light",
           transition: Slide,
         });
-        navigate("/otp");
+
+        navigate("/otp",{state:email});
       } else {
         console.log("Registration failed", checkdata.errorMessage || checkdata.message);
         toast.error("Unable to send data to server", {

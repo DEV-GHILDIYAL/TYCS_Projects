@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./OtpComponent.css";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const OtpInput = ({ length = 6, onChange }) => {
   const [otp, setOtp] = useState(new Array(length).fill(""));
@@ -44,7 +45,8 @@ const OtpInput = ({ length = 6, onChange }) => {
 
 const OtpComponent = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
+  const location = useLocation();
+  const [email, setEmail] = useState(location.state);
   const [otp, setOtp] = useState("");
   const [newPassword, setNewPassword] = useState("");
 

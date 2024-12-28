@@ -50,6 +50,8 @@ const EventDetailsForm = ({
     setTwitterLink("");
     setInstagramLink("");
     setLinkedinLink("");
+    selectedBatch("");
+    selectedProject("");
 
     setCompletionPercentage(0);
     setProgressColor("red");
@@ -107,7 +109,8 @@ const EventDetailsForm = ({
         // setTimeout(() => {
           // window.location.reload();
         // }, 1000); // Wait for 1 second
-        window.location.reload();
+        // window.location.reload();
+        navigate('/my-project')
       } else {
         // Log error details
         console.error("Error details:", data);
@@ -385,7 +388,9 @@ const EventDetailsForm = ({
           />
         </div>
         <div className="form-group">
-          <label>Github Link:</label>
+          <label>
+            Github Link:  <span className="required">*</span>
+          </label>
           <input
             type="url"
             value={githubLink}

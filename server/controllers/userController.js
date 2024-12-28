@@ -56,7 +56,7 @@ export const addProject = async (req, res) => {
             return res.status(409).json({ message: 'You can only create one project.' });
         }
 
-        const { name, rollno,description,title,category,deployed,future,github,twitter,linkedin,instagram } = req.body;
+        const { name, rollno,description,title,category,projectSem,batch,deployed,future,github,twitter,linkedin,instagram } = req.body;
         const newP = new Project({
             userId: req.user.id, 
             name,
@@ -74,7 +74,7 @@ export const addProject = async (req, res) => {
 
 export const updateProject = async (req, res) => {
     try {
-        const { name, rollno,description,category,title,deployed,future,github,twitter,linkedin,instagram } = req.body;
+        const { name, rollno,description,category,title,deployed,projectSem,batch,future,github,twitter,linkedin,instagram } = req.body;
         const updateProject = await Project.findByIdAndUpdate(
             { _id: req.params.id, userId: req.user._id }, 
             {...req.body},
