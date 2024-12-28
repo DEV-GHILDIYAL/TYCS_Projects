@@ -1,135 +1,150 @@
-/* General Styling */
-.profile-container {
-  width: 100%; /* Full width */
-  max-width: 1500px; /* Max width for better layout */
-  margin: 0 auto;
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.profile-page-container {
   display: flex;
   justify-content: center;
+  height: 94vh;
   background-color: #f4f4f9;
-  font-family: "Arial", sans-serif;
-}
-
-.profile-card {
-  width: 100%;
-  max-width: 800px; /* Max width for profile card */
-  background: #fff;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  overflow: hidden;
   padding: 20px;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
-.profile-header {
+.profile-page-card {
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  display: flex;
+}
+
+.profile-page-left-column {
+  width: 50%;
+  padding: 20px;
+  background: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+  border-right: 2px dotted #ccc; /* Dotted line on the right side */
+}
+
+.profile-page-right-column {
+  width: 50%;
+  padding: 20px;
+  background: #ffffff;
+}
+
+.profile-page-header {
   text-align: center;
   margin-bottom: 20px;
 }
 
-.profile-photo {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  border: 3px solid #007bff;
-}
-
-h1 {
-  font-size: 1.8rem;
-  color: #333;
-}
-
-.roll-no {
-  font-size: 1rem;
-  color: #666;
-}
-
-/* Details Section */
-.profile-details {
-  margin-bottom: 20px;
-}
-
-.detail-item {
+.profile-page-header-info {
   display: flex;
+  flex-direction: column;
   align-items: center;
+}
+
+.profile-page-photo {
+  width: 150px; /* Increased size */
+  height: 150px; /* Increased size */
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #ffffff;
   margin-bottom: 15px;
 }
 
-.detail-item label {
-  width: 150px;
-  font-weight: bold;
-  color: #555;
+.profile-page-header-text h1 {
+  font-size: 1.8em;
+  /* margin-bottom: -10px; */
 }
 
-.readonly-input {
-  flex: 1;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  background: #f9f9f9;
-  color: #333;
-  pointer-events: none;
+.profile-page-roll-no {
+  font-size: 1em;
+  opacity: 0.8;
 }
 
-/* Projects Section */
-.projects-section {
-  margin-top: 20px;
-}
-
-.projects {
+.profile-page-details {
   display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.profile-page-detail-row {
+  display: flex;
+  flex-direction: row;
+}
+.profile-page-detail-row p{
+  margin-left: 10px;
+}
+.profile-page-detail-row label {
+  font-weight: bold;
+  color: #333;
+}
+
+.profile-page-projects-section h2 {
+  font-size: 1.5em;
+  margin-bottom: 15px;
+}
+
+.profile-page-projects {
+  display: flex;
+  flex-direction: column; /* Changed from row to column */
   gap: 20px;
 }
-
-.project-card {
-  flex: 1;
-  background: #f9f9f9;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  padding: 15px;
-  text-align: center;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.project-card img {
-  width: 100%;
-  height: 200px; /* Adjust based on image size */
-  object-fit: cover;
+.profile-page-project-card {
+  background: #f4f4f9;
   border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  width: 100%; /* Make it full width */
+  padding: 10px;
+  text-align: center;
+}
+
+
+.profile-page-project-image {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 5px;
   margin-bottom: 10px;
 }
 
-.project-card h3 {
-  font-size: 1.2rem;
-  margin-bottom: 10px;
-  color: #333;
-}
-
-.profile-project-title {
-  font-weight: bold;
-  color: #555;
-  margin-bottom: 5px;
-}
-
-.project-category {
-  font-size: 0.9rem;
+.profile-page-project-category {
+  font-size: 0.85em;
   color: #777;
 }
 
-/* Button */
-.edit-details-container {
-  text-align: center;
-  margin-top: 20px;
-}
-
-.button.primary {
-  background-color: #007bff;
-  color: white;
+.profile-page-button {
+  padding: 8px 15px;
   border: none;
-  padding: 10px 20px;
-  border-radius: 8px;
-  font-size: 1rem;
+  border-radius: 5px;
+  font-size: 0.9em;
   cursor: pointer;
-  transition: background-color 0.3s ease;
 }
 
-.button.primary:hover {
-  background-color: #0056b3;
+.profile-page-button.primary {
+  background: #6c63ff;
+  color: #ffffff;
+}
+
+.profile-page-button.primary:hover {
+  background: #584de3;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .profile-page-container {
+    flex-direction: column;
+  }
+
+  .profile-page-left-column, .profile-page-right-column {
+    width: 100%;
+  }
+
+  .profile-page-project-card {
+    width: 100%;
+  }
 }

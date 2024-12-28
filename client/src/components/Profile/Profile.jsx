@@ -2,121 +2,112 @@ import React from "react";
 import "./Profile.css";
 
 const Profile = () => {
-  // Dummy profile data
   const profileData = {
-    username: "John Doe",
-    rollNo: "CS202045",
-    profilePhoto: "https://via.placeholder.com/150", // Replace with a real image URL
+    username: "Dev Ghildiyal",
+    rollNo: "CS421",
+    profilePhoto: "https://ichef.bbci.co.uk/images/ic/1200x675/p03c84wz.jpg",
     phoneNo: "123-456-7890",
-    batch: "2022-2020",
+    year: "2024-2025",
+    batch: "Batch 1",
     department: "Computer Science",
-    email: "john.doe@example.com",
+    email: "g22.dev.ghildiyal@gnkhalsa.edu.in",
     projects: {
       sem5: {
         title: "Library Management System",
         category: "Website Development",
-        image: "https://via.placeholder.com/300", // Replace with actual project image
+        image: "https://media.istockphoto.com/id/1451316016/photo/lms-learning-management-system-for-lesson-and-online-education-course-application-study-e.jpg?s=2048x2048&w=is&k=20&c=JRMwex9Pjv1gtqvFYsYb80TXrggyIVh-grnmn6fQr-k=",
       },
       sem6: {
         title: "AI Chatbot",
         category: "App Development",
-        image: "https://via.placeholder.com/300", // Replace with actual project image
+        image: "https://img.freepik.com/premium-vector/computer-online-chat-notices_441769-114.jpg?semt=ais_hybrid",
       },
     },
   };
 
   const handleEditDetails = () => {
     alert("Edit Details functionality coming soon!");
-    // Integrate form or modal logic here for editing profile details
   };
 
   return (
-    <div className="profile-container">
-      <div className="profile-card">
-        <header className="profile-header">
-          <img
-            src={profileData.profilePhoto}
-            alt="Profile"
-            className="profile-photo"
-          />
-          <h1>{profileData.username}</h1>
-          <p className="roll-no">Roll No: {profileData.rollNo}</p>
-        </header>
+    <div className="profile-page-container">
+      <div className="profile-page-card">
+        <div className="profile-page-left-column">
+          <header className="profile-page-header">
+            <img
+              src={profileData.profilePhoto}
+              alt="Profile"
+              className="profile-page-photo"
+            />
+            <div className="profile-page-header-text">
+              <h1>{profileData.username}</h1>
+              <p className="profile-page-roll-no">Roll No: {profileData.rollNo}</p>
+            </div>
+          </header>
 
-        <div className="profile-details">
-          <div className="detail-item">
-            <label>Phone:</label>
-            <input
-              type="text"
-              value={profileData.phoneNo}
-              readOnly
-              className="readonly-input"
-            />
+          <div className="profile-page-details">
+            <div className="profile-page-detail-row">
+              <label>Phone:</label>
+              <p>{profileData.phoneNo}</p>
+            </div>
+            <div className="profile-page-detail-row">
+              <label>Email:</label>
+              <p>{profileData.email}</p>
+            </div>
+            <div className="profile-page-detail-row">
+              <label>Year:</label>
+              <p>{profileData.year}</p>
+            </div>
+            <div className="profile-page-detail-row">
+              <label>Batch:</label>
+              <p>{profileData.batch}</p>
+            </div>
+            <div className="profile-page-detail-row">
+              <label>Department:</label>
+              <p>{profileData.department}</p>
+            </div>
           </div>
-          <div className="detail-item">
-            <label>Batch:</label>
-            <input
-              type="text"
-              value={profileData.batch}
-              readOnly
-              className="readonly-input"
-            />
-          </div>
-          <div className="detail-item">
-            <label>Department:</label>
-            <input
-              type="text"
-              value={profileData.department}
-              readOnly
-              className="readonly-input"
-            />
-          </div>
-          <div className="detail-item">
-            <label>Email:</label>
-            <input
-              type="email"
-              value={profileData.email}
-              readOnly
-              className="readonly-input"
-            />
+
+          <div className="profile-page-edit-details-container">
+            <button
+              className="profile-page-button profile-page-button primary"
+              onClick={handleEditDetails}
+            >
+              Edit Details
+            </button>
           </div>
         </div>
 
-        <section className="projects-section">
-          <h2>Projects</h2>
-          <div className="projects">
-            <div className="project-card">
-              <img
-                src={profileData.projects.sem5.image}
-                alt="Project Image"
-                className="project-image"
-              />
-              <h3>Semester 5</h3>
-              <p className="profile-project-title">{profileData.projects.sem5.title}</p>
-              <p className="project-category">
-                Category: {profileData.projects.sem5.category}
-              </p>
+        <div className="profile-page-right-column">
+          <section className="profile-page-projects-section">
+            <h2>Projects</h2>
+            <div className="profile-page-projects">
+              <div className="profile-page-project-card">
+                <img
+                  src={profileData.projects.sem5.image}
+                  alt="Project Image"
+                  className="profile-page-project-image"
+                />
+                <h3>{profileData.projects.sem5.title}</h3>
+                <p className="profile-page-project-category">
+                  Category: {profileData.projects.sem5.category}
+                </p>
+                <p>Semester: 5</p>
+              </div>
+              <div className="profile-page-project-card">
+                <img
+                  src={profileData.projects.sem6.image}
+                  alt="Project Image"
+                  className="profile-page-project-image"
+                />
+                <h3>{profileData.projects.sem6.title}</h3>
+                <p className="profile-page-project-category">
+                  Category: {profileData.projects.sem6.category}
+                </p>
+                <p>Semester: 6</p>
+              </div>
             </div>
-            <div className="project-card">
-              <img
-                src={profileData.projects.sem6.image}
-                alt="Project Image"
-                className="project-image"
-              />
-              <h3>Semester 6</h3>
-              <p className="profile-project-title">{profileData.projects.sem6.title}</p>
-              <p className="project-category">
-                Category: {profileData.projects.sem6.category}
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* Edit Details Button */}
-        <div className="edit-details-container">
-          <button className="button primary" onClick={handleEditDetails}>
-            Edit Details
-          </button>
+          </section>
         </div>
       </div>
     </div>

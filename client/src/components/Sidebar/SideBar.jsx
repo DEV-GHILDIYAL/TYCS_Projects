@@ -31,9 +31,9 @@ const SideBar = ({ children }) => {
           <div className="top_section">
             {isOpen && <h1 className="logo">Project Library</h1>}
             {/* Hamburger Menu for Mobile */}
-            <div className="hamburger" onClick={toggleMobileMenu}>
+            {/* <div className="hamburger" onClick={toggleMobileMenu}>
               <FaBars />
-            </div>
+            </div> */}
           </div>
           <section className="routes">
             {routes.map((route, index) => {
