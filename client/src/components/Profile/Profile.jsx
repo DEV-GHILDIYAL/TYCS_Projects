@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
+import { FaCamera } from "react-icons/fa";  // Importing the camera icon from react-icons/fa
 import "./Profile.css";
 
 const Profile = () => {
+  const [profilePhoto, setProfilePhoto] = useState(
+    "https://ichef.bbci.co.uk/images/ic/1200x675/p03c84wz.jpg"
+  );
+
   const profileData = {
     username: "Dev Ghildiyal",
     rollNo: "CS421",
-    profilePhoto: "https://ichef.bbci.co.uk/images/ic/1200x675/p03c84wz.jpg",
     phoneNo: "123-456-7890",
     year: "2024-2025",
     batch: "Batch 1",
@@ -29,16 +33,39 @@ const Profile = () => {
     alert("Edit Details functionality coming soon!");
   };
 
+  const handleProfilePicChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProfilePhoto(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   return (
     <div className="profile-page-container">
       <div className="profile-page-card">
         <div className="profile-page-left-column">
           <header className="profile-page-header">
-            <img
-              src={profileData.profilePhoto}
-              alt="Profile"
-              className="profile-page-photo"
-            />
+            <div className="profile-page-photo-container">
+              <img
+                src={profilePhoto}
+                alt="Profile"
+                className="profile-page-photo"
+              />
+              <input
+                type="file"
+                id="profile-pic-upload"
+                accept="image/*"
+                onChange={handleProfilePicChange}
+                style={{ display: "none" }}
+              />
+              <label htmlFor="profile-pic-upload" className="profile-page-camera-icon">
+                <FaCamera /> {/* Using the FaCamera icon from react-icons */}
+              </label>
+            </div>
             <div className="profile-page-header-text">
               <h1>{profileData.username}</h1>
               <p className="profile-page-roll-no">Roll No: {profileData.rollNo}</p>
