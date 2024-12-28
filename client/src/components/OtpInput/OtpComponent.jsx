@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./OtpComponent.css";
+import { toast, Slide } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
@@ -56,17 +57,19 @@ const OtpComponent = () => {
 
   const handleSubmit = async () => {
     if (!email || !otp || !newPassword) {
-      alert("Please fill in all fields.");
+      // alert("Please fill in all fields.");
+      toast.error("Please fill in all fields.", {
+        position: "top-right",
+        theme: "light",
+        transition: Slide,
+      });
       return;
     }
 
     // alert(`Email: ${email}\nOTP: ${otp}\nNew Password: ${newPassword}`);
-    // Add API call or validation logic here
     try {
-      // const response = await fetch(`${import.meta.env.VITE_BACK_URL}/auth/setpassword`, {
       // const response = await fetch("https://tycs-projects-backend-bnlr.onrender.com/auth/setpassword", {
-      
-      const response = await fetch(`${import.meta.env.VITE_BACK_URL}/auth/reset-password`, {
+      const response = await fetch(`${import.meta.env.VITE_BACK_URL}/auth/set-password`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -78,11 +81,26 @@ const OtpComponent = () => {
       const checkdata = await response.json();
 
       if (response.ok) {
+        toast.success("Password sent successfully", {
+          position: "top-right",
+          theme: "light",
+          transition: Slide,
+        });
         navigate("/");
       } else {
+        toast.error("Registration failed", {
+          position: "top-right",
+          theme: "light",
+          transition: Slide,
+        });
         console.log("Registration failed", checkdata.errorMessage || checkdata.message);
       }
     } catch (error) {
+      toast.error("Error during registration", {
+        position: "top-right",
+        theme: "light",
+        transition: Slide,
+      });
       console.error("Error during registration:", error);
     }
   };
@@ -90,7 +108,7 @@ const OtpComponent = () => {
   return (
     <div className="otp-main-component">
     <div className="otp-component">
-      <h1>Reset Password</h1>
+      <h1>Set Password</h1>
       <p className="otp-description">
         Enter your registered email, the OTP sent to your email, and your new password.
       </p>

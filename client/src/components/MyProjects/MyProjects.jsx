@@ -6,13 +6,14 @@ import { toast } from "react-toastify"; // Import toast for notifications
 import img from "../../assets/images/images1.png";
 import "./ProjectCard.css";
 
-const MyProjects = ({ setActiveTab }) => {
+// const MyProjects = ({ setActiveTab }) => {
+const MyProjects = () => {
   const [hasProject, setHasProject] = useState(false);
   const [projects, setProjects] = useState([]);
   const [editingProjectId, setEditingProjectId] = useState(null);
   const [editingProjectData, setEditingProjectData] = useState({});
   const [loading, setLoading] = useState(true); // State for loading
-  const token = localStorage.getItem("token");
+  // const token = localStorage.getItem("token");
 
   const [name, setName] = useState("");
   const [rollno, setRollno] = useState("");
@@ -35,7 +36,7 @@ const MyProjects = ({ setActiveTab }) => {
         const response = await fetch(`${import.meta.env.VITE_BACK_URL}/user`, {
           method: "GET",
           headers: {
-            Authorization: `Bearer ${token}`,
+            // Authorization: `Bearer ${token}`,
           },
         });
 
@@ -63,7 +64,8 @@ const MyProjects = ({ setActiveTab }) => {
     };
 
     fetchUserProjects();
-  }, [token]);
+  // }, [token]);
+  }, []);
 
   const handleEdit = async (projectId) => {
     const projectToEdit = projects.find((proj) => proj._id === projectId);
@@ -93,7 +95,7 @@ const MyProjects = ({ setActiveTab }) => {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            // Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -168,7 +170,7 @@ const MyProjects = ({ setActiveTab }) => {
                   >
                     +
                   </button> */}
-                  <NavLink to="/create-event" className="add-project-btn">
+                  <NavLink to="/create-project" className="add-project-btn">
                     +
                   </NavLink>
                   <p className="create-project-text">Create a Project</p>

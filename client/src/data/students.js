@@ -1,3 +1,5 @@
+// src/data/students.js
+//Just for now 
 const students = [
   { rollNumber: 101, name: "John Doe", projectName: "AI Chatbot", category: "Machine Learning", projectLink: "https://github.com/johndoe/ai-chatbot", department: "CS", noOfDayPresent: 8 },
   { rollNumber: 102, name: "Jane Smith", projectName: "E-Commerce Website", category: "Web Development", projectLink: "https://github.com/janesmith/ecommerce-website", department: "IT", noOfDayPresent: 7 },

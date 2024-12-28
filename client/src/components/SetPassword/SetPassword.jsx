@@ -28,10 +28,8 @@ const SetPassword = ({ setActiveTab }) => {
     // }
 
     try {
-      // const response = await fetch(`${import.meta.env.VITE_BACK_URL}/auth/setpassword`, {
-      // const response = await fetch("https://tycs-projects-backend-bnlr.onrender.com/auth/setpassword", {
-      
-      const response = await fetch(`${import.meta.env.VITE_BACK_URL}/auth/send-reset-otp`, {
+      // const response = await fetch("https://tycs-projects-backend-bnlr.onrender.com/auth/send-email", {
+      const response = await fetch(`${import.meta.env.VITE_BACK_URL}/auth/send-email`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -50,7 +48,7 @@ const SetPassword = ({ setActiveTab }) => {
           transition: Slide,
         });
 
-        toast.success("Link to create password will be only working for 5 minute", {
+        toast.success("OTP to create password will be only working for 5 minute", {
           autoClose: 5000,
           position: "top-right",
           theme: "light",
@@ -100,7 +98,7 @@ const SetPassword = ({ setActiveTab }) => {
           <button
             type="button"
             className="link-button"
-            onClick={() => setActiveTab("login")}
+            onClick={() => navigate("/login")}
           >
             Login
           </button>

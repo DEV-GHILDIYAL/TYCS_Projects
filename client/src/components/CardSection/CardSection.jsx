@@ -11,20 +11,16 @@ import "./CardSection.css";
 const CardSection = ({ onViewDetail, searchTerm = "", searchByRollNumber = false }) => {
   const [projects, setProjects] = useState([]);
   const images = [img2, img3, img4, img5, img6];
-  const token = localStorage.getItem("token");
+  // const token = localStorage.getItem("token");
 
   useEffect(() => {
     const fetchProject = async () => {
       try {
-        if (!token) {
-          console.error("Token is missing!");
-          return;
-        }
         const response = await fetch(`${import.meta.env.VITE_BACK_URL}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            // Authorization: `Bearer ${token}`,
           },
           credentials: "include",
         });

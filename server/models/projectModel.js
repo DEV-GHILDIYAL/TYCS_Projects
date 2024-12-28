@@ -33,8 +33,8 @@ const ProjectSchema = new mongoose.Schema({
   future: {
     type: String,
   },
-  batch:{type:String},
-  projectSem: { type: String }, //this is for project pehchano
+  batch:{type:String,required:true},
+  projectSem: { type: String, required:true, unique:true }, //this is for project pehchano 1 or2
   github: { type: String, required: true },
   twitter: { type: String },
   linkedin: { type: String },

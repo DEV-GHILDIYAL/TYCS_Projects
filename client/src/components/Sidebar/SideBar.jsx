@@ -2,7 +2,10 @@ import { NavLink } from "react-router-dom";
 import { FaFileAlt, FaFolderOpen, FaHome, FaLock, FaMoneyBill, FaUser, FaBars } from "react-icons/fa";
 import { useState } from "react";
 import SidebarMenu from "./SidebarMenu";
+import { toast, Slide } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 import "./Sidebar.css";
+
 
 const routes = [
   { path: "/", name: "Home", icon: <FaHome /> },
@@ -17,6 +20,35 @@ const routes = [
     ]
   },
 ];
+
+const handlelogout = async() =>{
+  const navigate = useNavigate();
+  try {
+    const response = await fetch(
+      `${import.meta.env.VITE_BACK_URL}/auth/logout`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        // body: JSON.stringify({ email }),
+        credentials: "include", // Required to include cookies
+      }
+    );
+    if(response.ok){
+      console.log("Logout")
+      toast.success("Logout successful!", {
+        position: "top-right",
+        theme: "light",
+        transition: Slide,
+        autoClose: 1000,
+      });
+      navigate('/about-us');
+    }
+  } catch (error) {
+    console.error("Error during logout:", error);
+  }
+}
 
 const SideBar = ({ children }) => {
   const [isOpen, setIsOpen] = useState(true);  // For desktop sidebar
@@ -66,9 +98,9 @@ const SideBar = ({ children }) => {
             <div className="icon"><FaUser /></div>
             {isOpen && <div className="link_text">Profile</div>}
           </NavLink>
-          <NavLink to="/logout" className="link" activeClassName="active" onClick={() => isMobileOpen && toggleMobileMenu()}>
+          <NavLink className="link" activeClassName="active" onClick={() => isMobileOpen && toggleMobileMenu()}>
             <div className="icon"><FaUser /></div>
-            {isOpen && <div className="link_text">Logout</div>}
+            {isOpen && <div className="link_text" onClick={handlelogout}>Logout</div>}
           </NavLink>
           <NavLink to="/login" className="link" activeClassName="active" onClick={() => isMobileOpen && toggleMobileMenu()}>
             <div className="icon"><FaLock /></div>

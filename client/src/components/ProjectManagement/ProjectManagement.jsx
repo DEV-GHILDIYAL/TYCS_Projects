@@ -1,5 +1,5 @@
 // src/pages/AdminAttendance.jsx
-
+//admin
 import "./ProjectManagement.css";
 import student from "../../data/students"
 import { RowComponentForProjects } from "../RowComponent/RowComponent"

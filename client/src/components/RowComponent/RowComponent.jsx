@@ -1,4 +1,5 @@
 // src/components/RowComponent.jsx
+// admin
 import React, { useState } from "react";
 import { FaLink } from "react-icons/fa"; // Import link icon
 export const RowComponentForAttendance = ({ srNo, rollNumber, name, projectName }) => {

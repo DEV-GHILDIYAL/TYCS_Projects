@@ -1,6 +1,4 @@
 import mongoose  from 'mongoose';
-import bcrypt  from 'bcryptjs';
-// const jwt = require('jsonwebtoken');
 
 const UserSchema = new mongoose.Schema({
     rollNo:{
@@ -17,18 +15,16 @@ const UserSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        // default: process.env.DefaultPassword, // This default password should ideally be removed or handled differently for security.
         default:"fdljkasfhdflijkashfld",
         required: true,
     },
-    role: { type: String, enum: ['Admin', 'Student'], required: true },
-    // verifyOtp: { type: String, default:''},
-    // verifyOtpExpireAt: { type: Number, default:0},
-    // isAccountVerified:{type: Boolean, default:false},
+    role: { type: String, enum: ['admin', 'student'], required: true },
+    department:{type:String, enum: ['CS','IT']},
+    phoneNo:{type:Number,},
+    batch:{type:String,},
     resetOtp: { type: String, default:''},
     resetOtpExpireAt: { type: Number, default:0},
 },{ timestamps: true });
 
 const User = mongoose.model('User', UserSchema);
-// module.exports = User;
 export default User;

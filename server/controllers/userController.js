@@ -13,8 +13,12 @@ export const getUserData = async (req, res)=>{
         res.json({
             success: true,
             userData:{
-                name: user.name,
-                isAccountVerified: user.isAccountVerified
+                // name: user.name,
+                rollno:user.rollNo,
+                department:user.department,
+                batch:user.batch,
+                email:user.email,
+                phoneno:user.phoneNo,
             }
         });
   
@@ -60,7 +64,7 @@ export const addProject = async (req, res) => {
         const newP = new Project({
             userId: req.user.id, 
             name,
-            rollno,description,category,title,deployed,twitter,linkedin,future,github,instagram
+            rollno,description,category,title,deployed,projectSem,batch,twitter,linkedin,future,github,instagram
         });
         
         await newP.save();

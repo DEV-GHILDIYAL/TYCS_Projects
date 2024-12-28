@@ -9,7 +9,7 @@ const About = () => {
       <div className="about-section">
         <h2>What This Website Is About</h2>
         <p className="about-section-p">
-          This website was created to showcase the final-year projects of <strong>TYCS</strong> students from <strong>Guru Nanak Khalsa College</strong>, Computer Science Department. It provides a platform where students can share their projects with their peers. Students can deploy their projects externally using platforms like <strong>Netlify</strong>, <strong>Heroku</strong>, or even Appetize.io for mobile apps, which allows you to run your app in a browser as an emulator. After deployment, students can submit the project link through our website. Once submitted, the project card will be displayed on the home screen, allowing others in the class to easily view and access the projects online.
+          This website was created to showcase the final-year projects of <strong>TYCS</strong> students from <strong>Guru Nanak Khalsa College</strong>, Computer Science Department. It provides a platform where students can share their projects with their peers. Students can deploy their projects externally using platforms like <strong>Netlify</strong>, <strong>Heroku</strong>, or even <strong>Appetize.io</strong> for mobile apps, which allows you to run your app in a browser as an emulator. After deployment, students can submit the project link through our website. Once submitted, the project card will be displayed on the home screen, allowing others in the class to easily view and access the projects online.
         </p>
       </div>
 

@@ -1,5 +1,4 @@
 import express from 'express';
-// import userAuth from '../middleware/userAuth.js';
 import { getUserData,fetchProjects, addProject, updateProject, deleteProject,UserProject} from '../controllers/userController.js';
 const userRouter = express.Router();
 

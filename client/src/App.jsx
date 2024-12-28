@@ -1,13 +1,13 @@
 import "./App.css";
-import SideBar from "./components/Sidebar/SideBar";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Home } from "./pages/Home";
+import SideBar from "./components/Sidebar/SideBar";
 import LoginComponent from "./components/LoginComponent/LoginComponent";
 import SetPassword from "./components/SetPassword/SetPassword";
 import MyProjects from "./components/MyProjects/MyProjects";
 import AdminAttendance from "./components/AttendanceManagement/AdminAttendance";
 import ProjectManagement from "./components/ProjectManagement/ProjectManagement";
-import SetPass from './components/SetPassword/SetPass';
+// import SetPass from './components/SetPassword/SetPass';
 import StudentManagement from "./components/StudentManagement/StudentManagement";
 import About from "./components/About/About";
 import Dashboard from "./components/Dashboard/Dashboard";
@@ -15,6 +15,7 @@ import Profile from "./components/Profile/Profile";
 import EventDetailsForm from "./components/CreateEventForm/EventDetailsFrom";
 import OtpInput from "./components/OtpInput/OtpComponent";
 import AddStudent from "./components/AddStudent/AddStudent";
+
 function App() {
   const handleExport = () => {
     console.log("Exporting data...");
@@ -26,13 +27,12 @@ function App() {
     // Add your add-student logic here
   };
   return (
-    <Router>
       <SideBar>
         <Routes>
           {/* NORMAL USER */}
           <Route path="/" element={<Home />} />
           <Route path="/my-projects" element={<MyProjects />} />
-          <Route path="/create-event" element={<EventDetailsForm />} />
+          <Route path="/create-project" element={<EventDetailsForm />} />
           {/* ADMIN USER */}
           <Route
             path="/dashboard"
@@ -63,7 +63,6 @@ function App() {
           <Route path="*" element={<> not found</>} />
         </Routes>
       </SideBar>
-    </Router>
   );
 }
 

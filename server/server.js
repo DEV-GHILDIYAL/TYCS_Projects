@@ -8,7 +8,6 @@ import express from "express";
 import cors from "cors";
 // const morgan = require("morgan");
 import dotenv from "dotenv";
-// const authenticate = require("./middleware/authenticate");
 
 dotenv.config({ path: "./.env" });
 connectDB();
@@ -30,9 +29,9 @@ app.use("/auth", authRouter);
 app.use("/", authenticate, userRouter);
 // app.get('/auth/admin',authenticate, adminRouter);
 
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
-  });
+// app.get('*', (req, res) => {
+//     res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
+//   });
 
 const port = process.env.PORT || 4000;
 app.listen(port, () => console.log(`listening on port:${port}`));

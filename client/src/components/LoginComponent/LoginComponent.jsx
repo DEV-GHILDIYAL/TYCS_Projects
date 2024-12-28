@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./Login.css";
 import { useNavigate } from "react-router-dom";
 import { toast, Slide } from "react-toastify";
 
-const LoginComponent = ({ setActiveTab  }) => {
+const LoginComponent = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState(""); 
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
@@ -14,56 +14,54 @@ const LoginComponent = ({ setActiveTab  }) => {
     setErrorMessage("");
 
     if (!email || !password) {
-      setErrorMessage("Email and password are required!");
+      setErrorMessage("Both email and password are required!");
       return;
     }
-  try {
-    const response = await fetch(`${import.meta.env.VITE_BACK_URL}/auth/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, password }),
-      credentials: "include",
-    });
-  
-    // Check if the response is okay (status in the range 200-299)
-    if (!response.ok) {
-      // Attempt to parse error response
-      const errorText = await response.text(); // Get the response as text
-      let errorMessage = "Login failed"; // Default error message
-  
-      try {
-        const errorData = JSON.parse(errorText); // Try parsing error response
-        errorMessage = errorData.message || errorMessage; // Use provided message if available
-      } catch (jsonError) {
-        console.error("Error parsing JSON:", jsonError);
+
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_BACK_URL}/auth/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
+          credentials: "include", // Required to include cookies
+        }
+      );
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        let errorMessage = "Login failed. Please try again.";
+
+        try {
+          const errorData = JSON.parse(errorText);
+          errorMessage = errorData.message || errorMessage;
+        } catch (jsonError) {
+          console.error("Failed to parse error JSON:", jsonError);
+        }
+
+        setErrorMessage(errorMessage);
+        return;
       }
-  
-      setErrorMessage(errorMessage);
-      return; // Exit the function on error
+
+      // Assuming the server sets a secure, HTTP-only cookie for authentication
+      toast.success("Login successful!", {
+        position: "top-right",
+        theme: "light",
+        transition: Slide,
+        autoClose: 1000,
+      });
+
+      setTimeout(() => {
+        navigate("/");
+      }, 1000);
+    } catch (error) {
+      console.error("Error during login:", error);
+      setErrorMessage("An error occurred. Please check your network connection.");
     }
-  
-    // Successful response; parse the JSON data
-    // const data = await response.json();
-    // localStorage.setItem("token", data.token);
-    localStorage.setItem("isLoggedIn", true);
-    toast.success("Login successful!", {
-      position: "top-right",
-      theme: "light",
-      transition: Slide,
-      autoClose: 1000,
-    });
-  
-    window.location.reload();
-    setTimeout(() => {
-      setActiveTab("Home");
-      navigate("/");
-    }, 1000);
-  } catch (error) {
-    console.error("Error during login:", error);
-    setErrorMessage("Login failed");
-  }}
+  };
 
   return (
     <div className="login-register-container">
@@ -79,6 +77,7 @@ const LoginComponent = ({ setActiveTab  }) => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              aria-label="Enter your email"
             />
           </div>
           <div className="input-group">
@@ -89,6 +88,7 @@ const LoginComponent = ({ setActiveTab  }) => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              aria-label="Enter your password"
             />
           </div>
           <button type="submit" className="login-button">
@@ -96,8 +96,12 @@ const LoginComponent = ({ setActiveTab  }) => {
           </button>
         </form>
         <p className="toggle-link">
-          Don't have an passsword?{" "}
-          <button type="button" onClick={() => setActiveTab("register")}>
+          Don't have a password?{" "}
+          <button
+            type="button"
+            onClick={() => navigate("/register")}
+            className="toggle-button"
+          >
             Set password
           </button>
         </p>
