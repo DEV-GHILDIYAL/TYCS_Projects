@@ -13,6 +13,11 @@ const students = [
       email: "shiwans.vaishya@gmail.com",
       role:"Student"
     },
+    {
+      rollNo: 421,
+      email: "g22.dev.ghildiyal@gnkhalsa.edu.in",
+      role:"Student"
+    },
   ];
 
 const connectDB = async () => {

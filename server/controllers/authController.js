@@ -79,12 +79,18 @@ export const sendResetOtp = async (req, res) => {
     }
 
     const otp = String(Math.floor(100000 + Math.random() * 900000));
+    console.log(otp);
 
     user.resetOtp = otp;
     user.resetOtpExpireAt = Date.now() + (15 * 60 * 1000);
 
-    await user.save();
-
+    try {
+      await user.save();
+      console.log("User updated successfully");
+    } catch (err) {
+      console.error("Error while saving user:", err);
+    }
+    
     const mailOptions = {
       from: process.env.SENDER_EMAIL,
       to: user.email,
