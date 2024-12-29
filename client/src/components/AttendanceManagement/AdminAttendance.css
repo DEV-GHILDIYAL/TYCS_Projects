@@ -3,12 +3,14 @@
   width: 1250px;
   display: flex;
   height: 94vh;
+  background-color: #2c2c2c; /* Dark background for the page */
 }
 
 .content {
   flex-grow: 1;
   padding: 20px;
-  background-color: #ecf0f1;
+  background-color: #34495e; /* Darker background for content */
+  color: #ecf0f1; /* Light text */
   overflow-y: auto;
 }
 
@@ -28,12 +30,13 @@
   margin: 0;
   font-size: 1.5rem;
   font-weight: 600;
+  color: #ecf0f1; /* Light text */
 }
 
 .attendance-head-left p {
   margin: 5px 0 0;
   font-size: 0.95rem;
-  color: #7f8c8d;
+  color: #bdc3c7; /* Lighter gray for secondary text */
 }
 
 .attendance-head-right {
@@ -52,14 +55,17 @@
 
 .filters label {
   font-weight: bold;
+  color: #ecf0f1; /* Light text for labels */
 }
 
 .filters select,
 .filters input {
   padding: 5px 10px;
   font-size: 1rem;
-  border: 1px solid #ccc;
+  border: 1px solid #7f8c8d; /* Lighter border */
   border-radius: 5px;
+  background-color: #34495e; /* Dark background for inputs */
+  color: #ecf0f1; /* Light text in inputs */
 }
 
 table {
@@ -70,22 +76,22 @@ table {
 
 table th,
 table td {
-  border: 1px solid #ddd;
+  border: 1px solid #7f8c8d; /* Lighter border */
   padding: 8px;
   text-align: center;
 }
 
 table th {
-  background-color: #2c3e50;
+  background-color: #2c3e50; /* Dark header background */
   color: white;
 }
 
 table tr:nth-child(even) {
-  background-color: #f9f9f9;
+  background-color: #3e4c59; /* Darker background for even rows */
 }
 
 table tr:hover {
-  background-color: #f1f1f1;
+  background-color: #4e5b66; /* Lighter hover effect */
 }
 
 button {
@@ -94,6 +100,8 @@ button {
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  background-color: #007bff; /* Primary button background */
+  color: white;
 }
 
 button:focus {

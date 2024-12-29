@@ -77,7 +77,7 @@ const SetPassword = () => {
   return (
     <div className="login-register-container">
       <div className="login-register-card">
-        <h2>Set Password</h2>
+        <h2>Reset Password</h2>
         <form onSubmit={handleSetpass}>
           <div className="input-group">
             <label htmlFor="email">Email:</label>
@@ -90,7 +90,7 @@ const SetPassword = () => {
             />
           </div>
           <button type="submit" className="login-button">
-            Send Email <FaEnvelope />
+            Get OTP <FaEnvelope />
           </button>
         </form>
         <p className="toggle-link">

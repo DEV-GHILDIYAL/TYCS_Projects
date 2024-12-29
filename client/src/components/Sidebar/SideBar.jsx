@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import {
   FaFileAlt,
   FaFolderOpen,
@@ -14,6 +14,7 @@ import "./Sidebar.css";
 import SidebarMenu from "./SidebarMenu";
 
 const SideBar = ({ children }) => {
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(true); // For desktop sidebar
   const [isMobileOpen, setIsMobileOpen] = useState(false); // For mobile hamburger menu
   const [userRole, setUserRole] = useState(null); // User role
@@ -88,7 +89,9 @@ const SideBar = ({ children }) => {
   }, []);
 
   const handleLogout = async () => {
-    Cookies.remove(userRole);
+    Cookies.remove("userRole");
+    
+    window.location.reload();
     try {
       // Call the backend logout API
       const response = await fetch(`${import.meta.env.VITE_BACK_URL}/auth/logout`, {
@@ -129,10 +132,8 @@ const getVisibleRoutes = () => {
 
   return (
     <div className="main-container">
-      <div
-        className={`sidebar ${isOpen ? "open" : "closed"} ${
-          isMobileOpen ? "mobile-open" : ""
-        }`}
+       <div
+        className={`sidebar ${isMobileOpen ? "mobile-open" : ""}`}
       >
         <div className="top-area">
           <div className="top_section">
@@ -142,6 +143,7 @@ const getVisibleRoutes = () => {
             {visibleRoutes.map((route, index) => {
               if (route.subRoutes) {
                 return (
+                  // <></>
                   <SidebarMenu
                     key={index}
                     route={route}
@@ -155,6 +157,7 @@ const getVisibleRoutes = () => {
                 );
               }
               return (
+                // <></>
                 <NavLink
                   to={route.path}
                   key={index}
@@ -208,6 +211,11 @@ const getVisibleRoutes = () => {
           )}
         </div>
       </div>
+      {/* <div className="mobile-navbar"></div>
+      <div className="desktop-navbar">
+     
+      </div> */}
+      
 
       <main>{children}</main>
     </div>

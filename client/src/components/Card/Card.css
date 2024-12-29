@@ -1,25 +1,26 @@
+/* Dark Theme for Card Component */
 .card {
   width: 1250px;
-  background: #ffffff; /* Clean white background */
+  background: #2c2c2c; /* Dark background for the card */
   border-radius: 15px; /* Smooth, modern rounded corners */
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Softer shadow for depth */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Softer shadow for depth */
   overflow: hidden;
-  max-width: 500px; /* Keep the max width same */
-  margin: 20px; /* More breathing room around cards */
+  max-width: 500px;
+  margin: 20px;
   display: flex;
-  flex-direction: row; /* Landscape layout */
+  flex-direction: row;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   position: relative;
 }
 
 .card:hover {
   transform: translateY(-5px); /* Slight hover effect */
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12); /* Slightly bolder shadow */
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25); /* Slightly bolder shadow */
 }
 
 .card-image {
-  width: 40%; /* Restrict image width */
-  height: 100%; /* Ensure image fills the height */
+  width: 40%;
+  height: 100%;
   object-fit: cover;
   border-top-left-radius: 15px;
   border-bottom-left-radius: 15px;
@@ -29,24 +30,23 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  align-items: flex-start; /* Align content to the left */
-  background-color: #f8f9fa; /* Subtle light gray background */
+  align-items: flex-start;
+  background-color: #3a3a3a; /* Slightly lighter dark gray background */
   border-top-right-radius: 15px;
   border-bottom-right-radius: 15px;
   flex-grow: 1;
+  padding: 20px; /* Padding for better content spacing */
 }
 
 .card-title {
-  font-size: 1.6rem; /* Larger, more impactful title */
+  font-size: 1.6rem;
   margin: 0;
   font-weight: 700;
-  overflow-wrap: break-word;
-  color: #222222; /* Stronger dark color */
-  text-align: left; /* Align text to the left */
+  color: #e0e0e0; /* Light text color */
+  text-align: left;
 }
 
 .card-description {
-  
   width: 160px;
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -55,43 +55,40 @@
   box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-  /* font-size: 1rem; Slightly larger for clarity */
-  /* color: #555555; Softer gray for description */
-  /* line-height: 1.7; More line height for readability */
-  /* margin: 12px 0; */
-  text-align: left; /* Align description to the left */
+  color: #b0b0b0; /* Light gray for description */
+  text-align: left;
 }
 
 .card-name {
-  font-size: 0.9rem; /* Increase readability */
-  color: #777777; /* Softer tone for author name */
+  font-size: 0.9rem;
+  color: #777777;
   margin-bottom: 10px;
-  text-align: left; /* Align name to the left */
+  text-align: left;
 }
 
 .card-button {
-  background-color: #007bff; /* Modern blue button color */
+  background-color: #6c63ff; /* Bright, contrasting button color */
   color: #ffffff;
   border: none;
   border-radius: 8px;
-  padding: 12px 18px; /* More padding for comfort */
+  padding: 12px 18px;
   font-size: 1rem;
   cursor: pointer;
   transition: background-color 0.2s ease, box-shadow 0.2s ease;
   text-align: center;
-  width: 100%; /* Make button stretch full width */
+  width: 100%;
 }
 
 .card-button:hover {
-  background-color: #0056b3; /* Darker blue on hover */
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); /* Slight shadow on hover */
+  background-color: #584de3; /* Darker purple on hover */
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2); /* Slight shadow on hover */
 }
 
 @media (max-width: 768px) {
   .card {
     max-width: 100%;
     flex-direction: column; /* Stack for mobile screens */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); /* Lighter shadow on mobile */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Lighter shadow on mobile */
   }
 
   .card-content {

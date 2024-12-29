@@ -1,18 +1,24 @@
+/* General Dark Theme Settings */
+body {
+  background-color: #121212; /* Dark background */
+  color: #e0e0e0; /* Light text for readability */
+}
+
 .profile-page-container {
   width: 1250px;
   display: flex;
   justify-content: center;
   height: 94vh;
-  background-color: #f4f4f9;
+  background-color: #181818; /* Dark background for the container */
   padding: 20px;
   box-sizing: border-box;
   overflow: hidden;
 }
 
 .profile-page-card {
-  background: #ffffff;
+  background: #1f1f1f; /* Darker card background */
   border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Slightly stronger shadow for dark mode */
   width: 100%;
   display: flex;
 }
@@ -20,16 +26,16 @@
 .profile-page-left-column {
   width: 50%;
   padding: 20px;
-  background: #f9f9f9;
+  background: #2c2c2c; /* Darker background for the left column */
   display: flex;
   flex-direction: column;
-  border-right: 2px dotted #ccc; /* Dotted line on the right side */
+  border-right: 2px dotted #444; /* Light dotted line */
 }
 
 .profile-page-right-column {
   width: 50%;
   padding: 20px;
-  background: #ffffff;
+  background: #1f1f1f; /* Dark background for the right column */
 }
 
 .profile-page-header {
@@ -44,29 +50,31 @@
 }
 
 .profile-page-photo {
-  width: 150px; /* Increased size */
-  height: 150px; /* Increased size */
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
   object-fit: cover;
-  border: 3px solid #ffffff;
+  border: 3px solid #1f1f1f; /* Dark border */
   margin-bottom: 15px;
   transition: transform 0.3s ease;
 }
 
 .profile-page-header-text h1 {
   font-size: 1.8em;
-  /* margin-bottom: -10px; */
+  color: #e0e0e0; /* Light text for heading */
 }
 
 .profile-page-roll-no {
   font-size: 1em;
   opacity: 0.8;
+  color: #b0b0b0; /* Lighter gray for the roll number */
 }
+
 .profile-page-camera-icon {
   position: absolute;
   bottom: 10px;
   right: 10px;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.7); /* Darker background */
   color: white;
   padding: 10px;
   border-radius: 100%;
@@ -76,12 +84,15 @@
   opacity: 1;
   transition: opacity 0.3s ease;
 }
+
 .profile-page-photo:hover + .profile-page-camera-icon {
   opacity: 1;
 }
+
 .profile-page-photo:hover {
   transform: scale(1.1);
 }
+
 .profile-page-photo-container {
   position: relative;
   display: inline-block;
@@ -97,17 +108,21 @@
   display: flex;
   flex-direction: row;
 }
-.profile-page-detail-row p{
+
+.profile-page-detail-row p {
   margin-left: 10px;
+  color: #e0e0e0; /* Light text */
 }
+
 .profile-page-detail-row label {
   font-weight: bold;
-  color: #333;
+  color: #e0e0e0; /* Lighter label color */
 }
 
 .profile-page-projects-section h2 {
   font-size: 1.5em;
   margin-bottom: 15px;
+  color: #e0e0e0; /* Light color for headings */
 }
 
 .profile-page-projects {
@@ -115,16 +130,14 @@
   flex-direction: column; /* Changed from row to column */
   gap: 20px;
 }
+
 .profile-page-project-card {
-  background: #f4f4f9;
+  background: #2c2c2c; /* Darker background for project card */
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  width: 100%; /* Make it full width */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3); /* Stronger shadow */
+  width: 100%;
   padding: 10px;
   text-align: center;
-}
-.profile-page-photo-container {
-  position: relative;
 }
 
 .profile-page-project-image {
@@ -137,7 +150,7 @@
 
 .profile-page-project-category {
   font-size: 0.85em;
-  color: #777;
+  color: #b0b0b0; /* Lighter gray for category text */
 }
 
 .profile-page-button {
@@ -146,11 +159,11 @@
   border-radius: 5px;
   font-size: 0.9em;
   cursor: pointer;
+  color: white;
 }
 
 .profile-page-button.primary {
   background: #6c63ff;
-  color: #ffffff;
 }
 
 .profile-page-button.primary:hover {
@@ -163,7 +176,8 @@
     flex-direction: column;
   }
 
-  .profile-page-left-column, .profile-page-right-column {
+  .profile-page-left-column,
+  .profile-page-right-column {
     width: 100%;
   }
 

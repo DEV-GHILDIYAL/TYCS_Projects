@@ -45,7 +45,7 @@ const LoginComponent = () => {
         setErrorMessage(errorMessage);
         return;
       }
-
+      
       // Assuming the server sets a secure, HTTP-only cookie for authentication
       toast.success("Login successful!", {
         position: "top-right",
@@ -54,13 +54,12 @@ const LoginComponent = () => {
         autoClose: 1000,
       });
 
-      setTimeout(() => {
-        navigate("/");
-      }, 1000);
     } catch (error) {
       console.error("Error during login:", error);
       setErrorMessage("An error occurred. Please check your network connection.");
     }
+    navigate("/");
+    window.location.reload();
   };
 
   return (
@@ -102,7 +101,7 @@ const LoginComponent = () => {
             onClick={() => navigate("/register")}
             className="toggle-button"
           >
-            Set password
+            Reset password
           </button>
         </p>
       </div>
