@@ -1,6 +1,6 @@
 /* General container styles */
 .dashboard-container {
-  width: max-content;
+  /* width: max-content; */
   font-family: Arial, sans-serif;
   color: #e0e0e0; /* Light text for dark background */
   padding: 20px;
