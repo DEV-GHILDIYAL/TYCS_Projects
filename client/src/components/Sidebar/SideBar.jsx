@@ -43,6 +43,18 @@ const SideBar = ({ children }) => {
       icon: <FaHome />,
       roles: ["admin", "loggedIn"],
     },
+    // {
+    //   path: "/management/attendance",
+    //   name: "Attendance",
+    //   icon: <FaLock />,
+    //   roles: ["admin", "loggedIn"],
+    // },
+    {
+      path: "/management/create-attendance",
+      name: "Create Attendance",
+      icon: <FaLock />,
+      roles: ["admin", "loggedIn"],
+    },
     {
       path: "/file-manager",
       name: "Management",
@@ -50,11 +62,7 @@ const SideBar = ({ children }) => {
       roles: ["admin", "loggedIn"],
       subRoutes: [
         { path: "/management/students", name: "Student", icon: <FaUser /> },
-        {
-          path: "/management/attendance",
-          name: "Attendance",
-          icon: <FaLock />,
-        },
+        
         {
           path: "/management/projects",
           name: "Project",

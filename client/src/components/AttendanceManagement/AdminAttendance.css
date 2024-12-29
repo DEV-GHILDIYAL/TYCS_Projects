@@ -1,6 +1,6 @@
 /* src/pages/AdminAttendance.css */
 .admin-attendance-page {
-  width: 1250px;
+  /* width: max-content; */
   display: flex;
   height: 94vh;
   background-color: #2c2c2c; /* Dark background for the page */
@@ -9,8 +9,8 @@
 .content {
   flex-grow: 1;
   padding: 20px;
-  background-color: #34495e; /* Darker background for content */
-  color: #ecf0f1; /* Light text */
+  background-color: #2c2c2c; /* Match dashboard background */
+  color: #e0e0e0; /* Light text */
   overflow-y: auto;
 }
 
@@ -30,13 +30,13 @@
   margin: 0;
   font-size: 1.5rem;
   font-weight: 600;
-  color: #ecf0f1; /* Light text */
+  color: #e0e0e0; /* Light text for header */
 }
 
 .attendance-head-left p {
   margin: 5px 0 0;
   font-size: 0.95rem;
-  color: #bdc3c7; /* Lighter gray for secondary text */
+  color: #a0a0a0; /* Softer gray for secondary text */
 }
 
 .attendance-head-right {
@@ -55,17 +55,22 @@
 
 .filters label {
   font-weight: bold;
-  color: #ecf0f1; /* Light text for labels */
+  color: #e0e0e0; /* Light text for labels */
 }
 
 .filters select,
 .filters input {
   padding: 5px 10px;
   font-size: 1rem;
-  border: 1px solid #7f8c8d; /* Lighter border */
+  border: 1px solid #6c757d; /* Subtle gray border */
   border-radius: 5px;
-  background-color: #34495e; /* Dark background for inputs */
-  color: #ecf0f1; /* Light text in inputs */
+  background-color: #444; /* Match input background with card theme */
+  color: #e0e0e0; /* Light text in inputs */
+}
+
+.filters select::placeholder,
+.filters input::placeholder {
+  color: #a0a0a0; /* Softer placeholder text */
 }
 
 table {
@@ -76,18 +81,18 @@ table {
 
 table th,
 table td {
-  border: 1px solid #7f8c8d; /* Lighter border */
+  border: 1px solid #6c757d; /* Subtle border for cells */
   padding: 8px;
   text-align: center;
 }
 
 table th {
-  background-color: #2c3e50; /* Dark header background */
-  color: white;
+  background-color: #444; /* Dark header background to match cards */
+  color: #e0e0e0; /* Light text for table headers */
 }
 
 table tr:nth-child(even) {
-  background-color: #3e4c59; /* Darker background for even rows */
+  background-color: #2f3b45; /* Darker background for even rows */
 }
 
 table tr:hover {
@@ -100,10 +105,16 @@ button {
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  background-color: #007bff; /* Primary button background */
-  color: white;
+  background-color: #007bff; /* Primary button color */
+  color: #fff; /* White text for buttons */
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
 }
 
 button:focus {
   outline: none;
+  box-shadow: 0 0 4px #007bff; /* Focus outline */
 }

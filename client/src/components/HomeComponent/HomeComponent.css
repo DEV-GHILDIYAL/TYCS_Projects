@@ -5,10 +5,10 @@ body {
 }
 
 .home-container {
-  width: 1250px;
+  width: max-content;
   padding: 20px;
   margin: 0 auto;
-  height: 90vh;
+  height: 94vh;
   background-color: #181818; /* Dark background */
   border-radius: 8px;
 }

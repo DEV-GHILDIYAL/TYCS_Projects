@@ -13,7 +13,7 @@ const Card = ({ image, title, description, onViewDetail, name, project }) => {
           ~
           {name.length > 10 ? `${name.substring(0, 5)}...` : name.split(" ")[0]}
         </p>
-        <button className="card-button" onClick={() => onViewDetail(project)}>
+        <button className="main-card-button" onClick={() => onViewDetail(project)}>
           View Details
         </button>
       </div>
