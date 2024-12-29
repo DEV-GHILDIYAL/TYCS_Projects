@@ -2,6 +2,7 @@
 //Just for now 
 const students = [
   { rollNumber: 101, name: "John Doe", projectName: "AI Chatbot", category: "Machine Learning", projectLink: "https://github.com/johndoe/ai-chatbot", department: "CS", noOfDayPresent: 8 },
+  { rollNumber: 101, name: "John Doe", projectName: "AI Chatbot", category: "Machine Learning", projectLink: "https://github.com/johndoe/ai-chatbot", department: "IT", noOfDayPresent: 8 },
   { rollNumber: 102, name: "Jane Smith", projectName: "E-Commerce Website", category: "Web Development", projectLink: "https://github.com/janesmith/ecommerce-website", department: "IT", noOfDayPresent: 7 },
   { rollNumber: 103, name: "Bob Johnson", projectName: "2D Platformer Game", category: "Game Development", projectLink: "https://github.com/bobjohnson/2d-platformer", department: "CS", noOfDayPresent: 6 },
   { rollNumber: 104, name: "Alice Davis", projectName: "Image Recognition App", category: "Machine Learning", projectLink: "https://github.com/alicedavis/image-recognition", department: "IT", noOfDayPresent: 9 },

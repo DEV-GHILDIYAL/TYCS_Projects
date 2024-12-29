@@ -38,6 +38,13 @@ export const loginUser = async (req, res) => {
       sameSite: process.env.NODE_ENV == "production" ? "none" : "strict",
       maxAge: 1000 * 60 * 60 * 24 * 7,
     });
+    res.cookie("userRole", user.role, {
+      httpOnly: false,
+      secure: process.env.NODE_ENV == "production",
+      sameSite: process.env.NODE_ENV == "production" ? "none" : "strict",
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+    });
+    console.log('Cookie header:', res.getHeaders()['set-cookie']);
 
     return res.json({ success: true });
   } catch (error) {
