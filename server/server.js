@@ -1,5 +1,6 @@
 import authRouter from "./routes/authRoutes.js";
 import userRouter from "./routes/userRoutes.js";
+import adminRouter from "./routes/adminRoutes.js";
 import authenticate from "./middleware/userAuth.js";
 import cookieParser from "cookie-parser";
 
@@ -35,7 +36,7 @@ app.use(cookieParser());
 //APT Endpoints
 app.use("/auth", authRouter);
 app.use("/", authenticate, userRouter);
-// app.get('/auth/admin',authenticate, adminRouter);
+app.get('/admin',authenticate, adminRouter);
 
 // app.get('*', (req, res) => {
 //     res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));

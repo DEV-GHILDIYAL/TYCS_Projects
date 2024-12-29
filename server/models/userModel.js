@@ -22,6 +22,7 @@ const UserSchema = new mongoose.Schema({
     department:{type:String, enum: ['CS','IT']},
     phoneNo:{type:Number,},
     batch:{type:String,},
+    year:{type:String,},
     resetOtp: { type: String, default:''},
     resetOtpExpireAt: { type: Number, default:0},
 },{ timestamps: true });
