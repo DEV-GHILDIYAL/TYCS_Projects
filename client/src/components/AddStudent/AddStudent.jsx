@@ -11,6 +11,7 @@ const AddStudent = () => {
     year: "",
     department: "",
     batch: "",
+    role:"student",
   });
 
   const handleInputChange = (e) => {
@@ -32,7 +33,7 @@ const AddStudent = () => {
     // }
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_BACK_URL}/addstudent`,
+        `${import.meta.env.VITE_BACK_URL}/admin/addstudent`,
         {
           method: "POST",
           headers: {
@@ -53,6 +54,7 @@ const AddStudent = () => {
           year: "",
           department: "",
           batch: "",
+          role:"student",
         });
 
         toast.success("Student added!", {
@@ -161,8 +163,8 @@ const AddStudent = () => {
               <option value="" disabled>
                 Select Role
               </option>
-              <option value="student">Student</option>
-              <option value="admin">Admin</option>
+              <option value="student">student</option>
+              <option value="admin">admin</option>
             </select>
           </div>
 

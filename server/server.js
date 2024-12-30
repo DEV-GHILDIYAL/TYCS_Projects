@@ -36,7 +36,7 @@ app.use(cookieParser());
 //APT Endpoints
 app.use("/auth", authRouter);
 app.use("/", authenticate, userRouter);
-app.use("/", adminRouter);
+app.use("/admin", adminRouter);
 
 // app.get('*', (req, res) => {
 //     res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
