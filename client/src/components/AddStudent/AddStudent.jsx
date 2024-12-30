@@ -84,7 +84,7 @@ const AddStudent = () => {
   return (
     <div className="add-student-container">
       <div className="add-student-card">
-        <h2 className="add-student-title">Add Student</h2>
+        <h2 className="add-student-title">Add Student or Admin</h2>
         <form>
           {/* Grouped Name, Email, and Roll Number */}
           <div className="add-student-input-row">
@@ -147,6 +147,22 @@ const AddStudent = () => {
               <option value="2022-2024">2022-2024</option>
               <option value="2024-2025">2024-2025</option>
               <option value="2025-2026">2025-2026</option>
+            </select>
+          </div>
+          <div className="add-student-input-group">
+            <label className="add-student-label">Role</label>
+            <select
+              name="role"
+              value={student.role || "student"}
+              onChange={handleInputChange}
+              className="add-student-select"
+              required
+            >
+              <option value="" disabled>
+                Select Role
+              </option>
+              <option value="student">Student</option>
+              <option value="admin">Admin</option>
             </select>
           </div>
 

@@ -50,8 +50,8 @@ const SideBar = ({ children }) => {
     //   roles: ["admin", "loggedIn"],
     // },
     {
-      path: "/management/create-attendance",
-      name: "Create Attendance",
+      path: "/management/attendance-sessions",
+      name: "Attendance Sessions",
       icon: <FaLock />,
       roles: ["admin", "loggedIn"],
     },

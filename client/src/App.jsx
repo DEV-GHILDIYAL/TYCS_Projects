@@ -16,6 +16,7 @@ import EventDetailsForm from "./components/CreateEventForm/EventDetailsFrom";
 import OtpInput from "./components/OtpInput/OtpComponent";
 import AddStudent from "./components/AddStudent/AddStudent";
 import CreateAttendanceSession from "./components/CreateAttendanceSession/CreateAttendanceSession";
+import CreateSessionForm from "./components/CreateSessionForm/CreateSessionForm";
 
 function App() {
   const handleExport = () => {
@@ -50,7 +51,8 @@ function App() {
           />
           <Route path="/management/students" element={<StudentManagement />} />
           
-          <Route path="/management/create-attendance" element={<CreateAttendanceSession />} />
+          <Route path="/management/attendance-sessions" element={<CreateAttendanceSession />} />
+          <Route path="/create-session" element={<CreateSessionForm />} />
           <Route path="/add-student" element={<AddStudent />} />
           <Route path="/management/attendance" element={<AdminAttendance />} />
           <Route path="/management/projects" element={<ProjectManagement />} />
