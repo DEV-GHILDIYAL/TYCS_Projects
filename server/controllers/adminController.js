@@ -4,7 +4,7 @@ export const addstudent = async (req, res) => {
     const { email,name,rollNo,batch,department,year } = req.body;
   try {
 
-    const userExist = await userModel.findOne({ email });
+    const userExist = await userModel.find({ email:email });
     if (!userExist) {
       console.error("User exist with this email:", email);
       return res.status(401).json({ message: "Email exist" });

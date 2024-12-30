@@ -7,10 +7,10 @@ const AddStudent = () => {
   const [student, setStudent] = useState({
     name: "",
     email: "",
-    rollNumber: "",
+    rollNo: "",
     year: "",
     department: "",
-    batchGroup: "",
+    batch: "",
   });
 
   const handleInputChange = (e) => {
@@ -19,41 +19,65 @@ const AddStudent = () => {
   };
 
   const handleAddStudent = async () => {
-    if (
-      !student.name ||
-      !student.email ||
-      !student.rollNumber ||
-      !student.batch ||
-      !student.department ||
-      !student.batchGroup
-    ) {
-      alert("Please fill out all fields!");
-      return;
-    }
+    // if (
+    //   !student.name ||
+    //   !student.email ||
+    //   !student.rollNo ||
+    //   !student.batch ||
+    //   !student.department ||
+    //   !student.batch
+    // ) {
+    //   alert("Please fill out all fields!");
+    //   return;
+    // }
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_BACK_URL}/admin/addstudent`,
+        `${import.meta.env.VITE_BACK_URL}/addstudent`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ student }),
+          body: JSON.stringify(student),
           credentials: "include", // Required to include cookies
         }
       );
+      const data = await response.json(); // Parse response JSON
+      console.log("Server response:", data); // Debug response
 
       if (response.ok) {
-        console.log("response from addstudent,", response);
+        setStudent({
+          name: "",
+          email: "",
+          rollNo: "",
+          year: "",
+          department: "",
+          batch: "",
+        });
+
         toast.success("Student added!", {
           position: "top-right",
           theme: "light",
           transition: Slide,
           autoClose: 1000,
         });
+      } else {
+        toast.error("Email already exist", {
+          position: "top-right",
+          theme: "dark",
+          transition: Slide,
+          autoClose: 1000,
+        });
       }
     } catch (error) {
-      console.error("error saving student");
+      console.error("Failed to add student. Please try again!");
+      toast.error("Failed to add student. Please try again!", {
+        position: "top-right",
+        theme: "dark",
+        transition: Slide,
+        autoClose: 1000,
+      });
+
     }
   };
 
@@ -97,8 +121,8 @@ const AddStudent = () => {
               <label className="add-student-label">Roll Number</label>
               <input
                 type="text"
-                name="rollNumber"
-                value={student.rollNumber}
+                name="rollNo" // Match the key in the student state
+                value={student.rollNo} // Access the correct property
                 onChange={handleInputChange}
                 className="add-student-input"
                 placeholder="Enter roll number"
@@ -111,7 +135,7 @@ const AddStudent = () => {
           <div className="add-student-input-group">
             <label className="add-student-label">Year</label>
             <select
-              name="batch"
+              name="year"
               value={student.year}
               onChange={handleInputChange}
               className="add-student-select"
@@ -128,16 +152,16 @@ const AddStudent = () => {
 
           {/* Batch Group */}
           <div className="add-student-input-group">
-            <label className="add-student-label">Batch Group</label>
+            <label className="add-student-label">Batch</label>
             <select
-              name="batchGroup"
-              value={student.batchGroup}
+              name="batch"
+              value={student.batch}
               onChange={handleInputChange}
               className="add-student-select"
               required
             >
               <option value="" disabled>
-                Select Batch Group
+                Select Batch
               </option>
               <option value="Batch1">Batch1</option>
               <option value="Batch2">Batch2</option>
