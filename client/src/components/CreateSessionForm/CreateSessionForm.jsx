@@ -3,7 +3,7 @@ import "./CreateSessionForm.css";
 import { useNavigate } from "react-router-dom";
 
 const CreateSessionForm = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     department: "",
     year: "",
@@ -18,22 +18,64 @@ const CreateSessionForm = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const createSession = () => {
+  const createSession = async() => {
+    //backend call
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_BACK_URL}/admin/attendance`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+          credentials: "include", // Required to include cookies
+        }
+      );
+      const data = await response.json(); // Parse response JSON
+      console.log("Server response createsessionform:", data); // Debug response
+
+      if (response.ok) {
+        setFormData({
+          department: "",
+          year: "",
+          projectNumber: "",
+          batch: "",
+          date: "",
+          sessionNo: "",
+        });
+
+        toast.success("Session added!", {
+          position: "top-right",
+          theme: "light",
+          transition: Slide,
+          autoClose: 1000,
+        });
+      } else {
+        toast.error("Session number is already used", {
+          position: "top-right",
+          theme: "dark",
+          transition: Slide,
+          autoClose: 1000,
+        });
+      }
+    } catch (error) {
+      console.error("Failed to add session. Please try again!");
+      toast.error("Failed to add student. Please try again!", {
+        position: "top-right",
+        theme: "dark",
+        transition: Slide,
+        autoClose: 1000,
+      });
+    }
     navigate('/management/attendance')
+
   }
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Session Created:", formData);
     // Reset form fields after submission
-    setFormData({
-      department: "",
-      year: "",
-      projectNumber: "",
-      batch: "",
-      date: "",
-      sessionNo: "",
-    });
   };
 
   return (

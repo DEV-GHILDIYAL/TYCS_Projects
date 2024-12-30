@@ -18,7 +18,7 @@ const UserSchema = new mongoose.Schema({
         default:"fdljkasfhdflijkashfld",
         required: true,
     },
-    role: { type: String, enum: ['admin', 'student'], },
+    role: { type: String, enum: ['admin', 'student'],required:true },
     department:{type:String, enum: ['CS','IT']},
     phoneNo:{type:Number,},
     batch:{type:String,},
