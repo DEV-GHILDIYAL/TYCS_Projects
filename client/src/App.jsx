@@ -41,8 +41,8 @@ function App() {
 
   return (
     <>
-      {isDesktop ? <SideBar /> : <Navbar />}
-      <Routes>
+      {isDesktop ? <SideBar>
+        <Routes>
         {/* NORMAL USER */}
         <Route path="/" element={<Home />} />
         <Route path="/my-projects" element={<MyProjects />} />
@@ -77,6 +77,43 @@ function App() {
         <Route path="/otp" element={<OtpInput />} />
         <Route path="*" element={<div>Not Found</div>} />
       </Routes>
+      </SideBar> :<> <Navbar />
+      <Routes>
+      {/* NORMAL USER */}
+      <Route path="/" element={<Home />} />
+      <Route path="/my-projects" element={<MyProjects />} />
+      <Route path="/create-project" element={<EventDetailsForm />} />
+
+      {/* ADMIN USER */}
+      <Route
+        path="/dashboard"
+        element={
+          <Dashboard
+            noOfStudents={200}
+            noOfProjects={50}
+            attendanceToday={{ present: 180, absent: 20 }}
+            pendingReviews={10}
+            onExport={handleExport}
+            onAddStudent={handleAddStudent}
+          />
+        }
+      />
+      <Route path="/management/students" element={<StudentManagement />} />
+      <Route path="/management/attendance-sessions" element={<CreateAttendanceSession />} />
+      <Route path="/create-session" element={<CreateSessionForm />} />
+      <Route path="/add-student" element={<AddStudent />} />
+      <Route path="/management/attendance" element={<AdminAttendance />} />
+      <Route path="/management/projects" element={<ProjectManagement />} />
+
+      {/* FOR ALL */}
+      <Route path="/about-us" element={<About />} />
+      <Route path="/login" element={<LoginComponent />} />
+      <Route path="/register" element={<SetPassword />} />
+      <Route path="/profile" element={<Profile />} />
+      <Route path="/otp" element={<OtpInput />} />
+      <Route path="*" element={<div>Not Found</div>} />
+    </Routes></>}
+      
     </>
   );
 }
