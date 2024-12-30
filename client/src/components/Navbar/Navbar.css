@@ -1,55 +1,115 @@
-/* NavBar.css */
-
 /* Basic styles for the Navbar */
 .navbar {
-    display: flex;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #333; /* Dark background */
+  color: white;
+  padding: 10px 20px;
+  position: relative;
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.navbar-brand h1 {
+  margin: 0;
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+/* Hamburger menu styling */
+.navbar-right {
+  display: flex;
+  align-items: center;
+}
+
+.hamburger {
+  display: none;
+  cursor: pointer;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.line {
+  width: 30px;
+  height: 3px;
+  background-color: white;
+  transition: all 0.3s;
+}
+
+.line.open {
+  transform: rotate(45deg);
+  position: relative;
+}
+
+.line.open:nth-child(2) {
+  opacity: 0;
+}
+
+.line.open:nth-child(3) {
+  transform: rotate(-45deg);
+  position: relative;
+}
+
+/* Navbar links styling */
+.navbar-links {
+  display: flex;
+  gap: 20px;
+}
+
+.navbar-link {
+  color: white;
+  text-decoration: none;
+  font-size: 1em;
+  padding: 8px 16px;
+  border-radius: 4px;
+}
+
+.navbar-link:hover {
+  background-color: #575757;
+}
+
+/* Responsive styles for mobile */
+@media screen and (max-width: 768px) {
+  .navbar {
+    flex-direction: row;
     justify-content: space-between;
-    align-items: center;
-    background-color: #333; /* Dark background */
-    color: white;
-    padding: 10px 20px;
   }
-  
-  .navbar-brand h1 {
-    margin: 0;
-    font-size: 1.5em;
-    font-weight: bold;
-  }
-  
-  .navbar-links {
+
+  /* Show the hamburger menu */
+  .hamburger {
     display: flex;
-    gap: 20px;
   }
-  
+
+  /* Hide navbar links by default on mobile */
+  .navbar-links {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 10px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #333;
+    height: 100vh;
+    z-index: 999;
+    transition: transform 0.3s ease-in-out;
+  }
+
+  /* When the menu is active, show the links */
+  .navbar-links.active {
+    display: flex;
+    transform: translateX(0);
+  }
+
   .navbar-link {
-    color: white;
-    text-decoration: none;
-    font-size: 1em;
-    padding: 8px 16px;
-    border-radius: 4px;
+    width: 100%;
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #575757;
   }
-  
-  .navbar-link:hover {
-    background-color: #575757;
-  }
-  
-  /* Responsive styles for mobile */
-  @media screen and (max-width: 768px) {
-    .navbar {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-  
-    .navbar-links {
-      flex-direction: column;
-      width: 100%;
-      margin-top: 10px;
-    }
-  
-    .navbar-link {
-      width: 100%;
-      padding: 10px;
-      text-align: left;
-    }
-  }
-  
+}
