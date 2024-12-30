@@ -6,7 +6,9 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
+#root{
+  display: flex;
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
@@ -20,4 +22,10 @@ li {
 }
 a {
   text-decoration: none;
+}
+
+@media (max-width: 768px) {
+  #root{
+    display: block;
+  }
 }
