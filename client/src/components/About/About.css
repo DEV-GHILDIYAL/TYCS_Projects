@@ -1,7 +1,7 @@
 /* Main Container */
 .about-container {
   width: 100%; 
-  max-width: 1250px; /* Maximum width for larger screens */
+   /* width: 1250px; */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -13,42 +13,41 @@
   box-sizing: border-box;
   height: auto; /* Allow the container to grow based on content */
   min-height: 100vh; /* Ensure it covers the full viewport height */
-  margin: 0 auto; /* Center the container */
 }
 
 /* Large Title: Centered at Top */
 .about-title {
-  font-size: 2rem; /* Responsive font size */
+  font-size: 2rem; /* Reduce title size */
   color: #e0e0e0; /* Light color for text */
   text-align: center;
   margin-top: 0;
-  margin-bottom: 10px;
+  margin-bottom: 3px;
   font-weight: bold;
 }
 
 /* Sections - Moved to left */
 .about-section {
-  width: 90%; /* Fluid width for better responsiveness */
-  max-width: 1000px;
+  width: 85%;
+  max-width: 1200px;
   text-align: left;
   margin: 0 auto;
   color: #e0e0e0; /* Adjusted for dark theme */
-  line-height: 1.6;
+  line-height: 1.4;
 }
 
 /* Text Paragraph */
 .about-section p {
   text-align: left;
-  font-size: 1rem; /* Scalable font size */
-  margin: 15px 0;
+  font-size: 14px;
+  margin: 15px 0px;
   color: #b0b0b0; /* Lighter color for paragraphs */
 }
 
 /* Section Titles */
 .about-section h2 {
-  font-size: 1.5rem; /* Scalable title size */
+  font-size: 1.5rem;
   color: #e0e0e0; /* Lighter section title color */
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   margin-top: 0;
   font-weight: bold;
   text-align: left;
@@ -71,7 +70,7 @@ ul {
 }
 
 ul li {
-  font-size: 1rem;
+  font-size: 14px;
   margin-bottom: 5px;
   color: #e0e0e0; /* Adjust list items color for dark theme */
 }
@@ -85,7 +84,7 @@ ul li {
   }
 
   .about-section {
-    width: 95%;
+    width: 90%;
   }
 
   .about-section h2 {
@@ -93,14 +92,14 @@ ul li {
   }
 
   .about-section p {
-    font-size: 0.95rem;
+    font-size: 13px;
   }
 }
 
 /* For mobile phones */
 @media (max-width: 768px) {
   .about-container {
-    padding: 20px 15px;
+    padding: 20px 10px; /* Add more padding on mobile */
   }
 
   .about-title {
@@ -108,7 +107,7 @@ ul li {
   }
 
   .about-section {
-    width: 100%;
+    width: 95%;
   }
 
   .about-section h2 {
@@ -116,11 +115,11 @@ ul li {
   }
 
   .about-section p {
-    font-size: 0.85rem;
+    font-size: 12px;
   }
 
   ul li {
-    font-size: 0.85rem;
+    font-size: 12px;
   }
 }
 
@@ -128,7 +127,7 @@ ul li {
 @media (max-width: 480px) {
   .about-title {
     font-size: 1.4rem;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
   }
 
   .about-section h2 {
@@ -136,10 +135,10 @@ ul li {
   }
 
   .about-section p {
-    font-size: 0.8rem;
+    font-size: 11px;
   }
 
   ul li {
-    font-size: 0.8rem;
+    font-size: 11px;
   }
 }

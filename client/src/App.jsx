@@ -1,5 +1,5 @@
 import "./App.css";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import { Home } from "./pages/Home";
 import SideBar from "./components/Sidebar/SideBar";
 import Navbar from "./components/Navbar/Navbar";  // Ensure Navbar is imported
@@ -18,8 +18,10 @@ import AddStudent from "./components/AddStudent/AddStudent";
 import CreateAttendanceSession from "./components/CreateAttendanceSession/CreateAttendanceSession";
 import CreateSessionForm from "./components/CreateSessionForm/CreateSessionForm";
 import { useState, useEffect } from "react";
+import ExportDataComponent from "./components/ExportDataComponent/ExportDataComponent";
 
 function App() {
+  const navigate = useNavigate();
   const [isDesktop, setIsDesktop] = useState(window.innerWidth > 800);
 
   // Handle screen size changes
@@ -31,6 +33,7 @@ function App() {
 
   const handleExport = () => {
     console.log("Exporting data...");
+    navigate('/export-data')
     // Add your export logic here
   };
 
@@ -68,6 +71,8 @@ function App() {
         <Route path="/add-student" element={<AddStudent />} />
         <Route path="/management/attendance" element={<AdminAttendance />} />
         <Route path="/management/projects" element={<ProjectManagement />} />
+        
+        <Route path="/export-data" element={<ExportDataComponent />} />
 
         {/* FOR ALL */}
         <Route path="/about-us" element={<About />} />
@@ -104,6 +109,7 @@ function App() {
       <Route path="/add-student" element={<AddStudent />} />
       <Route path="/management/attendance" element={<AdminAttendance />} />
       <Route path="/management/projects" element={<ProjectManagement />} />
+      <Route path="/export-data" element={<ExportDataComponent />} />
 
       {/* FOR ALL */}
       <Route path="/about-us" element={<About />} />

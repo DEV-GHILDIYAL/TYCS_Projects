@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import { FaCamera } from "react-icons/fa";  // Importing the camera icon from react-icons/fa
 import "./Profile.css";
 
+import Cookies from "js-cookie";
+
 const Profile = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Login status
   const [profilePhoto, setProfilePhoto] = useState(
     "https://ichef.bbci.co.uk/images/ic/1200x675/p03c84wz.jpg"
   );
@@ -28,6 +31,27 @@ const Profile = () => {
       },
     },
   };
+
+  useEffect(() => {
+      const checkAuth = () => {
+        try {
+          const userRole = Cookies.get("userRole");
+          console.log("User role from cookie:", userRole);
+  
+          if (userRole) {
+            setIsLoggedIn(true);
+          } else {
+            console.warn("No role cookie found");
+            setIsLoggedIn(false);
+          }
+        } catch (err) {
+          console.error("Auth check error:", err);
+          setIsLoggedIn(false);
+        }
+      };
+  
+      checkAuth();
+    }, []);
 
   const handleEditDetails = () => {
     alert("Edit Details functionality coming soon!");
