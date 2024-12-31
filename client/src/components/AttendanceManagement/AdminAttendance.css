@@ -1,9 +1,16 @@
 /* src/pages/AdminAttendance.css */
+
 .admin-attendance-page {
-  /* width: max-content; */
   display: flex;
-  height: 94vh;
+  flex-direction: column;
+  height: 100vh;
   background-color: #2c2c2c; /* Dark background for the page */
+}
+
+@media (min-width: 768px) {
+  .admin-attendance-page {
+    flex-direction: row;
+  }
 }
 
 .content {
@@ -19,11 +26,14 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 15px;
+  flex-wrap: wrap;
 }
 
 .attendance-head-left {
   display: flex;
   flex-direction: column;
+  flex: 1;
+  min-width: 200px;
 }
 
 .attendance-head-left h1 {
@@ -44,6 +54,9 @@
   gap: 20px;
   align-items: center;
   flex-wrap: wrap;
+  justify-content: flex-end;
+  flex: 1;
+  min-width: 200px;
 }
 
 .filters {
@@ -66,11 +79,20 @@
   border-radius: 5px;
   background-color: #444; /* Match input background with card theme */
   color: #e0e0e0; /* Light text in inputs */
+  max-width: 100%;
 }
 
 .filters select::placeholder,
 .filters input::placeholder {
   color: #a0a0a0; /* Softer placeholder text */
+}
+
+@media (max-width: 768px) {
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
 }
 
 table {

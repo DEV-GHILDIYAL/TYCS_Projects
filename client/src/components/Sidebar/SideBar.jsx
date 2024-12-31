@@ -8,7 +8,6 @@ import {
   FaUser,
 } from "react-icons/fa";
 import { useState, useEffect } from "react";
-import { jwtDecode } from "jwt-decode";
 import Cookies from "js-cookie";
 import "./Sidebar.css";
 import SidebarMenu from "./SidebarMenu";
@@ -43,12 +42,6 @@ const SideBar = ({ children }) => {
       icon: <FaHome />,
       roles: ["admin", "loggedIn"],
     },
-    // {
-    //   path: "/management/attendance",
-    //   name: "Attendance",
-    //   icon: <FaLock />,
-    //   roles: ["admin", "loggedIn"],
-    // },
     {
       path: "/management/attendance-sessions",
       name: "Attendance Sessions",

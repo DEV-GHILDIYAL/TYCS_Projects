@@ -174,14 +174,48 @@ body {
 @media (max-width: 768px) {
   .profile-page-container {
     flex-direction: column;
+    width: 100%;
+    height: auto;
+    padding: 10px;
+  }
+
+  .profile-page-card {
+    flex-direction: column;
+    box-shadow: none;
+    border-radius: 0;
   }
 
   .profile-page-left-column,
   .profile-page-right-column {
     width: 100%;
+    padding: 15px;
+    border-right: none;
+  }
+
+  .profile-page-photo {
+    width: 120px;
+    height: 120px;
+  }
+
+  .profile-page-header-text h1 {
+    font-size: 1.5em;
   }
 
   .profile-page-project-card {
-    width: 100%;
+    padding: 8px;
+    gap: 15px;
+  }
+
+  .profile-page-project-image {
+    height: 100px;
+  }
+
+  .profile-page-projects {
+    gap: 15px;
+  }
+
+  .profile-page-button {
+    padding: 6px 12px;
+    font-size: 0.8em;
   }
 }
