@@ -29,10 +29,28 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     Cookies.remove("userRole");
-    Cookies.remove("token");
-    setIsLoggedIn(false);
-    setUserRole(null);
-    navigate("/login");
+        
+        window.location.reload();
+        try {
+          // Call the backend logout API
+          const response = await fetch(`${import.meta.env.VITE_BACK_URL}/auth/logout`, {
+            method: "POST",
+            credentials: "include", // Ensures cookies are sent with the request
+          });
+      
+          if (response.ok) {
+            // If logout is successful, clear cookies and update state
+            // Cookies.remove("token");
+            Cookies.remove("userRole");
+            setIsLoggedIn(false);
+            setUserRole(null);
+            console.log("Logout successful");
+          } else {
+            console.warn("Logout failed:", await response.text());
+          }
+        } catch (error) {
+          console.error("Error during logout:", error.message);
+        }
   };
 
   useEffect(() => {

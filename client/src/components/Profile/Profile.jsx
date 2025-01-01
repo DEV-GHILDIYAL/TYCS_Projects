@@ -1,7 +1,6 @@
-import React, { useState } from "react";
-import { FaCamera } from "react-icons/fa";  // Importing the camera icon from react-icons/fa
+import React, { useEffect, useState } from "react";
+import { FaCamera } from "react-icons/fa"; // Importing the camera icon from react-icons/fa
 import "./Profile.css";
-
 import Cookies from "js-cookie";
 
 const Profile = () => {
@@ -9,49 +8,56 @@ const Profile = () => {
   const [profilePhoto, setProfilePhoto] = useState(
     "https://ichef.bbci.co.uk/images/ic/1200x675/p03c84wz.jpg"
   );
-
-  const profileData = {
-    username: "Dev Ghildiyal",
-    rollNo: "CS421",
-    phoneNo: "123-456-7890",
-    year: "2024-2025",
-    batch: "Batch 1",
-    department: "Computer Science",
-    email: "g22.dev.ghildiyal@gnkhalsa.edu.in",
-    projects: {
-      sem5: {
-        title: "Library Management System",
-        category: "Website Development",
-        image: "https://media.istockphoto.com/id/1451316016/photo/lms-learning-management-system-for-lesson-and-online-education-course-application-study-e.jpg?s=2048x2048&w=is&k=20&c=JRMwex9Pjv1gtqvFYsYb80TXrggyIVh-grnmn6fQr-k=",
-      },
-      sem6: {
-        title: "AI Chatbot",
-        category: "App Development",
-        image: "https://img.freepik.com/premium-vector/computer-online-chat-notices_441769-114.jpg?semt=ais_hybrid",
-      },
-    },
-  };
+  const [profileData, setProfileData] = useState(null); // Dynamic profile data
 
   useEffect(() => {
-      const checkAuth = () => {
-        try {
-          const userRole = Cookies.get("userRole");
-          console.log("User role from cookie:", userRole);
+    const checkAuth = async () => {
+      try {
+        const token = Cookies.get("userRole"); // Get the token from cookies
+        console.log("User token from cookie:", token);
   
-          if (userRole) {
-            setIsLoggedIn(true);
-          } else {
-            console.warn("No role cookie found");
-            setIsLoggedIn(false);
-          }
-        } catch (err) {
-          console.error("Auth check error:", err);
+        if (token) {
+          setIsLoggedIn(true);
+          await fetchUserData(token); // Fetch user data if token exists
+        } else {
+          console.warn("No token found in cookies");
           setIsLoggedIn(false);
         }
-      };
+      } catch (err) {
+        console.error("Auth check error:", err);
+        setIsLoggedIn(false);
+      }
+    };
   
-      checkAuth();
-    }, []);
+    const fetchUserData = async (token) => {
+      try {
+        const response = await fetch(`${import.meta.env.VITE_BACK_URL}/auth/get-profile`, { // Replace with your API endpoint
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`, // Include the token for authentication
+            "Content-Type": "application/json",
+          },
+        });
+  
+        if (response.ok) {
+          const data = await response.json();
+          console.log("Fetched user data:", data);
+          setProfileData(data); // Update profile data
+        } else if (response.status === 401) {
+          console.log(token);
+          console.error("Unauthorized. Token might be invalid or expired.");
+          setIsLoggedIn(false);
+        } else {
+          console.error("Failed to fetch user data", response.status);
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+  
+    checkAuth();
+  }, []);
+  
 
   const handleEditDetails = () => {
     alert("Edit Details functionality coming soon!");
@@ -67,6 +73,14 @@ const Profile = () => {
       reader.readAsDataURL(file);
     }
   };
+
+  if (!isLoggedIn) {
+    return <p>Please log in to view your profile.</p>;
+  }
+
+  if (!profileData) {
+    return <p>Loading profile data...</p>;
+  }
 
   return (
     <div className="profile-page-container">
@@ -133,30 +147,20 @@ const Profile = () => {
           <section className="profile-page-projects-section">
             <h2>Projects</h2>
             <div className="profile-page-projects">
-              <div className="profile-page-project-card">
-                <img
-                  src={profileData.projects.sem5.image}
-                  alt="Project Image"
-                  className="profile-page-project-image"
-                />
-                <h3>{profileData.projects.sem5.title}</h3>
-                <p className="profile-page-project-category">
-                  Category: {profileData.projects.sem5.category}
-                </p>
-                <p>Semester: 5</p>
-              </div>
-              <div className="profile-page-project-card">
-                <img
-                  src={profileData.projects.sem6.image}
-                  alt="Project Image"
-                  className="profile-page-project-image"
-                />
-                <h3>{profileData.projects.sem6.title}</h3>
-                <p className="profile-page-project-category">
-                  Category: {profileData.projects.sem6.category}
-                </p>
-                <p>Semester: 6</p>
-              </div>
+              {profileData.projects.map((project, index) => (
+                <div key={index} className="profile-page-project-card">
+                  <img
+                    src={project.image}
+                    alt={`Project ${project.title}`}
+                    className="profile-page-project-image"
+                  />
+                  <h3>{project.title}</h3>
+                  <p className="profile-page-project-category">
+                    Category: {project.category}
+                  </p>
+                  <p>Semester: {project.semester}</p>
+                </div>
+              ))}
             </div>
           </section>
         </div>

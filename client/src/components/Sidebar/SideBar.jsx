@@ -102,7 +102,7 @@ const SideBar = ({ children }) => {
   
       if (response.ok) {
         // If logout is successful, clear cookies and update state
-        Cookies.remove("token");
+        // Cookies.remove("token");
         Cookies.remove("userRole");
         setIsLoggedIn(false);
         setUserRole(null);
@@ -212,10 +212,6 @@ const getVisibleRoutes = () => {
           )}
         </div>
       </div>
-      {/* <div className="mobile-navbar"></div>
-      <div className="desktop-navbar">
-     
-      </div> */}
       
 
       <main>{children}</main>

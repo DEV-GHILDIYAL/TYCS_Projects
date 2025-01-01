@@ -18,7 +18,7 @@ body {
 }
 
 main {
-  padding: 24px;
+  /* padding: 24px; */
   flex-grow: 1;
   background-color: #232323; /* Slightly lighter than body */
 }

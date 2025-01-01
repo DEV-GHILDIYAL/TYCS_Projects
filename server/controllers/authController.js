@@ -152,3 +152,50 @@ export const resetPassword = async (req, res) => {
     return res.json({ success: false, message: error.message });
   }
 }
+
+export const getProfile = async (req, res) => {
+  try {
+    // Get token from the Authorization header
+    const token = req.cookies?.token;
+
+    if (!token) {
+      return res.status(401).json({ message: "No token provided" });
+    }
+
+    // Verify token
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    // Fetch user data from the database using the decoded user ID
+    const user = await User.findById(decoded.userId);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Prepare user data to send as a response
+    const profileData = {
+      username: user.username,
+      rollNo: user.rollNo,
+      phoneNo: user.phoneNo,
+      email: user.email,
+      year: user.year,
+      batch: user.batch,
+      department: user.department,
+      projects: user.projects, // Assuming this is an array of projects
+    };
+
+    res.status(200).json(profileData);
+  } catch (error) {
+    console.error("Error fetching profile:", error);
+
+    if (error.name === "JsonWebTokenError") {
+      return res.status(401).json({ message: "Invalid token" });
+    }
+
+    if (error.name === "TokenExpiredError") {
+      return res.status(401).json({ message: "Token expired" });
+    }
+
+    res.status(500).json({ message: "Internal server error" });
+  }
+};

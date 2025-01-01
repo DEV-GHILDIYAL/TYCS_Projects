@@ -5,5 +5,6 @@ const adminRouter = express.Router();
 adminRouter.post('/addstudent', addstudent);
 
 adminRouter.post('/attendance', attendance);
+adminRouter.get('/user-data')
 
 export default adminRouter;

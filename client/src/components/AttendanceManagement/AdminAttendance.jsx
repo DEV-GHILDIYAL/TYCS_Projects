@@ -43,6 +43,7 @@ const AdminAttendance = () => {
             )}
           </tbody>
         </table>
+        <button className="attendance-student-submit">Submit</button>
       </div>
     </div>
   );
