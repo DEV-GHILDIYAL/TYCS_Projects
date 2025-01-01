@@ -1,10 +1,13 @@
 // src/pages/AdminAttendance.jsx
-import React, { useState } from "react";
+import React from "react";
 import "./StudentManagement.css";
-import student from "../../data/students";
+// import student from "../../data/students"
 import { RowComponentForStudent } from "../RowComponent/RowComponent";
+import { toast, Slide } from "react-toastify";
+import { useState, useEffect } from "react";
 
 const StudentManagement = () => {
+  const [allstudents, setallstudents] = useState([]);
   const [filters, setFilters] = useState({
     department: "",
     batch: "",
@@ -21,15 +24,59 @@ const StudentManagement = () => {
     }));
   };
 
-  const filteredStudents = student.filter((stud) => {
+  const filteredStudents = allstudents.filter((stud) => {
     return (
       (!filters.department || stud.department === filters.department) &&
       (!filters.batch || stud.batch === filters.batch) &&
       (!filters.year || stud.year === filters.year) &&
-      (!filters.projectNumber || stud.projectNumber === filters.projectNumber) &&
+      (!filters.projectNumber ||
+        stud.projectNumber === filters.projectNumber) &&
       (!filters.category || stud.category === filters.category)
     );
   });
+
+  useEffect(() => {
+    const fetchStudents = async () => {
+      try {
+        const response = await fetch(`http://localhost:4000/admin/getstudent`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include", // Include cookies if needed
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+          setallstudents(data.data || []); // Assuming `data` contains `data` field with students array
+          toast.success("Data fetched!", {
+            position: "top-right",
+            theme: "light",
+            transition: Slide,
+            autoClose: 1000,
+          });
+        } else {
+          console.error("Server error:", data.message);
+          toast.error("Student data is not fetched!", {
+            position: "top-right",
+            theme: "dark",
+            transition: Slide,
+            autoClose: 1000,
+          });
+        }
+      } catch (error) {
+        console.error("Failed to fetch students:", error);
+        toast.error("Failed to fetch students. Please try again!", {
+          position: "top-right",
+          theme: "dark",
+          transition: Slide,
+          autoClose: 1000,
+        });
+      }
+    };
+
+    fetchStudents();
+  }, []);
 
   return (
     <div className="admin-attendance-page">
@@ -41,7 +88,11 @@ const StudentManagement = () => {
         <div className="filter-section">
           <label>
             Department:
-            <select name="department" value={filters.department} onChange={handleFilterChange}>
+            <select
+              name="department"
+              value={filters.department}
+              onChange={handleFilterChange}
+            >
               <option value="">All</option>
               <option value="CS">CS</option>
               <option value="IT">IT</option>
@@ -50,17 +101,25 @@ const StudentManagement = () => {
 
           <label>
             Batch:
-            <select name="batch" value={filters.batch} onChange={handleFilterChange}>
+            <select
+              name="batch"
+              value={filters.batch}
+              onChange={handleFilterChange}
+            >
               <option value="">All</option>
-              <option value="batch1">Batch 1</option>
-              <option value="batch2">Batch 2</option>
-              <option value="batch3">Batch 3</option>
+              <option value="Batch1">Batch 1</option>
+              <option value="Batch2">Batch 2</option>
+              <option value="Batch3">Batch 3</option>
             </select>
           </label>
 
           <label>
             Year:
-            <select name="year" value={filters.year} onChange={handleFilterChange}>
+            <select
+              name="year"
+              value={filters.year}
+              onChange={handleFilterChange}
+            >
               <option value="">All</option>
               <option value="2024-2025">2024-2025</option>
               <option value="2025-2026">2025-2026</option>
@@ -69,7 +128,11 @@ const StudentManagement = () => {
 
           <label>
             Project Number:
-            <select name="projectNumber" value={filters.projectNumber} onChange={handleFilterChange}>
+            <select
+              name="projectNumber"
+              value={filters.projectNumber}
+              onChange={handleFilterChange}
+            >
               <option value="">All</option>
               <option value="Project1">Project 1</option>
               <option value="Project2">Project 2</option>
@@ -78,7 +141,11 @@ const StudentManagement = () => {
 
           <label>
             Category:
-            <select name="category" value={filters.category} onChange={handleFilterChange}>
+            <select
+              name="category"
+              value={filters.category}
+              onChange={handleFilterChange}
+            >
               <option value="">All</option>
               <option value="web development">Web Development</option>
               <option value="game dev">Game Development</option>
@@ -100,14 +167,24 @@ const StudentManagement = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredStudents.map((stud, index) => (
+            {/* {allstudents.map((student, index) => (
               <RowComponentForStudent
-                key={stud.rollNumber}
+                key={student.rollNo}
                 srNo={index + 1}
-                rollNumber={stud.rollNumber}
-                name={stud.name}
-                noOfDaysPresent={stud.noOfDayPresent}
-                department={stud.department}
+                rollNumber={student.rollNo}
+                name={student.email}
+                noOfDaysPresent={student.noOfDayPresent || "N/A"}
+                department={student.department}
+              />
+            ))} */}
+            {filteredStudents.map((student, index) => (
+              <RowComponentForStudent
+                key={student.rollNo}
+                srNo={index + 1}
+                rollNumber={student.rollNo}
+                name={student.email}
+                noOfDaysPresent={student.noOfDayPresent || "N/A"}
+                department={student.department}
               />
             ))}
           </tbody>

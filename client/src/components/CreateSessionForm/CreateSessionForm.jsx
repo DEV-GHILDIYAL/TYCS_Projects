@@ -14,27 +14,34 @@ const CreateSessionForm = () => {
     sessionNo: "",
   });
 
+  const [loading, setLoading] = useState(false); // State to manage loading
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const createSession = async() => {
-    //backend call
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // Prevent default form submission
+    setLoading(true); // Start loading
+
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_BACK_URL}/admin/attendance`,
+        `http://localhost:4000/admin/fetchstudents`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(formData),
-          credentials: "include", // Required to include cookies
+          credentials: "include", // Include cookies if needed
         }
       );
-      const data = await response.json(); // Parse response JSON
-      console.log("Server response createsessionform:", data); // Debug response
+
+      console.log("Raw Response:", response);
+
+      const data = await response.json();
+      console.log("Server Response (JSON):", data);
 
       if (response.ok) {
         setFormData({
@@ -46,14 +53,17 @@ const CreateSessionForm = () => {
           sessionNo: "",
         });
 
-        toast.success("Session added!", {
+        toast.success("Session added successfully!", {
           position: "top-right",
           theme: "light",
           transition: Slide,
           autoClose: 1000,
         });
+
+        navigate("/management/attendance");
       } else {
-        toast.error("Session number is already used", {
+        console.error("Server returned error response:", data);
+        toast.error(data.message || "Session number is already used!", {
           position: "top-right",
           theme: "dark",
           transition: Slide,
@@ -61,22 +71,14 @@ const CreateSessionForm = () => {
         });
       }
     } catch (error) {
-      console.error("Failed to add session. Please try again!");
-      toast.error("Failed to add student. Please try again!", {
+      console.error("Failed to add session:", error);
+      toast.error("Failed to add session. Please try again!", {
         position: "top-right",
         theme: "dark",
         transition: Slide,
         autoClose: 1000,
       });
     }
-    navigate('/management/attendance')
-
-  }
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Session Created:", formData);
-    // Reset form fields after submission
   };
 
   return (
@@ -89,7 +91,7 @@ const CreateSessionForm = () => {
           name="department"
           value={formData.department}
           onChange={handleInputChange}
-          required
+          // required
         >
           <option value="">Select</option>
           <option value="CS">CS</option>
@@ -103,7 +105,7 @@ const CreateSessionForm = () => {
           name="year"
           value={formData.year}
           onChange={handleInputChange}
-          required
+          // required 
         >
           <option value="">Select</option>
           <option value="2024-2025">2024-2025</option>
@@ -117,7 +119,7 @@ const CreateSessionForm = () => {
           name="projectNumber"
           value={formData.projectNumber}
           onChange={handleInputChange}
-          required
+          // required
         >
           <option value="">Select</option>
           <option value="Project1">Project 1</option>
@@ -131,7 +133,7 @@ const CreateSessionForm = () => {
           name="batch"
           value={formData.batch}
           onChange={handleInputChange}
-          required
+          // required
         >
           <option value="">Select</option>
           <option value="Batch1">Batch 1</option>
@@ -147,7 +149,7 @@ const CreateSessionForm = () => {
           name="date"
           value={formData.date}
           onChange={handleInputChange}
-          required
+          // required
         />
       </label>
 
@@ -157,7 +159,7 @@ const CreateSessionForm = () => {
           name="sessionNo"
           value={formData.sessionNo}
           onChange={handleInputChange}
-          required
+          // required
         >
           <option value="">Select</option>
           <option value="Session1">Session 1</option>
@@ -169,7 +171,9 @@ const CreateSessionForm = () => {
         </select>
       </label>
 
-      <button onClick={createSession} type="submit">Create Session</button>
+      <button type="submit" disabled={loading}>
+        {loading ? "Creating..." : "Create Session"}
+      </button>
     </form>
   );
 };

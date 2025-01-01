@@ -6,6 +6,12 @@ const UserSchema = new mongoose.Schema({
       required:true,
       unique:true,
     },
+    name: {
+        type: String,
+        required: true,
+        lowercase: true,
+        trim: true,
+    },
     email: {
         type: String,
         required: true,
@@ -25,6 +31,7 @@ const UserSchema = new mongoose.Schema({
     year:{type:String,},
     resetOtp: { type: String, default:''},
     resetOtpExpireAt: { type: Number, default:0},
+    //add attendance object and fileds like no of days present
 },{ timestamps: true });
 
 const User = mongoose.model('User', UserSchema);
