@@ -328,6 +328,26 @@ const EventDetailsForm = ({
             <option value="" disabled>
               Select Batch
             </option>
+            <option value="Batch1">Batch 1</option>
+            <option value="Batch2">Batch 2</option>
+            <option value="Batch2">Batch 3</option>
+          </select>
+        </div>
+      </div>
+
+      <div className="form-row">
+        <div className="form-group">
+          <label>
+            Year: <span className="required">*</span>
+          </label>
+          <select
+            value={selectedBatch}
+            onChange={(e) => setSelectedBatch(e.target.value)}
+            required
+          >
+            <option value="" disabled>
+              Select Year
+            </option>
             <option value="2024-2025">2024-2025</option>
             <option value="2026-2027">2026-2027</option>
           </select>

@@ -126,7 +126,7 @@ const StudentManagement = () => {
             </select>
           </label>
 
-          <label>
+          {/* <label>
             Project Number:
             <select
               name="projectNumber"
@@ -152,7 +152,7 @@ const StudentManagement = () => {
               <option value="app dev">App Development</option>
               <option value="ml al">ML/AI</option>
             </select>
-          </label>
+          </label> */}
         </div>
 
         {/* Student Table */}

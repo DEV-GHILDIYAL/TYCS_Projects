@@ -90,9 +90,9 @@ const SideBar = ({ children }) => {
   }, []);
 
   const handleLogout = async () => {
-    Cookies.remove("userRole");
+    // Cookies.remove("userRole");
     
-    window.location.reload();
+    // window.location.reload();
     try {
       // Call the backend logout API
       const response = await fetch(`${import.meta.env.VITE_BACK_URL}/auth/logout`, {

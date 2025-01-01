@@ -38,6 +38,7 @@ const ProjectSchema = new mongoose.Schema({
     type: String,
   },
   batch:{type:String,required:true},
+  year:{type:String,required:true},
   project: { type: String, required:true,}, //this is for project pehchano 1 or2  ...for unique true we need to check for each person not from everyone
   github: { type: String, required: true },
   twitter: { type: String },
