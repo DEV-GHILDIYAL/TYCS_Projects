@@ -170,8 +170,9 @@ const CreateSessionForm = () => {
         </select>
       </label>
 
-      <button type="submit" disabled={loading}>
-        {loading ? "Creating..." : "Create Session"}
+      <button type="submit">
+        {/* {loading ? "Creating..." : "Create Session"} */}
+        Create Session
       </button>
     </form>
   );
