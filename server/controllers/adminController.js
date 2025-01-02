@@ -31,82 +31,71 @@ export const addstudent = async (req, res) => {
 
 //creating sesssion
 export const createSession = async (req, res) => {
-  console.log("Received Data:", req.body);
-  const { department, year, project, batch, date, sessionNo } = req.body;
+  const { sessionNo, date, batch, project, department, year } = req.body;
 
+  // Validate required fields
   if (!department || !year || !project || !batch || !date || !sessionNo) {
     return res.status(400).json({ message: "All fields are required" });
   }
 
   try {
-    const newS = new Session({
-      department,
-      year,
-      project,
-      batch,
-      date,
-      sessionNo,
-      // students,
-    });
-
-    await newS.save();
-    res.status(201).json({ message: "Session added", newS });
-  } catch (error) {
-    console.error("Error adding Session:", error);
-    res.status(500).json({ message: "Unable to add Session" });
-  }
-};
-
-export const fetchingStudents = async (req, res) => {
-  const { sessionNo, date, batch, projectNumber, department, year } = req.body;
-
-  try {
-    // Fetch projects and populate the userId field
+    // Fetch and filter projects with populated user data
     const projects = await Project.find().populate({
       path: "userId", // Populate the user details
       select: "department year batch rollNo name", // Fetch only required fields
     });
 
     if (!projects.length) {
-      return res
-        .status(404)
-        .json({ message: "No projects found in the database." });
+      return res.status(404).json({ message: "No projects found in the database." });
     }
 
-    // Filter projects based on user data and project-specific criteria
-    const filteredProjects = projects.filter((project) => {
-      const user = project.userId;
+    // Filter projects based on criteria
+    const filteredProjects = projects.filter((projectData) => {
+      const user = projectData.userId;
       return (
-        user && // Ensure user data exists
+        user &&
         user.department === department &&
         user.year === year &&
         user.batch === batch &&
-        project.project === projectNumber // Check project-specific criteria
+        projectData.project === project // Match the provided project
       );
     });
 
     if (!filteredProjects.length) {
-      return res
-        .status(404)
-        .json({ message: "No projects match the given criteria." });
+      return res.status(404).json({ message: "No projects match the given criteria." });
     }
 
-    // Format the filtered data for the response
-    const filteredData = filteredProjects.map((project) => ({
-      projectName: project.name,
-      user: {
-        rollNo: project.userId.rollNo,
-        name: project.userId.name,
-      },
-      email: project.email, // Include project-specific fields if needed
+    // Prepare student data from filtered projects
+    const studentData = filteredProjects.map((projectData) => ({
+      rollNo: projectData.userId.rollNo,
+      name: projectData.name,
+      projectName: projectData.title,
+      email: projectData.email || null, // Include additional fields if necessary
+      status: "Absent", // Default status
     }));
 
-    res.status(200).json(filteredData);
+    // Create a new session with the prepared student data
+    const newSession = new Session({
+      department,
+      year,
+      project,
+      batch,
+      date,
+      sessionNo,
+      students: studentData, // Add student data to the session
+    });
+
+    // Save the session to the database
+    await newSession.save();
+
+    // Return success response
+    res.status(201).json({ message: "Session added successfully", session: newSession });
   } catch (error) {
-    console.error("Error fetching student projects:", error);
-    res.status(500).json({ message: "Failed to fetch projects", error });
+    console.error("Error creating session:", error);
+    res.status(500).json({ message: "Failed to create session", error });
   }
 };
+
 
 export const getstudentsdata = async (req, res) => {
   try {

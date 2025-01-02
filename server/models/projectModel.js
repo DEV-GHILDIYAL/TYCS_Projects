@@ -1,44 +1,18 @@
 import mongoose from "mongoose";
 
 const ProjectSchema = new mongoose.Schema({
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
-  },
-  name: {
-    type: String,
-    required: true,
-    unique: true,
-    trim: true,
-  },
-  email:{
-    type:String,
-    required:true,
-  },
-  rollno: {
-    type: Number,
-    required: true,
-    unique: true,
-  },
+  userId: {type: mongoose.Schema.Types.ObjectId,ref: "User",required: true,},
+  name: {type: String,required: true,unique: true,trim: true,},
+  email:{type:String,required:true,},
+  rollno: {type: Number,required: true,unique: true,},
   title: { type: String, required: true },
-  description: {
-    type: String,
-    required: true,
-  },
-  category: {
-    type: String,
-    required: true,
-  },
-  deployed: {
-    type: String,
-    required: true,
-  },
-  future: {
-    type: String,
-  },
+  description: {type: String,required: true,},
+  category: {type: String,required: true,},
+  deployed: {type: String,required: true,},
+  future: {type: String,},
   batch:{type:String,required:true},
   year:{type:String,required:true},
+  department:{type:String, enum: ['CS','IT'],required:true},
   project: { type: String, required:true,}, //this is for project pehchano 1 or2  ...for unique true we need to check for each person not from everyone
   github: { type: String, required: true },
   twitter: { type: String },

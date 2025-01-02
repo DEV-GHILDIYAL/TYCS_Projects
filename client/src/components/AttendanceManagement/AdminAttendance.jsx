@@ -1,9 +1,13 @@
-import React from "react";
+import React,{useState} from "react";
 import "./AdminAttendance.css";
-import studentData from "../../data/students";
+// import studentData from "../../data/students";
 import { RowComponentForAttendance } from "../RowComponent/RowComponent";
+import { useLocation } from "react-router-dom";
 
 const AdminAttendance = () => {
+  const location = useLocation();
+  const [data, setData] = useState(location.state);
+  console.log("data from admin attendance",data)
   return (
     <div className="admin-attendance-page">
       <div className="content">
@@ -26,16 +30,16 @@ const AdminAttendance = () => {
             </tr>
           </thead>
           <tbody>
-            {studentData.length === 0 ? (
+            {data.session.students.length === 0 ? (
               <tr>
                 <td colSpan="5">No students found.</td>
               </tr>
             ) : (
-              studentData.map((student, index) => (
+              data.session.students.map((student, index) => (
                 <RowComponentForAttendance
-                  key={student.rollNumber}
+                  key={student.rollNo}
                   srNo={index + 1}
-                  rollNumber={student.rollNumber}
+                  rollNumber={student.rollNo}
                   name={student.name}
                   projectName={student.projectName}
                 />

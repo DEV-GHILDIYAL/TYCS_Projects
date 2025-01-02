@@ -61,13 +61,12 @@ export const addProject = async (req, res) => {
             return res.status(409).json({ message: 'You can only create one project.' });
         }
         const email = user.email;
-
         // console.log("email from addproejct usercontroller",emailhere);
-        const { name, rollno,description,title,category,project,batch,deployed,future,github,twitter,linkedin,instagram } = req.body;
+        const { name, rollno,department,description,title,category,project,batch,year,deployed,future,github,twitter,linkedin,instagram } = req.body;
         const newP = new Project({
             userId: req.user.id, 
             name,
-            rollno,description,category,title,deployed,project,batch,twitter,email,linkedin,future,github,instagram
+            rollno,description,category,department,title,deployed,project,batch,year,twitter,email,linkedin,future,github,instagram
         });
         
         await newP.save();

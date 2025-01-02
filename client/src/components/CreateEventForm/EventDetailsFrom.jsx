@@ -17,6 +17,12 @@ const EventDetailsForm = ({
   const [projectCategory, setProjectCategory] = useState(
     initialData.category || ""
   );
+  const [department, setDepartment] = useState(
+    initialData.department || ""
+  );
+  const [year, setYear] = useState(
+    initialData.year || ""
+  );
   const [deployedLink, setDeployedLink] = useState(initialData.deployed || "");
   const [githubLink, setGithubLink] = useState(initialData.github || "");
   const [futureEnhancements, setFutureEnhancements] = useState(
@@ -48,6 +54,8 @@ const EventDetailsForm = ({
     setGithubLink("");
     setFutureEnhancements("");
     setTwitterLink("");
+    setYear("");
+    setDepartment("")
     setInstagramLink("");
     setLinkedinLink("");
     selectedBatch("");
@@ -82,6 +90,8 @@ const EventDetailsForm = ({
           title: projectTitle,
           deployed: deployedLink,
           future: futureEnhancements,
+          department:department,
+          year:year,
           github: githubLink,
           twitter: twitterLink,
           linkedin: linkedinLink,
@@ -144,6 +154,8 @@ const EventDetailsForm = ({
     // }
 
     if (deployedLink) completedFields++;
+    if (department) completedFields++;
+    if (year) completedFields++;
     if (githubLink) completedFields++;
     if (futureEnhancements) completedFields++;
     if (twitterLink) completedFields++;
@@ -160,6 +172,7 @@ const EventDetailsForm = ({
       rollNo &&
       projectTitle &&
       projectDescription &&
+      department &&
       projectCategory &&
       selectedProject &&    // Check for selected project
       selectedBatch &&        // Check for selected batch
@@ -178,6 +191,8 @@ const EventDetailsForm = ({
     projectDescription,
     projectCategory,
     deployedLink,
+    department,
+    year,
     githubLink,
     futureEnhancements,
     twitterLink,
@@ -334,6 +349,26 @@ const EventDetailsForm = ({
           </select>
         </div>
       </div>
+          
+      {/* Department */}
+      <div className="form-row">
+        <div className="form-group">
+          <label>
+            Department: <span className="required">*</span>
+          </label>
+          <select
+            value={department}
+            onChange={(e) => setDepartment(e.target.value)}
+            required
+          >
+            <option value="" disabled>
+              Select Department
+            </option>
+            <option value="CS">CS</option>
+            <option value="IT">IT</option>
+          </select>
+        </div>
+      </div>
 
       <div className="form-row">
         <div className="form-group">
@@ -341,8 +376,8 @@ const EventDetailsForm = ({
             Year: <span className="required">*</span>
           </label>
           <select
-            value={selectedBatch}
-            onChange={(e) => setSelectedBatch(e.target.value)}
+            value={year}
+            onChange={(e) => setYear(e.target.value)}
             required
           >
             <option value="" disabled>

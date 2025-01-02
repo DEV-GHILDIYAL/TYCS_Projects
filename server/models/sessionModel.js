@@ -10,8 +10,10 @@ const SessionSchema = new mongoose.Schema({
     students:[//this will store all the student name in this session
         {
             rollNo: { type: Number },
-            name: { type: String,  },
-            status: { type: String, enum: ['Present', 'Absent']},
+            name: { type: String, },
+            projectName:{type:String,},
+            email:{type:String,},
+            status: {type:String , enum: ['Present', 'Absent'],},
         }
     ]
 },{ timestamps: true });
