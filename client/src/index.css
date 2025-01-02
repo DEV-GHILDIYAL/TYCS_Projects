@@ -36,6 +36,10 @@ a {
   --text-color: #000000;
   --icon-color: #555555;
   --paragraph-color: #000000;
+  --sidebar-background: linear-gradient(135deg, #e8f0f2, #cfd8dc);
+  --filter-input-color: #b0b0b0;
+  --card-content-background: #b4b0b0;
+  --table-even-row: #e2e4e6;
 }
 
 [data-theme="dark"] {
@@ -43,6 +47,10 @@ a {
   --text-color: #ffffff;
   --icon-color: #dddddd;
   --paragraph-color: #b0b0b0;
+  --sidebar-background: #2c2c2c;
+  --filter-input-color: #000000;
+  --card-content-background: #3a3a3a;
+  --table-even-row: #2f3b45;
 }
 body {
   background-color: var(--background-color);
@@ -55,6 +63,34 @@ h1, h2, h3, h4, h5, h6{
   color: var(--text-color);
 }
 .sidebar{
-  background: linear-gradient(135deg, #e8f0f2, #cfd8dc);
+  background: var(--sidebar-background);
 }
 /* linear-gradient(135deg, #e8f0f2, #cfd8dc); */
+.filter-input,
+.filter-dropdown{
+  background: var(--filter-input-color);
+}
+.card-content{
+  background-color: var(--card-content-background);
+}
+input{
+  background: var(--background-color);
+}
+select{
+  background: var(--background-color);
+}
+.link, .link_text{
+  color: var(--text-color);
+}
+.icon{
+  color: var(--icon-color);
+}
+table th{
+  background-color: var(--background-color);
+}
+table tr:nth-child(even){
+  background-color: var(--table-even-row);
+}
+td{
+  color: var(--text-color);
+}

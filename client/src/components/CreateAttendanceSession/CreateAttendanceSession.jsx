@@ -41,12 +41,12 @@ const CreateAttendanceSession = () => {
   const [loading, setLoading] = useState(false); // State for loading
   const [showHeader, setShowHeader] = useState(true); // New state for header visibility
 
-  const handleEdit = async (sessionId) => {
-    const sessionToEdit = sessions.find((session) => session._id === sessionId);
-    // setEditingSessionId(sessionId);
-    // setEditingSessionData(sessionToEdit);
-    setShowHeader(false); // Hide the header when editing
-  };
+  // const handleEdit = async (sessionId) => {
+  //   const sessionToEdit = sessions.find((session) => session._id === sessionId);
+  //   // setEditingSessionId(sessionId);
+  //   // setEditingSessionData(sessionToEdit);
+  //   setShowHeader(false); // Hide the header when editing
+  // };
   const handleView = async (sessionId) => {
     const sessionToView = sessions.find((session) => session._id === sessionId);
     if (sessionToView) {
@@ -119,12 +119,12 @@ const CreateAttendanceSession = () => {
                       >
                         View
                       </button>
-                      <button
+                      {/* <button
                         className="create-attendance-session-edit-button"
                         onClick={() => handleEdit(session._id)}
                       >
                         Edit
-                      </button>
+                      </button> */}
                       <button
                         className="create-attendance-session-delete-button"
                         onClick={() => handleDelete(session._id)}

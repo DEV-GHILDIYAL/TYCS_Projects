@@ -31,7 +31,7 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: flex-start;
-  background-color: #3a3a3a; /* Slightly lighter dark gray background */
+  /* background-color: #3a3a3a; */
   border-top-right-radius: 15px;
   border-bottom-right-radius: 15px;
   flex-grow: 1;

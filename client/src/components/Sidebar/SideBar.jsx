@@ -96,10 +96,13 @@ const SideBar = ({ children }) => {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_BACK_URL}/auth/logout`, {
-        method: "POST",
-        credentials: "include",
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_BACK_URL}/auth/logout`,
+        {
+          method: "POST",
+          credentials: "include",
+        }
+      );
 
       if (response.ok) {
         Cookies.remove("userRole");
@@ -131,8 +134,16 @@ const SideBar = ({ children }) => {
       <div className={`sidebar ${isMobileOpen ? "mobile-open" : ""}`}>
         <div className="top-area">
           <div className="top_section">
-            {isOpen && <h1 className="logo">Project Library</h1>}
+            {isOpen && (
+              <div className="header-content">
+                <h1 className="logo">Project Library</h1>
+                <button onClick={toggleTheme} className="theme-toggle-btn">
+                  {theme === "light" ? <FaMoon /> : <FaSun />}
+                </button>
+              </div>
+            )}
           </div>
+
           <section className="routes">
             {visibleRoutes.map((route, index) => {
               if (route.subRoutes) {
@@ -161,11 +172,6 @@ const SideBar = ({ children }) => {
           </section>
         </div>
         <div className="bottom_section">
-          <div className="theme-toggle">
-            <button onClick={toggleTheme} className="theme-toggle-btn">
-              {theme === "light" ? <FaMoon /> : <FaSun />}
-            </button>
-          </div>
           {isLoggedIn ? (
             <>
               <NavLink to="/profile" className="link" activeClassName="active">
