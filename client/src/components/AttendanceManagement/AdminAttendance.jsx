@@ -6,8 +6,19 @@ import { useLocation } from "react-router-dom";
 
 const AdminAttendance = () => {
   const location = useLocation();
-  const [data, setData] = useState(location.state);
-  console.log("data from admin attendance",data)
+const { data, sessionToView } = location.state || {};
+  // const[main,setMain] = useState([])
+console.log("Data and sessionToView:", data, sessionToView);
+let main = data
+if (data) {
+  console.log("Data from session creation:", data);
+  main = data.session.students
+}
+
+if (sessionToView) {
+  console.log("Session to view:", sessionToView);
+  main = sessionToView.students
+}
   return (
     <div className="admin-attendance-page">
       <div className="content">
@@ -30,12 +41,12 @@ const AdminAttendance = () => {
             </tr>
           </thead>
           <tbody>
-            {data.session.students.length === 0 ? (
+          {main.length  === 0 ? (
               <tr>
                 <td colSpan="5">No students found.</td>
               </tr>
             ) : (
-              data.session.students.map((student, index) => (
+              main.map((student, index) => (
                 <RowComponentForAttendance
                   key={student.rollNo}
                   srNo={index + 1}

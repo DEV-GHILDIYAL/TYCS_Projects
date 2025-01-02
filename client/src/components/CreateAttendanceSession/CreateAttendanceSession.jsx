@@ -2,10 +2,11 @@ import React, { useState,useEffect } from "react";
 import "./CreateAttendanceSession.css";
 import EventDetailsForm from "../CreateEventForm/EventDetailsFrom";
 import { toast, Slide } from "react-toastify";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const CreateAttendanceSession = () => {
   const [sessions, setSessions] = useState([]);
+  const navigate = useNavigate()
   useEffect(() => {
     const fetchSession = async () => {
       try {
@@ -42,13 +43,17 @@ const CreateAttendanceSession = () => {
 
   const handleEdit = async (sessionId) => {
     const sessionToEdit = sessions.find((session) => session._id === sessionId);
-    setEditingSessionId(sessionId);
-    setEditingSessionData(sessionToEdit);
+    // setEditingSessionId(sessionId);
+    // setEditingSessionData(sessionToEdit);
     setShowHeader(false); // Hide the header when editing
   };
   const handleView = async (sessionId) => {
-    // TODO: Implement view session functionality
-  }
+    const sessionToView = sessions.find((session) => session._id === sessionId);
+    if (sessionToView) {
+      console.log("handle view",sessionToView)
+      navigate("/management/attendance",{state:{ data: null,sessionToView},})
+    }
+  };
 
   const handleDelete = async (sessionId) => {
     setSessions((prevSessions) =>

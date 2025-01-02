@@ -6,14 +6,6 @@ import { FaLink } from "react-icons/fa"; // Import link icon
 export const RowComponentForAttendance = ({ srNo, rollNumber, name, projectName }) => {
 
   const [attendance, setAttendance] = useState(null); // null, "present", or "absent"
-
-// to track attendance data while admin marks attendance.
-//   const [attendanceData, setAttendanceData] = useState([]);
-
-//   const markAttendance = (student, status) => {
-//       setAttendanceData(prev => [...prev, { ...student, status }]);
-//   };
-
 //  Provide a "Done" button that sends all attendance data to the backend when clicked.
   // <button onClick={submitAttendance}>Done</button>
   

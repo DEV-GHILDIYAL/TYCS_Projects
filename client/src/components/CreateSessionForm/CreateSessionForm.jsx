@@ -58,7 +58,7 @@ const CreateSessionForm = () => {
           autoClose: 1000,
         });
         //send data 
-        navigate("/management/attendance",{state:data});
+        navigate("/management/attendance",{state:{data,sessionToView:null},});
       } else {
         console.error("Server returned error response:", data);
         toast.error(data.message || "Session number is already used!", {
