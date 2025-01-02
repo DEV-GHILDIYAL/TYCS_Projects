@@ -1,6 +1,7 @@
 import userModel from "../models/userModel.js";
 import Project from "../models/projectModel.js";
 import Session from "../models/sessionModel.js";
+import Attendance from "../models/attendModel.js";
 
 export const addstudent = async (req, res) => {
   const { email, name, rollNo, batch, role, department, year } = req.body;
@@ -26,6 +27,52 @@ export const addstudent = async (req, res) => {
   } catch (error) {
     console.error("Error adding student:", error);
     res.status(500).json({ message: "Unable to add Student" });
+  }
+};
+
+// attendanceMark
+
+export const attendanceMark = async (req, res) => {
+  
+  try {
+    const { studentId, date, status, sessionId } = req.body;
+    // Validate input
+    if (!studentId || !date || !status || !sessionId) {
+      return res.status(400).json({ error: "Missing required fields" });
+    }
+
+    const existingAttendance = await Attendance.findOne({
+      studentId,
+      date,
+      sessionId,
+    });
+
+    if (existingAttendance) {
+      return res.status(400).json({
+        error: "Attendance for this student has already been marked.",
+      });
+    }
+
+    await Attendance.updateOne(
+      { studentId }, // Match the student
+      { $push: { attendance: { date, status, sessionId } } }, // Add to attendance array
+      { upsert: true } // Create if it doesn’t exist
+    );
+  
+      // Create a new attendance record
+      // const attendance = new Attendance({
+      //   studentId,
+      //   date,
+      //   status,
+      //   sessionId,
+      // });
+  
+      // await attendance.save();
+
+    res.status(200).json({ message: "Attendance marked successfully" });
+  } catch (error) {
+    console.error("Error updating attendance:", error);
+    res.status(500).json({ message: "Failed to mark attendance" });
   }
 };
 

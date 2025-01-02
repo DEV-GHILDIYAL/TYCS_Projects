@@ -8,17 +8,23 @@ const AdminAttendance = () => {
   const location = useLocation();
 const { data, sessionToView } = location.state || {};
   // const[main,setMain] = useState([])
-console.log("Data and sessionToView:", data, sessionToView);
-let main = data
-if (data) {
-  console.log("Data from session creation:", data);
-  main = data.session.students
+// console.log("Data and sessionToView:", data, sessionToView);
+let main = [];
+let sessionId = null;
+let date = null;
+
+if (data?.session) {
+  main = data.session.students;
+  sessionId = data.session._id;
+  date = data.session.date;
 }
 
 if (sessionToView) {
-  console.log("Session to view:", sessionToView);
-  main = sessionToView.students
+  main = sessionToView.students || [];
+  sessionId = sessionToView._id;
+  date = sessionToView.date;
 }
+
   return (
     <div className="admin-attendance-page">
       <div className="content">
@@ -46,13 +52,16 @@ if (sessionToView) {
                 <td colSpan="5">No students found.</td>
               </tr>
             ) : (
-              main.map((student, index) => (
+              main.map((student, index) => (  
                 <RowComponentForAttendance
                   key={student.rollNo}
                   srNo={index + 1}
                   rollNumber={student.rollNo}
                   name={student.name}
                   projectName={student.projectName}
+                  sessionId={sessionId}
+                  studentId={student._id}
+                  date={date}
                 />
               ))
             )}

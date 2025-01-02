@@ -1,7 +1,7 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose'
 
 const AttendanceSchema = new mongoose.Schema({
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true, unique: true },
+    studentId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     attendance: [
         {
             date: { type: Date, required: true },
@@ -13,4 +13,5 @@ const AttendanceSchema = new mongoose.Schema({
     totalAbsent: { type: Number, default: 0 },  
 }, { timestamps: true });
 
-module.exports = mongoose.model('Attendance', AttendanceSchema);
+const Attendance = mongoose.model("Attendance", AttendanceSchema);
+export default Attendance;
