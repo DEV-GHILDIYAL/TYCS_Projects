@@ -1,61 +1,40 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import "./CreateAttendanceSession.css";
 import EventDetailsForm from "../CreateEventForm/EventDetailsFrom";
-import { toast } from "react-toastify"; // Import toast for notifications
+import { toast, Slide } from "react-toastify";
 import { NavLink } from "react-router-dom";
 
 const CreateAttendanceSession = () => {
-  const [sessions, setSessions] = useState([
-    {
-      _id: "1",
-      title: "Session 1",
-      department: "CS",
-      year: "2024-2025",
-      projectNumber: "1",
-    },
-    {
-      _id: "2",
-      title: "Session 2",
-      department: "IT",
-      year: "2023-2024",
-      projectNumber: "2",
-    },
-    {
-      _id: "3",
-      title: "Session 3",
-      department: "CS",
-      year: "2025-2026",
-      projectNumber: "1",
-    },
-    {
-      _id: "4",
-      title: "Session 4",
-      department: "IT",
-      year: "2024-2025",
-      projectNumber: "2",
-    },
-    {
-      _id: "5",
-      title: "Session 5",
-      department: "CS",
-      year: "2023-2024",
-      projectNumber: "1",
-    },
-    {
-      _id: "6",
-      title: "Session 6",
-      department: "IT",
-      year: "2025-2026",
-      projectNumber: "2",
-    },
-    {
-      _id: "7",
-      title: "Session 7",
-      department: "CS",
-      year: "2024-2025",
-      projectNumber: "1",
-    },
-  ]);
+  const [sessions, setSessions] = useState([]);
+  useEffect(() => {
+    const fetchSession = async () => {
+      try {
+        const response = await fetch(`http://localhost:4000/admin/fetchsession`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include", // Include cookies if needed
+        });
+        const data = await response.json();
+        console.log('data from createattendancesession',data.session)
+        if (response.ok) {
+          setSessions(data.session || []); 
+        }
+      } catch (error) {
+        console.error("Failed to fetch Sessions:", error);
+        toast.error("Failed to fetch Sessions. Please try again!", {
+          position: "top-right",
+          theme: "dark",
+          transition: Slide,
+          autoClose: 1000,
+        });
+      }
+    };
+
+    fetchSession();
+  }, []); 
+
   const [editingSessionId, setEditingSessionId] = useState(null);
   const [editingSessionData, setEditingSessionData] = useState({});
   const [loading, setLoading] = useState(false); // State for loading
@@ -75,7 +54,16 @@ const CreateAttendanceSession = () => {
     setSessions((prevSessions) =>
       prevSessions.filter((session) => session._id !== sessionId)
     );
+    const response = await fetch(`http://localhost:4000/admin/deletesession`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },body:JSON.stringify({ sessionId }),
+
+      credentials: "include", // Include cookies if needed
+    });
     toast.success("Session deleted!", { autoClose: 1000 });
+    console.log("Response",response)
   };
 
   return (
@@ -112,12 +100,12 @@ const CreateAttendanceSession = () => {
                 sessions.map((session) => (
                   <div className="attendance-session-card" key={session._id}>
                     <div className="create-attendance-session-header">
-                      <h3 className="create-attendance-session-title">{session.title}</h3>
+                      <h3 className="create-attendance-session-title">{session.sessionNo}</h3>
                     </div>
                     <div className="session-card-body">
                       <p><strong>Department:</strong> {session.department}</p>
                       <p><strong>Year:</strong> {session.year}</p>
-                      <p><strong>Project Number:</strong> {session.projectNumber}</p>
+                      <p><strong>Project Number:</strong> {session.project}</p>
                     </div>
                     <div className="session-card-footer">
                     <button
