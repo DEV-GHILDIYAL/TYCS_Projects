@@ -7,7 +7,7 @@
   align-items: center;
   justify-content: space-between; /* Distribute space between items */
   font-family: 'Arial', sans-serif;
-  background-color: #2c2c2c; /* Dark background */
+  /* background-color: #2c2c2c; */
   color: #e0e0e0; /* Light text for dark background */
   padding: 50px 20px;
   box-sizing: border-box;
@@ -18,7 +18,7 @@
 /* Large Title: Centered at Top */
 .about-title {
   font-size: 2rem; /* Reduce title size */
-  color: #e0e0e0; /* Light color for text */
+  /* color: #e0e0e0; */
   text-align: center;
   margin-top: 0;
   margin-bottom: 3px;
@@ -31,7 +31,7 @@
   max-width: 1200px;
   text-align: left;
   margin: 0 auto;
-  color: #e0e0e0; /* Adjusted for dark theme */
+  /* color: #e0e0e0; */
   line-height: 1.4;
 }
 
@@ -40,13 +40,13 @@
   text-align: left;
   font-size: 14px;
   margin: 15px 0px;
-  color: #b0b0b0; /* Lighter color for paragraphs */
+  /* color: #b0b0b0; */
 }
 
 /* Section Titles */
 .about-section h2 {
   font-size: 1.5rem;
-  color: #e0e0e0; /* Lighter section title color */
+  /* color: #e0e0e0; */
   margin-bottom: 5px;
   margin-top: 0;
   font-weight: bold;

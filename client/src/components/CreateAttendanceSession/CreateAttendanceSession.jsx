@@ -10,7 +10,7 @@ const CreateAttendanceSession = () => {
   useEffect(() => {
     const fetchSession = async () => {
       try {
-        const response = await fetch(`http://localhost:4000/admin/fetchsession`, {
+        const response = await fetch('http://localhost:4000/admin/fetchsession', {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -59,7 +59,7 @@ const CreateAttendanceSession = () => {
     setSessions((prevSessions) =>
       prevSessions.filter((session) => session._id !== sessionId)
     );
-    const response = await fetch(`http://localhost:4000/admin/deletesession`, {
+    const response = await fetch('http://localhost:4000/admin/deletesession', {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",

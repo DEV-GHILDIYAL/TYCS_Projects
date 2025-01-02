@@ -1,11 +1,3 @@
-/* General Dark Theme Settings */
-body {
-  background-color: #121212; /* Dark background */
-  color: #e0e0e0; /* Light text for readability */
-  margin: 0;
-  padding: 0;
-  font-family: Arial, sans-serif;
-}
 
 .home-container {
   max-width: 100%; /* Ensures container adapts to screen width */
@@ -13,7 +5,7 @@ body {
   margin: 0 auto;
   height: auto; /* Allow height to adjust based on content */
   min-height: 94vh;
-  background-color: #181818; /* Dark background */
+  /* background-color: #181818; */
   border-radius: 8px;
   box-sizing: border-box;
 }
