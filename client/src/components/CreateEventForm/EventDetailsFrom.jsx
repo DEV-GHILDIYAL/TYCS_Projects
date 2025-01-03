@@ -345,7 +345,7 @@ const EventDetailsForm = ({
             </option>
             <option value="Batch1">Batch 1</option>
             <option value="Batch2">Batch 2</option>
-            <option value="Batch2">Batch 3</option>
+            <option value="Batch3">Batch 3</option>
           </select>
         </div>
       </div>

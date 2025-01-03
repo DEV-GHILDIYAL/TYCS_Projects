@@ -67,7 +67,7 @@ export const attendanceMark = async (req, res) => {
       //   sessionId,
       // });
   
-      // await attendance.save();
+      await attendance.save();
 
     res.status(200).json({ message: "Attendance marked successfully" });
   } catch (error) {

@@ -11,12 +11,18 @@ const students = [
     {
       rollNo: 477,
       email: "g22.shiwans.vaishya@gnkhalsa.edu.in",
-      role:"student"
+      role:"student",
+      name:"Shiwans Vaishya",
+      department:"CS",
+      batch:"2024-2025",
     },
     {
       rollNo: 421,
       email: "g22.dev.ghildiyal@gnkhalsa.edu.in",
-      role:"student"
+      role:"student",
+      name:"Dev Ghildiyal",
+      department:"CS",
+      batch:"2024-2025",
     },
   ];
 
