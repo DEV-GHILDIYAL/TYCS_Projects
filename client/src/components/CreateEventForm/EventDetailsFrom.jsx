@@ -42,7 +42,13 @@ const EventDetailsForm = ({
 
   const [selectedProject, setSelectedProject] = useState(initialData.project || "");
   const [selectedBatch, setSelectedBatch] = useState(initialData.batch || "");
+  const [isCompletedProject, setIsCompletedProject] = useState(initialData.isCompletedProject || false);
 
+  useEffect(() => {
+    if(!isCompletedProject){
+      setDeployedLink('');
+    }
+  }, [isCompletedProject]);
 
   const resetForm = () => {
     setName("");
@@ -50,19 +56,20 @@ const EventDetailsForm = ({
     setProjectTitle("");
     setProjectDescription("");
     setProjectCategory("");
-    setDeployedLink("");
-    setGithubLink("");
-    setFutureEnhancements("");
-    setTwitterLink("");
-    setYear("");
+    selectedProject("");
+    selectedBatch("");
     setDepartment("")
+    setYear("");
+    setDeployedLink("");
+    setFutureEnhancements("");
+    setGithubLink("");
+    setTwitterLink("");
     setInstagramLink("");
     setLinkedinLink("");
-    selectedBatch("");
-    selectedProject("");
 
     setCompletionPercentage(0);
     setProgressColor("red");
+    setIsCompletedProject(false);
   };
 
   const handleSubmit = async (e) => {
@@ -98,6 +105,7 @@ const EventDetailsForm = ({
           instagram: instagramLink,
           project: selectedProject,
           batch: selectedBatch, 
+          isCompletedProject: isCompletedProject,  // Add this field to the backend
         }),
         credentials: "include",
       });
@@ -136,7 +144,7 @@ const EventDetailsForm = ({
   };
   
   const calculateCompletionPercentage = () => {
-    const totalFields = 13; // Total fields to track
+    const totalFields = 15; // Total fields to track
     let completedFields = 0;
 
     // Count filled fields
@@ -145,14 +153,6 @@ const EventDetailsForm = ({
     if (projectTitle) completedFields++;
     if (projectDescription) completedFields++;
     if (projectCategory) completedFields++;
-
-    // // Check for deployed or apk link based on category
-    // if (projectCategory === "Mobile App Development" && deployedLink) {
-    //   completedFields++;
-    // } else if (projectCategory !== "Mobile App Development" && deployedLink) {
-    //   completedFields++;
-    // }
-
     if (deployedLink) completedFields++;
     if (department) completedFields++;
     if (year) completedFields++;
@@ -176,6 +176,7 @@ const EventDetailsForm = ({
       projectCategory &&
       selectedProject &&    // Check for selected project
       selectedBatch &&        // Check for selected batch
+      githubLink && // Check for
       ((projectCategory === "Mobile App Development" && deployedLink) ||
         (projectCategory !== "Mobile App Development" && deployedLink));
 
@@ -266,6 +267,16 @@ const EventDetailsForm = ({
             required
             minLength={3}
             maxLength={30}
+          />
+        </div>
+        <div className="form-group">
+          <label>
+            Is Completed Project: <span className="required">*</span>
+          </label>
+          <input
+            type="checkbox"
+            checked={isCompletedProject}
+            onChange={(e) => setIsCompletedProject(e.target.checked)}
           />
         </div>
       </div>
@@ -397,7 +408,8 @@ const EventDetailsForm = ({
             value={deployedLink}
             onChange={(e) => setDeployedLink(e.target.value)}
             placeholder="Enter the deployed link"
-            required
+            required={isCompletedProject} // Only required if the checkbox is checked
+            disabled={!isCompletedProject} // Disable if the checkbox is not checked
           />
         </div>
       </div>

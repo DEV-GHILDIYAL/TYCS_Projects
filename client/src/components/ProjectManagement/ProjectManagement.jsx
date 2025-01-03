@@ -146,10 +146,10 @@ const ProjectManagement = () => {
               onChange={handleFilterChange}
             >
               <option value="">All</option>
-              <option value="web development">Web Development</option>
-              <option value="game dev">Game Development</option>
-              <option value="app dev">App Development</option>
-              <option value="ml al">ML/AI</option>
+              <option value="Web Development">Web Development</option>
+              <option value="Game Dev">Game Development</option>
+              <option value="App Dev">App Development</option>
+              <option value="Ml Al">ML/AI</option>
             </select>
           </label>
         </div>

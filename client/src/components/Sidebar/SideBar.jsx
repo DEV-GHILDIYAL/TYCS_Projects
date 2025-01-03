@@ -15,13 +15,12 @@ import "./Sidebar.css";
 import SidebarMenu from "./SidebarMenu";
 
 const SideBar = ({ children }) => {
-  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(true);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [userRole, setUserRole] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const [theme, setTheme] = useState("light"); // Theme state
+  const [theme, setTheme] = useState("dark"); // Theme state
 
   const toggleMobileMenu = () => setIsMobileOpen(!isMobileOpen);
   const toggleTheme = () => {
@@ -29,6 +28,10 @@ const SideBar = ({ children }) => {
     setTheme(newTheme);
     document.documentElement.setAttribute("data-theme", newTheme);
   };
+  // Apply default theme on mount
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [theme]);
 
   // Routes Configuration
   const routes = [

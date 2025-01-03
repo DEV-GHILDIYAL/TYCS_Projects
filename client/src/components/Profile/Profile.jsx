@@ -2,61 +2,129 @@ import React, { useEffect, useState } from "react";
 import { FaCamera } from "react-icons/fa"; // Importing the camera icon from react-icons/fa
 import "./Profile.css";
 import Cookies from "js-cookie";
+import { toast, Slide } from "react-toastify";
 
 const Profile = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Login status
+  const [allstudents, setallstudents] = useState([]);
+  const [filters, setFilters] = useState({
+    department: "",
+    batch: "",
+    year: "",
+    projectNumber: "",
+    category: "",
+  });
+
+  const handleFilterChange = (e) => {
+    const { name, value } = e.target;
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      [name]: value,
+    }));
+  };
+
   const [profilePhoto, setProfilePhoto] = useState(
     "https://ichef.bbci.co.uk/images/ic/1200x675/p03c84wz.jpg"
   );
   const [profileData, setProfileData] = useState(null); // Dynamic profile data
 
   useEffect(() => {
-    const checkAuth = async () => {
+    const fetchStudents = async () => {
       try {
-        const token = Cookies.get("userRole"); // Get the token from cookies
-        console.log("User token from cookie:", token);
-  
-        if (token) {
-          setIsLoggedIn(true);
-          await fetchUserData(token); // Fetch user data if token exists
-        } else {
-          console.warn("No token found in cookies");
-          setIsLoggedIn(false);
-        }
-      } catch (err) {
-        console.error("Auth check error:", err);
-        setIsLoggedIn(false);
-      }
-    };
-  
-    const fetchUserData = async (token) => {
-      try {
-        const response = await fetch(`${import.meta.env.VITE_BACK_URL}/auth/get-profile`, { // Replace with your API endpoint
+        const response = await fetch(`http://localhost:4000/admin/getstudent`, {
           method: "GET",
           headers: {
-            Authorization: `Bearer ${token}`, // Include the token for authentication
             "Content-Type": "application/json",
           },
+          credentials: "include", // Include cookies if needed
         });
-  
+
+        const data = await response.json();
         if (response.ok) {
-          const data = await response.json();
-          console.log("Fetched user data:", data);
-          setProfileData(data); // Update profile data
-        } else if (response.status === 401) {
-          console.log(token);
-          console.error("Unauthorized. Token might be invalid or expired.");
-          setIsLoggedIn(false);
+          setallstudents(data.data || []); // Assuming `data` contains `data` field with students array
+          toast.success("Data fetched!", {
+            position: "top-right",
+            theme: "light",
+            transition: Slide,
+            autoClose: 1000,
+          });
         } else {
-          console.error("Failed to fetch user data", response.status);
+          console.error("Server error:", data.message);
+          toast.error("Student data is not fetched!", {
+            position: "top-right",
+            theme: "dark",
+            transition: Slide,
+            autoClose: 1000,
+          });
         }
       } catch (error) {
-        console.error("Error fetching user data:", error);
+        console.error("Failed to fetch students:", error);
+        toast.error("Failed to fetch students. Please try again!", {
+          position: "top-right",
+          theme: "dark",
+          transition: Slide,
+          autoClose: 1000,
+        });
       }
     };
-  
-    checkAuth();
+
+    fetchStudents();
   }, []);
+  
+    
+  const filteredStudents = allstudents.filter((stud) => {
+    return (
+      (!filters.department || stud.department === filters.department) &&
+      (!filters.batch || stud.batch === filters.batch) &&
+      (!filters.year || stud.year === filters.year) &&
+      (!filters.projectNumber ||
+        stud.projectNumber === filters.projectNumber) &&
+      (!filters.category || stud.category === filters.category)
+    );
+  });
+
+  useEffect(() => {
+    const fetchStudents = async () => {
+      try {
+        const response = await fetch(`http://localhost:4000/admin/getstudent`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include", // Include cookies if needed
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+          setallstudents(data.data || []); // Assuming `data` contains `data` field with students array
+          toast.success("Data fetched!", {
+            position: "top-right",
+            theme: "light",
+            transition: Slide,
+            autoClose: 1000,
+          });
+        } else {
+          console.error("Server error:", data.message);
+          toast.error("Student data is not fetched!", {
+            position: "top-right",
+            theme: "dark",
+            transition: Slide,
+            autoClose: 1000,
+          });
+        }
+      } catch (error) {
+        console.error("Failed to fetch students:", error);
+        toast.error("Failed to fetch students. Please try again!", {
+          position: "top-right",
+          theme: "dark",
+          transition: Slide,
+          autoClose: 1000,
+        });
+      }
+    };
+
+    fetchStudents();
+  }, []);
+
   
 
   const handleEditDetails = () => {
@@ -73,10 +141,6 @@ const Profile = () => {
       reader.readAsDataURL(file);
     }
   };
-
-  if (!isLoggedIn) {
-    return <p>Please log in to view your profile.</p>;
-  }
 
   if (!profileData) {
     return <p>Loading profile data...</p>;
@@ -105,7 +169,7 @@ const Profile = () => {
               </label>
             </div>
             <div className="profile-page-header-text">
-              <h1>{profileData.username}</h1>
+              <h1>{filteredStudents.name}</h1>
               <p className="profile-page-roll-no">Roll No: {profileData.rollNo}</p>
             </div>
           </header>
@@ -113,11 +177,11 @@ const Profile = () => {
           <div className="profile-page-details">
             <div className="profile-page-detail-row">
               <label>Phone:</label>
-              <p>{profileData.phoneNo}</p>
+              <p>{filteredStudents.phoneNo}</p>
             </div>
             <div className="profile-page-detail-row">
               <label>Email:</label>
-              <p>{profileData.email}</p>
+              <p>{filteredStudents.email}</p>
             </div>
             <div className="profile-page-detail-row">
               <label>Year:</label>
