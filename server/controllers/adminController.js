@@ -31,9 +31,7 @@ export const addstudent = async (req, res) => {
 };
 
 // attendanceMark
-
 export const attendanceMark = async (req, res) => {
-  
   try {
     const { studentId, date, status, sessionId } = req.body;
     // Validate input
@@ -58,16 +56,16 @@ export const attendanceMark = async (req, res) => {
       { $push: { attendance: { date, status, sessionId } } }, // Add to attendance array
       { upsert: true } // Create if it doesn’t exist
     );
-  
-      // Create a new attendance record
-      // const attendance = new Attendance({
-      //   studentId,
-      //   date,
-      //   status,
-      //   sessionId,
-      // });
-  
-      await attendance.save();
+
+    // Create a new attendance record
+    // const attendance = new Attendance({
+    //   studentId,
+    //   date,
+    //   status,
+    //   sessionId,
+    // });
+
+    await attendance.save();
 
     res.status(200).json({ message: "Attendance marked successfully" });
   } catch (error) {
@@ -91,14 +89,18 @@ export const createSession = async (req, res) => {
       path: "userId", // Populate the user details
       select: "department year batch rollNo name", // Fetch only required fields
     });
-
+    console.log("projects from admin controller",projects)
     if (!projects.length) {
-      return res.status(404).json({ message: "No projects found in the database." });
+      return res
+        .status(404)
+        .json({ message: "No projects found in the database." });
     }
 
     // Filter projects based on criteria
     const filteredProjects = projects.filter((projectData) => {
+      console.log("projectData inside filteredProjects from admin controller",projectData)
       const user = projectData.userId;
+      console.log("user with projectData userId",user)
       return (
         user &&
         user.department === department &&
@@ -109,7 +111,9 @@ export const createSession = async (req, res) => {
     });
 
     if (!filteredProjects.length) {
-      return res.status(404).json({ message: "No projects match the given criteria." });
+      return res
+        .status(404)
+        .json({ message: "No projects match the given criteria." });
     }
 
     // Prepare student data from filtered projects
@@ -136,12 +140,111 @@ export const createSession = async (req, res) => {
     await newSession.save();
 
     // Return success response
-    res.status(201).json({ message: "Session added successfully", session: newSession });
+    res
+      .status(201)
+      .json({ message: "Session added successfully", session: newSession });
   } catch (error) {
     console.error("Error creating session:", error);
     res.status(500).json({ message: "Failed to create session", error });
   }
 };
+
+
+
+
+// export const createSession = async (req, res) => {
+//   const { sessionNo, date, batch, project, department, year } = req.body;
+
+//   // Validate required fields
+//   if (
+//     !department?.trim() ||
+//     !year?.trim() ||
+//     !project?.trim() ||
+//     !batch?.trim() ||
+//     !date ||
+//     !sessionNo?.trim()
+//   ) {
+//     return res.status(400).json({ message: "All fields are required" });
+//   }
+
+//   try {
+//     const projects = await Project.find()
+//       .populate({
+//         path: "userId",
+//         select: "department year batch rollNo name",
+//       })
+//       .catch((err) => {
+//         console.error("Error fetching projects:", err);
+//         return res
+//           .status(500)
+//           .json({ message: "Database query failed", error: err });
+//       });
+
+//     if (!projects || !projects.length) {
+//       return res
+//         .status(404)
+//         .json({ message: "No projects found in the database." });
+//     }
+
+//     const filteredProjects = projects.filter((projectData) => {
+//       const user = projectData.userId;
+//       return (
+//         user &&
+//         user.department === department &&
+//         user.year === year &&
+//         user.batch === batch &&
+//         projectData.project === project
+//       );
+//     });
+
+//     if (!filteredProjects.length) {
+//       return res
+//         .status(404)
+//         .json({ message: "No projects match the given criteria." });
+//     }
+
+//     const studentData = filteredProjects.map((projectData) => ({
+//       rollNo: projectData.userId?.rollNo || null,
+//       name: projectData.userId?.name || "Unknown",
+//       projectName: projectData.title || "No Title",
+//       email: projectData.email || "No Email",
+//       status: "Absent",
+//     }));
+
+//     const newSession = new Session({
+//       department,
+//       year,
+//       project,
+//       batch,
+//       date,
+//       sessionNo,
+//       students: studentData,
+//     });
+
+//     await newSession.save().catch((err) => {
+//       console.error("Error saving session:", err);
+//       return res
+//         .status(500)
+//         .json({ message: "Failed to save session", error: err });
+//     });
+
+//     res.status(201).json({
+//       message: "Session added successfully",
+//       session: {
+//         id: newSession._id,
+//         department: newSession.department,
+//         year: newSession.year,
+//         project: newSession.project,
+//         batch: newSession.batch,
+//         date: newSession.date,
+//         students: newSession.students,
+//       },
+//     });
+//   } catch (error) {
+//     console.error("Error creating session:", error);
+//     res.status(500).json({ message: "Failed to create session", error });
+//   }
+// };
 
 
 export const getstudentsdata = async (req, res) => {
@@ -168,7 +271,7 @@ export const fetchSession = async (req, res) => {
       return res.status(404).json({ message: "No Session found" });
     }
 
-    res.status(200).json({ message: "Session fetched",session });
+    res.status(200).json({ message: "Session fetched", session });
   } catch (error) {
     console.error("Error fetching sessions:", error);
     res.status(500).json({ message: "Unable to fetch sessions", error });
@@ -177,14 +280,23 @@ export const fetchSession = async (req, res) => {
 
 export const deleteSession = async (req, res) => {
   try {
-    const {sessionId} = req.body
-    const session = await Session.findByIdAndDelete(sessionId); // Fetch all users from the database
-    if (session.length === 0) {
-      console.error("No Session found");
-      return res.status(404).json({ message: "No Session found" });
+    const { sessionId } = req.body;
+
+    if (!sessionId) {
+      return res.status(400).json({ message: "Session ID is required" });
     }
 
-    res.status(200).json({ message: "Session fetched",session });
+    const session = await Session.findByIdAndDelete(sessionId);
+
+    if (!session) {
+      return res
+        .status(404)
+        .json({ message: "No session found with the given ID" });
+    }
+
+    res.status(200).json({ message: "Session deleted successfully", session });
+
+    res.status(200).json({ message: "Session fetched", session });
   } catch (error) {
     console.error("Error fetching sessions:", error);
     res.status(500).json({ message: "Unable to fetch sessions", error });

@@ -1,6 +1,7 @@
 import authRouter from "./routes/authRoutes.js";
 import userRouter from "./routes/userRoutes.js";
 import adminRouter from "./routes/adminRoutes.js";
+import sessionRouter from "./routes/sessionRoutes.js";
 import authenticate from "./middleware/userAuth.js";
 import cookieParser from "cookie-parser";
 
@@ -31,12 +32,15 @@ app.use((req, res, next) => {
 
 app.use(express.json());
 app.use(cookieParser());
+app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
+
 // app.use(morgan("dev"));
 
 //APT Endpoints
 app.use("/auth", authRouter);
 app.use("/", authenticate, userRouter);
 app.use("/admin", adminRouter);
+app.use("/", sessionRouter);
 
 // app.get('*', (req, res) => {
 //     res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));

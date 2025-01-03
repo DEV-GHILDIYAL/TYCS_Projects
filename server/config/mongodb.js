@@ -10,19 +10,21 @@ import userModel from '../models/userModel.js';
 const students = [
     {
       rollNo: 477,
+      name:"Shiwans Vaishya",
       email: "g22.shiwans.vaishya@gnkhalsa.edu.in",
       role:"student",
-      name:"Shiwans Vaishya",
       department:"CS",
-      batch:"2024-2025",
+      batch:"Batch3",
+      year:"2024-2025"
     },
     {
       rollNo: 421,
+      name:"Dev Ghildiyal",
       email: "g22.dev.ghildiyal@gnkhalsa.edu.in",
       role:"student",
-      name:"Dev Ghildiyal",
       department:"CS",
-      batch:"2024-2025",
+      batch:"Batch1",
+      year:"2024-2025"
     },
   ];
 

@@ -59,14 +59,15 @@ const CreateAttendanceSession = () => {
     setSessions((prevSessions) =>
       prevSessions.filter((session) => session._id !== sessionId)
     );
-    const response = await fetch('http://localhost:4000/admin/deletesession', {
+    const response = await fetch(`http://localhost:4000/admin/deletesession`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-      },body:JSON.stringify({ sessionId }),
-
-      credentials: "include", // Include cookies if needed
+      },
+      body: JSON.stringify({ sessionId }), // Properly formatted body
+      credentials: "include",
     });
+    
     toast.success("Session deleted!", { autoClose: 1000 });
     console.log("Response",response)
   };

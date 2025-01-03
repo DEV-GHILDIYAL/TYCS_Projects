@@ -1,5 +1,5 @@
 import express from 'express';
-import { addstudent, getprojectdata, getstudentsdata,createSession,fetchSession,deleteSession ,attendanceMark} from '../controllers/adminController.js';
+import { addstudent, getprojectdata,createSession, getstudentsdata,fetchSession,deleteSession ,attendanceMark} from '../controllers/adminController.js';
 const adminRouter = express.Router();
 
 adminRouter.post('/addstudent', addstudent);
