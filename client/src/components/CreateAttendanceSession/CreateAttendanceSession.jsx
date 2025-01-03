@@ -11,7 +11,7 @@ const CreateAttendanceSession = () => {
     const fetchSession = async () => {
       try {
         const response = await fetch(
-          `${import.meta.env.VITE_BACK_URL}/admin/fetchsession`,
+            `${import.meta.env.VITE_BACK_URL}/admin/fetchsession`,
           {
             method: "GET",
             headers: {

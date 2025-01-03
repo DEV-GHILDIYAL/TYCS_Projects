@@ -41,6 +41,7 @@ a {
   --card-content-background: #ffffff; /* Crisp white for card content */
   --table-even-row: #f7f7f7; /* Very light gray for alternating rows */
   --option-text: #000000;
+  --table-th-color: black;
 }
 
 
@@ -54,6 +55,7 @@ a {
   --card-content-background: #3a3a3a;
   --table-even-row: #2f3b45;
   --option-text:#ffffff;
+  --table-th-color: #e0e0e0;
 }
 body {
   background-color: var(--background-color);
@@ -102,4 +104,7 @@ option{
 }
 select{
   color: var(--option-text);
+}
+table th{
+  color: var(--table-th-color);
 }

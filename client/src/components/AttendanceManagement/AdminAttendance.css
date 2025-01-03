@@ -42,13 +42,13 @@
   margin: 0;
   font-size: 1.5rem;
   font-weight: 600;
-  color: #e0e0e0; /* Light text for header */
+  /* color: #e0e0e0; */
 }
 
 .attendance-head-left p {
   margin: 5px 0 0;
   font-size: 0.95rem;
-  color: #a0a0a0; /* Softer gray for secondary text */
+  /* color: #a0a0a0; */
 }
 
 .attendance-head-right {
@@ -112,7 +112,7 @@ table td {
 
 table th {
   /* background-color: #444; */
-  color: #e0e0e0; /* Light text for table headers */
+  /* color: #e0e0e0; */
 }
 
 table tr:nth-child(even) {

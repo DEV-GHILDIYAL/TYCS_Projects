@@ -157,24 +157,28 @@ export const getProfile = async (req, res) => {
   try {
     // Get token from the Authorization header
     const token = req.cookies?.token;
-
+    
     if (!token) {
       return res.status(401).json({ message: "No token provided" });
     }
+    // console.log("MyToken:" , token);
 
     // Verify token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    // console.log("DECODED", decoded.id);
 
     // Fetch user data from the database using the decoded user ID
-    const user = await User.findById(decoded.userId);
+    const user = await userModel.findById(decoded.id);
+    // console.log("USER IS THERE?    " , user);
 
     if (!user) {
+      console.log("No user found for ID:", decoded.id);
       return res.status(404).json({ message: "User not found" });
     }
 
     // Prepare user data to send as a response
     const profileData = {
-      username: user.username,
+      name: user.name,
       rollNo: user.rollNo,
       phoneNo: user.phoneNo,
       email: user.email,
