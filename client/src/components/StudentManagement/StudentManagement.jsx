@@ -38,7 +38,7 @@ const StudentManagement = () => {
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const response = await fetch(`http://localhost:4000/admin/getstudent`, {
+        const response = await fetch(`${import.meta.env.VITE_BACK_URL}/admin/getstudent`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -125,34 +125,6 @@ const StudentManagement = () => {
               <option value="2025-2026">2025-2026</option>
             </select>
           </label>
-
-          {/* <label>
-            Project Number:
-            <select
-              name="projectNumber"
-              value={filters.projectNumber}
-              onChange={handleFilterChange}
-            >
-              <option value="">All</option>
-              <option value="Project1">Project 1</option>
-              <option value="Project2">Project 2</option>
-            </select>
-          </label>
-
-          <label>
-            Category:
-            <select
-              name="category"
-              value={filters.category}
-              onChange={handleFilterChange}
-            >
-              <option value="">All</option>
-              <option value="web development">Web Development</option>
-              <option value="game dev">Game Development</option>
-              <option value="app dev">App Development</option>
-              <option value="ml al">ML/AI</option>
-            </select>
-          </label> */}
         </div>
 
         {/* Student Table */}

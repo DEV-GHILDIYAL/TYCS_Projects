@@ -89,7 +89,7 @@ const HomeComponent = () => {
               value={projectType}
               onChange={handleProjectTypeChange}
             >
-              <option value="">Select Project)</option>
+              <option value="">Select Project</option>
               <option value="project1">Project 1</option>
               <option value="project2">Project 2</option>
             </select>
@@ -100,9 +100,9 @@ const HomeComponent = () => {
               onChange={handleBatchFilterChange}
             >
               <option value="">Select Batch</option>
-              <option value="Batch 1">Batch 1</option>
-              <option value="Batch 2">Batch 2</option>
-              <option value="Batch 3">Batch 3</option>
+              <option value="Batch1">Batch 1</option>
+              <option value="Batch2">Batch 2</option>
+              <option value="Batch3">Batch 3</option>
             </select>
           </div>
         </>

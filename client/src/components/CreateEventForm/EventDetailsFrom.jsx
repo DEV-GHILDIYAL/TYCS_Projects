@@ -17,12 +17,8 @@ const EventDetailsForm = ({
   const [projectCategory, setProjectCategory] = useState(
     initialData.category || ""
   );
-  const [department, setDepartment] = useState(
-    initialData.department || ""
-  );
-  const [year, setYear] = useState(
-    initialData.year || ""
-  );
+  const [department, setDepartment] = useState(initialData.department || "");
+  const [year, setYear] = useState(initialData.year || "");
   const [deployedLink, setDeployedLink] = useState(initialData.deployed || "");
   const [githubLink, setGithubLink] = useState(initialData.github || "");
   const [futureEnhancements, setFutureEnhancements] = useState(
@@ -35,18 +31,21 @@ const EventDetailsForm = ({
   const [linkedinLink, setLinkedinLink] = useState(initialData.linkedin || "");
   const [progressColor, setProgressColor] = useState("red");
   const [completionPercentage, setCompletionPercentage] = useState(0);
-  // const [apkFile, setApkFile] = useState(null);
 
   const token = localStorage.getItem("token");
-  const navigate = useNavigate(); // Use navigate for routing
+  const navigate = useNavigate();
 
-  const [selectedProject, setSelectedProject] = useState(initialData.project || "");
+  const [selectedProject, setSelectedProject] = useState(
+    initialData.project || ""
+  );
   const [selectedBatch, setSelectedBatch] = useState(initialData.batch || "");
-  const [isCompletedProject, setIsCompletedProject] = useState(initialData.isCompletedProject || false);
+  const [isCompletedProject, setIsCompletedProject] = useState(
+    initialData.isCompletedProject || false
+  );
 
   useEffect(() => {
-    if(!isCompletedProject){
-      setDeployedLink('');
+    if (!isCompletedProject) {
+      setDeployedLink("");
     }
   }, [isCompletedProject]);
 
@@ -58,7 +57,7 @@ const EventDetailsForm = ({
     setProjectCategory("");
     selectedProject("");
     selectedBatch("");
-    setDepartment("")
+    setDepartment("");
     setYear("");
     setDeployedLink("");
     setFutureEnhancements("");
@@ -87,7 +86,7 @@ const EventDetailsForm = ({
         method: method,
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          // Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           name: upperCaseName,
@@ -97,25 +96,22 @@ const EventDetailsForm = ({
           title: projectTitle,
           deployed: deployedLink,
           future: futureEnhancements,
-          department:department,
-          year:year,
+          department: department,
+          year: year,
           github: githubLink,
           twitter: twitterLink,
           linkedin: linkedinLink,
           instagram: instagramLink,
           project: selectedProject,
-          batch: selectedBatch, 
-          isCompletedProject: isCompletedProject,  // Add this field to the backend
+          batch: selectedBatch,
+          isCompletedProject: isCompletedProject, // Add this field to the backend
         }),
         credentials: "include",
       });
-  
-      // Log response status
-      console.log("Response Status:", response.status);
-  
+
       const data = await response.json();
       console.log("Response Data:", data);
-  
+
       if (response.ok) {
         toast.success(
           editingProjectId ? "Project updated!" : "Project added!",
@@ -123,12 +119,12 @@ const EventDetailsForm = ({
         );
         resetForm();
         setEditingProjectId(null);
-  
+
         // setTimeout(() => {
-          // window.location.reload();
+        // window.location.reload();
         // }, 1000); // Wait for 1 second
         // window.location.reload();
-        navigate('/my-project')
+        navigate("/my-project");
       } else {
         // Log error details
         console.error("Error details:", data);
@@ -142,7 +138,7 @@ const EventDetailsForm = ({
       toast.error("Unable to save project!", { autoClose: 1000 });
     }
   };
-  
+
   const calculateCompletionPercentage = () => {
     const totalFields = 15; // Total fields to track
     let completedFields = 0;
@@ -162,7 +158,7 @@ const EventDetailsForm = ({
     if (instagramLink) completedFields++;
     if (linkedinLink) completedFields++;
     if (selectedProject) completedFields++; // Project selection
-    if (selectedBatch) completedFields++;    // Batch selection
+    if (selectedBatch) completedFields++; // Batch selection
 
     const percentage = (completedFields / totalFields) * 100;
     setCompletionPercentage(percentage);
@@ -174,8 +170,8 @@ const EventDetailsForm = ({
       projectDescription &&
       department &&
       projectCategory &&
-      selectedProject &&    // Check for selected project
-      selectedBatch &&        // Check for selected batch
+      selectedProject && // Check for selected project
+      selectedBatch && // Check for selected batch
       githubLink && // Check for
       ((projectCategory === "Mobile App Development" && deployedLink) ||
         (projectCategory !== "Mobile App Development" && deployedLink));
@@ -321,84 +317,84 @@ const EventDetailsForm = ({
           </select>
         </div>
         {/* New Project Selection Dropdown */}
-      <div className="form-row">
-        <div className="form-group">
-          <label>
-            Project: <span className="required">*</span>
-          </label>
-          <select
-            value={selectedProject}
-            onChange={(e) => setSelectedProject(e.target.value)}
-            required
-          >
-            <option value="" disabled>
-              Select Project
-            </option>
-            <option value="Project One">Project One</option>
-            <option value="Project Two">Project Two</option>
-          </select>
+        <div className="form-row">
+          <div className="form-group">
+            <label>
+              Project: <span className="required">*</span>
+            </label>
+            <select
+              value={selectedProject}
+              onChange={(e) => setSelectedProject(e.target.value)}
+              required
+            >
+              <option value="" disabled>
+                Select Project
+              </option>
+              <option value="Project One">Project One</option>
+              <option value="Project Two">Project Two</option>
+            </select>
+          </div>
         </div>
-      </div>
 
-      {/* New Batch Selection Dropdown */}
-      <div className="form-row">
-        <div className="form-group">
-          <label>
-            Batch: <span className="required">*</span>
-          </label>
-          <select
-            value={selectedBatch}
-            onChange={(e) => setSelectedBatch(e.target.value)}
-            required
-          >
-            <option value="" disabled>
-              Select Batch
-            </option>
-            <option value="Batch1">Batch 1</option>
-            <option value="Batch2">Batch 2</option>
-            <option value="Batch3">Batch 3</option>
-          </select>
+        {/* New Batch Selection Dropdown */}
+        <div className="form-row">
+          <div className="form-group">
+            <label>
+              Batch: <span className="required">*</span>
+            </label>
+            <select
+              value={selectedBatch}
+              onChange={(e) => setSelectedBatch(e.target.value)}
+              required
+            >
+              <option value="" disabled>
+                Select Batch
+              </option>
+              <option value="Batch1">Batch 1</option>
+              <option value="Batch2">Batch 2</option>
+              <option value="Batch3">Batch 3</option>
+            </select>
+          </div>
         </div>
-      </div>
-          
-      {/* Department */}
-      <div className="form-row">
-        <div className="form-group">
-          <label>
-            Department: <span className="required">*</span>
-          </label>
-          <select
-            value={department}
-            onChange={(e) => setDepartment(e.target.value)}
-            required
-          >
-            <option value="" disabled>
-              Select Department
-            </option>
-            <option value="CS">CS</option>
-            <option value="IT">IT</option>
-          </select>
-        </div>
-      </div>
 
-      <div className="form-row">
-        <div className="form-group">
-          <label>
-            Year: <span className="required">*</span>
-          </label>
-          <select
-            value={year}
-            onChange={(e) => setYear(e.target.value)}
-            required
-          >
-            <option value="" disabled>
-              Select Year
-            </option>
-            <option value="2024-2025">2024-2025</option>
-            <option value="2026-2027">2026-2027</option>
-          </select>
+        {/* Department */}
+        <div className="form-row">
+          <div className="form-group">
+            <label>
+              Department: <span className="required">*</span>
+            </label>
+            <select
+              value={department}
+              onChange={(e) => setDepartment(e.target.value)}
+              required
+            >
+              <option value="" disabled>
+                Select Department
+              </option>
+              <option value="CS">CS</option>
+              <option value="IT">IT</option>
+            </select>
+          </div>
         </div>
-      </div>
+
+        <div className="form-row">
+          <div className="form-group">
+            <label>
+              Year: <span className="required">*</span>
+            </label>
+            <select
+              value={year}
+              onChange={(e) => setYear(e.target.value)}
+              required
+            >
+              <option value="" disabled>
+                Select Year
+              </option>
+              <option value="2024-2025">2024-2025</option>
+              <option value="2025-2026">2025-2026</option>
+            </select>
+          </div>
+        </div>
         <div className="form-group half-width">
           <label>
             Deployed Link: <span className="required">*</span>
@@ -456,7 +452,7 @@ const EventDetailsForm = ({
         </div>
         <div className="form-group">
           <label>
-            Github Link:  <span className="required">*</span>
+            Github Link: <span className="required">*</span>
           </label>
           <input
             type="url"
@@ -466,16 +462,6 @@ const EventDetailsForm = ({
           />
         </div>
       </div>
-
-      {/* Uncomment the below lines to enable APK file upload */}
-      {/* <div className="form-group">
-        <label>APK File:</label>
-        <input
-          type="file"
-          accept=".apk"
-          onChange={handleApkChange}
-        />
-      </div> */}
 
       <button type="submit" className="submit-button">
         {editingProjectId ? "Update Project" : "Add Project"}

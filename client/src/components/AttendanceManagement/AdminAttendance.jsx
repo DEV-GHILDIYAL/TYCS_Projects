@@ -1,29 +1,28 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import "./AdminAttendance.css";
-// import studentData from "../../data/students";
 import { RowComponentForAttendance } from "../RowComponent/RowComponent";
 import { useLocation } from "react-router-dom";
 
 const AdminAttendance = () => {
   const location = useLocation();
-const { data, sessionToView } = location.state || {};
-  // const[main,setMain] = useState([])
-// console.log("Data and sessionToView:", data, sessionToView);
-let main = [];
-let sessionId = null;
-let date = null;
+  const { data, sessionToView } = location.state || {};
 
-if (data?.session) {
-  main = data.session.students;
-  sessionId = data.session._id;
-  date = data.session.date;
-}
+  // console.log("Data and sessionToView:", data, sessionToView);
+  let main = [];
+  let sessionId = null;
+  let date = null;
 
-if (sessionToView) {
-  main = sessionToView.students || [];
-  sessionId = sessionToView._id;
-  date = sessionToView.date;
-}
+  if (data?.session) {
+    main = data.session.students;
+    sessionId = data.session._id;
+    date = data.session.date;
+  }
+
+  if (sessionToView) {
+    main = sessionToView.students || [];
+    sessionId = sessionToView._id;
+    date = sessionToView.date;
+  }
 
   return (
     <div className="admin-attendance-page">
@@ -47,12 +46,12 @@ if (sessionToView) {
             </tr>
           </thead>
           <tbody>
-          {main.length  === 0 ? (
+            {main.length === 0 ? (
               <tr>
                 <td colSpan="5">No students found.</td>
               </tr>
             ) : (
-              main.map((student, index) => (  
+              main.map((student, index) => (
                 <RowComponentForAttendance
                   key={student.rollNo}
                   srNo={index + 1}

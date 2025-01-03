@@ -39,7 +39,7 @@ const ProjectManagement = () => {
       useEffect(() => {
         const fetchProjects = async () => {
           try {
-            const response = await fetch(`http://localhost:4000/admin/getproject`, {
+            const response = await fetch(`${import.meta.env.VITE_BACK_URL}/admin/getproject`, {
               method: "GET",
               headers: {
                 "Content-Type": "application/json",

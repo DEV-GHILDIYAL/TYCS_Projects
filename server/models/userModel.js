@@ -27,7 +27,7 @@ const UserSchema = new mongoose.Schema({
     role: { type: String, enum: ['admin', 'student'],required:true,default:"student" },
     department:{type:String, enum: ['CS','IT'],default:""},
     phoneNo:{type:Number,default:0},
-    batch:{type:String,default:""},
+    batch:{type:String,default:""},//Batch
     year:{type:String,default:""},
     resetOtp: { type: String, default:''},
     resetOtpExpireAt: { type: Number, default:0},

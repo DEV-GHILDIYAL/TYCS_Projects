@@ -8,7 +8,7 @@ export const RowComponentForAttendance = ({ srNo, rollNumber, name, projectName,
 
   const markAttendance = async (studentId, date, status, sessionId) => {
     try {
-      const response = await fetch("http://localhost:4000/admin/attendance/mark", {
+      const response = await fetch(`${import.meta.env.VITE_BACK_URL}/admin/attendance/mark`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

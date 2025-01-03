@@ -14,8 +14,6 @@ const CreateSessionForm = () => {
     sessionNo: "",
   });
 
-  const [loading, setLoading] = useState(false); // State to manage loading
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -23,13 +21,12 @@ const CreateSessionForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent default form submission
-    setLoading(true); // Start loading
+
     //creating session
     try {
-      console.log("Form Data:", formData);
+      // console.log("Form Data:", formData);
       const response = await fetch(
-        `http://localhost:4000/admin/createsession`,
-        // `http://localhost:4000/createsession`,
+        `${import.meta.env.VITE_BACK_URL}/admin/createsession`,
         {
           method: "POST",
           headers: {
@@ -40,7 +37,7 @@ const CreateSessionForm = () => {
         }
       );
       const data = await response.json();
-      console.log("Server Response (JSON) for creating session:", data);
+      // console.log("Server Response (JSON) for creating session:", data);
 
       if (response.ok) {
         setFormData({
@@ -58,8 +55,10 @@ const CreateSessionForm = () => {
           transition: Slide,
           autoClose: 1000,
         });
-        //send data 
-        navigate("/management/attendance",{state:{data,sessionToView:null},});
+        //send data
+        navigate("/management/attendance", {
+          state: { data, sessionToView: null },
+        });
       } else {
         console.error("Server returned error response:", data);
         toast.error(data.message || "Session number is already used!", {
@@ -78,7 +77,6 @@ const CreateSessionForm = () => {
         autoClose: 1000,
       });
     }
-    
   };
 
   return (
@@ -105,7 +103,7 @@ const CreateSessionForm = () => {
           name="year"
           value={formData.year}
           onChange={handleInputChange}
-          // required 
+          // required
         >
           <option value="">Select</option>
           <option value="2024-2025">2024-2025</option>
@@ -171,10 +169,7 @@ const CreateSessionForm = () => {
         </select>
       </label>
 
-      <button type="submit">
-        {/* {loading ? "Creating..." : "Create Session"} */}
-        Create Session
-      </button>
+      <button type="submit">Create Session</button>
     </form>
   );
 };

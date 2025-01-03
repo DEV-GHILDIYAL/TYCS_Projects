@@ -31,7 +31,7 @@ const ProjectDetail = ({ project, onBack }) => {
 
             <div className="project-detail-description">
                 <strong>Project Description:</strong>
-                <p>{project.description}</p>
+                <p>{project.description}</p> 
             </div>
 
             {project.future && project.future.trim() !== "" && (

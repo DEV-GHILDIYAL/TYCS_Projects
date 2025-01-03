@@ -38,6 +38,7 @@ const MyProjects = () => {
           headers: {
             // Authorization: `Bearer ${token}`,
           },
+          credentials:"include"
         });
 
         if (!response.ok) {
@@ -97,6 +98,7 @@ const MyProjects = () => {
             "Content-Type": "application/json",
             // Authorization: `Bearer ${token}`,
           },
+          credentials:"include"
         }
       );
       if (response.ok) {
