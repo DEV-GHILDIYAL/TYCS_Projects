@@ -108,7 +108,7 @@ const Profile = () => {
               </label>
             </div>
             <div className="profile-page-header-text">
-              <h1>{profileData.name}</h1>
+              <h1>{profileData.name.toLocaleLowerCase()}</h1>
               <p className="profile-page-roll-no">Roll No: {profileData.rollNo}</p>
             </div>
           </header>

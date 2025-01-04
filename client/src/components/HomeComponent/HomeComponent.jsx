@@ -90,8 +90,8 @@ const HomeComponent = () => {
               onChange={handleProjectTypeChange}
             >
               <option value="">Select Project</option>
-              <option value="project1">Project 1</option>
-              <option value="project2">Project 2</option>
+              <option value="Project One">Project 1</option>
+              <option value="Project Two">Project 2</option>
             </select>
 
             <select

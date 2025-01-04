@@ -7,12 +7,20 @@ import img5 from "../../assets/images/images4.png";
 import img6 from "../../assets/images/images5.png";
 import "./CardSection.css";
 
-const CardSection = ({ onViewDetail, searchTerm = "", searchByRollNumber = false }) => {
+const CardSection = ({
+  onViewDetail,
+  searchTerm = "",
+  searchByRollNumber = false,
+  batch = "",
+  department = "",
+  projectType = "",
+  batchFilter = "",
+}) => {
   const [projects, setProjects] = useState([]);
   const images = [img2, img3, img4, img5, img6];
 
   useEffect(() => {
-    const fetchProject = async () => {
+    const fetchProjects = async () => {
       try {
         const response = await fetch(`${import.meta.env.VITE_BACK_URL}`, {
           method: "GET",
@@ -32,17 +40,30 @@ const CardSection = ({ onViewDetail, searchTerm = "", searchByRollNumber = false
         console.error("Unable to fetch projects", error);
       }
     };
-    fetchProject();
+    fetchProjects();
   }, []);
 
   const filteredProjects = projects.filter((project) => {
     const term = searchTerm.toLowerCase();
-    if (searchByRollNumber && project.rollno) {
-      return project.rollno.toString().includes(term);
-    } else if (project.name) {
-      return project.name.toLowerCase().includes(term);
-    }
-    return false;
+
+    // Filter by search term
+    const matchesSearch = searchByRollNumber
+      ? project.rollno?.toString().includes(term)
+      : project.name?.toLowerCase().includes(term);
+
+    // Filter by batch
+    const matchesBatch = batch ? project.batch === batch : true;
+
+    // Filter by department
+    const matchesDepartment = department ? project.department === department : true;
+
+    // Filter by project type
+    const matchesProjectType = projectType ? project.project === projectType : true;
+
+    // Filter by batch filter
+    const matchesBatchFilter = batchFilter ? project.batch === batchFilter : true;
+
+    return matchesSearch && matchesBatch && matchesDepartment && matchesProjectType && matchesBatchFilter;
   });
 
   // Generate random images for each filtered project
@@ -54,7 +75,7 @@ const CardSection = ({ onViewDetail, searchTerm = "", searchByRollNumber = false
   return (
     <div className="card-section">
       {filteredProjects.length > 0 ? (
-        filteredProjects.map((project, index) => (
+        filteredProjects.map((project) => (
           <Card
             key={project._id}
             image={getRandomImage()} // Assign a random image to each card

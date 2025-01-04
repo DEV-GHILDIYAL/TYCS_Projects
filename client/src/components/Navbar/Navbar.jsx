@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import "./NavBar.css"; // Ensure you have this CSS file for styling
+import "./Navbar.css"; // Ensure you have this CSS file for styling
 import {
   FaFileAlt,
   FaFolderOpen,
