@@ -9,6 +9,7 @@ import express from "express";
 import cors from "cors";
 // const morgan = require("morgan");
 import dotenv from "dotenv";
+// import admin from "./middleware/adminAuth.js";
 
 dotenv.config({ path: "./.env" });
 connectDB();

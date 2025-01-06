@@ -295,8 +295,6 @@ export const deleteSession = async (req, res) => {
     }
 
     res.status(200).json({ message: "Session deleted successfully", session });
-
-    res.status(200).json({ message: "Session fetched", session });
   } catch (error) {
     console.error("Error fetching sessions:", error);
     res.status(500).json({ message: "Unable to fetch sessions", error });

@@ -55,8 +55,8 @@ const EventDetailsForm = ({
     setProjectTitle("");
     setProjectDescription("");
     setProjectCategory("");
-    selectedProject("");
-    selectedBatch("");
+    setSelectedBatch("");
+    setSelectedProject("");
     setDepartment("");
     setYear("");
     setDeployedLink("");
@@ -113,6 +113,7 @@ const EventDetailsForm = ({
       console.log("Response Data:", data);
 
       if (response.ok) {
+        navigate("/my-projects");
         toast.success(
           editingProjectId ? "Project updated!" : "Project added!",
           { autoClose: 1000 }
@@ -124,7 +125,6 @@ const EventDetailsForm = ({
         // window.location.reload();
         // }, 1000); // Wait for 1 second
         // window.location.reload();
-        navigate("/my-project");
       } else {
         // Log error details
         console.error("Error details:", data);
