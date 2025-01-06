@@ -127,7 +127,7 @@ main {
 }
 
 .link:hover {
-  background: #333333;
+  /* background: #333333; */
   color: #ffffff;
   cursor: pointer;
 }

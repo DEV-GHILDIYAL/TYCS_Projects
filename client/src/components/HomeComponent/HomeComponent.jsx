@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import './HomeComponent.css';
 import CardSection from '../CardSection/CardSection';
 import ProjectDetail from '../ProjectDetail/ProjectDetail';
+import HorizontalCardSection from '../HorizontalCardSection/HorizontalCardSection';
+import { FaTh, FaList } from 'react-icons/fa';
 
 const HomeComponent = () => {
   const [selectedProject, setSelectedProject] = useState(null); // State to hold selected project
@@ -11,6 +13,7 @@ const HomeComponent = () => {
   const [department, setDepartment] = useState(''); // State to hold selected department (CS/IT)
   const [projectType, setProjectType] = useState(''); // State to hold selected project type (Project 1/Project 2)
   const [batchFilter, setBatchFilter] = useState(''); // State for Batch 1, Batch 2, Batch 3 filter
+  const [isGridView, setIsGridView] = useState(true); // State for grid view toggle
 
   const handleViewDetail = (projectDetails) => {
     setSelectedProject(projectDetails); // Update the selected project
@@ -45,6 +48,10 @@ const HomeComponent = () => {
     setBatchFilter(event.target.value); // Set the selected batch filter (Batch 1, Batch 2, Batch 3)
   };
 
+  const toggleGridView = () => {
+    setIsGridView(!isGridView); // Toggle between grid and card view
+  };
+
   return (
     <div className="home-container">
       {!selectedProject && (
@@ -70,8 +77,8 @@ const HomeComponent = () => {
               <option value="">Select Year</option>
               <option value="2024-2025">2024-2025</option>
               <option value="2025-2026">2025-2026</option>
-              <option value="2025-2026">2026-2027</option>
-              <option value="2025-2026">2027-2028</option>
+              <option value="2026-2027">2026-2027</option>
+              <option value="2027-2028">2027-2028</option>
             </select>
 
             <select
@@ -104,21 +111,43 @@ const HomeComponent = () => {
               <option value="Batch2">Batch 2</option>
               <option value="Batch3">Batch 3</option>
             </select>
+          <div className="view-toggle-container">
+            <button className="view-toggle-button" onClick={toggleGridView}>
+              {isGridView ? <FaList /> : <FaTh />}
+            </button>
           </div>
+          </div>
+
+          
         </>
       )}
+
       {selectedProject ? (
         <ProjectDetail project={selectedProject} onBack={handleBack} />
       ) : (
-        <CardSection 
-          onViewDetail={handleViewDetail} 
-          searchTerm={searchTerm} 
-          searchByRollNumber={searchByRollNumber} // Pass the search mode
-          batch={year} // Pass batch filter (2024-2025 or 2025-2026)
-          department={department} // Pass department filter (CS or IT)
-          projectType={projectType} // Pass project type filter (Project 1 or Project 2)
-          batchFilter={batchFilter} // Pass the batch filter (Batch 1, Batch 2, Batch 3)
-        />
+        <>
+          {isGridView ? (
+            <HorizontalCardSection 
+              onViewDetail={handleViewDetail} 
+              searchTerm={searchTerm} 
+              searchByRollNumber={searchByRollNumber}
+              batch={year} 
+              department={department} 
+              projectType={projectType} 
+              batchFilter={batchFilter}
+            />
+          ) : (
+            <CardSection 
+              onViewDetail={handleViewDetail} 
+              searchTerm={searchTerm} 
+              searchByRollNumber={searchByRollNumber}
+              batch={year} 
+              department={department} 
+              projectType={projectType} 
+              batchFilter={batchFilter}
+            />
+          )}
+        </>
       )}
     </div>
   );

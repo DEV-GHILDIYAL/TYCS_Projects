@@ -5,10 +5,10 @@ import img3 from "../../assets/images/images2.png";
 import img4 from "../../assets/images/images3.png";
 import img5 from "../../assets/images/images4.png";
 import img6 from "../../assets/images/images5.png";
-import "./CardSection.css";
+// import "./CardSection.css";
 import HorizontalCard from "../HorizontalCard/HorizontalCard";
 
-const CardSection = ({
+const HorizontalCardSection = ({
   onViewDetail,
   searchTerm = "",
   searchByRollNumber = false,
@@ -74,11 +74,12 @@ const CardSection = ({
   };
 
   return (
-    <div className="card-section">
+    <div className="horizontal-card-section">
       {filteredProjects.length > 0 ? (
         filteredProjects.map((project) => (
-          <Card
+          <HorizontalCard
             key={project._id}
+            rollNo={project.rollno}
             image={getRandomImage()} // Assign a random image to each card
             title={project.title}
             description={project.description}
@@ -96,4 +97,4 @@ const CardSection = ({
   );
 };
 
-export default CardSection;
+export default HorizontalCardSection;

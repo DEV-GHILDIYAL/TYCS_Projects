@@ -31,17 +31,35 @@ a {
 } */
 
 
+
 :root {
-  --background-color: #f9f9f9; /* Softer, lighter background */
-  --text-color: #333333; /* Slightly darker for better readability */
-  --icon-color: #555555; /* Neutral shade for icons */
-  --paragraph-color: #4a4a4a; /* Darker gray for text */
-  --sidebar-background: linear-gradient(135deg, #ffffff, #e4ebf1); /* Gentle gradient */
-  --filter-input-color: #f0f0f0; /* Light gray for input background */
-  --card-content-background: #ffffff; /* Crisp white for card content */
-  --table-even-row: #f7f7f7; /* Very light gray for alternating rows */
-  --option-text: #000000;
-  --table-th-color: black;
+  --background-color: #ececec; /* Soft gray background */
+  --text-color: #222222; /* Darker gray for better readability */
+  --icon-color: #444444; /* Neutral dark shade for icons */
+  --paragraph-color: #333333; /* Slightly darker gray for text */
+  --sidebar-background: linear-gradient(135deg, #e0e0e0, #d4d4d4); /* Gentle gradient, less white */
+  --filter-input-color: #dedede; /* Light gray for input background */
+  --card-content-background: #f0f0f0; /* Light gray for card content */
+  --table-even-row: #e6e6e6; /* Light gray for alternating rows */
+  --option-text: #111111; /* Slightly darker option text */
+  --table-th-color: #222222; /* Darker text color for table headers */
+  --hover-background: #d0d0d0; /* Slightly darker hover background */
+  --hover-text: #000000; /* Text color on hover */
+  --active-background: #bbbbbb; /* Softer active background */
+  --active-text: #ffffff; /* Contrasting text for active states */
+
+  /* Light Theme Button Colors */
+  --button-background: #ffffff; /* White background for light theme */
+  --button-border: #cccccc; /* Subtle border for light buttons */
+  --button-text: #222222; /* Dark text for contrast */
+  --button-hover-background: #f0f0f0; /* Slightly darker hover background */
+  --button-hover-text: #111111; /* Slightly darker text on hover */
+  --button-active-background: #dcdcdc; /* Softer active background */
+  --button-active-text: #000000; /* Dark text for active state */
+
+  --card-background-color: #f0f0f0;
+
+  
 }
 
 
@@ -56,6 +74,23 @@ a {
   --table-even-row: #2f3b45;
   --option-text:#ffffff;
   --table-th-color: #e0e0e0;
+  
+  --hover-background: #444444; /* Subtle hover background for dark mode */
+  --hover-text: #ffffff; /* Text color on hover in dark mode */
+  --active-background: #555555; /* Slightly darker active background for dark mode */
+  --active-text: #ffffff; /* Contrasting text for active states in dark mode */
+
+
+  /* Dark Theme Button Colors */
+  --button-background: #333333; /* Dark gray background for dark theme */
+  --button-border: #555555; /* Neutral dark border */
+  --button-text: #f0f0f0; /* Light text for contrast */
+  --button-hover-background: #444444; /* Slightly lighter hover background */
+  --button-hover-text: #ffffff; /* Bright text on hover */
+  --button-active-background: #222222; /* Darker active background */
+  --button-active-text: #ffffff; /* Bright text for active state */
+
+  --card-background-color: #3a3a3a;
 }
 body {
   background-color: var(--background-color);
@@ -107,4 +142,57 @@ select{
 }
 table th{
   color: var(--table-th-color);
+}
+
+/* Hover Effects */
+button:hover, .filter-input:hover, .filter-dropdown:hover, .card-content:hover {
+  background-color: var(--hover-background);
+  color: var(--hover-text);
+  cursor: pointer;
+}
+
+/* Active Class */
+.active {
+  background-color: var(--active-background);
+  color: var(--active-text);
+  border: 1px solid var(--hover-background); /* Optional: Adds a border for distinction */
+}
+
+/* Additional Hover Effects for Links */
+a:hover {
+  text-decoration: none;
+  color: var(--hover-text);
+  background-color: var(--hover-background);
+}
+
+/* Button Styles */
+button.active {
+  background-color: var(--active-background);
+  color: var(--active-text);
+}
+
+/* Table Row Hover */
+table tr:hover {
+  background-color: var(--hover-background);
+}
+
+/* Sidebar Active State */
+.sidebar .active, .navbar .active {
+  background-color: var(--active-background);
+  color: var(--active-text);
+}
+
+button{
+  background-color: var(--button-background);
+  color: var(--button-text);
+  border: 2px solid var(--button-border);
+}
+button:hover{
+  background-color: var(--button-hover-background);
+  color: var(--button-hover-text);
+}
+
+
+.horizontal-card{
+  background-color: var(--card-background-color);
 }

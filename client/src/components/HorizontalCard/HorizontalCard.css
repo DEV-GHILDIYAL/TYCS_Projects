@@ -1,0 +1,89 @@
+.horizontal-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%; /* Full width */
+    height: 40px; /* Adjust height for spacing */
+    /* background-color: #f9f9f9; */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 0 16px; /* Horizontal padding */
+    margin-bottom: 16px;
+    box-sizing: border-box;
+  }
+  
+  /* Left section: Profile picture, name */
+  .horizontal-card-left {
+    display: flex;
+    align-items: center;
+    flex: 1; /* Flex for proper alignment */
+  }
+  
+  .horizontal-card-profile-pic {
+    height: 25px;
+    width: 25px;
+    border-radius: 50%; /* Circular profile picture */
+    object-fit: cover;
+    margin-right: 12px; /* Spacing between image and name */
+    border: 2px solid #ddd; /* Optional border for better visibility */
+  }
+  
+  .horizontal-card-name-roll {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .horizontal-card-name {
+    font-size: 16px;
+    /* color: #333; */
+    font-weight: bold;
+    margin: 0;
+  }
+  
+  /* Middle section: Roll number and project title */
+  .horizontal-card-middle {
+    justify-content: space-between;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex: 2; /* Center content */
+  }
+  
+  .horizontal-card-roll {
+    font-size: 14px;
+    font-weight: bold;
+    /* color: #777; */
+    margin: 0;
+  }
+  
+  .horizontal-card-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 4px 0 0;
+  }
+  
+  /* Right section: Button */
+  .horizontal-card-right {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .horizontal-card-button {
+    /* background-color: #007bff; */
+    /* color: #fff; */
+    padding: 6px 12px;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    max-width: 120px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .horizontal-card-button:hover {
+    /* background-color: #0056b3; */
+  }
+  

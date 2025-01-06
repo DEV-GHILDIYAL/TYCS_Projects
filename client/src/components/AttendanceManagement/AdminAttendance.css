@@ -124,18 +124,11 @@ table tr:hover {
 }
 
 button {
-  padding: 5px;
-  margin: 0 5px;
+  /* padding: 5px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  background-color: #007bff; /* Primary button color */
-  color: #fff; /* White text for buttons */
-  transition: background-color 0.3s ease;
-}
-
-button:hover {
-  background-color: #0056b3; /* Darker blue on hover */
+  transition: background-color 0.3s ease; */
 }
 
 button:focus {

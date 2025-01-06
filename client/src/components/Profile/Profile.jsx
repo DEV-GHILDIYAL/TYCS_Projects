@@ -65,7 +65,7 @@ const Profile = () => {
     alert("Edit Details functionality coming soon!");
   };
 
-  const handleProfilePicChange = (event) => {
+  const handleProfilePicChange = (event) => {z
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();

@@ -36,7 +36,7 @@
   border: 1px solid #444; /* Dark border */
   border-radius: 4px;
   /* background-color: #2c2c2c; */
-  color: #e0e0e0; /* Light text for input fields */
+  /* color: #e0e0e0; */
   flex: 1; /* Flexible width */
   min-width: 150px; /* Minimum width for small screens */
   max-width: 300px; /* Ensures inputs don't get too wide */
@@ -63,7 +63,29 @@
 .toggle-button:hover {
   background-color: #584de3; /* Hover effect with a darker shade */
 }
+/* Optional: Styling for the Grid View and List View toggle */
+.view-toggle {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 20px;
+}
 
+.view-toggle-button {
+  margin-right: 15px;
+  font-size: 20px;
+  padding: 10px;
+  background-color: transparent;
+  border: 1px solid grey;
+  color: #fefeff;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.view-toggle button:hover {
+  background-color: #4a4a4a;
+  color: #fff;
+}
 /* Responsive Design for Medium Screens */
 @media (max-width: 1024px) {
   .filter-container {
