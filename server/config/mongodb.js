@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import userModel from '../models/userModel.js';
+import DBconnect from './massproject.js';
 
 // const connectDB = async ()=>{
 //     mongoose.connection.on('connected', ()=>console.log('Database Connected'));
@@ -397,6 +398,7 @@ const connectDB = async () => {
   } catch (error) {
     console.error("Error connecting to MongoDB or updating data:", error);
   }
+  DBconnect();
 };
 
 export default connectDB;

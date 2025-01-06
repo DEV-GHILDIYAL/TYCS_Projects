@@ -1,7 +1,7 @@
 import mongoose  from 'mongoose';
 
 const UserSchema = new mongoose.Schema({
-    profilepic:{type:String,},
+    profilepic:{type:String,default:"https://static.vecteezy.com/system/resources/previews/005/544/718/non_2x/profile-icon-design-free-vector.jpg"},
     rollNo:{
       type:Number,
       required:true,
