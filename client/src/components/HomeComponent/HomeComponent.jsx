@@ -6,50 +6,50 @@ import HorizontalCardSection from '../HorizontalCardSection/HorizontalCardSectio
 import { FaTh, FaList } from 'react-icons/fa';
 
 const HomeComponent = () => {
-  const [selectedProject, setSelectedProject] = useState(null); // State to hold selected project
-  const [searchTerm, setSearchTerm] = useState(''); // State to hold search term for Name or Roll No
-  const [searchByRollNumber, setSearchByRollNumber] = useState(false); // State to toggle search by name or roll number
-  const [year, setYear] = useState(''); // State to hold selected batch (2024-2025, 2025-2026)
-  const [department, setDepartment] = useState(''); // State to hold selected department (CS/IT)
-  const [projectType, setProjectType] = useState(''); // State to hold selected project type (Project 1/Project 2)
-  const [batchFilter, setBatchFilter] = useState(''); // State for Batch 1, Batch 2, Batch 3 filter
-  const [isGridView, setIsGridView] = useState(true); // State for grid view toggle
+  const [selectedProject, setSelectedProject] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchByRollNumber, setSearchByRollNumber] = useState(false);
+  const [year, setYear] = useState('');
+  const [department, setDepartment] = useState('');
+  const [projectType, setProjectType] = useState('');
+  const [batchFilter, setBatchFilter] = useState('');
+  const [isGridView, setIsGridView] = useState(true);
 
   const handleViewDetail = (projectDetails) => {
-    setSelectedProject(projectDetails); // Update the selected project
+    setSelectedProject(projectDetails);
   };
 
   const handleBack = () => {
-    setSelectedProject(null); // Reset selected project to go back
+    setSelectedProject(null);
   };
 
   const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value); // Update search term as user types
+    setSearchTerm(event.target.value);
   };
 
   const toggleSearchMode = () => {
-    setSearchByRollNumber(!searchByRollNumber); // Toggle between name and roll number search
-    setSearchTerm(''); // Clear the search input when switching modes
+    setSearchByRollNumber(!searchByRollNumber);
+    setSearchTerm('');
   };
 
   const handleBatchChange = (event) => {
-    setYear(event.target.value); // Set the selected batch filter
+    setYear(event.target.value);
   };
 
   const handleDepartmentChange = (event) => {
-    setDepartment(event.target.value); // Set the selected department filter
+    setDepartment(event.target.value);
   };
 
   const handleProjectTypeChange = (event) => {
-    setProjectType(event.target.value); // Set the selected project type filter
+    setProjectType(event.target.value);
   };
 
   const handleBatchFilterChange = (event) => {
-    setBatchFilter(event.target.value); // Set the selected batch filter (Batch 1, Batch 2, Batch 3)
+    setBatchFilter(event.target.value);
   };
 
   const toggleGridView = () => {
-    setIsGridView(!isGridView); // Toggle between grid and card view
+    setIsGridView(!isGridView);
   };
 
   return (
@@ -68,7 +68,6 @@ const HomeComponent = () => {
             <button className="toggle-button" onClick={toggleSearchMode}>
               {searchByRollNumber ? "Search by Name" : "Search by Roll"}
             </button>
-
             <select
               className="filter-dropdown"
               value={year}
@@ -78,7 +77,6 @@ const HomeComponent = () => {
               <option value="2024-2025">2024-2025</option>
               <option value="2025-2026">2025-2026</option>
             </select>
-
             <select
               className="filter-dropdown"
               value={department}
@@ -88,7 +86,6 @@ const HomeComponent = () => {
               <option value="CS">CS</option>
               <option value="IT">IT</option>
             </select>
-
             <select
               className="filter-dropdown"
               value={projectType}
@@ -98,7 +95,6 @@ const HomeComponent = () => {
               <option value="Project One">Project 1</option>
               <option value="Project Two">Project 2</option>
             </select>
-
             <select
               className="filter-dropdown"
               value={batchFilter}
@@ -109,17 +105,14 @@ const HomeComponent = () => {
               <option value="Batch2">Batch 2</option>
               <option value="Batch3">Batch 3</option>
             </select>
-          <div className="view-toggle-container">
-            <button className="view-toggle-button" onClick={toggleGridView}>
-              {isGridView ? <FaList /> : <FaTh />}
-            </button>
+            <div className="view-toggle-container">
+              <button className="view-toggle-button" onClick={toggleGridView}>
+                {isGridView ? <FaList /> : <FaTh />}
+              </button>
+            </div>
           </div>
-          </div>
-
-          
         </>
       )}
-
       {selectedProject ? (
         <ProjectDetail project={selectedProject} onBack={handleBack} />
       ) : (

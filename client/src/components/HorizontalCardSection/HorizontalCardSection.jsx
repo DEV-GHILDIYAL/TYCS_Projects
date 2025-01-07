@@ -8,6 +8,7 @@ import img6 from "../../assets/images/images5.png";
 import profile from "../../assets/images/profile.png";
 // import "./CardSection.css";
 import HorizontalCard from "../HorizontalCard/HorizontalCard";
+import "./HorizontalCardSection.css"
 
 const HorizontalCardSection = ({
   onViewDetail,
@@ -18,7 +19,10 @@ const HorizontalCardSection = ({
   projectType = "",
   batchFilter = "",
 }) => {
-  const [projects, setProjects] = useState([]);
+  const [projects, setProjects] = useState([]);  
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(5); // Number of items per page
+  
   const images = [img2, img3, img4, img5, img6];
 
   useEffect(() => {
@@ -73,11 +77,23 @@ const HorizontalCardSection = ({
     const randomIndex = Math.floor(Math.random() * images.length);
     return images[randomIndex];
   };
+  // Pagination logic
+  const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
+  const currentProjects = filteredProjects.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  const handlePageChange = (newPage) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+      setCurrentPage(newPage);
+    }
+  };
 
   return (
     <div className="horizontal-card-section">
-      {filteredProjects.length > 0 ? (
-        filteredProjects.map((project) => (
+      {currentProjects.length > 0 ? (
+        currentProjects.map((project) => (
           <HorizontalCard
             key={project._id}
             rollNo={project.rollno}
@@ -95,6 +111,24 @@ const HorizontalCardSection = ({
           <p className="no-projects-message">No Projects to Show</p>
         </div>
       )}
+      {/* Pagination controls */}
+      <div className="pagination">
+        <button
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
+          Previous
+        </button>
+        <span>
+          Page {currentPage} of {totalPages}
+        </span>
+        <button
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 };

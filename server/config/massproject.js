@@ -98,6 +98,104 @@ const projects = [
         project: "Project Two",//Project One
         github: "http://localhost:5173/"
     },
+
+    // NEW DATA
+    {
+      userId: "6777a009c916ba93f8fd72cc",
+      name: "shiwans vaishya",
+      email:"g22.shiwans.vaishya@gnkhalsa.edu.in",
+      iscompleted:"true",
+      rollno: 477,//477
+      title: "ABCDEF",
+      description: "To streamline and automate the management of library operations, such as book inventory, user management, borrowing/returning books, and fines tracking. To streamline and automate the management of library operations, such as book inventory, user management, borrowing/returning books, and fines tracking.",
+      category: "Web Development",
+      deployed: "http://localhost:5173/",
+      batch:"Batch2",
+      year:"2024-2025",//2025-2026
+      department:"IT",//IT
+      project: "Project Two",//Project One
+      github: "http://localhost:5173/"
+  },
+  {
+      userId: "6777d0acc916ba93f8fd72d0",
+      name: "kabir patel",
+      email:"g22.kabir.patel@gnkhalsa.edu.in",
+      iscompleted:"true",
+      rollno: 409,//477
+      title: "ABCDEF",
+      description: "To streamline and automate the management of library operations, such as book inventory, user management, borrowing/returning books, and fines tracking. To streamline and automate the management of library operations, such as book inventory, user management, borrowing/returning books, and fines tracking.",
+      category: "Web Development",
+      deployed: "http://localhost:5173/",
+      batch:"Batch1",
+      year:"2024-2025",//2025-2026
+      department:"CS",//IT
+      project: "Project Two",//Project One
+      github: "http://localhost:5173/"
+  },
+  {
+      userId: "6777d0acc916ba93f8fd72d1",
+      name: "rohan reddy",
+      email:"g22.rohan.reddy@gnkhalsa.edu.in",
+      rollno: 490,//477
+      iscompleted:"true",
+      title: "ABCDEF",
+      description: "To streamline and automate the management of library operations, such as book inventory, user management, borrowing/returning books, and fines tracking. To streamline and automate the management of library operations, such as book inventory, user management, borrowing/returning books, and fines tracking.",
+      category: "Web Development",
+      deployed: "http://localhost:5173/",
+      batch:"Batch3",
+      year:"2025-2026",//2025-2026
+      department:"IT",//IT
+      project: "Project Two",//Project One
+      github: "http://localhost:5173/"
+  },
+  {
+      userId: "6777d0acc916ba93f8fd72d2",
+      name: "aarav gupta",
+      email:"g22.aarav.gupta@gnkhalsa.edu.in",
+      rollno: 408,//477
+      iscompleted:"true",
+      title: "ABCDEF",
+      description: "To streamline and automate the management of library operations, such as book inventory, user management, borrowing/returning books, and fines tracking. To streamline and automate the management of library operations, such as book inventory, user management, borrowing/returning books, and fines tracking.",
+      category: "Web Development",
+      deployed: "http://localhost:5173/",
+      batch:"Batch1",
+      year:"2025-2026",//2025-2026
+      department:"IT",//IT
+      project: "Project Two",//Project One
+      github: "http://localhost:5173/"
+  },
+  {
+      userId: "6777d0acc916ba93f8fd72d3",
+      name: "atharv reddy",
+      email:"g22.atharv.reddy@gnkhalsa.edu.in",
+      rollno: 441,//477
+      iscompleted:"true",
+      title: "ABCDEF",
+      description: "To streamline and automate the management of library operations, such as book inventory, user management, borrowing/returning books, and fines tracking. To streamline and automate the management of library operations, such as book inventory, user management, borrowing/returning books, and fines tracking.",
+      category: "Web Development",
+      deployed: "http://localhost:5173/",
+      batch:"Batch3",
+      year:"2025-2026",//2025-2026
+      department:"CS",//IT
+      project: "Project Two",//Project One
+      github: "http://localhost:5173/"
+  },
+  {
+      userId: "6777d0acc916ba93f8fd72d4",
+      name: "om reddy",
+      email:"g22.om.reddy@gnkhalsa.edu.in",
+      rollno: 471,//477
+      iscompleted:"true",
+      title: "ABCDEF",
+      description: "To streamline and automate the management of library operations, such as book inventory, user management, borrowing/returning books, and fines tracking. To streamline and automate the management of library operations, such as book inventory, user management, borrowing/returning books, and fines tracking.",
+      category: "Web Development",
+      deployed: "http://localhost:5173/",
+      batch:"Batch3",
+      year:"2025-2026",//2025-2026
+      department:"CS",//IT
+      project: "Project Two",//Project One
+      github: "http://localhost:5173/"
+  },
   ];
 
 const DBconnect = async () => {

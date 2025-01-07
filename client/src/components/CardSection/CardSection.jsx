@@ -6,7 +6,6 @@ import img4 from "../../assets/images/images3.png";
 import img5 from "../../assets/images/images4.png";
 import img6 from "../../assets/images/images5.png";
 import "./CardSection.css";
-import HorizontalCard from "../HorizontalCard/HorizontalCard";
 
 const CardSection = ({
   onViewDetail,
@@ -18,6 +17,9 @@ const CardSection = ({
   batchFilter = "",
 }) => {
   const [projects, setProjects] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(13); // Number of items per page
+
   const images = [img2, img3, img4, img5, img6];
 
   useEffect(() => {
@@ -47,39 +49,46 @@ const CardSection = ({
   const filteredProjects = projects.filter((project) => {
     const term = searchTerm.toLowerCase();
 
-    // Filter by search term
     const matchesSearch = searchByRollNumber
       ? project.rollno?.toString().includes(term)
       : project.name?.toLowerCase().includes(term);
 
-    // Filter by batch
     const matchesBatch = batch ? project.batch === batch : true;
 
-    // Filter by department
     const matchesDepartment = department ? project.department === department : true;
 
-    // Filter by project type
     const matchesProjectType = projectType ? project.project === projectType : true;
 
-    // Filter by batch filter
     const matchesBatchFilter = batchFilter ? project.batch === batchFilter : true;
 
     return matchesSearch && matchesBatch && matchesDepartment && matchesProjectType && matchesBatchFilter;
   });
 
-  // Generate random images for each filtered project
+  // Pagination logic
+  const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
+  const currentProjects = filteredProjects.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
   const getRandomImage = () => {
     const randomIndex = Math.floor(Math.random() * images.length);
     return images[randomIndex];
   };
 
+  const handlePageChange = (newPage) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+      setCurrentPage(newPage);
+    }
+  };
+
   return (
     <div className="card-section">
-      {filteredProjects.length > 0 ? (
-        filteredProjects.map((project) => (
+      {currentProjects.length > 0 ? (
+        currentProjects.map((project) => (
           <Card
             key={project._id}
-            image={getRandomImage()} // Assign a random image to each card
+            image={getRandomImage()}
             title={project.title}
             description={project.description}
             name={project.name}
@@ -92,6 +101,25 @@ const CardSection = ({
           <p className="no-projects-message">No Projects to Show</p>
         </div>
       )}
+
+      {/* Pagination controls */}
+      <div className="pagination">
+        <button
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
+          Previous
+        </button>
+        <span>
+          Page {currentPage} of {totalPages}
+        </span>
+        <button
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 };
