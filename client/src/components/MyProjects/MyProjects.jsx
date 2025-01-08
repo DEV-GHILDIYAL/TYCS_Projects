@@ -194,7 +194,7 @@ import "./MyProjects.css";
 import EventDetailsForm from "../CreateEventForm/EventDetailsFrom";
 import { toast } from "react-toastify"; // Import toast for notifications
 import img from "../../assets/images/images1.png";
-
+import "./ProjectCard.css";
 const MyProjects = () => {
   const [projects, setProjects] = useState([]);
   const [editingProjectId, setEditingProjectId] = useState(null);
@@ -290,6 +290,7 @@ const MyProjects = () => {
             />
           ) : (
             <>
+            <div className="project-card-container">
               {projects.map((project) => (
                 <div className="project-card" key={project._id}>
                   <img
@@ -331,6 +332,7 @@ const MyProjects = () => {
                   <p className="create-project-text">Create a Project</p>
                 </div>
               )}
+              </div>
             </>
           )}
         </>

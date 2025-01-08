@@ -10,6 +10,9 @@
   color: #ffffff;
 }
 
+.project-card-container{
+  display: flex;
+}
 .my-project-header {
   font-size: 2rem;
   margin-bottom: 20px;
@@ -70,10 +73,7 @@
 
 .project-titles {
   overflow-wrap: break-word;
-}
-
-* {
-  /* transition: all 0.3s ease; */
+  width: 190px;
 }
 
 .project-image {

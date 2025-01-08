@@ -196,3 +196,7 @@ button:hover{
 .horizontal-card{
   background-color: var(--card-background-color);
 }
+
+.project-card{
+  background-color: var(--card-background-color);
+}
