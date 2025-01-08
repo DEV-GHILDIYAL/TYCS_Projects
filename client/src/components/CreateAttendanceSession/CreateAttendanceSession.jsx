@@ -98,6 +98,9 @@ const CreateAttendanceSession = () => {
                 <p>
                   <strong>Project Number:</strong> {session.project}
                 </p>
+                <p>
+                  <strong>Batch:</strong> {session.batch}
+                </p>
               </div>
               <div className="session-card-footer">
                 <button

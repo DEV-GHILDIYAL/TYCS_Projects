@@ -105,7 +105,7 @@ export const createSession = async (req, res) => {
         user &&
         user.department === department &&
         user.year === year &&
-        user.batch === batch &&
+        (batch === "All" || user.batch === batch) && // Handle 'ALL' or specific batch
         projectData.project === project // Match the provided project
       );
     });
