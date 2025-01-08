@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FaCamera } from "react-icons/fa";
 import "./Profile.css";
 import { toast, Slide } from "react-toastify";
-
+import "./Profile.css";
 const Profile = () => {
   const [profilePhoto, setProfilePhoto] = useState(
     "https://ichef.bbci.co.uk/images/ic/1200x675/p03c84wz.jpg"
@@ -16,8 +16,46 @@ const Profile = () => {
     year: "",
     batch: "",
     department: "",
-    projects: [],
+    projects: [
+      {
+        title: "Project 1",
+        image: "https://via.placeholder.com/150",
+        description: "This is the description for Project 1.",
+        category: "Category 1",
+      },
+      {
+        title: "Project 2",
+        image: "https://via.placeholder.com/150",
+        description: "This is the description for Project 2.",
+        category: "Category 2",
+      },
+    ],
   });
+
+  const projectData = [
+    {
+      image: "https://img.freepik.com/free-vector/gradient-stock-market-concept_23-2149166910.jpg",
+      title: "Project 1",
+      rollNo: "421",
+      department: "CS",
+      year: "2024-2025",
+      batch: "Batch 1",
+      projectNo: "Project 1",
+      description: "This is a description of project 1.",
+      category: "Web Development",
+    },
+    {
+      image: "https://www.baker.edu/wp-content/uploads/game-developer-degree.jpg",
+      title: "Project 2",
+      rollNo: "421",
+      department: "CS",
+      year: "2024-2025",
+      batch: "Batch 1",
+      projectNo: "Project 2",
+      description: "This is a description of project 2.",
+      category: "Mobile App",
+    },
+  ];
 
   useEffect(() => {
     const fetchStudents = async () => {
@@ -151,6 +189,46 @@ const Profile = () => {
             >
               Edit Details
             </button>
+          </div>
+        </div>
+        <div className="profile-page-right-column">
+          <div className="profile-page-projects">
+            {projectData.map((project, index) => (
+              <div className="profile-page-project-card" key={index}>
+                <img
+                  src={project.image}
+                  alt={project.title}
+                  className="profile-page-project-image"
+                />
+                <h2>{project.title}</h2>
+                <div className="profile-project-data">
+                  <div className="profile-project-row">
+                    <span className="profile-page-project-category">
+                      Category: {project.category}
+                    </span>
+                    <span className="profile-page-project-category">
+                      Roll No: {project.rollNo}
+                    </span>
+                  </div>
+                  <div className="profile-project-row">
+                    <span className="profile-page-project-category">
+                      Department: {project.department}
+                    </span>
+                    <span className="profile-page-project-category">
+                      Year: {project.year}
+                    </span>
+                  </div>
+                  <div className="profile-project-row">
+                    <span className="profile-page-project-category">
+                      Batch: {project.batch}
+                    </span>
+                    <span className="profile-page-project-category">
+                      Project No: {project.projectNo}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>

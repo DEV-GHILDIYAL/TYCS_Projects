@@ -236,22 +236,35 @@ button:hover {
   /* color: #e0e0e0; */
 }
 
-.profile-page-projects-section h2 {
+.profile-page-projects h2 {
   font-size: 1.5em;
   margin-bottom: 15px;
   /* color: #e0e0e0; */
-
+}
 .profile-page-projects {
   display: flex;
-  flex-direction: column; /* Changed from row to column */
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-between;
   gap: 20px;
+  height: 100%;
+}
+.profile-project-row {
+  display: flex;
+  justify-content: space-between; /* Ensures two items are side by side */
+  gap: 16px; /* Space between the two items */
 }
 
+.profile-project-data {
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* Space between rows */
+}
 .profile-page-project-card {
-  /* background: #2c2c2c; */
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3); /* Stronger shadow */
   width: 100%;
+  /* height: 600px; */
   padding: 10px;
   text-align: center;
 }
@@ -265,8 +278,11 @@ button:hover {
 }
 
 .profile-page-project-category {
-  font-size: 0.85em;
-  /* color: #b0b0b0; */
+  font-weight: bold;
+  display: block;
+  font-size: 14px;
+  color: #666;
+  margin-top: 8px;
 }
 
 .profile-page-button {
