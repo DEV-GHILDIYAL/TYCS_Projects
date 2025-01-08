@@ -1,18 +1,139 @@
 /* General Dark Theme Settings */
+.profile-image-preview {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.profile-preview-image {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.popup-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+button.save-button {
+  background-color: #28a745; /* Green for Save */
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button.save-button:hover {
+  background-color: #218838;
+}
+
+button.cancel-button {
+  background-color: #dc3545; /* Red for Cancel */
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button.cancel-button:hover {
+  background-color: #c82333;
+}
+
+.popup-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.popup-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  max-width: 90%;
+  animation: slideInFromTop 0.5s ease-in-out;
+}
+.popup-form-row {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.popup-form-row label {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.popup-form-row input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInFromTop {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
 
 .profile-page-container {
   width: 1250px;
   display: flex;
   justify-content: center;
   height: 94vh;
-  background-color: #181818; /* Dark background for the container */
+  /* background-color: #181818; */
   padding: 20px;
   box-sizing: border-box;
   overflow: hidden;
 }
 
 .profile-page-card {
-  background: #1f1f1f; /* Darker card background */
+  /* background: #1f1f1f; */
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Slightly stronger shadow for dark mode */
   width: 100%;
@@ -22,7 +143,7 @@
 .profile-page-left-column {
   width: 50%;
   padding: 20px;
-  background: #2c2c2c; /* Darker background for the left column */
+  /* background: #2c2c2c; */
   display: flex;
   flex-direction: column;
   border-right: 2px dotted #444; /* Light dotted line */
@@ -31,7 +152,7 @@
 .profile-page-right-column {
   width: 50%;
   padding: 20px;
-  background: #1f1f1f; /* Dark background for the right column */
+  /* background: #1f1f1f; */
 }
 
 .profile-page-header {
@@ -57,21 +178,21 @@
 
 .profile-page-header-text h1 {
   font-size: 1.8em;
-  color: #e0e0e0; /* Light text for heading */
+  /* color: #e0e0e0; */
 }
 
 .profile-page-roll-no {
   font-size: 1em;
   opacity: 0.8;
-  color: #b0b0b0; /* Lighter gray for the roll number */
+  /* color: #b0b0b0; */
 }
 
 .profile-page-camera-icon {
   position: absolute;
   bottom: 10px;
   right: 10px;
-  background: rgba(0, 0, 0, 0.7); /* Darker background */
-  color: white;
+  /* background: rgba(0, 0, 0, 0.7); */
+  /* color: white; */
   padding: 10px;
   border-radius: 100%;
   height: 40px;
@@ -107,19 +228,18 @@
 
 .profile-page-detail-row p {
   margin-left: 10px;
-  color: #e0e0e0; /* Light text */
+  /* color: #e0e0e0; */
 }
 
 .profile-page-detail-row label {
   font-weight: bold;
-  color: #e0e0e0; /* Lighter label color */
+  /* color: #e0e0e0; */
 }
 
 .profile-page-projects-section h2 {
   font-size: 1.5em;
   margin-bottom: 15px;
-  color: #e0e0e0; /* Light color for headings */
-}
+  /* color: #e0e0e0; */
 
 .profile-page-projects {
   display: flex;
@@ -128,7 +248,7 @@
 }
 
 .profile-page-project-card {
-  background: #2c2c2c; /* Darker background for project card */
+  /* background: #2c2c2c; */
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3); /* Stronger shadow */
   width: 100%;
@@ -146,7 +266,7 @@
 
 .profile-page-project-category {
   font-size: 0.85em;
-  color: #b0b0b0; /* Lighter gray for category text */
+  /* color: #b0b0b0; */
 }
 
 .profile-page-button {
@@ -155,7 +275,7 @@
   border-radius: 5px;
   font-size: 0.9em;
   cursor: pointer;
-  color: white;
+  /* color: white; */
 }
 
 .profile-page-button.primary {

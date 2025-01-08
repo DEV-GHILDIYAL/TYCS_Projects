@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaCamera } from "react-icons/fa";
 import "./Profile.css";
 import { toast, Slide } from "react-toastify";
@@ -7,6 +7,7 @@ const Profile = () => {
   const [profilePhoto, setProfilePhoto] = useState(
     "https://ichef.bbci.co.uk/images/ic/1200x675/p03c84wz.jpg"
   );
+  const [isPopupVisible, setIsPopupVisible] = useState(false); // State for popup visibility
   const [profileData, setProfileData] = useState({
     name: "",
     rollNo: "",
@@ -17,19 +18,22 @@ const Profile = () => {
     department: "",
     projects: [],
   });
+
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_BACK_URL}/auth/get-profile`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include", // Include cookies if needed
-        });
+        const response = await fetch(
+          `${import.meta.env.VITE_BACK_URL}/auth/get-profile`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: "include",
+          }
+        );
 
         const data = await response.json();
-        console.log(data);
         if (response.ok) {
           setProfileData(data);
           toast.success("Data fetched!", {
@@ -62,10 +66,14 @@ const Profile = () => {
   }, []);
 
   const handleEditDetails = () => {
-    alert("Edit Details functionality coming soon!");
+    setIsPopupVisible(true); // Show the popup
   };
 
-  const handleProfilePicChange = (event) => {z
+  const handleClosePopup = () => {
+    setIsPopupVisible(false); // Hide the popup
+  };
+
+  const handleProfilePicChange = (event) => {
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
@@ -83,7 +91,6 @@ const Profile = () => {
       </div>
     );
   }
-  
 
   return (
     <div className="profile-page-container">
@@ -96,32 +103,29 @@ const Profile = () => {
                 alt="Profile"
                 className="profile-page-photo"
               />
-              <input
-                type="file"
-                id="profile-pic-upload"
-                accept="image/*"
-                onChange={handleProfilePicChange}
-                style={{ display: "none" }}
-              />
-              <label htmlFor="profile-pic-upload" className="profile-page-camera-icon">
-                <FaCamera /> {/* Using the FaCamera icon from react-icons */}
-              </label>
             </div>
             <div className="profile-page-header-text">
               <h1>{profileData.name.toLocaleLowerCase()}</h1>
-              <p className="profile-page-roll-no">Roll No: {profileData.rollNo}</p>
+              <p className="profile-page-roll-no">
+                Roll No: {profileData.rollNo}
+              </p>
             </div>
           </header>
 
           <div className="profile-page-details">
-          <div className="profile-page-detail-row">
+            <div className="profile-page-detail-row">
               <label>Name:</label>
               <p>{profileData.name.toUpperCase()}</p>
             </div>
-            <div className="profile-page-detail-row">
-              <label>Phone:</label>
-              <p>{profileData.phoneNo}</p>
-            </div>
+            {profileData.phoneNo &&
+              profileData.phoneNo !== "0" &&
+              profileData.phoneNo !== 0 && (
+                <div className="profile-page-detail-row">
+                  <label>Phone:</label>
+                  <p>{profileData.phoneNo}</p>
+                </div>
+              )}
+
             <div className="profile-page-detail-row">
               <label>Email:</label>
               <p>{profileData.email}</p>
@@ -149,29 +153,100 @@ const Profile = () => {
             </button>
           </div>
         </div>
-
-        {/* <div className="profile-page-right-column">
-          <section className="profile-page-projects-section">
-            <h2>Projects</h2>
-            <div className="profile-page-projects">
-              {profileData.projects.map((project, index) => (
-                <div key={index} className="profile-page-project-card">
-                  <img
-                    src={project.image}
-                    alt={`Project ${project.title}`}
-                    className="profile-page-project-image"
-                  />
-                  <h3>{project.title}</h3>
-                  <p className="profile-page-project-category">
-                    Category: {project.category}
-                  </p>
-                  <p>Semester: {project.semester}</p>
-                </div>
-              ))}
-            </div>
-          </section>
-        </div> */}
       </div>
+
+      {/* Popup Section */}
+      {isPopupVisible && (
+        <div className="popup-container">
+          <div className="popup-content">
+            <h2>Edit Details</h2>
+            <form>
+              {/* Profile Image Upload with Preview */}
+              <div className="popup-form-row">
+                <label>Profile Image:</label>
+                <div className="profile-image-preview">
+                  <img
+                    src={profilePhoto}
+                    alt="Preview"
+                    className="profile-preview-image"
+                  />
+                </div>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(event) => {
+                    const file = event.target.files[0];
+                    if (file) {
+                      const reader = new FileReader();
+                      reader.onloadend = () => {
+                        setProfilePhoto(reader.result); // Update the preview image dynamically
+                      };
+                      reader.readAsDataURL(file);
+                    }
+                  }}
+                />
+              </div>
+
+              {/* Name */}
+              <div className="popup-form-row">
+                <label>Name:</label>
+                <input type="text" defaultValue={profileData.name} />
+              </div>
+
+              {/* Email */}
+              <div className="popup-form-row">
+                <label>Email:</label>
+                <input type="email" defaultValue={profileData.email} />
+              </div>
+
+              {/* Phone Number */}
+              <div className="popup-form-row">
+                <label>Phone Number:</label>
+                <input type="tel" defaultValue={profileData.phoneNo} />
+              </div>
+
+              {/* Year */}
+              <div className="popup-form-row">
+                <label>Year:</label>
+                <input type="text" defaultValue={profileData.year} />
+              </div>
+
+              {/* Batch */}
+              <div className="popup-form-row">
+                <label>Batch:</label>
+                <input type="text" defaultValue={profileData.batch} />
+              </div>
+
+              {/* Department */}
+              <div className="popup-form-row">
+                <label>Department:</label>
+                <input type="text" defaultValue={profileData.department} />
+              </div>
+
+              {/* Buttons */}
+              <div className="popup-buttons">
+                <button
+                  type="button"
+                  className="save-button"
+                  onClick={() => {
+                    alert("Details saved successfully!"); // Replace with save logic
+                    handleClosePopup();
+                  }}
+                >
+                  Save
+                </button>
+                <button
+                  type="button"
+                  className="cancel-button"
+                  onClick={handleClosePopup}
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
