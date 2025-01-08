@@ -40,7 +40,7 @@ const EventDetailsForm = ({
   );
   const [selectedBatch, setSelectedBatch] = useState(initialData.batch || "");
   const [isCompletedProject, setIsCompletedProject] = useState(
-    initialData.isCompletedProject || false
+    initialData.iscompleted || true
   );
 
   useEffect(() => {

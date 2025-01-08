@@ -111,7 +111,7 @@ export const addProject = async (req, res) => {
 
 export const updateProject = async (req, res) => {
     try {
-        const { name, rollno,description,category,title,deployed,projectSem,batch,future,github,twitter,linkedin,instagram } = req.body;
+        const { name, rollno,description,category,department,year,title,deployed,iscompleted,project,batch,future,github,twitter,linkedin,instagram } = req.body;
         const updateProject = await Project.findByIdAndUpdate(
             { _id: req.params.id, userId: req.user._id }, 
             {...req.body},
