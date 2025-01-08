@@ -104,7 +104,7 @@ const EventDetailsForm = ({
           instagram: instagramLink,
           project: selectedProject,
           batch: selectedBatch,
-          isCompletedProject: isCompletedProject, // Add this field to the backend
+          iscompleted: isCompletedProject, // Add this field to the backend
         }),
         credentials: "include",
       });

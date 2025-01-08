@@ -3,10 +3,10 @@ import mongoose from "mongoose";
 const ProjectSchema = new mongoose.Schema({
   userId: {type: mongoose.Schema.Types.ObjectId,ref: "User",required: true,},
   image:{type:String,},
-  name: {type: String,required: true,unique: true,trim: true,},
+  name: {type: String,required: true,trim: true,},
   email:{type:String,required:true,},
   iscompleted:{type:Boolean,required:true,default:false},
-  rollno: {type: Number,required: true,unique: true,},
+  rollno: {type: Number,required: true,},
   title: { type: String, required: true },
   description: {type: String,required: true,},
   category: {type: String,required: true,},

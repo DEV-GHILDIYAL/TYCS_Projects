@@ -39,7 +39,7 @@ app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
 //APT Endpoints
 app.use("/auth", authRouter);
 app.use("/", authenticate, userRouter);
-app.use("/admin", adminRouter);
+app.use("/admin",authenticate, adminRouter);
 
 // app.get('*', (req, res) => {
 //     res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));

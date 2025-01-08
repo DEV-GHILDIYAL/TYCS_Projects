@@ -54,21 +54,52 @@ export const UserProject = async(req,res) => {
 
 export const addProject = async (req, res) => {
     try {
-        const main = req.user.id;
-        const user = await userModel.findById(main);
-        const existingProject = await Project.findOne({ userId: req.user.id }); 
-        if (existingProject) {
-            return res.status(409).json({ message: 'You can only create one project.' });
+        const main = req.user.id; // Get the user ID from the request
+        const user = await userModel.findById(main); // Fetch the user details
+        const { 
+            name, rollno, department, description, title, category, project, 
+            iscompleted, batch, year, deployed, future, github, twitter, linkedin, instagram 
+        } = req.body;
+
+        if (project !== 'Project One' && project !== 'Project Two') { //checking project
+            return res.status(400).json({ message: 'Invalid project label. Only "Project One" and "Project Two" are allowed.' });
         }
-        const email = user.email;
-        // console.log("email from addproejct usercontroller",emailhere);
-        const { name, rollno,department,description,title,category,project,batch,year,deployed,future,github,twitter,linkedin,instagram } = req.body;
+
+        const existingProject = await Project.findOne({ userId: req.user.id, project }); //checking if the project already exist
+        if (existingProject) {
+            return res.status(409).json({ message: `You already have a project labeled "${project}".` });
+        }
+
+        const existingProjectsCount = await Project.countDocuments({ userId: req.user.id }); //counting projects uploaded as it should be only 2
+        if (existingProjectsCount >= 2) {
+            return res.status(409).json({ message: 'You can only create up to 2 projects.' });
+        }
+
+        const email = user.email; 
+
+        // Create a new project
         const newP = new Project({
-            userId: req.user.id, 
+            userId: req.user.id,
             name,
-            rollno,description,category,department,title,deployed,project,batch,year,twitter,email,linkedin,future,github,instagram
+            rollno,
+            description,
+            category,
+            department,
+            title,
+            deployed,
+            project,
+            iscompleted,
+            batch,
+            year,
+            twitter,
+            email,
+            linkedin,
+            future,
+            github,
+            instagram
         });
-        
+
+        // Save the new project
         await newP.save();
         res.status(201).json({ message: 'New Project added', newP });
     } catch (error) {
