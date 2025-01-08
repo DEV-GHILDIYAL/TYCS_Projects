@@ -13,7 +13,7 @@ const ProjectManagement = () => {
       department: "",
       batch: "",
       year: "",
-      projectNumber: "",
+      project: "",
       category: "",
     });
   
@@ -30,8 +30,8 @@ const ProjectManagement = () => {
         (!filters.department || stud.department === filters.department) &&
         (!filters.batch || stud.batch === filters.batch) &&
         (!filters.year || stud.year === filters.year) &&
-        (!filters.projectNumber ||
-          stud.projectNumber === filters.projectNumber) &&
+        (!filters.project ||
+          stud.project === filters.project) &&
         (!filters.category || stud.category === filters.category)
       );
     });
@@ -128,13 +128,13 @@ const ProjectManagement = () => {
           <label>
             Project Number:
             <select
-              name="projectNumber"
-              value={filters.projectNumber}
+              name="project"
+              value={filters.project}
               onChange={handleFilterChange}
             >
               <option value="">All</option>
-              <option value="Project1">Project 1</option>
-              <option value="Project2">Project 2</option>
+              <option value="Project One">Project 1</option>
+              <option value="Project Two">Project 2</option>
             </select>
           </label>
 
@@ -162,6 +162,7 @@ const ProjectManagement = () => {
               <th>Roll Number</th>
               <th>Student Name</th>
               <th>Project Name</th>
+              <th>Project Number</th>
               <th>Project Link</th>
             </tr>
           </thead>
@@ -173,6 +174,7 @@ const ProjectManagement = () => {
                 rollNumber={student.rollno}
                 name={student.name}
                 projectName={student.title}
+                projectNo={student.project}
                 projectLink={student.deployed}
               />
             ))}

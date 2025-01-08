@@ -70,13 +70,14 @@ export const RowComponentForStudent = ({ srNo, rollNumber, name,noOfDaysPresent,
   );
 };
 
-export const RowComponentForProjects = ({ srNo, rollNumber, name, projectName, projectLink }) => {
+export const RowComponentForProjects = ({ srNo, rollNumber, name, projectName,projectNo, projectLink }) => {
   return (
     <tr>
       <td>{srNo}</td>
       <td>{rollNumber}</td>
       <td>{name}</td>
       <td>{projectName}</td>
+      <td>{projectNo}</td>
       <td>
         {/* Display the link icon only if a valid projectLink exists */}
         {projectLink ? (
