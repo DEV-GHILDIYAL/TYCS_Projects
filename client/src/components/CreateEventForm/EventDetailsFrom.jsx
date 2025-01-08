@@ -110,7 +110,7 @@ const EventDetailsForm = ({
       });
 
       const data = await response.json();
-      console.log("Response Data:", data);
+      // console.log("Response Data:", data);
 
       if (response.ok) {
         navigate("/my-projects");
@@ -149,7 +149,7 @@ const EventDetailsForm = ({
     if (projectTitle) completedFields++;
     if (projectDescription) completedFields++;
     if (projectCategory) completedFields++;
-    if (deployedLink) completedFields++;
+    if (isCompletedProject && deployedLink) completedFields++;
     if (department) completedFields++;
     if (year) completedFields++;
     if (githubLink) completedFields++;
@@ -173,8 +173,8 @@ const EventDetailsForm = ({
       selectedProject && // Check for selected project
       selectedBatch && // Check for selected batch
       githubLink && // Check for
-      ((projectCategory === "Mobile App Development" && deployedLink) ||
-        (projectCategory !== "Mobile App Development" && deployedLink));
+      (isCompletedProject ? deployedLink : true
+      );
 
     setProgressColor(requiredFieldsFilled ? "#007bff" : "red");
   };
