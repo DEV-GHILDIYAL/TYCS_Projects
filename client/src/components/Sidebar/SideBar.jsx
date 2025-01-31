@@ -78,11 +78,16 @@ const SideBar = ({ children }) => {
 
   // Decode Token and Set Role
   useEffect(() => {
-    const checkAuth = () => {
+    const checkAuth = async () => {
       try {
-        const userRole = Cookies.get("userRole");
-        if (userRole) {
-          setUserRole(userRole);
+        const response = await fetch(`${import.meta.env.VITE_BACK_URL}/auth/user-role`, { credentials: "include" });
+        const data = await response.json();
+        console.log(data);
+        console.log(userRole);
+        // const userRole = Cookies.get("userRole");
+        if (data) {
+          // setUserRole(userRole);
+          setUserRole(data.role);
           setIsLoggedIn(true);
         } else {
           setUserRole(null);

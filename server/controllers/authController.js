@@ -38,12 +38,12 @@ export const loginUser = async (req, res) => {
       sameSite: process.env.NODE_ENV == "production" ? "none" : "strict",
       maxAge: 1000 * 60 * 60 * 24 * 7,
     });
-    res.cookie("userRole", user.role, {
-      httpOnly: false,
-      secure: process.env.NODE_ENV == "production",
-      sameSite: process.env.NODE_ENV == "production" ? "none" : "strict",
-      maxAge: 1000 * 60 * 60 * 24 * 7,
-    });
+    // res.cookie("userRole", user.role, {
+    //   httpOnly: false,
+    //   secure: process.env.NODE_ENV == "production",
+    //   sameSite: process.env.NODE_ENV == "production" ? "none" : "strict",
+    //   maxAge: 1000 * 60 * 60 * 24 * 7,
+    // });
     console.log('Cookie header:', res.getHeaders()['set-cookie']);
 
     return res.json({ success: true });
@@ -191,6 +191,84 @@ export const getProfile = async (req, res) => {
     res.status(200).json(profileData);
   } catch (error) {
     console.error("Error fetching profile:", error);
+
+    if (error.name === "JsonWebTokenError") {
+      return res.status(401).json({ message: "Invalid token" });
+    }
+
+    if (error.name === "TokenExpiredError") {
+      return res.status(401).json({ message: "Token expired" });
+    }
+
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export const userRole = async (req, res) => {
+    try {
+      // Check if token exists in cookies
+      const token = req.cookies?.token;
+      if (!token) {
+        return res.json({ role: "guest" }); // If no token, treat as guest
+      }
+  
+      // Verify token
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  
+      // Fetch user from database
+      const user = await userModel.findById(decoded.id);
+  
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+  
+      console.log(user);
+      // Send user role as response
+      return res.json({ role: user.role }); // Should return "admin" or "user"
+  
+    } catch (error) {
+      console.error("Error verifying token:", error);
+      return res.status(401).json({ message: "Invalid token" });
+    }
+}
+
+export const editProfile = async (req, res) => {
+  try {
+    // Get token from the Authorization header
+    const token = req.cookies?.token;
+    
+    if (!token) {
+      return res.status(401).json({ message: "No token provided" });
+    }
+
+    // Verify token
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    
+    // Fetch user data from the database using the decoded user ID
+    let user = await userModel.findById(decoded.id);
+    
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Update user profile with request body data
+    const updatedData = {
+      name: req.body.name || user.name,
+      rollNo: req.body.rollNo || user.rollNo,
+      phoneNo: req.body.phoneNo || user.phoneNo,
+      email: req.body.email || user.email,
+      year: req.body.year || user.year,
+      batch: req.body.batch || user.batch,
+      department: req.body.department || user.department,
+      projects: req.body.projects || user.projects,
+    };
+
+    // Save updated user profile
+    user = await userModel.findByIdAndUpdate(decoded.id, updatedData, { new: true });
+    
+    res.status(200).json({ message: "Profile updated successfully", profile: user });
+  } catch (error) {
+    console.error("Error updating profile:", error);
 
     if (error.name === "JsonWebTokenError") {
       return res.status(401).json({ message: "Invalid token" });

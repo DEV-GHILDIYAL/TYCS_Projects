@@ -1,30 +1,82 @@
 // src/components/RowComponent.jsx
 // admin
-import React, { useState } from "react";
-import { FaLink } from "react-icons/fa"; // Import link icon
-export const RowComponentForAttendance = ({ srNo, rollNumber, name, projectName,sessionId, studentId, date }) => {
-
+import React, { useState, useEffect } from "react";
+import { FaLink } from "react-icons/fa";
+// import FaLink from "@fortawesome/react-fontawesome";
+export const RowComponentForAttendance = ({
+  srNo,
+  rollNumber,
+  name,
+  projectName,
+  sessionId,
+  studentId,
+  date,
+  onAttendanceMarked,
+}) => {
   const [attendance, setAttendance] = useState(null); // null, "present", or "absent"
+  const [loading, setLoading] = useState(true); // Loading state for fetching attendance
 
-  const markAttendance = async (studentId, date, status, sessionId) => {
+  // Fetch attendance status for the student
+  const fetchAttendanceStatus = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_BACK_URL}/admin/attendance/mark`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ studentId, date, status, sessionId }),
-        credentials:"include",
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_BACK_URL}/admin/attendance/status`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ studentId, date, sessionId }),
+          credentials: "include", // Pass cookies for authentication
+        }
+      );
+
+      const data = await response.json();
 
       if (response.ok) {
-        console.log("Attendance marked successfully");
-        setAttendance(status); // Update the UI
+        setAttendance(data.status); // "present" or "absent"
       } else {
-        console.error("Failed to mark attendance");
+        console.error("Failed to fetch attendance status:", data.error || "Unknown error");
+      }
+    } catch (error) {
+      console.error("Error fetching attendance status:", error);
+    } finally {
+      setLoading(false); // Stop loading
+    }
+  };
+
+  // Fetch attendance when the component mounts
+  useEffect(() => {
+    fetchAttendanceStatus();
+  }, []);
+
+  const markAttendance = async (status) => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_BACK_URL}/admin/attendance/mark`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ studentId, date, status, sessionId }),
+          credentials: "include", // Pass cookies for authentication
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        console.log("Attendance marked successfully:", data);
+        setAttendance(status); // Update the UI to reflect the attendance
+        onAttendanceMarked(studentId); // Notify parent component
+      } else {
+        console.error("Failed to mark attendance:", data.error || "Unknown error");
+        alert(`Failed to mark attendance: ${data.error || "Unknown error"}`);
       }
     } catch (error) {
       console.error("Error marking attendance:", error);
+      alert("An error occurred while marking attendance. Please try again.");
     }
   };
 
@@ -35,24 +87,34 @@ export const RowComponentForAttendance = ({ srNo, rollNumber, name, projectName,
       <td>{name}</td>
       <td>{projectName}</td>
       <td>
-        <button
-          style={{
-            backgroundColor: attendance === "present" ? "green" : "white",
-            color: attendance === "present" ? "white" : "black",
-          }}
-          onClick={() => markAttendance(studentId,date,"Present",sessionId)}
-        >
-          Present
-        </button>
-        <button
-          style={{
-            backgroundColor: attendance === "absent" ? "red" : "white",
-            color: attendance === "absent" ? "white" : "black",
-          }}
-          onClick={() => markAttendance(studentId,date,"Absent",sessionId)}
-        >
-          Absent
-        </button>
+        {loading ? (
+          <span>Loading...</span>
+        ) : attendance ? (
+          <span style={{ color: attendance === "present" ? "green" : "red" }}>
+            {attendance === "present" ? "Present" : "Absent"}
+          </span>
+        ) : (
+          <>
+            <button
+              style={{
+                backgroundColor: "white",
+                color: "black",
+              }}
+              onClick={() => markAttendance("present")}
+            >
+              Present
+            </button>
+            <button
+              style={{
+                backgroundColor: "white",
+                color: "black",
+              }}
+              onClick={() => markAttendance("absent")}
+            >
+              Absent
+            </button>
+          </>
+        )}
       </td>
     </tr>
   );

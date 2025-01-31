@@ -1,8 +1,8 @@
 import "./App.css";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes, useNavigate, Navigate } from "react-router-dom";
 import { Home } from "./pages/Home";
 import SideBar from "./components/Sidebar/SideBar";
-import Navbar from "./components/Navbar/Navbar";  // Ensure Navbar is imported
+import Navbar from "./components/Navbar/Navbar";
 import LoginComponent from "./components/LoginComponent/LoginComponent";
 import SetPassword from "./components/SetPassword/SetPassword";
 import MyProjects from "./components/MyProjects/MyProjects";
@@ -19,10 +19,33 @@ import CreateAttendanceSession from "./components/CreateAttendanceSession/Create
 import CreateSessionForm from "./components/CreateSessionForm/CreateSessionForm";
 import { useState, useEffect } from "react";
 import ExportDataComponent from "./components/ExportDataComponent/ExportDataComponent";
+import NotFoundPage from "./components/NotFoundPage/NotFoundPage";
 
 function App() {
   const navigate = useNavigate();
   const [isDesktop, setIsDesktop] = useState(window.innerWidth > 800);
+  const [userRole, setUserRole] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // To manage the login state
+
+  // Fetch user role from backend
+  useEffect(() => {
+    const fetchUserRole = async () => {
+      try {
+        const response = await fetch(`${import.meta.env.VITE_BACK_URL}/auth/user-role`, { credentials: "include" });
+        const data = await response.json();
+        setUserRole(data.role);
+        setIsLoggedIn(true); // Assume logged in if role is fetched
+      } catch (error) {
+        console.error("Error fetching user role:", error);
+        setIsLoggedIn(false); // Set to false if there is an error fetching role
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserRole();
+  }, []);
 
   // Handle screen size changes
   useEffect(() => {
@@ -33,93 +56,141 @@ function App() {
 
   const handleExport = () => {
     console.log("Exporting data...");
-    navigate('/export-data')
-    // Add your export logic here
+    navigate('/export-data');
   };
 
   const handleAddStudent = () => {
     console.log("Opening Add Student form...");
-    // Add your add-student logic here
   };
+
+  const handleLogout = () => {
+    // Log out the user by clearing cookies/session, then redirect to login page
+    setIsLoggedIn(false);
+    setUserRole(null);
+    navigate("/login");
+  };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <>
-      {isDesktop ? <SideBar>
-        <Routes>
-        {/* NORMAL USER */}
-        <Route path="/" element={<Home />} />
-        <Route path="/my-projects" element={<MyProjects />} />
-        <Route path="/create-project" element={<EventDetailsForm />} />
+      {isDesktop ? (
+        <SideBar>
+          <Routes>
+            {/* NORMAL USER ROUTES */}
+            {isLoggedIn && userRole === "student" ? (
+              <>
+                <Route path="/" element={<Home />} />
+                <Route path="/my-projects" element={<MyProjects />} />
+                <Route path="/create-project" element={<EventDetailsForm />} />
+              </>
+            ) : null}
 
-        {/* ADMIN USER */}
-        <Route
-          path="/dashboard"
-          element={
-            <Dashboard
-              noOfStudents={200}
-              noOfProjects={50}
-              attendanceToday={{ present: 180, absent: 20 }}
-              pendingReviews={10}
-              onExport={handleExport}
-              onAddStudent={handleAddStudent}
-            />
-          }
-        />
-        <Route path="/management/students" element={<StudentManagement />} />
-        <Route path="/management/attendance-sessions" element={<CreateAttendanceSession />} />
-        <Route path="/create-session" element={<CreateSessionForm />} />
-        <Route path="/add-student" element={<AddStudent />} />
-        <Route path="/management/attendance" element={<AdminAttendance />} />
-        <Route path="/management/projects" element={<ProjectManagement />} />
-        
-        <Route path="/export-data" element={<ExportDataComponent />} />
+            {/* ADMIN ROUTES (Protected) */}
+            {isLoggedIn && userRole === "admin" ? (
+              <>
+                <Route
+                  path="/dashboard"
+                  element={
+                    <Dashboard
+                      noOfStudents={200}
+                      noOfProjects={50}
+                      attendanceToday={{ present: 180, absent: 20 }}
+                      pendingReviews={10}
+                      onExport={handleExport}
+                      onAddStudent={handleAddStudent}
+                    />
+                  }
+                />
+                <Route path="/management/students" element={<StudentManagement />} />
+                <Route path="/management/attendance-sessions" element={<CreateAttendanceSession />} />
+                <Route path="/create-session" element={<CreateSessionForm />} />
+                <Route path="/add-student" element={<AddStudent />} />
+                <Route path="/management/attendance" element={<AdminAttendance />} />
+                <Route path="/management/projects" element={<ProjectManagement />} />
+                <Route path="/export-data" element={<ExportDataComponent />} />
+              </>
+            ) : isLoggedIn && userRole !== "admin" ? (
+              <Route path="/dashboard" element={<Navigate to="/" replace />} />
+            ) : null}
 
-        {/* FOR ALL */}
-        <Route path="/about-us" element={<About />} />
-        <Route path="/login" element={<LoginComponent />} />
-        <Route path="/register" element={<SetPassword />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/otp" element={<OtpInput />} />
-        <Route path="*" element={<div>Not Found</div>} />
-      </Routes>
-      </SideBar> :<> <Navbar />
-      <Routes>
-      {/* NORMAL USER */}
-      <Route path="/" element={<Home />} />
-      <Route path="/my-projects" element={<MyProjects />} />
-      <Route path="/create-project" element={<EventDetailsForm />} />
+            {/* COMMON ROUTES */}
+            <Route path="/about-us" element={<About />} />
+            <Route path="/login" element={<LoginComponent />} />
+            <Route path="/register" element={<SetPassword />} />
+            <Route path="/profile" element={isLoggedIn ? <Profile /> : <Navigate to="/login" />} />
+            <Route path="/otp" element={<OtpInput />} />
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        </SideBar>
+      ) : (
+        <>
+          <Navbar />
+          <Routes>
+            {/* NORMAL STUDENT ROUTES */}
+            {isLoggedIn && userRole === "student" ? (
+              <>
+                <Route path="/" element={<Home />} />
+                <Route path="/my-projects" element={<MyProjects />} />
+                <Route path="/create-project" element={<EventDetailsForm />} />
+              </>
+            ) : null}
 
-      {/* ADMIN USER */}
-      <Route
-        path="/dashboard"
-        element={
-          <Dashboard
-            noOfStudents={200}
-            noOfProjects={50}
-            attendanceToday={{ present: 180, absent: 20 }}
-            pendingReviews={10}
-            onExport={handleExport}
-            onAddStudent={handleAddStudent}
-          />
-        }
-      />
-      <Route path="/management/students" element={<StudentManagement />} />
-      <Route path="/management/attendance-sessions" element={<CreateAttendanceSession />} />
-      <Route path="/create-session" element={<CreateSessionForm />} />
-      <Route path="/add-student" element={<AddStudent />} />
-      <Route path="/management/attendance" element={<AdminAttendance />} />
-      <Route path="/management/projects" element={<ProjectManagement />} />
-      <Route path="/export-data" element={<ExportDataComponent />} />
+            {/* ADMIN ROUTES (Protected) */}
+            {isLoggedIn && userRole === "admin" ? (
+              <>
+                <Route
+                  path="/dashboard"
+                  element={
+                    <Dashboard
+                      noOfStudents={200}
+                      noOfProjects={50}
+                      attendanceToday={{ present: 180, absent: 20 }}
+                      pendingReviews={10}
+                      onExport={handleExport}
+                      onAddStudent={handleAddStudent}
+                    />
+                  }
+                />
+                <Route path="/management/students" element={<StudentManagement />} />
+                <Route path="/management/attendance-sessions" element={<CreateAttendanceSession />} />
+                <Route path="/management/projects" element={<ProjectManagement />} />
+                <Route path="/management/attendance" element={<AdminAttendance />} />
+                <Route path="/create-session" element={<CreateSessionForm />} />
+                <Route path="/add-student" element={<AddStudent />} />
+                <Route path="/export-data" element={<ExportDataComponent />} />
+              </>
+            ) : isLoggedIn && userRole !== "admin" ? (
+              <Route path="/dashboard" element={<Navigate to="/" replace />} />
+            ) : null}
 
-      {/* FOR ALL */}
-      <Route path="/about-us" element={<About />} />
-      <Route path="/login" element={<LoginComponent />} />
-      <Route path="/register" element={<SetPassword />} />
-      <Route path="/profile" element={<Profile />} />
-      <Route path="/otp" element={<OtpInput />} />
-      <Route path="*" element={<div>Not Found</div>} />
-    </Routes></>}
-      
+            {/* COMMON ROUTES */}
+            <Route path="/about-us" element={<About />} />
+            <Route path="/login" element={<LoginComponent />} />
+            <Route path="/register" element={<SetPassword />} />
+            <Route path="/profile" element={isLoggedIn ? <Profile /> : <Navigate to="/login" />} />
+            <Route path="/otp" element={<OtpInput />} />
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        </>
+      )}
+
+      {/* Conditional rendering of login or profile/logout buttons */}
+      <div>
+        {isLoggedIn ? (
+          <>
+            <button onClick={handleLogout}>Logout</button>
+            <button onClick={() => navigate('/profile')}>Profile</button>
+          </>
+        ) : (
+          <>
+            <button onClick={() => navigate('/login')}>Login</button>
+            <button onClick={() => navigate('/register')}>Register</button>
+          </>
+        )}
+      </div>
     </>
   );
 }

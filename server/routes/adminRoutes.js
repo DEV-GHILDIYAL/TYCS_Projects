@@ -1,5 +1,6 @@
 import express from 'express';
-import { addstudent, getprojectdata,createSession, getstudentsdata,fetchSession,deleteSession ,attendanceMark} from '../controllers/adminController.js';
+import { addstudent, getprojectdata,createSession, getstudentsdata,fetchSession,deleteSession ,attendanceMark, getAttendanceStatus} from '../controllers/adminController.js';
+import admin from '../middleware/adminAuth.js';
 const adminRouter = express.Router();
 
 adminRouter.post('/addstudent', addstudent);
@@ -8,6 +9,8 @@ adminRouter.post('/addstudent', addstudent);
 adminRouter.get('/user-data')
 adminRouter.post('/createsession', createSession);
 adminRouter.post('/attendance/mark', attendanceMark);
+adminRouter.post('/attendance/status', getAttendanceStatus);
+
 adminRouter.get('/fetchsession', fetchSession);
 adminRouter.delete('/deletesession', deleteSession);
 

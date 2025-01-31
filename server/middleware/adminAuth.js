@@ -1,8 +1,9 @@
-function admin(req,res,next){
-    if(req.isAuthenticated() && req.user.role=='admin'){
-        return next()
+const admin = (req, res, next) => {
+    if (req.isAuthenticated() && req.user.role === 'admin') {
+        console.log(req.user.role);
+        return next();
     }
-    return res.redirect('/')
-}
+    return res.redirect('/');
+};
 
-module.exports = admin
+export default admin;

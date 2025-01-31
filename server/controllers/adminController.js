@@ -31,46 +31,128 @@ export const addstudent = async (req, res) => {
 };
 
 // attendanceMark
+// export const attendanceMark = async (req, res) => {
+//   try {
+//     console.log("BODY",req.body);
+//     const { studentId, date, status, sessionId } = req.body;
+//     // Validate input
+//     if (!studentId || !date || !status || !sessionId) {
+//       return res.status(400).json({ error: "Missing required fields" });
+//     }
+
+//     const existingAttendance = await Attendance.findOne({
+//       studentId,
+//       date,
+//       sessionId,
+//     });
+
+//     if (existingAttendance) {
+//       return res.status(400).json({
+//         error: "Attendance for this student has already been marked.",
+//       });
+//     }
+
+//     await Attendance.updateOne(
+//       { studentId }, // Match the student
+//       { $push: { attendance: { date, status, sessionId } } }, // Add to attendance array
+//       { upsert: true } // Create if it doesn’t exist
+//     );
+
+//     // Create a new attendance record
+//     const attendance = new Attendance({
+//       studentId,
+//       date,
+//       status,
+//       sessionId,
+//     });
+
+//     await attendance.save();
+
+//     res.status(200).json({ message: "Attendance marked successfully" });
+//   } catch (error) {
+//     console.error("Error updating attendance:", error);
+//     res.status(500).json({ message: "Failed to mark attendance" });
+//   }
+// };
+
+
 export const attendanceMark = async (req, res) => {
   try {
     const { studentId, date, status, sessionId } = req.body;
+
     // Validate input
     if (!studentId || !date || !status || !sessionId) {
       return res.status(400).json({ error: "Missing required fields" });
     }
 
+    // Check if attendance is already marked for this student, session, and date
     const existingAttendance = await Attendance.findOne({
       studentId,
-      date,
-      sessionId,
+      "attendance.date": date,
+      "attendance.sessionId": sessionId,
     });
 
     if (existingAttendance) {
       return res.status(400).json({
-        error: "Attendance for this student has already been marked.",
+        error: "Attendance for this student has already been marked for this session and date.",
       });
     }
 
-    await Attendance.updateOne(
+    // Update the existing document or create a new one
+    const updateResult = await Attendance.updateOne(
       { studentId }, // Match the student
-      { $push: { attendance: { date, status, sessionId } } }, // Add to attendance array
+      {
+        $push: {
+          attendance: { date, status, sessionId },
+        },
+      },
       { upsert: true } // Create if it doesn’t exist
     );
 
-    // Create a new attendance record
-    // const attendance = new Attendance({
-    //   studentId,
-    //   date,
-    //   status,
-    //   sessionId,
-    // });
-
-    await attendance.save();
-
-    res.status(200).json({ message: "Attendance marked successfully" });
+    res.status(200).json({
+      message: "Attendance marked successfully",
+      result: updateResult,
+    });
   } catch (error) {
     console.error("Error updating attendance:", error);
     res.status(500).json({ message: "Failed to mark attendance" });
+  }
+};
+
+
+
+//NEW
+// Route: /admin/attendance/status
+export const getAttendanceStatus = async (req, res) => {
+  try {
+    const { studentId, date, sessionId } = req.body;
+
+    if (!studentId || !date || !sessionId) {
+      return res.status(400).json({ error: "Missing required fields" });
+    }
+
+    const attendance = await Attendance.findOne({
+      studentId,
+      "attendance.date": date,
+      "attendance.sessionId": sessionId,
+    });
+
+    if (!attendance) {
+      return res.status(404).json({ status: null });
+    }
+
+    const record = attendance.attendance.find(
+      (att) => att.date.toISOString() === new Date(date).toISOString() && att.sessionId.toString() === sessionId
+    );
+
+    if (record) {
+      return res.status(200).json({ status: record.status });
+    } else {
+      return res.status(404).json({ status: null });
+    }
+  } catch (error) {
+    console.error("Error fetching attendance status:", error);
+    res.status(500).json({ error: "Failed to fetch attendance status" });
   }
 };
 
