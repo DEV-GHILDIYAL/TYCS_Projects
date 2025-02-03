@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 import './ExportDataComponent.css';
 
 const ExportDataComponent = () => {
@@ -12,6 +14,12 @@ const ExportDataComponent = () => {
     projectLink: false,
   });
 
+  // Sample data (replace with actual fetched data)
+  const data = [
+    { rollno: '101', department: 'CS', year: '2024-2025', attendance: '90%', projectName: 'AI Chatbot', studentName: 'John Doe', projectLink: 'https://example.com' },
+    { rollno: '102', department: 'IT', year: '2024-2025', attendance: '85%', projectName: 'Blockchain Voting', studentName: 'Jane Doe', projectLink: 'https://example.com' }
+  ];
+
   const handleCheckboxChange = (event) => {
     const { name, checked } = event.target;
     setColumns((prevColumns) => ({
@@ -21,109 +29,54 @@ const ExportDataComponent = () => {
   };
 
   const handleExport = () => {
-    let selectedColumns = [];
-    for (const [column, isSelected] of Object.entries(columns)) {
-      if (isSelected) {
-        selectedColumns.push(column);
-      }
+    let selectedColumns = Object.keys(columns).filter(col => columns[col]);
+
+    if (selectedColumns.length === 0) {
+      alert('Please select at least one column to export.');
+      return;
     }
-    console.log('Columns to export:', selectedColumns);
+
+    // Filter the data to include only selected columns
+    const filteredData = data.map(row => {
+      let filteredRow = {};
+      selectedColumns.forEach(col => {
+        filteredRow[col] = row[col];
+      });
+      return filteredRow;
+    });
+
+    // Convert data to worksheet
+    const ws = XLSX.utils.json_to_sheet(filteredData);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Exported Data');
+
+    // Generate Excel file and trigger download
+    const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+    const blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
+    saveAs(blob, 'exported_data.xlsx');
   };
 
   return (
     <div className="export-data-container">
       <h2 className="export-data-heading">Export Data</h2>
       <form className="export-data-form">
-        <div className="export-data-checkbox-item">
-          <label className="export-data-label">
-            <input
-              type="checkbox"
-              name="rollno"
-              checked={columns.rollno}
-              onChange={handleCheckboxChange}
-              className="export-data-checkbox"
-            />
-            Roll Number
-          </label>
-        </div>
-        <div className="export-data-checkbox-item">
-          <label className="export-data-label">
-            <input
-              type="checkbox"
-              name="department"
-              checked={columns.department}
-              onChange={handleCheckboxChange}
-              className="export-data-checkbox"
-            />
-            Department (CS or IT)
-          </label>
-        </div>
-        <div className="export-data-checkbox-item">
-          <label className="export-data-label">
-            <input
-              type="checkbox"
-              name="year"
-              checked={columns.year}
-              onChange={handleCheckboxChange}
-              className="export-data-checkbox"
-            />
-            Year (e.g., 2024-2025, 2025-2026)
-          </label>
-        </div>
-        <div className="export-data-checkbox-item">
-          <label className="export-data-label">
-            <input
-              type="checkbox"
-              name="attendance"
-              checked={columns.attendance}
-              onChange={handleCheckboxChange}
-              className="export-data-checkbox"
-            />
-            Attendance
-          </label>
-        </div>
-        <div className="export-data-checkbox-item">
-          <label className="export-data-label">
-            <input
-              type="checkbox"
-              name="projectName"
-              checked={columns.projectName}
-              onChange={handleCheckboxChange}
-              className="export-data-checkbox"
-            />
-            Project Name
-          </label>
-        </div>
-        <div className="export-data-checkbox-item">
-          <label className="export-data-label">
-            <input
-              type="checkbox"
-              name="studentName"
-              checked={columns.studentName}
-              onChange={handleCheckboxChange}
-              className="export-data-checkbox"
-            />
-            Student Name
-          </label>
-        </div>
-        <div className="export-data-checkbox-item">
-          <label className="export-data-label">
-            <input
-              type="checkbox"
-              name="projectLink"
-              checked={columns.projectLink}
-              onChange={handleCheckboxChange}
-              className="export-data-checkbox"
-            />
-            Project Link
-          </label>
-        </div>
+        {Object.keys(columns).map((col) => (
+          <div key={col} className="export-data-checkbox-item">
+            <label className="export-data-label">
+              <input
+                type="checkbox"
+                name={col}
+                checked={columns[col]}
+                onChange={handleCheckboxChange}
+                className="export-data-checkbox"
+              />
+              {col.charAt(0).toUpperCase() + col.slice(1).replace(/([A-Z])/g, ' $1')} {/* Format column names */}
+            </label>
+          </div>
+        ))}
       </form>
-      <button
-        onClick={handleExport}
-        className="export-data-button"
-      >
-        Get Data
+      <button onClick={handleExport} className="export-data-button">
+        Export to Excel
       </button>
     </div>
   );
