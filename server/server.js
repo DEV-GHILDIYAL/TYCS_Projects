@@ -47,5 +47,12 @@ app.use("/admin",authenticate, adminRouter);
 //     res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
 //   });
 
+
+//MULTER IMPLEMENTATION
+const upload = multer({dest: "uploads/"});
+app.post('/upload', upload.single('profilePicture'), (req, res) => {
+  console.log(req.body);
+})
+// MULTER IMPLEMENTATION END
 const port = process.env.PORT || 4000;
 app.listen(port, () => console.log(`listening on port:${port}`));

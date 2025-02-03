@@ -149,6 +149,7 @@ const Profile = () => {
           transition: Slide,
           autoClose: 1000,
         });
+        window.location.reload();
       } else {
         toast.error("Error updating profile: " + data.message, {
           position: "top-right",

@@ -83,7 +83,7 @@ const MyProjects = () => {
   );
 
   return (
-    <div className="my-project-container">
+    <div className={`my-project-container ${editingProjectId ? "editing-mode" : ""}`}>
       {/* Conditionally render the header based on showHeader state */}
       {showHeader && <h2 className="my-project-header">My Projects</h2>}
 
@@ -92,7 +92,7 @@ const MyProjects = () => {
       ) : (
         <>
           {editingProjectId ? (
-            <EventDetailsForm
+            <EventDetailsForm className="event-details-form"
               editingProjectId={editingProjectId}
               initialData={editingProjectData}
               setEditingProjectId={setEditingProjectId}

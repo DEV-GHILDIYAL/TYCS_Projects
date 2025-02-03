@@ -124,7 +124,7 @@ const EventDetailsForm = ({
         // setTimeout(() => {
         // window.location.reload();
         // }, 1000); // Wait for 1 second
-        // window.location.reload();
+        window.location.reload();
       } else {
         // Log error details
         console.error("Error details:", data);

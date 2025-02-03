@@ -1,0 +1,107 @@
+/* Container for the whole component */
+.teacher-excel-upload-container {
+    padding: 2rem; /* Adjusted padding for a comfortable layout */
+    max-width: 900px; /* Increased width */
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Box shadow for depth */
+}
+
+/* Title */
+.teacher-excel-upload-title {
+    font-size: 1.5rem; /* Larger title for better readability */
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: #333;
+    text-align: center;
+    letter-spacing: 0.5px;
+}
+
+/* Dropzone styling with border */
+.teacher-excel-upload-dropzone {
+    border: 2px dashed #007bff; /* Border with dashed line */
+    padding: 3rem;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 8px; /* Rounded corners */
+    position: relative;
+    transition: transform 0.3s ease;
+}
+
+.teacher-excel-upload-dropzone:hover {
+    transform: scale(1.05); /* Slight zoom effect on hover */
+}
+
+.teacher-excel-upload-dropzone input {
+    display: none;
+}
+
+.dropzone-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #007bff;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.dropzone-overlay p {
+    margin: 0;
+    padding: 0.5rem 0;
+}
+
+.file-info {
+    font-size: 1rem;
+    font-weight: normal;
+    opacity: 0.8;
+}
+
+/* Table styling */
+.teacher-excel-upload-table {
+    width: 100%;
+    margin-top: 1.5rem;
+    border-collapse: collapse;
+    border: 1px solid #ccc;
+}
+
+.teacher-excel-upload-table th,
+.teacher-excel-upload-table td {
+    padding: 1rem; /* Adjusted padding for table cells */
+    text-align: left;
+    border: 1px solid #ccc;
+}
+
+.teacher-excel-upload-table th {
+    background-color: #f5f5f5;
+    font-weight: bold;
+}
+
+.teacher-excel-upload-table tr:nth-child(even) {
+    background-color: #fafafa;
+}
+
+.teacher-excel-upload-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .teacher-excel-upload-container {
+        padding: 1rem;
+    }
+
+    .teacher-excel-upload-title {
+        font-size: 1.25rem; /* Reduced font size for smaller screens */
+    }
+
+    .teacher-excel-upload-dropzone {
+        padding: 2rem;
+    }
+
+    .teacher-excel-upload-table th,
+    .teacher-excel-upload-table td {
+        padding: 0.8rem; /* Reduced padding for smaller screens */
+    }
+}

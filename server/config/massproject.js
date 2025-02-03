@@ -194,6 +194,54 @@ const projects = [
       project: "Project Two",//Project One
       github: "http://localhost:5173/"
   },
+  {
+    userId: "6777d0acc916ba93f8fd72cf",
+    name: "om verma",
+    email:"g22.omm.verma@gnkhalsa.edu.in",
+    iscompleted:"true",
+    rollno: 500,//477
+    title: "ABCDEF",
+    description: "To streamline and automate the management of library operations, such as book inventory, user management, borrowing/returning books, and fines tracking. To streamline and automate the management of library operations, such as book inventory, user management, borrowing/returning books, and fines tracking.",
+    category: "Web Development",
+    deployed: "http://localhost:5173/",
+    batch:"Batch2",
+    year:"2024-2025",//2025-2026
+    department:"IT",//IT
+    project: "Project Two",//Project One
+    github: "http://localhost:5173/"
+},
+{
+    userId: "6777d0acc916ba93f8fd72de",
+    name: "aditya misra",
+    email:"g22.adityaa.mishra@gnkhalsa.edu.in",
+    iscompleted:"true",
+    rollno: 501,//477
+    title: "ABCDEF",
+    description: "To streamline and automate the management of library operations, such as book inventory, user management, borrowing/returning books, and fines tracking. To streamline and automate the management of library operations, such as book inventory, user management, borrowing/returning books, and fines tracking.",
+    category: "Web Development",
+    deployed: "http://localhost:5173/",
+    batch:"Batch3",
+    year:"2024-2025",//2025-2026
+    department:"CS",//IT
+    project: "Project Two",//Project One
+    github: "http://localhost:5173/"
+},
+{
+    userId: "6777d0acc916ba93f8fd72e3",
+    name: "aarav khan",
+    email:"g22.aaravv.khan@gnkhalsa.edu.in",
+    rollno: 502,//477
+    iscompleted:"true",
+    title: "ABCDEF",
+    description: "To streamline and automate the management of library operations, such as book inventory, user management, borrowing/returning books, and fines tracking. To streamline and automate the management of library operations, such as book inventory, user management, borrowing/returning books, and fines tracking.",
+    category: "Web Development",
+    deployed: "http://localhost:5173/",
+    batch:"Batch3",
+    year:"2024-2025",//2025-2026
+    department:"CS",//IT
+    project: "Project Two",//Project One
+    github: "http://localhost:5173/"
+},
   ];
 
 const DBconnect = async () => {

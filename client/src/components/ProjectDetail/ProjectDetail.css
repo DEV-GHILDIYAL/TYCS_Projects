@@ -5,7 +5,7 @@
     max-width: 1250px;
     margin: 0 auto;
     padding: 20px;
-    background-color: #1e1e1e; /* Dark background */
+    /* background-color: #1e1e1e; */
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     border-radius: 10px;
     overflow-y: auto;
@@ -27,7 +27,7 @@
 .project-detail-container h2 {
     font-size: 28px;
     margin-bottom: 20px;
-    color: #e0e0e0; /* Lighter text */
+    /* color: #e0e0e0; */
     text-align: center;
 }
 
@@ -40,7 +40,7 @@
 
 .project-detail-row div {
     font-size: 16px;
-    color: #ccc; /* Light gray text */
+    /* color: #ccc; */
     flex: 1 1 45%;
     word-wrap: break-word;
     padding: 10px;
@@ -50,8 +50,8 @@
 .project-detail-future {
     font-size: 16px;
     line-height: 1.6;
-    color: #e0e0e0; /* Light gray text */
-    background-color: #333333; /* Dark background */
+    /* color: #e0e0e0;
+    background-color: #333333; */
     padding: 15px;
     border-left: 4px solid #007BFF;
     border-radius: 5px;
@@ -76,7 +76,7 @@
 .social-media-section h3 {
     font-size: 24px;
     margin-bottom: 20px;
-    color: #e0e0e0;
+    /* color: #e0e0e0; */
 }
 
 .social-media-icons {
@@ -106,7 +106,7 @@
 
 .social-icon {
     font-size: 24px;
-    color: #e0e0e0;
+    /* color: #e0e0e0; */
     transition: transform 0.3s ease, filter 0.3s ease;
 }
 
@@ -129,7 +129,7 @@
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    color: #e0e0e0; /* Lighter text */
+    /* color: #e0e0e0; */
 }
 
 .back-button {

@@ -20,6 +20,7 @@ import CreateSessionForm from "./components/CreateSessionForm/CreateSessionForm"
 import { useState, useEffect } from "react";
 import ExportDataComponent from "./components/ExportDataComponent/ExportDataComponent";
 import NotFoundPage from "./components/NotFoundPage/NotFoundPage";
+import MassStudentUpload from "./pages/MassStudentUpload";
 
 function App() {
   const navigate = useNavigate();
@@ -114,6 +115,7 @@ function App() {
                 <Route path="/management/attendance" element={<AdminAttendance />} />
                 <Route path="/management/projects" element={<ProjectManagement />} />
                 <Route path="/export-data" element={<ExportDataComponent />} />
+                <Route path="/mass-student-upload" element={<MassStudentUpload/>} />
               </>
             ) : isLoggedIn && userRole !== "admin" ? (
               <Route path="/dashboard" element={<Navigate to="/" replace />} />

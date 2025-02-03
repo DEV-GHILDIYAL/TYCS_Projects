@@ -55,6 +55,12 @@ const SideBar = ({ children }) => {
       roles: ["admin", "loggedIn"],
     },
     {
+      path: "/mass-student-upload",
+      name: "Mass Student Upload",
+      icon: <FaHome />,
+      roles: ["admin", "loggedIn"],
+    },
+    {
       path: "/management/attendance-sessions",
       name: "Attendance Sessions",
       icon: <FaLock />,

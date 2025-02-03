@@ -20,7 +20,6 @@ const Navbar = () => {
   
   const [isOpen, setIsOpen] = useState(true); // For desktop sidebar
   const [isMobileOpen, setIsMobileOpen] = useState(false); // Mobile menu state
-  const navigate = useNavigate();
 
   const handleMenuToggle = () => {
     setIsMenuOpen(!isMenuOpen);  // Toggle the mobile menu
@@ -28,48 +27,44 @@ const Navbar = () => {
   };
 
   const handleLogout = async () => {
-    Cookies.remove("userRole");
-        
-        window.location.reload();
-        try {
-          // Call the backend logout API
-          const response = await fetch(`${import.meta.env.VITE_BACK_URL}/auth/logout`, {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_BACK_URL}/auth/logout`,
+          {
             method: "POST",
-            credentials: "include", // Ensures cookies are sent with the request
-          });
-      
-          if (response.ok) {
-            // If logout is successful, clear cookies and update state
-            // Cookies.remove("token");
-            Cookies.remove("userRole");
-            setIsLoggedIn(false);
-            setUserRole(null);
-            console.log("Logout successful");
-          } else {
-            console.warn("Logout failed:", await response.text());
+            credentials: "include",
           }
-        } catch (error) {
-          console.error("Error during logout:", error.message);
+        );
+  
+        if (response.ok) {
+          Cookies.remove("userRole");
+          setIsLoggedIn(false);
+          setUserRole(null);
+        } else {
+          console.warn("Logout failed:", await response.text());
         }
-  };
+      } catch (error) {
+        console.error("Error during logout:", error.message);
+      }
+    };
 
   useEffect(() => {
-    const checkAuth = () => {
+    const checkAuth = async () => {
       try {
-        const role = Cookies.get("userRole");
-
-        if (role) {
-          setUserRole(role);
+        const response = await fetch(`${import.meta.env.VITE_BACK_URL}/auth/user-role`, { credentials: "include" });
+        const data = await response.json();
+        setUserRole(data.role);
+        if (data.role == "admin" || data.role == "student"){
           setIsLoggedIn(true);
         } else {
           setUserRole(null);
           setIsLoggedIn(false);
         }
       } catch (err) {
-        console.error("Error checking authentication:", err);
         setUserRole(null);
         setIsLoggedIn(false);
       }
+      // console.log(userRole);
     };
 
     checkAuth();

@@ -4,21 +4,21 @@
   border-radius: 8px;
   max-width: 100%;
   margin: 0;
-  background-color: #1e1e1e;
+  /* background-color: #1e1e1e; */
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
   overflow: hidden;
   height: 92vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  color: #ffffff;
+  /* color: #ffffff; */
 }
 
 .event-details-form h3 {
   text-align: center;
   font-size: 20px;
   margin: 0 0 15px;
-  color: #ffffff;
+  /* color: #ffffff; */
 }
 
 .form-row {
@@ -40,7 +40,7 @@
 .form-group label {
   font-weight: bold;
   margin-bottom: 5px;
-  color: #cccccc;
+  /* color: #cccccc; */
 }
 
 .form-group input,
@@ -52,8 +52,8 @@
   width: 100%;
   box-sizing: border-box;
   height: 38px;
-  background-color: #2c2c2c;
-  color: #ffffff;
+  /* background-color: #2c2c2c;
+  color: #ffffff; */
 }
 
 .form-group textarea {
@@ -65,14 +65,14 @@
   margin-top: 20px;
   margin-bottom: 0;
   font-weight: bold;
-  color: #ffffff;
+  /* color: #ffffff; */
 }
 .social-media-links {
   border: 1px solid #555;
   border-radius: 4px;
   padding: 10px;
   margin-bottom: 15px;
-  background-color: #2c2c2c;
+  /* background-color: #2c2c2c; */
   display: flex;
   justify-content: space-between; 
   flex-wrap: nowrap;
@@ -81,14 +81,14 @@
 .social-media-links label {
   font-weight: bold;
   margin-bottom: 5px;
-  color: #cccccc;
+  /* color: #cccccc; */
 }
 
 .social-media-links input {
   height: 38px;
-  background-color: #2c2c2c;
+  /* background-color: #2c2c2c; */
   border: 1px solid #555;
-  color: #ffffff;
+  /* color: #ffffff; */
 }
 
 button[type="submit"] {
@@ -110,12 +110,12 @@ button[type="submit"]:hover {
 
 .optional-text {
   font-size: 12px;
-  color: #aaaaaa;
+  /* color: #aaaaaa; */
 }
 
 .progress-bar {
   width: 100%;
-  background-color: #2c2c2c;
+  /* background-color: #2c2c2c; */
   border-radius: 5px;
   margin-bottom: 10px;
 }
@@ -131,7 +131,7 @@ button[type="submit"]:hover {
   text-align: right;
   font-weight: bold;
   margin-bottom: 10px;
-  color: #ffffff;
+  /* color: #ffffff; */
 }
 
 .social-media-links a {

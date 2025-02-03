@@ -18,7 +18,7 @@ const CardSection = ({
 }) => {
   const [projects, setProjects] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(13); // Number of items per page
+  const [itemsPerPage] = useState(16); // Number of items per page
 
   const images = [img2, img3, img4, img5, img6];
 

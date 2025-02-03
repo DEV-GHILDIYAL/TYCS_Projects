@@ -70,7 +70,7 @@
 
 .filters label {
   font-weight: bold;
-  color: #e0e0e0; /* Light text for labels */
+  /* color: #e0e0e0;  */
 }
 
 .filters select,
