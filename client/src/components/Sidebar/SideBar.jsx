@@ -82,12 +82,12 @@ const SideBar = ({ children }) => {
       try {
         const response = await fetch(`${import.meta.env.VITE_BACK_URL}/auth/user-role`, { credentials: "include" });
         const data = await response.json();
-        console.log(data);
-        console.log(userRole);
+        // console.log(isLoggedIn);
+        // console.log(data.role);
         // const userRole = Cookies.get("userRole");
-        if (data) {
-          // setUserRole(userRole);
-          setUserRole(data.role);
+        // setUserRole(userRole);
+        setUserRole(data.role);
+        if (data.role == "admin" || data.role == "student"){
           setIsLoggedIn(true);
         } else {
           setUserRole(null);
@@ -97,6 +97,7 @@ const SideBar = ({ children }) => {
         setUserRole(null);
         setIsLoggedIn(false);
       }
+      // console.log(userRole);
     };
 
     checkAuth();

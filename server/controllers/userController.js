@@ -40,7 +40,7 @@ export const fetchProjects = async (req, res) => {
 export const UserProject = async(req,res) => {
     try {
         const project = await Project.find({ userId: req.user.id });
-        console.log(project)
+        // console.log(project)
         if (!project) {
             return res.status(404).json({ message: 'No project found for this user.' });
         }

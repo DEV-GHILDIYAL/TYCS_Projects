@@ -35,7 +35,11 @@ function App() {
         const response = await fetch(`${import.meta.env.VITE_BACK_URL}/auth/user-role`, { credentials: "include" });
         const data = await response.json();
         setUserRole(data.role);
-        setIsLoggedIn(true); // Assume logged in if role is fetched
+        if(data.role == "admin" || data.role == "student"){
+          setIsLoggedIn(true); // Assume logged in if role is fetched
+        }else{
+          setIsLoggedIn(false);
+        }
       } catch (error) {
         console.error("Error fetching user role:", error);
         setIsLoggedIn(false); // Set to false if there is an error fetching role
@@ -77,12 +81,11 @@ function App() {
   return (
     <>
       {isDesktop ? (
-        <SideBar>
+        <SideBar isLoggedIn={isLoggedIn} userRole={userRole}>
           <Routes>
             {/* NORMAL USER ROUTES */}
             {isLoggedIn && userRole === "student" ? (
               <>
-                <Route path="/" element={<Home />} />
                 <Route path="/my-projects" element={<MyProjects />} />
                 <Route path="/create-project" element={<EventDetailsForm />} />
               </>
@@ -117,6 +120,7 @@ function App() {
             ) : null}
 
             {/* COMMON ROUTES */}
+            <Route path="/" element={isLoggedIn ? <Home /> : <Navigate to="/login" />} />
             <Route path="/about-us" element={<About />} />
             <Route path="/login" element={<LoginComponent />} />
             <Route path="/register" element={<SetPassword />} />
@@ -177,20 +181,6 @@ function App() {
         </>
       )}
 
-      {/* Conditional rendering of login or profile/logout buttons */}
-      <div>
-        {isLoggedIn ? (
-          <>
-            <button onClick={handleLogout}>Logout</button>
-            <button onClick={() => navigate('/profile')}>Profile</button>
-          </>
-        ) : (
-          <>
-            <button onClick={() => navigate('/login')}>Login</button>
-            <button onClick={() => navigate('/register')}>Register</button>
-          </>
-        )}
-      </div>
     </>
   );
 }
