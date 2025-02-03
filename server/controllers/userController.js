@@ -4,12 +4,10 @@ import userModel from '../models/userModel.js';
 export const getUserData = async (req, res)=>{
     try {
         const {userId} = req.body;
-  
         const user = await userModel.findById(userId);
         if(!user){
             return res.json({success: false, message: "User not found"});
         }
-  
         res.json({
             success: true,
             userData:{
@@ -21,7 +19,6 @@ export const getUserData = async (req, res)=>{
                 phoneno:user.phoneNo,
             }
         });
-  
     } catch (error) {
         res.json({success: false, error: error.message});
     } 
@@ -111,7 +108,7 @@ export const addProject = async (req, res) => {
 
 export const updateProject = async (req, res) => {
     try {
-        const { name, rollno,description,category,department,year,title,deployed,iscompleted,project,batch,future,github,twitter,linkedin,instagram } = req.body;
+        // const { name, rollno,description,category,department,year,title,deployed,iscompleted,project,batch,future,github,twitter,linkedin,instagram } = req.body;
         const updateProject = await Project.findByIdAndUpdate(
             { _id: req.params.id, userId: req.user._id }, 
             {...req.body},

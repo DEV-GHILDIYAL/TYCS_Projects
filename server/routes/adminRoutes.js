@@ -1,12 +1,13 @@
 import express from 'express';
 import { addstudent, getprojectdata,createSession, getstudentsdata,fetchSession,deleteSession ,attendanceMark, getAttendanceStatus} from '../controllers/adminController.js';
-import admin from '../middleware/adminAuth.js';
+import admin from '../middleware/adminAuth.js'
 const adminRouter = express.Router();
 
-adminRouter.post('/addstudent', addstudent);
-
+// Apply admin middleware to all routes in this router
+adminRouter.use(admin);
 // adminRouter.post('/attendance', attendance);
-adminRouter.get('/user-data')
+// adminRouter.get('/user-data')
+adminRouter.post('/addstudent', addstudent);
 adminRouter.post('/createsession', createSession);
 adminRouter.post('/attendance/mark', attendanceMark);
 adminRouter.post('/attendance/status', getAttendanceStatus);

@@ -39,13 +39,6 @@ export const loginUser = async (req, res) => {
       sameSite: process.env.NODE_ENV == "production" ? "none" : "strict",
       maxAge: 1000 * 60 * 60 * 24 * 7,
     });
-    // res.cookie("userRole", user.role, {
-    //   httpOnly: false,
-    //   secure: process.env.NODE_ENV == "production",
-    //   sameSite: process.env.NODE_ENV == "production" ? "none" : "strict",
-    //   maxAge: 1000 * 60 * 60 * 24 * 7,
-    // });
-    // console.log('Cookie header:', res.getHeaders()['set-cookie']);
 
     return res.json({ success: true });
   } catch (error) {
@@ -54,7 +47,6 @@ export const loginUser = async (req, res) => {
 };
 
 export const logout = async (req, res) => {
-  // console.log("Logout User Called");
   try {
     res.clearCookie("token", {
       httpOnly: true,
@@ -68,7 +60,6 @@ export const logout = async (req, res) => {
 };
 
 export const isAuthenticated = async (req, res) => {
-
     try {
         return res.json({ success: true});
     } catch (error) {
@@ -78,7 +69,6 @@ export const isAuthenticated = async (req, res) => {
 
 //Send Email
 export const sendResetOtp = async (req, res) => {
-  // console.log('sendResetOtp called');
   const {email} = req.body;
 
   if(!email){
@@ -132,7 +122,6 @@ export const resetPassword = async (req, res) => {
   if(!email || !otp || !newPassword){
     return res.json({ success: false, message: "Please provide all required fields" });
   }
-
   try {
     const user = await userModel.findOne({email});
     if(!user){
@@ -159,7 +148,6 @@ export const resetPassword = async (req, res) => {
 }
 
 export const getProfile = async (req, res) => {
-  // console.log("Get Profile Called");
   try {
     // Get token from the Authorization header
     const token = req.cookies?.token;
@@ -167,11 +155,8 @@ export const getProfile = async (req, res) => {
     if (!token) {
       return res.status(401).json({ message: "No token provided" });
     }
-    // console.log("MyToken:" , token);
-
     // Verify token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    // console.log("DECODED", decoded.id);
 
     // Fetch user data from the database using the decoded user ID
     const user = await userModel.findById(decoded.id);
@@ -207,57 +192,6 @@ export const getProfile = async (req, res) => {
       return res.status(401).json({ message: "Token expired" });
     }
 
-    res.status(500).json({ message: "Internal server error" });
-  }
-};
-
-export const updateProfile = async (req, res) => {
-  // console.log("Update Profile Called");
-  try {
-    // Get token from the Authorization header
-    const token = req.cookies?.token;
-    
-    if (!token) {
-      return res.status(401).json({ message: "No token provided" });
-    }
-
-    // Verify token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    
-    // Fetch user from database
-    const user = await userModel.findById(decoded.id);
-
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    // Get updated data from request body
-    const { name, rollNo, phoneNo, email, year, batch, department } = req.body;
-    
-    // Update user fields
-    if (name) user.name = name;
-    if (rollNo) user.rollNo = rollNo;
-    if (phoneNo) user.phoneNo = phoneNo;
-    if (email) user.email = email;
-    if (year) user.year = year;
-    if (batch) user.batch = batch;
-    if (department) user.department = department;
-    
-    // Save updated user data
-    await user.save();
-    
-    res.status(200).json({ message: "Profile updated successfully", user });
-  } catch (error) {
-    console.error("Error updating profile:", error);
-    
-    if (error.name === "JsonWebTokenError") {
-      return res.status(401).json({ message: "Invalid token" });
-    }
-    
-    if (error.name === "TokenExpiredError") {
-      return res.status(401).json({ message: "Token expired" });
-    }
-    
     res.status(500).json({ message: "Internal server error" });
   }
 };

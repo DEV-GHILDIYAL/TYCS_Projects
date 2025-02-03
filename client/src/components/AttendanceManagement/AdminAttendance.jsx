@@ -102,6 +102,7 @@ const AdminAttendance = () => {
           <div className="attendance-head-left">
             <h1>Attendance Management</h1>
             <p>Here you can mark and manage attendance for students.</p>
+            <p>{date}</p>
           </div>
         </div>
 

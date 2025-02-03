@@ -166,9 +166,9 @@ function App() {
                 <Route path="/add-student" element={<AddStudent />} />
                 <Route path="/export-data" element={<ExportDataComponent />} />
               </>
-            ) : isLoggedIn && userRole !== "admin" ? (
+            ) : (
               <Route path="/dashboard" element={<Navigate to="/" replace />} />
-            ) : null}
+            )}
 
             {/* COMMON ROUTES */}
             <Route path="/about-us" element={<About />} />

@@ -98,8 +98,6 @@ const projects = [
         project: "Project Two",//Project One
         github: "http://localhost:5173/"
     },
-
-    // NEW DATA
     {
       userId: "6777a009c916ba93f8fd72cc",
       name: "shiwans vaishya",

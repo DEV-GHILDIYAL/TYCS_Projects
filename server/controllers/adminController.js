@@ -231,9 +231,6 @@ export const createSession = async (req, res) => {
   }
 };
 
-
-
-
 // export const createSession = async (req, res) => {
 //   const { sessionNo, date, batch, project, department, year } = req.body;
 

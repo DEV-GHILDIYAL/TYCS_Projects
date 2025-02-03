@@ -2,6 +2,7 @@ import mongoose from 'mongoose'
 
 const AttendanceSchema = new mongoose.Schema({
     studentId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    name:{type:String,},
     attendance: [
         {
             date: { type: Date, required: true },
@@ -9,7 +10,7 @@ const AttendanceSchema = new mongoose.Schema({
             sessionId: { type: mongoose.Schema.Types.ObjectId, ref: 'Session', required: true },
         },
     ],
-    totalPresent: { type: Number, default: 0 }, // Pre-aggregated count of Present days
+    totalPresent: { type: Number, default: 0 }, 
     totalAbsent: { type: Number, default: 0 },  
 }, { timestamps: true });
 
