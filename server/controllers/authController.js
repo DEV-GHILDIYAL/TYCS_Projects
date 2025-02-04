@@ -53,6 +53,7 @@ export const logout = async (req, res) => {
       secure: process.env.NODE_ENV == "production",
       sameSite: process.env.NODE_ENV == "production" ? "none" : "strict",
     });
+    redirect('/login');
     return res.json({ success: true, message: "logout" });
   } catch (error) {
     return res.json({ success: false, msg: error.message });

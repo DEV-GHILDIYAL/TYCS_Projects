@@ -123,6 +123,7 @@ const SideBar = ({ children }) => {
         Cookies.remove("userRole");
         setIsLoggedIn(false);
         setUserRole(null);
+        window.location.reload();
       } else {
         console.warn("Logout failed:", await response.text());
       }
