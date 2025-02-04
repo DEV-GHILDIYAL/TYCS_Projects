@@ -249,17 +249,17 @@ const DBconnect = async () => {
     await mongoose.connect(process.env.MONGODB_URI);
     console.log("Connected to MongoDB");
 
-    const bulkOps = projects.map(project => ({
-      updateOne: {
-        filter: { email: project.email },
-        update: { $setOnInsert: project }, // Only set if the document does not exist
-        upsert: true // Insert if the document doesn't exist
-      }
-    }));
+    // const bulkOps = projects.map(project => ({
+    //   updateOne: {
+    //     filter: { email: project.email },
+    //     update: { $setOnInsert: project }, // Only set if the document does not exist
+    //     upsert: true // Insert if the document doesn't exist
+    //   }
+    // }));
 
-    const result = await projectModel.bulkWrite(bulkOps);
-    console.log(`${result.upsertedCount} new project(s) inserted`);
-    console.log(`${result.modifiedCount} existing project(s) updated`);
+    // const result = await projectModel.bulkWrite(bulkOps);
+    // console.log(`${result.upsertedCount} new project(s) inserted`);
+    // console.log(`${result.modifiedCount} existing project(s) updated`);
   } catch (error) {
     console.error("Error connecting to MongoDB or updating data:", error);
   }

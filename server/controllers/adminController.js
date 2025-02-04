@@ -29,6 +29,52 @@ export const addstudent = async (req, res) => {
     res.status(500).json({ message: "Unable to add Student" });
   }
 };
+// export const attendanceMark = async (req, res) => {
+//   try {
+//     const { studentId, date, status, sessionId } = req.body;
+
+//     // Validate input
+//     if (!studentId || !date || !status || !sessionId) {
+//       return res.status(400).json({ error: "Missing required fields" });
+//     }
+
+//     // Convert the string to a Date object
+//     const formattedDate = new Date(date);  // Ensure date is in a valid format
+
+//     // Check if attendance is already marked for this student on the same date and session
+//     const existingAttendance = await Attendance.findOne({
+//       studentId,
+//       "attendance.sessionId": sessionId,
+//       "attendance.date": formattedDate,  // Compare with the Date object
+//     });
+
+//     if (existingAttendance) {
+//       return res.status(400).json({
+//         error: "Attendance for this student has already been marked for this session and date.",
+//       });
+//     }
+
+//     // Update the existing document or create a new one
+//     const updateResult = await Attendance.updateOne(
+//       { studentId },
+//       {
+//         $push: {
+//           attendance: { date: formattedDate, status, sessionId },
+//         },
+//       },
+//       { upsert: true }
+//     );
+
+//     res.status(200).json({
+//       message: "Attendance marked successfully",
+//       result: updateResult,
+//     });
+//   } catch (error) {
+//     console.error("Error updating attendance:", error);
+//     res.status(500).json({ message: "Failed to mark attendance" });
+//   }
+// };
+
 export const attendanceMark = async (req, res) => {
   try {
     const { studentId, date, status, sessionId } = req.body;
@@ -38,43 +84,60 @@ export const attendanceMark = async (req, res) => {
       return res.status(400).json({ error: "Missing required fields" });
     }
 
-    // Convert the string to a Date object
-    const formattedDate = new Date(date);  // Ensure date is in a valid format
+    // Convert the status to match enum format (capitalize first letter)
+    const formattedStatus = status.charAt(0).toUpperCase() + status.slice(1).toLowerCase(); 
 
-    // Check if attendance is already marked for this student on the same date and session
-    const existingAttendance = await Attendance.findOne({
-      studentId,
-      "attendance.sessionId": sessionId,
-      "attendance.date": formattedDate,  // Compare with the Date object
-    });
-
-    if (existingAttendance) {
-      return res.status(400).json({
-        error: "Attendance for this student has already been marked for this session and date.",
-      });
+    // Check if the provided status is valid
+    if (!["Present", "Absent"].includes(formattedStatus)) {
+      return res.status(400).json({ error: "Invalid status value. Use 'Present' or 'Absent'." });
     }
 
-    // Update the existing document or create a new one
-    const updateResult = await Attendance.updateOne(
-      { studentId },
-      {
-        $push: {
-          attendance: { date: formattedDate, status, sessionId },
-        },
-      },
-      { upsert: true }
-    );
+    // Convert date to a Date object
+    const formattedDate = new Date(date);
 
-    res.status(200).json({
-      message: "Attendance marked successfully",
-      result: updateResult,
-    });
+    // Find the student attendance record
+    const studentAttendance = await Attendance.findOne({ studentId });
+
+    if (studentAttendance) {
+      // Check if attendance is already marked for the same date and session
+      const existingEntry = studentAttendance.attendance.find(
+        (entry) =>
+          entry.sessionId.toString() === sessionId &&
+          entry.date.toISOString().split("T")[0] === formattedDate.toISOString().split("T")[0]
+      );
+
+      if (existingEntry) {
+        return res.status(400).json({ error: "Attendance already marked for this session and date." });
+      }
+
+      // Update existing attendance record
+      const updatedAttendance = await Attendance.findOneAndUpdate(
+        { studentId },
+        {
+          $push: { attendance: { date: formattedDate, status: formattedStatus, sessionId } },
+          $inc: { [formattedStatus === "Present" ? "totalPresent" : "totalAbsent"]: 1 }
+        },
+        { new: true }
+      );
+
+      return res.status(200).json({ message: "Attendance updated successfully", data: updatedAttendance });
+    } else {
+      // Create new attendance record
+      const newAttendance = new Attendance({
+        studentId,
+        attendance: [{ date: formattedDate, status: formattedStatus, sessionId }],
+        totalPresent: formattedStatus === "Present" ? 1 : 0,
+        totalAbsent: formattedStatus === "Absent" ? 1 : 0,
+      });
+
+      await newAttendance.save();
+      return res.status(201).json({ message: "Attendance created successfully", data: newAttendance });
+    }
   } catch (error) {
     console.error("Error updating attendance:", error);
     res.status(500).json({ message: "Failed to mark attendance" });
   }
 };
-
 
 //NEW
 // Route: /admin/attendance/status

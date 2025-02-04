@@ -52,6 +52,7 @@ export const RowComponentForAttendance = ({
 
   const markAttendance = async (status) => {
     try {
+      console.log(studentId);
       const response = await fetch(
         `${import.meta.env.VITE_BACK_URL}/admin/attendance/mark`,
         {

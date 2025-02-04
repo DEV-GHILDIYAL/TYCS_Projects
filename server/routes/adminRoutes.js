@@ -4,7 +4,7 @@ import admin from '../middleware/adminAuth.js'
 const adminRouter = express.Router();
 
 // Apply admin middleware to all routes in this router
-// adminRouter.use(admin);
+adminRouter.use(admin);
 // adminRouter.post('/attendance', attendance);
 // adminRouter.get('/user-data')
 adminRouter.post('/addstudent', addstudent);

@@ -32,6 +32,7 @@ const AdminAttendance = () => {
   // Fetch attendance data when the component loads
   useEffect(() => {
     const fetchAttendanceStatus = async () => {
+      console.log(sessionId);
       try {
         const response = await fetch(
           `${import.meta.env.VITE_BACK_URL}/admin/attendance/status/${sessionId}`,
@@ -40,6 +41,7 @@ const AdminAttendance = () => {
           }
         );
         const data = await response.json();
+        console.log(data);
 
         if (response.ok) {
           // Update attendanceStatus with the fetched data
@@ -125,10 +127,10 @@ const AdminAttendance = () => {
             ) : (
               main.map((student, index) => (
                 <RowComponentForAttendance
-                  key={student._id}
-                  srNo={index + 1}
-                  rollNumber={student.rollNo}
-                  name={student.name}
+                key={student._id}
+                srNo={index + 1}
+                rollNumber={student.rollNo}
+                name={student.name}
                   projectName={student.projectName}
                   sessionId={sessionId}
                   studentId={student._id}
