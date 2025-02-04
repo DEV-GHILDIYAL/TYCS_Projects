@@ -4,8 +4,10 @@ import "./MyProjects.css";
 import EventDetailsForm from "../CreateEventForm/EventDetailsFrom";
 import { toast } from "react-toastify"; // Import toast for notifications
 import img from "../../assets/images/images1.png";
+import User from "../../../../server/models/userModel";
 import "./ProjectCard.css";
 const MyProjects = () => {
+  // const [userd, setUserD] = useState({}); // State to store user data
   const [projects, setProjects] = useState([]);
   const [editingProjectId, setEditingProjectId] = useState(null);
   const [editingProjectData, setEditingProjectData] = useState({});
@@ -82,8 +84,41 @@ const MyProjects = () => {
     (field) => !projects.some((project) => project.category === field)
   );
 
+  //this function data was transfered to eventdetailsform jsx file for autofilling details
+  //but somehow there is problem with props paassing it showing undefined
+  // const getUserDt = async () => {
+  //   try {
+  //     const response = await fetch(`${import.meta.env.VITE_BACK_URL}/data`, {
+  //       method: "GET",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       credentials: "include",
+  //     });
+      
+  //     const data = await response.json();
+  //     if (response.ok) {
+  //       setUserD(data); // Store user data in state
+  //       console.log(data)
+  //     } else {
+  //       console.error('Error fetching user data:', data.message);
+  //     }
+  //   } catch (error) {
+  //     console.error('Network error:', error);
+  //   }
+  // };
+  
+  // useEffect(() => {
+  //   getUserDt();
+  // }, []);
+
+
   return (
-    <div className={`my-project-container ${editingProjectId ? "editing-mode" : ""}`}>
+    <div
+      className={`my-project-container ${
+        editingProjectId ? "editing-mode" : ""
+      }`}
+    >
       {/* Conditionally render the header based on showHeader state */}
       {showHeader && <h2 className="my-project-header">My Projects</h2>}
 
@@ -92,56 +127,57 @@ const MyProjects = () => {
       ) : (
         <>
           {editingProjectId ? (
-            <EventDetailsForm className="event-details-form"
+            <EventDetailsForm
+              className="event-details-form"
               editingProjectId={editingProjectId}
               initialData={editingProjectData}
-              setEditingProjectId={setEditingProjectId}
+              // userdata={userd}
               setShowHeader={setShowHeader}
             />
           ) : (
             <>
-            <div className="project-card-container">
-              {projects.map((project) => (
-                <div className="project-card" key={project._id}>
-                  <img
-                    src={img}
-                    alt={project.title}
-                    className="project-image"
-                  />
-                  <div>
-                    <h3 className="project-titles">{project.title}</h3>
+              <div className="project-card-container">
+                {projects.map((project) => (
+                  <div className="project-card" key={project._id}>
+                    <img
+                      src={img}
+                      alt={project.title}
+                      className="project-image"
+                    />
+                    <div>
+                      <h3 className="project-titles">{project.title}</h3>
+                    </div>
+                    <div className="project-buttons">
+                      <button
+                        className="edit-button"
+                        onClick={() => handleEdit(project._id)}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        className="delete-button"
+                        onClick={() => handleDelete(project._id)}
+                      >
+                        Delete
+                      </button>
+                    </div>
                   </div>
-                  <div className="project-buttons">
-                    <button
-                      className="edit-button"
-                      onClick={() => handleEdit(project._id)}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      className="delete-button"
-                      onClick={() => handleDelete(project._id)}
-                    >
-                      Delete
-                    </button>
-                  </div>
-                </div>
-              ))}
+                ))}
 
-              {canAddProject && (
-                <div className="projectCard">
-                  <NavLink
-                    to={{
-                      pathname: "/create-project",
-                      state: { availableFields },
-                    }}
-                    className="add-project-btn"
-                  >
-                    +
-                  </NavLink>
-                  <p className="create-project-text">Create a Project</p>
-                </div>
-              )}
+                {canAddProject && (
+                  <div className="projectCard">
+                    <NavLink
+                      to={{
+                        pathname: "/create-project",
+                        state: { availableFields },
+                      }}
+                      className="add-project-btn"
+                    >
+                      +
+                    </NavLink>
+                    <p className="create-project-text">Create a Project</p>
+                  </div>
+                )}
               </div>
             </>
           )}

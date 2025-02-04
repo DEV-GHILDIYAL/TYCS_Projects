@@ -7,10 +7,10 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 createRoot(document.getElementById('root')).render(
-<StrictMode>
+// <StrictMode>
     <BrowserRouter>
       <App />
       <ToastContainer />
     </BrowserRouter>
-  </StrictMode>
+  // </StrictMode>
 )

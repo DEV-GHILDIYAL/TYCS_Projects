@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
-const userAuth = async (req, res, next) => {
-    // const { token } = req.cookies;
+
+const authenticate = async (req, res, next) => {
     const token = req.cookies?.token;
     // console.log(token);
     if (!token) {
@@ -14,7 +14,7 @@ const userAuth = async (req, res, next) => {
             return res.status(401).json({ success: false, message: "Invalid token. Please log in again." });
         }
 
-        req.user = { id: tokenDecode.id }; // Attach user information to req.user
+        req.user = { id: tokenDecode.id, role: tokenDecode.role }; // Ensure role is attached
         next();
     } catch (error) {
         console.error("Authentication error:", error.message);
@@ -22,4 +22,4 @@ const userAuth = async (req, res, next) => {
     }
 };
 
-export default userAuth;
+export default authenticate;

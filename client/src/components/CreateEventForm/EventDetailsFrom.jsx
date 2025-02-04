@@ -5,9 +5,10 @@ import { useNavigate } from "react-router-dom";
 
 const EventDetailsForm = ({
   editingProjectId,
-  setEditingProjectId,
+  // userdata,
   initialData = {},
 }) => {
+  const [user,setUserD] = useState({})
   const [name, setName] = useState(initialData.name || "");
   const [rollNo, setRollNo] = useState(initialData.rollno || "");
   const [projectTitle, setProjectTitle] = useState(initialData.title || "");
@@ -32,7 +33,7 @@ const EventDetailsForm = ({
   const [progressColor, setProgressColor] = useState("red");
   const [completionPercentage, setCompletionPercentage] = useState(0);
 
-  const token = localStorage.getItem("token");
+  // const token = localStorage.getItem("token");
   const navigate = useNavigate();
 
   const [selectedProject, setSelectedProject] = useState(
@@ -43,11 +44,44 @@ const EventDetailsForm = ({
     initialData.iscompleted || true
   );
 
+  // console.log("data coming",userdata)
   useEffect(() => {
     if (!isCompletedProject) {
       setDeployedLink("");
     }
   }, [isCompletedProject]);
+  
+  useEffect(() => {
+    const getUserDt = async () => {
+      try {
+        const response = await fetch(`${import.meta.env.VITE_BACK_URL}/data`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        });
+        
+        const data = await response.json();
+        console.log(data)
+        if (response.ok) {
+          setUserD(data.userData);
+          setName(data.userData.name)
+          setRollNo(data.userData.rollno)
+          setYear(data.userData.year)
+          setSelectedBatch(data.userData.batch)
+          setDepartment(data.userData.department)
+           // Store user data in state
+        } else {
+          console.error('Error fetching user data:', data.message);
+        }
+      } catch (error) {
+        console.error('Network error:', error);
+      }
+    };
+    
+    getUserDt();
+  }, []);
 
   const resetForm = () => {
     setName("");
@@ -74,6 +108,7 @@ const EventDetailsForm = ({
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Convert the name to uppercase
+    console.log("name from userstate",name)
     const upperCaseName = name.toUpperCase();
     try {
       const url = editingProjectId
@@ -113,29 +148,34 @@ const EventDetailsForm = ({
       // console.log("Response Data:", data);
 
       if (response.ok) {
+        const successMessage = data.message || (editingProjectId ? "Project updated!" : "Project added!");
+
         navigate("/my-projects");
         toast.success(
-          editingProjectId ? "Project updated!" : "Project added!",
+          successMessage,
           { autoClose: 1000 }
         );
         resetForm();
-        setEditingProjectId(null);
-
-        // setTimeout(() => {
+        // setTimeout(()=>{
+        //   setEditProjectId(null);
+        // },1000)
         // window.location.reload();
-        // }, 1000); // Wait for 1 second
         window.location.reload();
+        // setTimeout(() => {
+        // }, 1500);
       } else {
         // Log error details
         console.error("Error details:", data);
-        toast.error(
-          `Error ${editingProjectId ? "updating" : "saving"} project!`,
-          { autoClose: 1000 }
-        );
+        // toast.error(
+          // `Error ${editingProjectId ? "updating" : "saving"} project!`,
+          // { autoClose: 1000 }
+        // );
+        console.log(data.message)
+        toast.error(data.message || `Error occurred. `, { autoClose: 1000 });
       }
     } catch (error) {
-      console.error("Error occurred while saving project:", error);
-      toast.error("Unable to save project!", { autoClose: 1000 });
+      console.error("Network or unknown error:", error);
+    toast.error("Something went wrong. Please try again.", { autoClose: 1000 });
     }
   };
 
@@ -223,12 +263,13 @@ const EventDetailsForm = ({
           </label>
           <input
             type="text"
-            value={name}
+            value={user.name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="Enter your name"
+            placeholder={user.name}
             minLength={3}
             maxLength={20}
             required
+            disabled
           />
         </div>
         <div className="form-group">
@@ -248,6 +289,7 @@ const EventDetailsForm = ({
             required
             minLength="3"
             maxLength="3"
+            disabled
           />
         </div>
 
@@ -346,6 +388,7 @@ const EventDetailsForm = ({
               value={selectedBatch}
               onChange={(e) => setSelectedBatch(e.target.value)}
               required
+              disabled
             >
               <option value="" disabled>
                 Select Batch
@@ -367,6 +410,7 @@ const EventDetailsForm = ({
               value={department}
               onChange={(e) => setDepartment(e.target.value)}
               required
+              disabled
             >
               <option value="" disabled>
                 Select Department
@@ -386,6 +430,7 @@ const EventDetailsForm = ({
               value={year}
               onChange={(e) => setYear(e.target.value)}
               required
+              disabled
             >
               <option value="" disabled>
                 Select Year
