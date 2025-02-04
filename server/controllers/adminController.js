@@ -85,11 +85,14 @@ export const attendanceMark = async (req, res) => {
     }
 
     // Convert the status to match enum format (capitalize first letter)
-    const formattedStatus = status.charAt(0).toUpperCase() + status.slice(1).toLowerCase(); 
+    const formattedStatus =
+      status.charAt(0).toUpperCase() + status.slice(1).toLowerCase();
 
     // Check if the provided status is valid
     if (!["Present", "Absent"].includes(formattedStatus)) {
-      return res.status(400).json({ error: "Invalid status value. Use 'Present' or 'Absent'." });
+      return res
+        .status(400)
+        .json({ error: "Invalid status value. Use 'Present' or 'Absent'." });
     }
 
     // Convert date to a Date object
@@ -103,35 +106,60 @@ export const attendanceMark = async (req, res) => {
       const existingEntry = studentAttendance.attendance.find(
         (entry) =>
           entry.sessionId.toString() === sessionId &&
-          entry.date.toISOString().split("T")[0] === formattedDate.toISOString().split("T")[0]
+          entry.date.toISOString().split("T")[0] ===
+            formattedDate.toISOString().split("T")[0]
       );
 
       if (existingEntry) {
-        return res.status(400).json({ error: "Attendance already marked for this session and date." });
+        return res
+          .status(400)
+          .json({
+            error: "Attendance already marked for this session and date.",
+          });
       }
 
       // Update existing attendance record
       const updatedAttendance = await Attendance.findOneAndUpdate(
         { studentId },
         {
-          $push: { attendance: { date: formattedDate, status: formattedStatus, sessionId } },
-          $inc: { [formattedStatus === "Present" ? "totalPresent" : "totalAbsent"]: 1 }
+          $push: {
+            attendance: {
+              date: formattedDate,
+              status: formattedStatus,
+              sessionId,
+            },
+          },
+          $inc: {
+            [formattedStatus === "Present" ? "totalPresent" : "totalAbsent"]: 1,
+          },
         },
         { new: true }
       );
 
-      return res.status(200).json({ message: "Attendance updated successfully", data: updatedAttendance });
+      return res
+        .status(200)
+        .json({
+          message: "Attendance updated successfully",
+          data: updatedAttendance,
+        });
     } else {
       // Create new attendance record
       const newAttendance = new Attendance({
         studentId,
-        attendance: [{ date: formattedDate, status: formattedStatus, sessionId }],
+        attendance: [
+          { date: formattedDate, status: formattedStatus, sessionId },
+        ],
         totalPresent: formattedStatus === "Present" ? 1 : 0,
         totalAbsent: formattedStatus === "Absent" ? 1 : 0,
       });
 
       await newAttendance.save();
-      return res.status(201).json({ message: "Attendance created successfully", data: newAttendance });
+      return res
+        .status(201)
+        .json({
+          message: "Attendance created successfully",
+          data: newAttendance,
+        });
     }
   } catch (error) {
     console.error("Error updating attendance:", error);
@@ -156,7 +184,7 @@ export const getAttendanceStatus = async (req, res) => {
     // Fetch attendance record for the student
     const attendance = await Attendance.findOne({
       studentId,
-      "attendance.date": formattedDate,  // Match the exact date
+      "attendance.date": formattedDate, // Match the exact date
       "attendance.sessionId": sessionId,
     });
 
@@ -181,7 +209,46 @@ export const getAttendanceStatus = async (req, res) => {
     res.status(500).json({ error: "Failed to fetch attendance status" });
   }
 };
+export const getAttendanceStatusWithId = async (req, res) => {
+  console.log("Getting Attendance Status");
+  try {
+    const { sessionId } = req.params;
 
+    // Fetch attendance records and populate student details
+    const attendanceRecords = await Attendance.find({
+      "attendance.sessionId": sessionId,
+    }).populate("studentId", "name"); // Populate only name field from User
+
+    if (!attendanceRecords || attendanceRecords.length === 0) {
+      return res
+        .status(404)
+        .json({ error: "No attendance records found for this session" });
+    }
+
+    // Process the attendance data safely
+    const attendanceData = attendanceRecords
+      .map((record) => {
+        if (!record.studentId) {
+          console.warn("Missing studentId for attendance record:", record._id);
+          return null; // Skip this record if studentId is null
+        }
+
+        return {
+          studentId: record.studentId._id,
+          name: record.studentId.name || "Unknown",
+          attendance: record.attendance.filter(
+            (a) => a.sessionId.toString() === sessionId
+          ),
+        };
+      })
+      .filter(Boolean); // Remove null values from the array
+
+    res.status(200).json({ attendance: attendanceData });
+  } catch (error) {
+    console.error("Error fetching attendance status:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
 //creating sesssion
 export const createSession = async (req, res) => {
   const { sessionNo, date, batch, project, department, year } = req.body;
@@ -206,7 +273,6 @@ export const createSession = async (req, res) => {
       return res.status(400).json({ message: "Session already exists." });
     }
 
-    
     // Fetch and filter projects with populated user data
     const projects = await Project.find().populate({
       path: "userId", // Populate the user details
@@ -261,13 +327,15 @@ export const createSession = async (req, res) => {
     await newSession.save();
 
     // Return success response
-    res.status(201).json({ message: "Session added successfully", session: newSession });
+    res
+      .status(201)
+      .json({ message: "Session added successfully", session: newSession });
   } catch (error) {
     console.error("Error creating session:", error);
     res.status(500).json({ message: "Failed to create session", error });
   }
 };
- 
+
 export const getstudentsdata = async (req, res) => {
   try {
     const users = await userModel.find(); // Fetch all users from the database
@@ -315,15 +383,17 @@ export const deleteSession = async (req, res) => {
         .json({ message: "No session found with the given ID" });
     }
 
-     // Now, delete all attendance records associated with this session
-     const deletedAttendance = await Attendance.updateMany(
-      { 'attendance.sessionId': sessionId }, // Find all attendance records with this sessionId
+    // Now, delete all attendance records associated with this session
+    const deletedAttendance = await Attendance.updateMany(
+      { "attendance.sessionId": sessionId }, // Find all attendance records with this sessionId
       { $pull: { attendance: { sessionId } } } // Remove the sessionId from the attendance array
     );
 
     // If no attendance records were updated, return a message
     if (deletedAttendance.modifiedCount === 0) {
-      return res.status(404).json({ message: "No attendance records found for this session" });
+      return res
+        .status(404)
+        .json({ message: "No attendance records found for this session" });
     }
 
     // Return success message

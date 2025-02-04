@@ -1,6 +1,7 @@
 import mongoose from 'mongoose'
 
 const AttendanceSchema = new mongoose.Schema({
+    // sessionId: { type: String, required: true },
     studentId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     name:{type:String,},
     attendance: [
