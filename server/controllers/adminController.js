@@ -6,7 +6,7 @@ import Attendance from "../models/attendModel.js";
 export const addstudent = async (req, res) => {
   const { email, name, rollNo, batch, role, department, year } = req.body;
   try {
-    const userExist = await userModel.find({ email: email });
+    const userExist = await userModel.findOne({ email: email });
     if (!userExist) {
       console.error("User exist with this email:", email);
       return res.status(401).json({ message: "Email exist" });
@@ -29,53 +29,6 @@ export const addstudent = async (req, res) => {
     res.status(500).json({ message: "Unable to add Student" });
   }
 };
-
-// attendanceMark
-// export const attendanceMark = async (req, res) => {
-//   try {
-//     console.log("BODY",req.body);
-//     const { studentId, date, status, sessionId } = req.body;
-//     // Validate input
-//     if (!studentId || !date || !status || !sessionId) {
-//       return res.status(400).json({ error: "Missing required fields" });
-//     }
-
-//     const existingAttendance = await Attendance.findOne({
-//       studentId,
-//       date,
-//       sessionId,
-//     });
-
-//     if (existingAttendance) {
-//       return res.status(400).json({
-//         error: "Attendance for this student has already been marked.",
-//       });
-//     }
-
-//     await Attendance.updateOne(
-//       { studentId }, // Match the student
-//       { $push: { attendance: { date, status, sessionId } } }, // Add to attendance array
-//       { upsert: true } // Create if it doesn’t exist
-//     );
-
-//     // Create a new attendance record
-//     const attendance = new Attendance({
-//       studentId,
-//       date,
-//       status,
-//       sessionId,
-//     });
-
-//     await attendance.save();
-
-//     res.status(200).json({ message: "Attendance marked successfully" });
-//   } catch (error) {
-//     console.error("Error updating attendance:", error);
-//     res.status(500).json({ message: "Failed to mark attendance" });
-//   }
-// };
-
-
 export const attendanceMark = async (req, res) => {
   try {
     const { studentId, date, status, sessionId } = req.body;
@@ -85,11 +38,14 @@ export const attendanceMark = async (req, res) => {
       return res.status(400).json({ error: "Missing required fields" });
     }
 
-    // Check if attendance is already marked for this student, session, and date
+    // Convert the string to a Date object
+    const formattedDate = new Date(date);  // Ensure date is in a valid format
+
+    // Check if attendance is already marked for this student on the same date and session
     const existingAttendance = await Attendance.findOne({
       studentId,
-      "attendance.date": date,
       "attendance.sessionId": sessionId,
+      "attendance.date": formattedDate,  // Compare with the Date object
     });
 
     if (existingAttendance) {
@@ -100,13 +56,13 @@ export const attendanceMark = async (req, res) => {
 
     // Update the existing document or create a new one
     const updateResult = await Attendance.updateOne(
-      { studentId }, // Match the student
+      { studentId },
       {
         $push: {
-          attendance: { date, status, sessionId },
+          attendance: { date: formattedDate, status, sessionId },
         },
       },
-      { upsert: true } // Create if it doesn’t exist
+      { upsert: true }
     );
 
     res.status(200).json({
@@ -120,9 +76,9 @@ export const attendanceMark = async (req, res) => {
 };
 
 
-
 //NEW
 // Route: /admin/attendance/status
+// New function for getAttendanceStatus
 export const getAttendanceStatus = async (req, res) => {
   try {
     const { studentId, date, sessionId } = req.body;
@@ -131,9 +87,13 @@ export const getAttendanceStatus = async (req, res) => {
       return res.status(400).json({ error: "Missing required fields" });
     }
 
+    // Convert date string to Date object for accurate comparison
+    const formattedDate = new Date(date);
+
+    // Fetch attendance record for the student
     const attendance = await Attendance.findOne({
       studentId,
-      "attendance.date": date,
+      "attendance.date": formattedDate,  // Match the exact date
       "attendance.sessionId": sessionId,
     });
 
@@ -141,8 +101,11 @@ export const getAttendanceStatus = async (req, res) => {
       return res.status(404).json({ status: null });
     }
 
+    // Find the specific attendance record for the student on that date and session
     const record = attendance.attendance.find(
-      (att) => att.date.toISOString() === new Date(date).toISOString() && att.sessionId.toString() === sessionId
+      (att) =>
+        new Date(att.date).toDateString() === formattedDate.toDateString() &&
+        att.sessionId.toString() === sessionId
     );
 
     if (record) {
@@ -167,11 +130,26 @@ export const createSession = async (req, res) => {
 
   try {
     // Fetch and filter projects with populated user data
+    const existingSession = await Session.findOne({
+      department,
+      year,
+      project,
+      batch,
+      date,
+      sessionNo,
+    });
+
+    if (existingSession) {
+      return res.status(400).json({ message: "Session already exists." });
+    }
+
+    
+    // Fetch and filter projects with populated user data
     const projects = await Project.find().populate({
       path: "userId", // Populate the user details
       select: "department year batch rollNo name", // Fetch only required fields
     });
-    console.log("projects from admin controller",projects)
+
     if (!projects.length) {
       return res
         .status(404)
@@ -180,14 +158,12 @@ export const createSession = async (req, res) => {
 
     // Filter projects based on criteria
     const filteredProjects = projects.filter((projectData) => {
-      console.log("projectData inside filteredProjects from admin controller",projectData)
       const user = projectData.userId;
-      console.log("user with projectData userId",user)
       return (
         user &&
         user.department === department &&
         user.year === year &&
-        (batch === "All" || user.batch === batch) && // Handle 'ALL' or specific batch
+        (batch === "All" || user.batch === batch) && // Handle 'All' or specific batch
         projectData.project === project // Match the provided project
       );
     });
@@ -201,13 +177,13 @@ export const createSession = async (req, res) => {
     // Prepare student data from filtered projects
     const studentData = filteredProjects.map((projectData) => ({
       rollNo: projectData.userId.rollNo,
-      name: projectData.name,
-      projectName: projectData.title,
-      email: projectData.email || null, // Include additional fields if necessary
+      name: projectData.userId.name,
+      projectName: projectData.project, // Assuming projectData has 'project' field
+      email: projectData.userId.email || null, // Include additional fields if necessary
       status: "Absent", // Default status
     }));
 
-    // Create a new session with the prepared student data
+    // Create a new session
     const newSession = new Session({
       department,
       year,
@@ -215,117 +191,20 @@ export const createSession = async (req, res) => {
       batch,
       date,
       sessionNo,
-      students: studentData, // Add student data to the session
+      students: studentData,
     });
 
-    // Save the session to the database
+    // Save the session
     await newSession.save();
 
     // Return success response
-    res
-      .status(201)
-      .json({ message: "Session added successfully", session: newSession });
+    res.status(201).json({ message: "Session added successfully", session: newSession });
   } catch (error) {
     console.error("Error creating session:", error);
     res.status(500).json({ message: "Failed to create session", error });
   }
 };
-
-// export const createSession = async (req, res) => {
-//   const { sessionNo, date, batch, project, department, year } = req.body;
-
-//   // Validate required fields
-//   if (
-//     !department?.trim() ||
-//     !year?.trim() ||
-//     !project?.trim() ||
-//     !batch?.trim() ||
-//     !date ||
-//     !sessionNo?.trim()
-//   ) {
-//     return res.status(400).json({ message: "All fields are required" });
-//   }
-
-//   try {
-//     const projects = await Project.find()
-//       .populate({
-//         path: "userId",
-//         select: "department year batch rollNo name",
-//       })
-//       .catch((err) => {
-//         console.error("Error fetching projects:", err);
-//         return res
-//           .status(500)
-//           .json({ message: "Database query failed", error: err });
-//       });
-
-//     if (!projects || !projects.length) {
-//       return res
-//         .status(404)
-//         .json({ message: "No projects found in the database." });
-//     }
-
-//     const filteredProjects = projects.filter((projectData) => {
-//       const user = projectData.userId;
-//       return (
-//         user &&
-//         user.department === department &&
-//         user.year === year &&
-//         user.batch === batch &&
-//         projectData.project === project
-//       );
-//     });
-
-//     if (!filteredProjects.length) {
-//       return res
-//         .status(404)
-//         .json({ message: "No projects match the given criteria." });
-//     }
-
-//     const studentData = filteredProjects.map((projectData) => ({
-//       rollNo: projectData.userId?.rollNo || null,
-//       name: projectData.userId?.name || "Unknown",
-//       projectName: projectData.title || "No Title",
-//       email: projectData.email || "No Email",
-//       status: "Absent",
-//     }));
-
-//     const newSession = new Session({
-//       department,
-//       year,
-//       project,
-//       batch,
-//       date,
-//       sessionNo,
-//       students: studentData,
-//     });
-
-//     await newSession.save().catch((err) => {
-//       console.error("Error saving session:", err);
-//       return res
-//         .status(500)
-//         .json({ message: "Failed to save session", error: err });
-//     });
-
-//     res.status(201).json({
-//       message: "Session added successfully",
-//       session: {
-//         id: newSession._id,
-//         department: newSession.department,
-//         year: newSession.year,
-//         project: newSession.project,
-//         batch: newSession.batch,
-//         date: newSession.date,
-//         students: newSession.students,
-//       },
-//     });
-//   } catch (error) {
-//     console.error("Error creating session:", error);
-//     res.status(500).json({ message: "Failed to create session", error });
-//   }
-// };
-
-
+ 
 export const getstudentsdata = async (req, res) => {
   try {
     const users = await userModel.find(); // Fetch all users from the database
@@ -373,7 +252,23 @@ export const deleteSession = async (req, res) => {
         .json({ message: "No session found with the given ID" });
     }
 
-    res.status(200).json({ message: "Session deleted successfully", session });
+     // Now, delete all attendance records associated with this session
+     const deletedAttendance = await Attendance.updateMany(
+      { 'attendance.sessionId': sessionId }, // Find all attendance records with this sessionId
+      { $pull: { attendance: { sessionId } } } // Remove the sessionId from the attendance array
+    );
+
+    // If no attendance records were updated, return a message
+    if (deletedAttendance.modifiedCount === 0) {
+      return res.status(404).json({ message: "No attendance records found for this session" });
+    }
+
+    // Return success message
+    res.status(200).json({
+      message: "Session and associated attendance records deleted successfully",
+      session,
+      deletedAttendanceCount: deletedAttendance.modifiedCount,
+    });
   } catch (error) {
     console.error("Error fetching sessions:", error);
     res.status(500).json({ message: "Unable to fetch sessions", error });
