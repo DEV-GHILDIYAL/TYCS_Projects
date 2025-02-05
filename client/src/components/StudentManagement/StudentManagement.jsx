@@ -143,7 +143,7 @@ const StudentManagement = () => {
               <RowComponentForStudent
                 key={student.rollNo}
                 srNo={index + 1}
-                rollNumber={student.rollNo}
+                rollNo={student.rollNo}
                 name={student.email}
                 noOfDaysPresent={student.noOfDayPresent || "N/A"}
                 department={student.department}
@@ -153,7 +153,7 @@ const StudentManagement = () => {
               <RowComponentForStudent
                 key={student.rollNo}
                 srNo={index + 1}
-                rollNumber={student.rollNo}
+                rollNo={student.rollNo}
                 name={student.email}
                 noOfDaysPresent={student.noOfDayPresent || "N/A"}
                 department={student.department}

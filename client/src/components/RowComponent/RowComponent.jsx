@@ -5,11 +5,12 @@ import { FaLink } from "react-icons/fa";
 // import FaLink from "@fortawesome/react-fontawesome";
 export const RowComponentForAttendance = ({
   srNo,
-  rollNumber,
+  rollNo,//rollNo
+  //batch
   name,
   projectName,
   sessionId,
-  studentId,
+  userId,
   date,
   onAttendanceMarked,
 }) => {
@@ -26,7 +27,7 @@ export const RowComponentForAttendance = ({
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ studentId, date, sessionId }),
+          body: JSON.stringify({ userId, date, sessionId }),
           credentials: "include", // Pass cookies for authentication
         }
       );
@@ -52,7 +53,7 @@ export const RowComponentForAttendance = ({
 
   const markAttendance = async (status) => {
     try {
-      console.log(studentId);
+      // console.log(userId);
       const response = await fetch(
         `${import.meta.env.VITE_BACK_URL}/admin/attendance/mark`,
         {
@@ -60,7 +61,7 @@ export const RowComponentForAttendance = ({
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ studentId, date, status, sessionId }),
+          body: JSON.stringify({ userId, date, status, sessionId }),
           credentials: "include", // Pass cookies for authentication
         }
       );
@@ -70,7 +71,7 @@ export const RowComponentForAttendance = ({
       if (response.ok) {
         console.log("Attendance marked successfully:", data);
         setAttendance(status); // Update the UI to reflect the attendance
-        onAttendanceMarked(studentId); // Notify parent component
+        onAttendanceMarked(userId); // Notify parent component
       } else {
         console.error("Failed to mark attendance:", data.error || "Unknown error");
         alert(`Failed to mark attendance: ${data.error || "Unknown error"}`);
@@ -84,7 +85,7 @@ export const RowComponentForAttendance = ({
   return (
     <tr>
       <td>{srNo}</td>
-      <td>{rollNumber}</td>
+      <td>{rollNo}</td>
       <td>{name}</td>
       <td>{projectName}</td>
       <td>
@@ -121,11 +122,11 @@ export const RowComponentForAttendance = ({
   );
 };
 
-export const RowComponentForStudent = ({ srNo, rollNumber, name,noOfDaysPresent, department }) => {
+export const RowComponentForStudent = ({ srNo, rollNo, name,noOfDaysPresent, department }) => {
   return (
     <tr>
       <td>{srNo}</td>
-      <td>{rollNumber}</td>
+      <td>{rollNo}</td>
       <td>{name}</td>
       <td>{noOfDaysPresent}</td>
       <td>{department}</td>
@@ -133,11 +134,11 @@ export const RowComponentForStudent = ({ srNo, rollNumber, name,noOfDaysPresent,
   );
 };
 
-export const RowComponentForProjects = ({ srNo, rollNumber, name, projectName,projectNo, projectLink }) => {
+export const RowComponentForProjects = ({ srNo, rollNo, name, projectName,projectNo, projectLink }) => {
   return (
     <tr>
       <td>{srNo}</td>
-      <td>{rollNumber}</td>
+      <td>{rollNo}</td>
       <td>{name}</td>
       <td>{projectName}</td>
       <td>{projectNo}</td>

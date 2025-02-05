@@ -172,7 +172,7 @@ const ProjectManagement = () => {
               <RowComponentForProjects
                 key={student.rollno}
                 srNo={index + 1}
-                rollNumber={student.rollno}
+                rollNo={student.rollno}
                 name={student.name}
                 projectName={student.title}
                 projectNo={student.project}

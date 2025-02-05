@@ -6,33 +6,39 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const AdminAttendance = () => {
-  const location = useLocation();
   const navigate = useNavigate();
+  const location = useLocation();
   const { data, sessionToView } = location.state || {};
+  const [attendanceStatus, setAttendanceStatus] = useState({});
+  const [loading, setLoading] = useState(true);
 
   let main = [];
   let sessionId = null;
   let date = null;
-
+  //only working when created session
+  //it contains message and session details with students in there...
+  //email is null in there 
+  console.log("admin attendance data console.log",data) 
   if (data?.session) {
     main = data.session.students;
     sessionId = data.session._id;
     date = data.session.date;
   }
+  //this has only student data which are inside session
+  console.log("main after data?.session",main)
 
+  // console.log("now viewing SessionToview",sessionToView)//gives out session we are viewing
+  // but error in here is it is not getting in main or data  
   if (sessionToView) {
     main = sessionToView.students || [];
     sessionId = sessionToView._id;
     date = sessionToView.date;
   }
-
-  const [attendanceStatus, setAttendanceStatus] = useState({});
-  const [loading, setLoading] = useState(true);
-
+  // console.log("main in here",main)
   // Fetch attendance data when the component loads
   useEffect(() => {
     const fetchAttendanceStatus = async () => {
-      console.log(sessionId);
+      // console.log(userId);
       try {
         const response = await fetch(
           `${import.meta.env.VITE_BACK_URL}/admin/attendance/status/${sessionId}`,
@@ -64,34 +70,34 @@ const AdminAttendance = () => {
     fetchAttendanceStatus();
   }, [sessionId, main]);
 
-  const handleAttendanceMarked = (studentId, status) => {
+  const handleAttendanceMarked = (userId, status) => {
+    console.log()
     setAttendanceStatus((prev) => ({
       ...prev,
-      [studentId]: status, // Update the status for the specific student
+      [userId]: status, // Update the status for the specific student
     }));
+    // console.log("checking what is stored in attendance status",attendanceStatus)
   };
 
-  const handleSubmit = () => {
-    const allMarked = Object.values(attendanceStatus).every(
-      (status) => status === "present" || status === "absent" // Check if all students have been marked
-    );
+  // const handleSubmit = () => {
+  //   const allMarked = Object.values(attendanceStatus).every(
+  //     (status) => status === "present" || status === "absent" // Check if all students have been marked
+  //   );
 
-    if (allMarked) {
-      navigate("/management/attendance-sessions");
-    } else {
-      toast.error("Please mark attendance for all students before submitting!");
-    }
-  };
+  //   if (allMarked) {
+  //     navigate("/management/attendance-sessions");
+  //   } else {
+  //     toast.error("Please mark attendance for all students before submitting!");
+  //   }
+  // };
 
   const handleBack = () => {
     navigate("/management/attendance-sessions");
   };
 
-  const handleEdit = () => {
-    toast.info("Edit functionality is not implemented yet!", {
-      autoClose: 1500,
-    });
-  };
+  // const handleEdit = () => {
+  //   toast.info("Edit functionality is not implemented yet!", {autoClose: 1500,});
+  // };
 
   if (loading) {
     return <div>Loading...</div>;
@@ -129,11 +135,11 @@ const AdminAttendance = () => {
                 <RowComponentForAttendance
                 key={student._id}
                 srNo={index + 1}
-                rollNumber={student.rollNo}
+                rollNo={student.rollNo}
                 name={student.name}
                   projectName={student.projectName}
                   sessionId={sessionId}
-                  studentId={student._id}
+                  userId={student._id}
                   date={date}
                   onAttendanceMarked={(status) =>
                     handleAttendanceMarked(student._id, status)
@@ -145,23 +151,25 @@ const AdminAttendance = () => {
         </table>
 
         <div className="attendance-buttons">
-          {sessionToView ? (
-            <>
+          {/* {sessionToView ? ( */}
+            {/* <> */}
               <button className="attendance-student-back" onClick={handleBack}>
                 Back
               </button>
-              <button className="attendance-student-edit" onClick={handleEdit}>
+              {/* <button className="attendance-student-edit" onClick={handleEdit}>
                 Edit
-              </button>
-            </>
-          ) : (
-            <button
-              className="attendance-student-submit"
-              onClick={handleSubmit}
-            >
-              Submit
-            </button>
-          )}
+              </button> */}
+            {/* </> */}
+          {/* )  */}
+          {/* // :( */}
+            {/* // <button */}
+            {/* //   className="attendance-student-submit"
+            //   onClick={handleSubmit}
+            // >
+            //   Submit
+            // </button>
+          // )
+        } */}
         </div>
       </div>
     </div>

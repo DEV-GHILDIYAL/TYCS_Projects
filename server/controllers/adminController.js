@@ -31,10 +31,10 @@ export const addstudent = async (req, res) => {
 };
 // export const attendanceMark = async (req, res) => {
 //   try {
-//     const { studentId, date, status, sessionId } = req.body;
+//     const { userId, date, status, sessionId } = req.body;
 
 //     // Validate input
-//     if (!studentId || !date || !status || !sessionId) {
+//     if (!userId || !date || !status || !sessionId) {
 //       return res.status(400).json({ error: "Missing required fields" });
 //     }
 
@@ -43,7 +43,7 @@ export const addstudent = async (req, res) => {
 
 //     // Check if attendance is already marked for this student on the same date and session
 //     const existingAttendance = await Attendance.findOne({
-//       studentId,
+//       userId,
 //       "attendance.sessionId": sessionId,
 //       "attendance.date": formattedDate,  // Compare with the Date object
 //     });
@@ -56,7 +56,7 @@ export const addstudent = async (req, res) => {
 
 //     // Update the existing document or create a new one
 //     const updateResult = await Attendance.updateOne(
-//       { studentId },
+//       { userId },
 //       {
 //         $push: {
 //           attendance: { date: formattedDate, status, sessionId },
@@ -77,10 +77,10 @@ export const addstudent = async (req, res) => {
 
 export const attendanceMark = async (req, res) => {
   try {
-    const { studentId, date, status, sessionId } = req.body;
+    const { userId, date, status, sessionId } = req.body;
 
     // Validate input
-    if (!studentId || !date || !status || !sessionId) {
+    if (!userId || !date || !status || !sessionId) {
       return res.status(400).json({ error: "Missing required fields" });
     }
 
@@ -99,7 +99,7 @@ export const attendanceMark = async (req, res) => {
     const formattedDate = new Date(date);
 
     // Find the student attendance record
-    const studentAttendance = await Attendance.findOne({ studentId });
+    const studentAttendance = await Attendance.findOne({ userId });
 
     if (studentAttendance) {
       // Check if attendance is already marked for the same date and session
@@ -120,7 +120,7 @@ export const attendanceMark = async (req, res) => {
 
       // Update existing attendance record
       const updatedAttendance = await Attendance.findOneAndUpdate(
-        { studentId },
+        { userId },
         {
           $push: {
             attendance: {
@@ -145,7 +145,7 @@ export const attendanceMark = async (req, res) => {
     } else {
       // Create new attendance record
       const newAttendance = new Attendance({
-        studentId,
+        userId,
         attendance: [
           { date: formattedDate, status: formattedStatus, sessionId },
         ],
@@ -172,9 +172,9 @@ export const attendanceMark = async (req, res) => {
 // New function for getAttendanceStatus
 export const getAttendanceStatus = async (req, res) => {
   try {
-    const { studentId, date, sessionId } = req.body;
+    const { userId, date, sessionId } = req.body;
 
-    if (!studentId || !date || !sessionId) {
+    if (!userId || !date || !sessionId) {
       return res.status(400).json({ error: "Missing required fields" });
     }
 
@@ -183,7 +183,7 @@ export const getAttendanceStatus = async (req, res) => {
 
     // Fetch attendance record for the student
     const attendance = await Attendance.findOne({
-      studentId,
+      userId,
       "attendance.date": formattedDate, // Match the exact date
       "attendance.sessionId": sessionId,
     });
@@ -217,7 +217,7 @@ export const getAttendanceStatusWithId = async (req, res) => {
     // Fetch attendance records and populate student details
     const attendanceRecords = await Attendance.find({
       "attendance.sessionId": sessionId,
-    }).populate("studentId", "name"); // Populate only name field from User
+    }).populate("userId", "name"); // Populate only name field from User
 
     if (!attendanceRecords || attendanceRecords.length === 0) {
       return res
@@ -228,14 +228,14 @@ export const getAttendanceStatusWithId = async (req, res) => {
     // Process the attendance data safely
     const attendanceData = attendanceRecords
       .map((record) => {
-        if (!record.studentId) {
-          console.warn("Missing studentId for attendance record:", record._id);
-          return null; // Skip this record if studentId is null
+        if (!record.userId) {
+          console.warn("Missing userId for attendance record:", record._id);
+          return null; // Skip this record if userId is null
         }
 
         return {
-          studentId: record.studentId._id,
-          name: record.studentId.name || "Unknown",
+          userId: record.userId._id,
+          name: record.userId.name || "Unknown",
           attendance: record.attendance.filter(
             (a) => a.sessionId.toString() === sessionId
           ),

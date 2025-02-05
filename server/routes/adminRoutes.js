@@ -11,7 +11,8 @@ adminRouter.post('/addstudent', addstudent);
 adminRouter.post('/createsession', createSession);
 adminRouter.post('/attendance/mark', attendanceMark);
 adminRouter.post('/attendance/status', getAttendanceStatus);
-adminRouter.get('/attendance/status/:sessionId', getAttendanceStatusWithId);
+// adminRouter.get('/attendance/status/:sessionId', getAttendanceStatusWithId);
+adminRouter.get('/attendance/status/:id', getAttendanceStatusWithId);
 
 adminRouter.get('/fetchsession', fetchSession);
 adminRouter.delete('/deletesession', deleteSession);

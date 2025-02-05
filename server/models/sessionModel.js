@@ -12,7 +12,8 @@ const SessionSchema = new mongoose.Schema({
             rollNo: { type: Number },
             name: { type: String, },
             projectName:{type:String,},
-            email:{type:String,},
+            // email:{type:String,},
+            userId:{type:String},
             status: {type:String , enum: ['Present', 'Absent'],},
         }
     ]
