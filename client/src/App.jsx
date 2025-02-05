@@ -21,6 +21,7 @@ import { useState, useEffect } from "react";
 import ExportDataComponent from "./components/ExportDataComponent/ExportDataComponent";
 import NotFoundPage from "./components/NotFoundPage/NotFoundPage";
 import MassStudentUpload from "./pages/MassStudentUpload";
+import ExcelTable from "./components/ExcelTable/ExcelTable";
 
 function App() {
   const navigate = useNavigate();
@@ -109,6 +110,7 @@ function App() {
                     <Dashboard/>
                   }
                 />
+                <Route path="/table" element={<ExcelTable />} />
                 <Route path="/management/students" element={<StudentManagement />} />
                 <Route path="/management/attendance-sessions" element={<CreateAttendanceSession />} />
                 <Route path="/create-session" element={<CreateSessionForm />} />

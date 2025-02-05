@@ -111,3 +111,46 @@
       width: 100%;
     }
   }
+
+
+
+
+
+
+
+
+
+
+
+  .table-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .back-button, .continue-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .back-button {
+    background-color: #f44336;
+    color: white;
+  }
+  
+  .continue-button {
+    background-color: #4caf50;
+    color: white;
+  }
+  
+  .back-button:hover {
+    background-color: #d32f2f;
+  }
+  
+  .continue-button:hover {
+    background-color: #388e3c;
+  }
+  
