@@ -47,6 +47,12 @@ const Dashboard = () => {
 
   const currentProjectData = data || { totalStudents: 0, sessions: {} };
   const sessionData = data.sessions;
+  const attendanceData = sessionData?.map((session, index) => ({
+    session: `Session ${index + 1}`,
+    present: session?.presentCount || 0,
+    absent: session?.absentCount || 0
+  })) || [];
+  
 
   const recentUploads = data?.latestProjects || [];
   const projects = ["Project One", "Project Two"];
@@ -178,8 +184,7 @@ const Dashboard = () => {
 
       {/* Charts */}
       <div className="chart-and-table">
-        {/* 
-      <div className="charts-grid">
+     <div className="charts-grid">
         <div className="chart-container">
           <h2 className="section-title">Attendance Trend</h2>
           <div className="chart">
@@ -203,8 +208,8 @@ const Dashboard = () => {
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={[{
                 name: 'Projects',
-                uploaded: currentProjectData.projectsUploaded,
-                notUploaded: currentProjectData.projectsNotUploaded
+                uploaded: data.projectOneCompleted,
+                notUploaded: data.projectOneNotUploaded
               }]}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="name" />
@@ -217,7 +222,7 @@ const Dashboard = () => {
             </ResponsiveContainer>
           </div>
         </div>
-      </div> */}
+      </div> 
 
         {/* Recent Uploads Table */}
         <div className="table-container">
@@ -246,7 +251,7 @@ const Dashboard = () => {
       </div>
     </div>
   );
-};
+}; 
 
 export default Dashboard;
 
