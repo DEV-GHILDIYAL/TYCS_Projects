@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
-import './ExportDataComponent.css';
+// import './ExportDataComponent.css';
+import './NewExport.css'
 
 const ExportDataComponent = () => {
   const [columns, setColumns] = useState({
     rollno: false,
     department: false,
     year: false,
-    attendance: false,
+    noOfDaysPresent: false,
+    noOfDaysAbsent: false,
     projectName: false,
     studentName: false,
     projectLink: false,
@@ -16,8 +18,8 @@ const ExportDataComponent = () => {
 
   // Sample data (replace with actual fetched data)
   const data = [
-    { rollno: '101', department: 'CS', year: '2024-2025', attendance: '90%', projectName: 'AI Chatbot', studentName: 'John Doe', projectLink: 'https://example.com' },
-    { rollno: '102', department: 'IT', year: '2024-2025', attendance: '85%', projectName: 'Blockchain Voting', studentName: 'Jane Doe', projectLink: 'https://example.com' }
+    { rollno: '101', department: 'CS', year: '2024-2025', noOfDaysPresent: 180, noOfDaysAbsent: 5, projectName: 'AI Chatbot', studentName: 'John Doe', projectLink: 'https://example.com' },
+    { rollno: '102', department: 'IT', year: '2024-2025', noOfDaysPresent: 175, noOfDaysAbsent: 10, projectName: 'Blockchain Voting', studentName: 'Jane Doe', projectLink: 'https://example.com' }
   ];
 
   const handleCheckboxChange = (event) => {
@@ -62,16 +64,47 @@ const ExportDataComponent = () => {
       <form className="export-data-form">
         {Object.keys(columns).map((col) => (
           <div key={col} className="export-data-checkbox-item">
-            <label className="export-data-label">
-              <input
-                type="checkbox"
-                name={col}
-                checked={columns[col]}
-                onChange={handleCheckboxChange}
-                className="export-data-checkbox"
-              />
-              {col.charAt(0).toUpperCase() + col.slice(1).replace(/([A-Z])/g, ' $1')} {/* Format column names */}
-            </label>
+            {col === 'department' || col === 'year' ? (
+              <div className="export-data-dropdown">
+                <label className="export-data-label">
+                  {col.charAt(0).toUpperCase() + col.slice(1).replace(/([A-Z])/g, ' $1')}
+                </label>
+                <select
+                  name={col}
+                  onChange={(e) => {
+                    const { name, value } = e.target;
+                    setColumns((prevColumns) => ({
+                      ...prevColumns,
+                      [name]: value,
+                    }));
+                  }}
+                  className="export-data-select"
+                >
+                  {col === 'department' ? (
+                    <>
+                      <option value="CS">CS</option>
+                      <option value="IT">IT</option>
+                    </>
+                  ) : (
+                    <>
+                      <option value="2024-2025">2024-2025</option>
+                      <option value="2025-2026">2025-2026</option>
+                    </>
+                  )}
+                </select>
+              </div>
+            ) : (
+              <label className="export-data-label">
+                <input
+                  type="checkbox"
+                  name={col}
+                  checked={columns[col]}
+                  onChange={handleCheckboxChange}
+                  className="export-data-checkbox"
+                />
+                {col.charAt(0).toUpperCase() + col.slice(1).replace(/([A-Z])/g, ' $1')}
+              </label>
+            )}
           </div>
         ))}
       </form>
