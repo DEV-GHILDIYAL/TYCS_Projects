@@ -531,3 +531,16 @@ export const uploadStudentData = async(req, res) => {
       console.error("Error connecting to MongoDB or updating data:", error);
     }
 }
+
+export const exportUserData = async(req, res) => {
+  try {
+    const attendanceData = await Attendance.find()
+      .populate("userId", "name rollNo email") // Populate user details (e.g., name, rollNo, email)
+      .populate("attendance.sessionId", "date sessionNo project") // Populate session details
+      .exec();
+
+    console.log(attendanceData);
+  } catch (error) {
+    console.error("Error fetching attendance data:", error);
+  }
+}

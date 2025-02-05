@@ -18,8 +18,8 @@ const ExportDataComponent = () => {
 
   // Sample data (replace with actual fetched data)
   const data = [
-    { rollno: '101', department: 'CS', year: '2024-2025', noOfDaysPresent: 180, noOfDaysAbsent: 5, projectName: 'AI Chatbot', studentName: 'John Doe', projectLink: 'https://example.com' },
-    { rollno: '102', department: 'IT', year: '2024-2025', noOfDaysPresent: 175, noOfDaysAbsent: 10, projectName: 'Blockchain Voting', studentName: 'Jane Doe', projectLink: 'https://example.com' }
+    { userId: "", rollno: '101', department: 'CS', year: '2024-2025', noOfDaysPresent: 180, noOfDaysAbsent: 5, projectName: 'AI Chatbot', studentName: 'John Doe', projectLink: 'https://example.com' },
+    { userId: "", rollno: '102', department: 'IT', year: '2024-2025', noOfDaysPresent: 175, noOfDaysAbsent: 10, projectName: 'Blockchain Voting', studentName: 'Jane Doe', projectLink: 'https://example.com' }
   ];
 
   const handleCheckboxChange = (event) => {

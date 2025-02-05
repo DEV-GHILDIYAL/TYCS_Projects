@@ -156,6 +156,7 @@ function App() {
                     <Dashboard/>
                   }
                 />
+                <Route path="/table" element={<ExcelTable />} />
                 <Route path="/management/students" element={<StudentManagement />} />
                 <Route path="/management/attendance-sessions" element={<CreateAttendanceSession />} />
                 <Route path="/management/projects" element={<ProjectManagement />} />
@@ -163,12 +164,14 @@ function App() {
                 <Route path="/create-session" element={<CreateSessionForm />} />
                 <Route path="/add-student" element={<AddStudent />} />
                 <Route path="/export-data" element={<ExportDataComponent />} />
+                <Route path="/mass-student-upload" element={<MassStudentUpload/>} />
               </>
             ) : (
               <Route path="/dashboard" element={<Navigate to="/" replace />} />
             )}
 
             {/* COMMON ROUTES */}
+            <Route path="/" element={isLoggedIn ? <Home /> : <Navigate to="/login" />} />
             <Route path="/about-us" element={<About />} />
             <Route path="/login" element={<LoginComponent />} />
             <Route path="/register" element={<SetPassword />} />

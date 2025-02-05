@@ -77,6 +77,12 @@ const Navbar = () => {
     { path: "/dashboard", name: "Dashboard", icon: <FaHome />, roles: ["admin", "loggedIn"] },
     { path: "/management/attendance-sessions", name: "Attendance Sessions", icon: <FaLock />, roles: ["admin", "loggedIn"] },
     {
+      path: "/mass-student-upload",
+      name: "Mass Student Upload",
+      icon: <FaHome />,
+      roles: ["admin", "loggedIn"],
+    },
+    {
       path: "/file-manager", name: "Management", icon: <FaFolderOpen />, roles: ["admin", "loggedIn"], subRoutes: [
         { path: "/management/students", name: "Student", icon: <FaUser /> },
         { path: "/management/projects", name: "Project", icon: <FaMoneyBill /> }
