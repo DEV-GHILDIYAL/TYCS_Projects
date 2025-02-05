@@ -52,6 +52,17 @@ function App() {
     fetchUserRole();
   }, []);
 
+  const dashboardData = async () => {
+    // Fetch dashboard data from backend
+    try {
+      const response = await fetch(`${import.meta.env.VITE_BACK_URL}/dashboard`, { credentials: "include" });
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error("Error fetching dashboard data:", error);
+      return null;
+    }
+  }
   // Handle screen size changes
   useEffect(() => {
     const handleResize = () => setIsDesktop(window.innerWidth > 800);
@@ -59,10 +70,7 @@ function App() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const handleExport = () => {
-    console.log("Exporting data...");
-    navigate('/export-data');
-  };
+  
 
   const handleAddStudent = () => {
     console.log("Opening Add Student form...");
@@ -98,14 +106,7 @@ function App() {
                 <Route
                   path="/dashboard"
                   element={
-                    <Dashboard
-                      noOfStudents={200}
-                      noOfProjects={50}
-                      attendanceToday={{ present: 180, absent: 20 }}
-                      pendingReviews={10}
-                      onExport={handleExport}
-                      onAddStudent={handleAddStudent}
-                    />
+                    <Dashboard/>
                   }
                 />
                 <Route path="/management/students" element={<StudentManagement />} />
@@ -150,14 +151,7 @@ function App() {
                 <Route
                   path="/dashboard"
                   element={
-                    <Dashboard
-                      noOfStudents={200}
-                      noOfProjects={50}
-                      attendanceToday={{ present: 180, absent: 20 }}
-                      pendingReviews={10}
-                      onExport={handleExport}
-                      onAddStudent={handleAddStudent}
-                    />
+                    <Dashboard/>
                   }
                 />
                 <Route path="/management/students" element={<StudentManagement />} />

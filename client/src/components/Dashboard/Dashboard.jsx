@@ -1,60 +1,98 @@
-import React from "react";
-import { Bar } from "react-chartjs-2";
+import React, { useState } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import './Dashboard.css'
 import {
-  Chart as ChartJS,
-  BarElement,
-  CategoryScale, // For X-axis
-  LinearScale,   // For Y-axis
+  LineChart,
+  Line,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
   Tooltip,
-  Legend
-} from "chart.js";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
-import "./Dashboard.css";
+  Legend,
+  ResponsiveContainer
+} from 'recharts';
+import { useNavigate } from 'react-router-dom';
 
-// Register Chart.js components
-ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
+const Dashboard = () => {
+  const navigate = useNavigate();
+  const [currentProject, setCurrentProject] = useState(1);
+  const [currentSession, setCurrentSession] = useState(1);
 
-const Dashboard = ({ noOfStudents, noOfProjects, attendanceToday, pendingReviews, onExport }) => {
-  const navigate = useNavigate(); // Initialize useNavigate hook
-
-  const chartData = {
-    labels: ["January", "February", "March", "April", "May", "June"],
-    datasets: [
-      {
-        label: "Projects Uploaded",
-        data: [5, 12, 8, 15, 10, 20],
-        backgroundColor: "rgba(75, 192, 192, 0.7)",
-        borderColor: "rgba(75, 192, 192, 1)",
-        borderWidth: 1,
-      },
-    ],
+  // Sample data - replace with your actual data
+  const projectData = {
+    1: {
+      totalStudents: 150,
+      noOfStudents: 75,
+      projectsUploaded: 60,
+      projectsNotUploaded: 15,
+      totalSessions: 3,
+      sessions: {
+        1: { present: 65, absent: 10 },
+        2: { present: 70, absent: 5 },
+        3: { present: 68, absent: 7 }
+      }
+    },
+    2: {
+      totalStudents: 150,
+      noOfStudents: 85,
+      projectsUploaded: 75,
+      projectsNotUploaded: 10,
+      totalSessions: 3,
+      sessions: {
+        1: { present: 80, absent: 5 },
+        2: { present: 75, absent: 10 },
+        3: { present: 78, absent: 7 }
+      }
+    }
   };
 
-  const chartOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        position: "top",
-      },
-    },
-    scales: {
-      y: {
-        beginAtZero: true,
-      },
-    },
+  const currentProjectData = projectData[currentProject];
+
+  // Sample data for the charts
+  const attendanceData = Object.entries(currentProjectData.sessions).map(([session, data]) => ({
+    session: `Session ${session}`,
+    present: data.present,
+    absent: data.absent
+  }));
+
+  const recentUploads = [
+    { student: "John Doe", project: "Project Analysis", date: "2025-02-05" },
+    { student: "Jane Smith", project: "Data Visualization", date: "2025-02-04" },
+    { student: "Mike Johnson", project: "UI Design", date: "2025-02-03" }
+  ];
+
+  const switchProject = (direction) => {
+    if (direction === 'next' && currentProject < 2) {
+      setCurrentProject(prev => prev + 1);
+    } else if (direction === 'prev' && currentProject > 1) {
+      setCurrentProject(prev => prev - 1);
+    }
   };
 
+  const handleExport = () => {
+    console.log("Exporting data...");
+    navigate('/export-data');
+  };
   const handleAddStudent = () => {
     navigate("/add-student"); // Navigate to the add-student page when the button is clicked
   };
+  const switchSession = (direction) => {
+    if (direction === 'next' && currentSession < currentProjectData.totalSessions) {
+      setCurrentSession(prev => prev + 1);
+    } else if (direction === 'prev' && currentSession > 1) {
+      setCurrentSession(prev => prev - 1);
+    }
+  };
 
   return (
-    <div className="dashboard-container redesigned">
+    <div className="dashboard">
+      {/* Header */}
       <header className="dashboard-header">
         <h1>Admin Dashboard</h1>
         <div className="header-actions">
-          <button className="button primary" onClick={onExport}>
+          <button className="button primary" onClick={handleExport}>
             Export Data
           </button>
           <button className="button secondary" onClick={handleAddStudent}>
@@ -63,33 +101,146 @@ const Dashboard = ({ noOfStudents, noOfProjects, attendanceToday, pendingReviews
         </div>
       </header>
 
+      {/* Project Selector */}
+      <div className="project-selector">
+        <button 
+          onClick={() => switchProject('prev')} 
+          disabled={currentProject === 1}
+          className="nav-button"
+        >
+          <ChevronLeft />
+        </button>
+        <h2 className="project-title">Project {currentProject}</h2>
+        <button 
+          onClick={() => switchProject('next')} 
+          disabled={currentProject === 2}
+          className="nav-button"
+        >
+          <ChevronRight />
+        </button>
+      </div>
+
+      {/* Statistics Grid */}
       <div className="stats-grid">
         <div className="stat-card">
           <h3>Total Students</h3>
-          <p className="stat-number">{noOfStudents}</p>
+          <p className="stat-value">{currentProjectData.totalStudents}</p>
+        </div>
+        <div className="stat-card">
+          <h3>Students in Project</h3>
+          <p className="stat-value">{currentProjectData.noOfStudents}</p>
         </div>
         <div className="stat-card">
           <h3>Projects Uploaded</h3>
-          <p className="stat-number">{noOfProjects}</p>
+          <p className="stat-value">{currentProjectData.projectsUploaded}</p>
         </div>
         <div className="stat-card">
-          <h3>Attendance Today</h3>
-          <p className="stat-number">
-            {attendanceToday.present} Present / {attendanceToday.absent} Absent
-          </p>
-        </div>
-        <div className="stat-card">
-          <h3>Pending Reviews</h3>
-          <p className="stat-number">{pendingReviews}</p>
+          <h3>Projects Not Uploaded</h3>
+          <p className="stat-value">{currentProjectData.projectsNotUploaded}</p>
         </div>
       </div>
 
-      <section className="chart-section">
-        <h2>Projects Uploaded Over Time</h2>
-        <div className="chart-wrapper">
-          <Bar data={chartData} options={chartOptions} />
+      {/* Session Container */}
+      <div className="session-container">
+        <h2 className="section-title">Session Attendance</h2>
+        <div className="session-nav">
+          <button 
+            onClick={() => switchSession('prev')} 
+            disabled={currentSession === 1}
+            className="nav-button"
+          >
+            <ChevronLeft />
+          </button>
+          <h3 className="session-title">Session {currentSession}</h3>
+          <button 
+            onClick={() => switchSession('next')} 
+            disabled={currentSession === currentProjectData.totalSessions}
+            className="nav-button"
+          >
+            <ChevronRight />
+          </button>
         </div>
-      </section>
+        
+        <div className="attendance-stats">
+          <div className="attendance-stat">
+            <p className="label">Present</p>
+            <p className="value present">
+              {currentProjectData.sessions[currentSession].present}
+            </p>
+          </div>
+          <div className="attendance-stat">
+            <p className="label">Absent</p>
+            <p className="value absent">
+              {currentProjectData.sessions[currentSession].absent}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Charts */}
+      <div className="charts-grid">
+        <div className="chart-container">
+          <h2 className="section-title">Attendance Trend</h2>
+          <div className="chart">
+            <ResponsiveContainer width="100%" height={300}>
+              <LineChart data={attendanceData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="session" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Line type="monotone" dataKey="present" stroke="#28a745" />
+                <Line type="monotone" dataKey="absent" stroke="#dc3545" />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+
+        <div className="chart-container">
+          <h2 className="section-title">Project Completion Status</h2>
+          <div className="chart">
+            <ResponsiveContainer width="100%" height={300}>
+              <BarChart data={[{
+                name: 'Projects',
+                uploaded: currentProjectData.projectsUploaded,
+                notUploaded: currentProjectData.projectsNotUploaded
+              }]}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Bar dataKey="uploaded" fill="#28a745" name="Uploaded" />
+                <Bar dataKey="notUploaded" fill="#dc3545" name="Not Uploaded" />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+      </div>
+
+      {/* Recent Uploads Table */}
+      <div className="table-container">
+        <h2 className="section-title">Latest Project Uploads</h2>
+        <table className="data-table">
+          <thead>
+            <tr>
+              <th>Student</th>
+              <th>Project</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            {recentUploads.map((upload, index) => (
+              <tr key={index}>
+                <td>{upload.student}</td>
+                <td>{upload.project}</td>
+                <td>{upload.date}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
     </div>
   );
 };
