@@ -6,7 +6,7 @@ import { FaLink } from "react-icons/fa";
 export const RowComponentForAttendance = ({
   srNo,
   rollNo,//rollNo
-  //batch
+  // batch,
   name,
   projectName,
   sessionId,
@@ -17,6 +17,7 @@ export const RowComponentForAttendance = ({
   const [attendance, setAttendance] = useState(null); // null, "present", or "absent"
   const [loading, setLoading] = useState(true); // Loading state for fetching attendance
 
+  console.log("THIS IS TEXT", rollNo, name, sessionId);
   // Fetch attendance status for the student
   const fetchAttendanceStatus = async () => {
     try {
@@ -61,12 +62,13 @@ export const RowComponentForAttendance = ({
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ userId, date, status, sessionId }),
+          body: JSON.stringify({ userId, date, status, sessionId, name, rollNo }),
           credentials: "include", // Pass cookies for authentication
         }
       );
 
       const data = await response.json();
+      console.log(data);
 
       if (response.ok) {
         console.log("Attendance marked successfully:", data);

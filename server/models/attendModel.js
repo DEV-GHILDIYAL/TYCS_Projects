@@ -9,7 +9,7 @@ const AttendanceSchema = new mongoose.Schema({
         // required:true,
         // unique:true,
       },
-      batch:{type:String,default:""},//Batch
+    //   batch:{type:String,default:""},
       attendance: [
         {
             date: { type: Date, required: true },

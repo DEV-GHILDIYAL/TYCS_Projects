@@ -77,10 +77,10 @@ export const addstudent = async (req, res) => {
 
 export const attendanceMark = async (req, res) => {
   try {
-    const { userId, date, status, sessionId } = req.body;
+    const { userId, name, rollNo, date, status, sessionId } = req.body;
 
     // Validate input
-    if (!userId || !date || !status || !sessionId) {
+    if (!userId || !name || !rollNo || !date || !status || !sessionId) {
       return res.status(400).json({ error: "Missing required fields" });
     }
 
@@ -146,6 +146,8 @@ export const attendanceMark = async (req, res) => {
       // Create new attendance record
       const newAttendance = new Attendance({
         userId,
+        name,
+        rollNo,
         attendance: [
           { date: formattedDate, status: formattedStatus, sessionId },
         ],
@@ -252,7 +254,6 @@ export const getAttendanceStatusWithId = async (req, res) => {
 //creating sesssion
 export const createSession = async (req, res) => {
   const { sessionNo, date, batch, project, department, year } = req.body;
-
   // Validate required fields
   if (!department || !year || !project || !batch || !date || !sessionNo) {
     return res.status(400).json({ message: "All fields are required" });
@@ -309,6 +310,7 @@ export const createSession = async (req, res) => {
       name: projectData.userId.name,
       projectName: projectData.project, // Assuming projectData has 'project' field
       email: projectData.userId.email || null, // Include additional fields if necessary
+      userId: projectData.userId._id,
       status: "Absent", // Default status
     }));
 

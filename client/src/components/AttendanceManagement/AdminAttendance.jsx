@@ -34,7 +34,7 @@ const AdminAttendance = () => {
     sessionId = sessionToView._id;
     date = sessionToView.date;
   }
-  // console.log("main in here",main)
+  console.log("main in here",main)
   // Fetch attendance data when the component loads
   useEffect(() => {
     const fetchAttendanceStatus = async () => {
@@ -136,10 +136,11 @@ const AdminAttendance = () => {
                 key={student._id}
                 srNo={index + 1}
                 rollNo={student.rollNo}
+                // batch={student.batch}
                 name={student.name}
                   projectName={student.projectName}
                   sessionId={sessionId}
-                  userId={student._id}
+                  userId={student.userId}
                   date={date}
                   onAttendanceMarked={(status) =>
                     handleAttendanceMarked(student._id, status)
