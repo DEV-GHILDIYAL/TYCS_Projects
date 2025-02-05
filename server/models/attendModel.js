@@ -1,15 +1,9 @@
 import mongoose from 'mongoose'
 
 const AttendanceSchema = new mongoose.Schema({
-    // sessionId: { type: String, required: true },
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-    name:{type:String,},
-    rollNo:{
-        type:Number,
-        // required:true,
-        // unique:true,
-      },
-    //   batch:{type:String,default:""},
+    name:{type:String,required:true},
+    rollNo:{type:Number,required:true,},
       attendance: [
         {
             date: { type: Date, required: true },

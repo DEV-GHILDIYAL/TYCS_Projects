@@ -17,7 +17,7 @@ export const RowComponentForAttendance = ({
   const [attendance, setAttendance] = useState(null); // null, "present", or "absent"
   const [loading, setLoading] = useState(true); // Loading state for fetching attendance
 
-  console.log("THIS IS TEXT", rollNo, name, sessionId);
+  // console.log("THIS IS TEXT", rollNo, name, sessionId);
   // Fetch attendance status for the student
   const fetchAttendanceStatus = async () => {
     try {

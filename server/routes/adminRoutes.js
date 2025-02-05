@@ -1,5 +1,5 @@
 import express from 'express';
-import { addstudent, getprojectdata,createSession, getstudentsdata,fetchSession,deleteSession ,attendanceMark, getAttendanceStatus, getAttendanceStatusWithId} from '../controllers/adminController.js';
+import { addstudent, getprojectdata,createSession, getstudentsdata,fetchSession,deleteSession ,attendanceMark, getAttendanceStatus, getAttendanceStatusWithId,dashboard} from '../controllers/adminController.js';
 import admin from '../middleware/adminAuth.js'
 const adminRouter = express.Router();
 
@@ -12,7 +12,7 @@ adminRouter.post('/createsession', createSession);
 adminRouter.post('/attendance/mark', attendanceMark);
 adminRouter.post('/attendance/status', getAttendanceStatus);
 // adminRouter.get('/attendance/status/:sessionId', getAttendanceStatusWithId);
-adminRouter.get('/attendance/status/:id', getAttendanceStatusWithId);
+adminRouter.get('/attendance/status/:sessionId', getAttendanceStatusWithId);
 
 adminRouter.get('/fetchsession', fetchSession);
 adminRouter.delete('/deletesession', deleteSession);
@@ -20,4 +20,6 @@ adminRouter.delete('/deletesession', deleteSession);
 
 adminRouter.get('/getstudent', getstudentsdata);
 adminRouter.get('/getproject', getprojectdata);
+
+adminRouter.get('/dashboard',dashboard)
 export default adminRouter;

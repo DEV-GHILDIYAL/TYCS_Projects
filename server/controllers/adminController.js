@@ -95,6 +95,12 @@ export const attendanceMark = async (req, res) => {
         .json({ error: "Invalid status value. Use 'Present' or 'Absent'." });
     }
 
+    const session = await Session.findById(sessionId);
+
+    if (!session) {
+      return res.status(404).json({ error: "Session not found." });
+    }
+
     // Convert date to a Date object
     const formattedDate = new Date(date);
 
@@ -111,12 +117,47 @@ export const attendanceMark = async (req, res) => {
       );
 
       if (existingEntry) {
-        return res
-          .status(400)
-          .json({
-            error: "Attendance already marked for this session and date.",
-          });
+        return res.status(400).json({
+          error: "Attendance already marked for this session and date.",
+        });
       }
+
+      const student = session.students.find(
+        (student) => student.userId === userId
+      );
+
+      if (student) {
+        // Check the previous status and update the counts accordingly
+        // if (student.status === "Present" && formattedStatus !== "Present") {
+        //   session.presentCount -= 1;
+      // }else  
+        if (student.status === "Absent" && formattedStatus !== "Absent") {
+          session.absentCount += 1;
+        }
+
+        // Update the status of the student
+        student.status = formattedStatus;
+
+        // Update the present or absent count based on the new status
+        if (formattedStatus === "Present") {
+          session.presentCount += 1;
+        } else if (formattedStatus === "Absent") {
+          session.absentCount += 1;
+        }
+
+        // Save the updated session
+        await session.save();
+      }
+
+      // // Update present and absent count
+      // if (formattedStatus === "Present") {
+      //   session.presentCount += 1;
+      //   // session.students.status = "Present"
+      // } else if (formattedStatus === "Absent") {
+      //   session.absentCount += 1;
+      // }
+
+      // await session.save();
 
       // Update existing attendance record
       const updatedAttendance = await Attendance.findOneAndUpdate(
@@ -136,12 +177,10 @@ export const attendanceMark = async (req, res) => {
         { new: true }
       );
 
-      return res
-        .status(200)
-        .json({
-          message: "Attendance updated successfully",
-          data: updatedAttendance,
-        });
+      return res.status(200).json({
+        message: "Attendance updated successfully",
+        data: updatedAttendance,
+      });
     } else {
       // Create new attendance record
       const newAttendance = new Attendance({
@@ -156,12 +195,10 @@ export const attendanceMark = async (req, res) => {
       });
 
       await newAttendance.save();
-      return res
-        .status(201)
-        .json({
-          message: "Attendance created successfully",
-          data: newAttendance,
-        });
+      return res.status(201).json({
+        message: "Attendance created successfully",
+        data: newAttendance,
+      });
     }
   } catch (error) {
     console.error("Error updating attendance:", error);
@@ -423,5 +460,47 @@ export const getprojectdata = async (req, res) => {
   } catch (error) {
     console.error("Error fetching projects:", error);
     res.status(500).json({ message: "Unable to fetch Projects", error });
+  }
+};
+
+export const dashboard = async (req, res) => {
+  try {
+    const { project } = req.query; // Get project from query
+
+    const totalStudents = await userModel.countDocuments({ role: "student" });
+    const projectOneStudents = await userModel.countDocuments({
+      department: "CS",
+      year: "2024-2025",
+    });
+    const projectOneCompleted = await Project.countDocuments({
+      department: "CS",
+      project,
+      year: "2024-2025",
+    });
+    const projectOneNotUploaded = projectOneStudents - projectOneCompleted;
+    const totalSessions = await Session.countDocuments({
+      department: "CS",
+      project,
+      year: "2024-2025",
+    });
+    const latestProjects = await Project.find({
+      project,
+      department: "CS",
+      year: "2024-2025",
+    })
+      .sort({ createdAt: -1 })
+      .limit(5);
+    const sessions = await Session.find().sort({ date: 1 });
+    res.json({
+      totalStudents,
+      projectOneStudents,
+      projectOneCompleted,
+      projectOneNotUploaded,
+      totalSessions,
+      latestProjects,
+      sessions,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching dashboard data", error });
   }
 };

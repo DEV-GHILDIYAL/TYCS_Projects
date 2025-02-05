@@ -14,9 +14,11 @@ const SessionSchema = new mongoose.Schema({
             projectName:{type:String,},
             // email:{type:String,},
             userId:{type:String},
-            status: {type:String , enum: ['Present', 'Absent'],},
+            status: {type:String , enum: ['Present', 'Absent'],default:""},
         }
-    ]
+    ],
+    presentCount: { type: Number, default: 0 }, // Track present count
+    absentCount: { type: Number, default: 0 },  // Track absent count
 },{ timestamps: true });
 
 const Session = mongoose.model('Session', SessionSchema);

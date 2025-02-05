@@ -20,7 +20,7 @@ const ProjectSchema = new mongoose.Schema({
   twitter: { type: String },
   linkedin: { type: String },
   instagram: { type: String },
-});
+},{timestamps:true});
 
 const Project = mongoose.model("Project", ProjectSchema);
 export default Project;
