@@ -9,6 +9,8 @@ import {
   FaLock,
   FaMoneyBill,
   FaUser,
+  FaMoon,
+  FaSun,
 } from "react-icons/fa";
 import SidebarMenu from "../Sidebar/SidebarMenu";
 import SidebarMenuAndroid from "../Sidebar/SidebarMenuAndroid";
@@ -25,7 +27,17 @@ const Navbar = () => {
     setIsMenuOpen(!isMenuOpen);  // Toggle the mobile menu
     setIsMobileOpen(!isMobileOpen);  // Also toggle the isMobileOpen state
   };
+  
+  const [theme, setTheme] = useState("dark"); // Theme state
 
+  const toggleTheme = () => {
+    const newTheme = theme === "light" ? "dark" : "light";
+    setTheme(newTheme);
+    document.documentElement.setAttribute("data-theme", newTheme);
+  };
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [theme]);
   const handleLogout = async () => {
       try {
         const response = await fetch(
@@ -106,7 +118,10 @@ const Navbar = () => {
     <nav className="navbar">
       <div className="navbar-left">
         <div className="navbar-brand">
-          <h1>Project Library</h1> {/* Change this to your app's name */}
+          <h1>Project Library</h1>
+          <button onClick={toggleTheme} className="theme-toggle-btn">
+                            {theme === "light" ? <FaMoon /> : <FaSun />}
+                          </button>
         </div>
       </div>
 
