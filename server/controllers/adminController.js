@@ -504,3 +504,30 @@ export const dashboard = async (req, res) => {
     res.status(500).json({ message: "Error fetching dashboard data", error });
   }
 };
+
+
+export const uploadStudentData = async(req, res) => {
+  try {
+    let {students} = req.query;
+    console.log(students);
+    if (typeof students === "string") {
+      students = JSON.parse(students);
+    }
+    if (!Array.isArray(students)) {
+      return res.status(400).json({ error: "Invalid students data format" });
+    }
+      const bulkOps = students?.map(student => ({
+        updateOne: {
+          filter: { rollNo: student.rollNo },
+          update: { $setOnInsert: student }, // Only set if the document does not exist
+          upsert: true // Insert if the document doesn't exist
+        }
+      }));
+  
+      const result = await userModel.bulkWrite(bulkOps);
+      console.log(`${result.upsertedCount} new student(s) inserted`);
+      console.log(`${result.modifiedCount} existing student(s) updated`);
+    } catch (error) {
+      console.error("Error connecting to MongoDB or updating data:", error);
+    }
+}

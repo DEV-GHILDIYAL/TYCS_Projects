@@ -1,5 +1,5 @@
 import express from 'express';
-import { addstudent, getprojectdata,createSession, getstudentsdata,fetchSession,deleteSession ,attendanceMark, getAttendanceStatus, getAttendanceStatusWithId,dashboard} from '../controllers/adminController.js';
+import { addstudent, getprojectdata,createSession, getstudentsdata,fetchSession,deleteSession ,attendanceMark, getAttendanceStatus, getAttendanceStatusWithId,dashboard, uploadStudentData} from '../controllers/adminController.js';
 import admin from '../middleware/adminAuth.js'
 const adminRouter = express.Router();
 
@@ -22,4 +22,6 @@ adminRouter.get('/getstudent', getstudentsdata);
 adminRouter.get('/getproject', getprojectdata);
 
 adminRouter.get('/dashboard',dashboard)
+
+adminRouter.post('/student-data-upload', uploadStudentData)
 export default adminRouter;

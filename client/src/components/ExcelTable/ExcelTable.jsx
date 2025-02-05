@@ -5,18 +5,37 @@ import "../TeacherExcelUpload/TeacherExcelUpload.css";
 const ExcelTable = () => {
   const [data, setData] = useState([]);
   const navigate = useNavigate();
+  const storedData = localStorage.getItem("excelData");
 
   useEffect(() => {
-    const storedData = localStorage.getItem("excelData");
     if (storedData) {
       setData(JSON.parse(storedData));
+      
+    console.log(storedData);
     } else {
       navigate("/"); // Redirect if no data is available
     }
   }, [navigate]);
 
-  const handleContinue = () => {
+  const handleContinue = async() => {
     console.log("Continue button clicked");
+    // Perform further actions here, such as saving the data to the database or making API requests
+    // const response = await fetch(`${import.meta.env.VITE_BACK_URL}/admin/student-data-upload?student=${storedData}`, { credentials: "include" });
+
+
+    const response = await fetch(
+      `${import.meta.env.VITE_BACK_URL}/admin/student-data-upload?students=${storedData}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        // body: JSON.parse(storedData),
+        credentials: "include", // Include cookies if needed
+      }
+    );
+        const data = await response.json();
+        console.log(data);
     // You can define further navigation or actions here
   };
 
