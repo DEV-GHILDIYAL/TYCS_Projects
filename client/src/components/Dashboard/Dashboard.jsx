@@ -127,6 +127,10 @@ const Dashboard = () => {
           <p className="stat-value">{currentProjectData.totalStudents}</p>
         </div>
         <div className="stat-card">
+          <h3>Total Session</h3>
+          <p className="stat-value">{currentProjectData.totalStudents}</p>
+        </div>
+        <div className="stat-card">
           <h3>Students in Project</h3>
           <p className="stat-value">{currentProjectData.noOfStudents}</p>
         </div>
