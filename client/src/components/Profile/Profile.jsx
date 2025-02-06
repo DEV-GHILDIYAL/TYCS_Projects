@@ -14,6 +14,7 @@ const Profile = () => {
   const [profilePhoto, setProfilePhoto] = useState(
     "https://ichef.bbci.co.uk/images/ic/1200x675/p03c84wz.jpg"
   );
+  const [selectedFile, setSelectedFile] = useState();
   const [isPopupVisible, setIsPopupVisible] = useState(false); // State for popup visibility
   const [profileData, setProfileData] = useState({
     name: "",
@@ -99,7 +100,18 @@ const Profile = () => {
         name: document.querySelector('input[type="text"]').value,
         phoneNo: document.querySelector('input[type="tel"]').value,
       };
+      const formData = new FormData();
+  formData.append("profilePicture", selectedFile);
       console.log(updatedProfileData);
+
+      const response1 = await fetch(`${import.meta.env.VITE_BACK_URL}/auth/upload`, {
+        method: "POST",
+        body: formData,
+        credentials: "include",
+      });
+  
+      const data1 = await response1.json();
+      console.log("Server Response:", data1);
 
       const response = await fetch(
         `${import.meta.env.VITE_BACK_URL}/auth/update-profile`,
@@ -123,7 +135,7 @@ const Profile = () => {
           transition: Slide,
           autoClose: 1000,
         });
-        window.location.reload();
+        // window.location.reload();
       } else {
         toast.error("Error updating profile: " + data.message, {
           position: "top-right",
@@ -325,39 +337,39 @@ const Profile = () => {
                     )}
                   </div> */}
                   <div className="profile-project-row social-links">
-          <a
-            href={project.github || "#"}
-            target={project.github ? "_blank" : ""}
-            rel="noopener noreferrer"
-            className={!project.github ? "disabled-link" : ""}
-          >
-            <FaGithub />
-          </a>
-          <a
-            href={project.linkedin || "#"}
-            target={project.linkedin ? "_blank" : ""}
-            rel="noopener noreferrer"
-            className={!project.linkedin ? "disabled-link" : ""}
-          >
-            <FaLinkedin />
-          </a>
-          <a
-            href={project.instagram || "#"}
-            target={project.instagram ? "_blank" : ""}
-            rel="noopener noreferrer"
-            className={!project.instagram ? "disabled-link" : ""}
-          >
-            <FaInstagram />
-          </a>
-          <a
-            href={project.twitter || "#"}
-            target={project.twitter ? "_blank" : ""}
-            rel="noopener noreferrer"
-            className={!project.twitter ? "disabled-link" : ""}
-          >
-            <FaTwitter />
-          </a>
-        </div>
+                    <a
+                      href={project.github || "#"}
+                      target={project.github ? "_blank" : ""}
+                      rel="noopener noreferrer"
+                      className={!project.github ? "disabled-link" : ""}
+                    >
+                      <FaGithub />
+                    </a>
+                    <a
+                      href={project.linkedin || "#"}
+                      target={project.linkedin ? "_blank" : ""}
+                      rel="noopener noreferrer"
+                      className={!project.linkedin ? "disabled-link" : ""}
+                    >
+                      <FaLinkedin />
+                    </a>
+                    <a
+                      href={project.instagram || "#"}
+                      target={project.instagram ? "_blank" : ""}
+                      rel="noopener noreferrer"
+                      className={!project.instagram ? "disabled-link" : ""}
+                    >
+                      <FaInstagram />
+                    </a>
+                    <a
+                      href={project.twitter || "#"}
+                      target={project.twitter ? "_blank" : ""}
+                      rel="noopener noreferrer"
+                      className={!project.twitter ? "disabled-link" : ""}
+                    >
+                      <FaTwitter />
+                    </a>
+                  </div>
                 </div>
               </div>
             ))}
@@ -397,7 +409,7 @@ const Profile = () => {
                 <label>Profile Image:</label>
                 <div className="profile-image-preview">
                   <img
-                    src={profileData.profilepic}
+                    src={profileData.profilepic || "default-image.jpg"}
                     alt="Preview"
                     className="profile-preview-image"
                   />
@@ -409,8 +421,15 @@ const Profile = () => {
                   onChange={(event) => {
                     const file = event.target.files[0];
                     if (file) {
+                      setSelectedFile(file); // Store the file in state
                       const reader = new FileReader();
                       reader.readAsDataURL(file);
+                      reader.onloadend = () => {
+                        setProfileData((prevData) => ({
+                          ...prevData,
+                          profilepic: reader.result, // For preview
+                        }));
+                      };
                     }
                   }}
                 />

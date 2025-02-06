@@ -281,3 +281,47 @@ export const editProfile = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+export const storeProfilePicture = async (req, res) => {
+  // console.log("Edit Profile Called");
+  try {
+    // Get token from the Authorization header
+    const token = req.cookies.token;
+    console.log("Token", token);
+    
+    if (!token) {
+      return res.status(401).json({ message: "No token provided.............." });
+    }
+
+    // Verify token
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    
+    // Fetch user data from the database using the decoded user ID
+    let user = await userModel.findById(decoded.id);
+    
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Update user profile with request body data
+    const updatedData = {
+      profilepic: req.file.path,
+    };
+    console.log(updatedData);
+    // Save updated user profile
+    user = await userModel.findByIdAndUpdate(decoded.id, updatedData, { new: true });
+    
+    res.status(200).json({ message: "Profile updated successfully", profile: user });
+  } catch (error) {
+    console.error("Error updating profile:", error);
+
+    if (error.name === "JsonWebTokenError") {
+      return res.status(401).json({ message: "Invalid token" });
+    }
+
+    if (error.name === "TokenExpiredError") {
+      return res.status(401).json({ message: "Token expired" });
+    }
+
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
