@@ -304,7 +304,7 @@ const Profile = () => {
     Array.from({ length: 2 - projectData.length }).map((_, index) => (
       <div className="profile-page-project-card no-project-card" key={`no-project-${index}`}>
         <img
-          src="https://cdn-icons-png.flaticon.com/512/2748/2748558.png"
+          src="https://upload.wikimedia.org/wikipedia/commons/7/75/No_image_available.png"
           alt="No Project"
           className="profile-page-project-image"
         />
