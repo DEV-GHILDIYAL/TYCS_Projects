@@ -11,9 +11,6 @@ import {
 } from "react-icons/fa";
 
 const Profile = () => {
-  const [profilePhoto, setProfilePhoto] = useState(
-    "https://ichef.bbci.co.uk/images/ic/1200x675/p03c84wz.jpg"
-  );
   const [selectedFile, setSelectedFile] = useState();
   const [isPopupVisible, setIsPopupVisible] = useState(false); // State for popup visibility
   const [profileData, setProfileData] = useState({
@@ -28,6 +25,11 @@ const Profile = () => {
     userId: "",
     projects: [],
   });
+  const [profilephoto, setProfilephoto] = useState("");
+  // const [pp,setPp] = useState("")
+  // useEffect(()=>{
+  //   setPp(`${import.meta.env.VITE_BACK_URL}/${profileData.profilepic}?t=${Date.now()}`)
+  // },[])
 
   const projectData = profileData?.projects || [];
   useEffect(() => {
@@ -48,6 +50,8 @@ const Profile = () => {
         console.log(data);
         if (response.ok) {
           setProfileData(data);
+          setProfilephoto(data.profilepic);
+          console.log(profilephoto);
           toast.success("Data fetched!", {
             position: "top-right",
             theme: "light",
@@ -75,9 +79,7 @@ const Profile = () => {
     };
 
     fetchStudents();
-  }, []);
-  console.log(profileData.projects);
-
+  }, [profilephoto]);
   const handleEditDetails = () => {
     setIsPopupVisible(true); // Show the popup
   };
@@ -101,17 +103,28 @@ const Profile = () => {
         phoneNo: document.querySelector('input[type="tel"]').value,
       };
       const formData = new FormData();
-  formData.append("profilePicture", selectedFile);
+      formData.append("profilePicture", selectedFile);
       console.log(updatedProfileData);
 
-      const response1 = await fetch(`${import.meta.env.VITE_BACK_URL}/auth/upload`, {
-        method: "POST",
-        body: formData,
-        credentials: "include",
-      });
-  
+      const response1 = await fetch(
+        `${import.meta.env.VITE_BACK_URL}/auth/upload`,
+        {
+          method: "POST",
+          body: formData,
+          credentials: "include",
+        }
+      );
+
+      // const data1 = await response1.json();
       const data1 = await response1.json();
       console.log("Server Response:", data1);
+
+      if (response1.ok) {
+        setProfileData((prev) => ({
+          ...prev,
+          profilepic: data1.filePath, // Ensure this matches your backend response
+        }));
+      }
 
       const response = await fetch(
         `${import.meta.env.VITE_BACK_URL}/auth/update-profile`,
@@ -135,6 +148,18 @@ const Profile = () => {
           transition: Slide,
           autoClose: 1000,
         });
+        const fetchUpdatedProfile = async () => {
+          const response = await fetch(`${import.meta.env.VITE_BACK_URL}/auth/get-profile`, {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+          });
+  
+          const updatedData = await response.json();
+          if (response.ok) setProfileData(updatedData);
+        };
+  
+        await fetchUpdatedProfile();
         // window.location.reload();
       } else {
         toast.error("Error updating profile: " + data.message, {
@@ -155,7 +180,6 @@ const Profile = () => {
       });
     }
   };
-console.log(`url ${import.meta.env.VITE_BACK_URL}/${profileData.profilepic}`)
   return (
     <div className="profile-page-container">
       <div className="profile-page-card">
@@ -163,7 +187,7 @@ console.log(`url ${import.meta.env.VITE_BACK_URL}/${profileData.profilepic}`)
           <header className="profile-page-header">
             <div className="profile-page-photo-container">
               <img
-                src={`${import.meta.env.VITE_BACK_URL}/${profileData.profilepic}`}
+                src={`${import.meta.env.VITE_BACK_URL}/${profileData.profilepic}?t=${Date.now()}`}
                 alt="Profile"
                 className="profile-page-photo"
               />
@@ -408,10 +432,22 @@ console.log(`url ${import.meta.env.VITE_BACK_URL}/${profileData.profilepic}`)
               <div className="popup-form-row">
                 <label>Profile Image:</label>
                 <div className="profile-image-preview">
-                  <img
-                    src={profileData.profilepic || "default-image.jpg"}
+                <img
+                    src={
+                      selectedFile
+                        ? URL.createObjectURL(selectedFile)
+                        : profileData?.profilepic
+                        ? `${import.meta.env.VITE_BACK_URL}/${
+                            profileData.profilepic
+                          }?t=${Date.now()}`
+                        : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
+                    }
                     alt="Preview"
                     className="profile-preview-image"
+                    onError={(e) => {
+                      e.target.src =
+                        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png";
+                    }}
                   />
                 </div>
                 <input
