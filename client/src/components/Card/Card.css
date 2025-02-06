@@ -27,6 +27,17 @@
   height: auto;
   object-fit: cover;
 }
+.profile-picture {
+  width: 40px; /* Adjust size as needed */
+  height: 40px;
+  border-radius: 50%; /* Makes the image circular */
+  position: absolute;
+  bottom: 10px; /* Positioning at the bottom-right */
+  right: 10px;
+  object-fit: cover;
+  border: 2px solid #ffffff; /* Optional: adds a border around the profile picture */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Adds slight shadow */
+}
 
 .card-content {
   padding: 8px;
