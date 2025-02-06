@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FaCamera } from "react-icons/fa";
 import "./Profile.css";
 import { toast, Slide } from "react-toastify";
-import "./Profile.css";
+
 const Profile = () => {
   const [profilePhoto, setProfilePhoto] = useState(
     "https://ichef.bbci.co.uk/images/ic/1200x675/p03c84wz.jpg"
@@ -17,47 +17,11 @@ const Profile = () => {
     batch: "",
     department: "",
     profilepic: "",
-    projects: [
-      {
-        title: "Project 1",
-        image: "https://via.placeholder.com/150",
-        description: "This is the description for Project 1.",
-        category: "Category 1",
-      },
-      {
-        title: "Project 2",
-        image: "https://via.placeholder.com/150",
-        description: "This is the description for Project 2.",
-        category: "Category 2",
-      },
-    ],
+    userId:"",
+    projects:[],
   });
 
-  const projectData = [
-    {
-      image: "https://img.freepik.com/free-vector/gradient-stock-market-concept_23-2149166910.jpg",
-      title: "Project 1",
-      rollNo: "421",
-      department: "CS",
-      year: "2024-2025",
-      batch: "Batch 1",
-      projectNo: "Project 1",
-      description: "This is a description of project 1.",
-      category: "Web Development",
-    },
-    {
-      image: "https://www.baker.edu/wp-content/uploads/game-developer-degree.jpg",
-      title: "Project 2",
-      rollNo: "421",
-      department: "CS",
-      year: "2024-2025",
-      batch: "Batch 1",
-      projectNo: "Project 2",
-      description: "This is a description of project 2.",
-      category: "Mobile App",
-    },
-  ];
-
+  const projectData = profileData?.projects || [];
   useEffect(() => {
     const fetchStudents = async () => {
       try {
@@ -71,9 +35,9 @@ const Profile = () => {
             credentials: "include",
           }
         );
-
+        
         const data = await response.json();
-        // console.log(data);
+        console.log(data)
         if (response.ok) {
           setProfileData(data);
           toast.success("Data fetched!", {
@@ -101,10 +65,11 @@ const Profile = () => {
         });
       }
     };
-
+    
     fetchStudents();
   }, []);
-
+  console.log(profileData.projects)
+  
   const handleEditDetails = () => {
     setIsPopupVisible(true); // Show the popup
   };
@@ -239,7 +204,7 @@ const Profile = () => {
             {projectData.map((project, index) => (
               <div className="profile-page-project-card" key={index}>
                 <img
-                  src={project.image}
+                  src="https://www.baker.edu/wp-content/uploads/game-developer-degree.jpg"
                   alt={project.title}
                   className="profile-page-project-image"
                 />
@@ -250,23 +215,23 @@ const Profile = () => {
                       Category: {project.category}
                     </span>
                     <span className="profile-page-project-category">
-                      Roll No: {project.rollNo}
+                      Project No: {project.project}
                     </span>
                   </div>
                   <div className="profile-project-row">
                     <span className="profile-page-project-category">
-                      Department: {project.department}
+                      Description: {project.description}
                     </span>
                     <span className="profile-page-project-category">
-                      Year: {project.year}
+                      isCompleted: {project.iscompleted}
                     </span>
                   </div>
                   <div className="profile-project-row">
                     <span className="profile-page-project-category">
-                      Batch: {project.batch}
+                      Github: {project.github}
                     </span>
                     <span className="profile-page-project-category">
-                      Project No: {project.projectNo}
+                       Deployed: {project.deployed}
                     </span>
                   </div>
                 </div>

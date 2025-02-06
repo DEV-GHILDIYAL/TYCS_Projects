@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import userModel from "../models/userModel.js";
+import Project from "../models/projectModel.js"
 import transporter from "../config/nodemailer.js";
 import dotenv from "dotenv";
 dotenv.config();
@@ -167,9 +168,11 @@ export const getProfile = async (req, res) => {
       console.log("No user found for ID:", decoded.id);
       return res.status(404).json({ message: "User not found" });
     }
-
+    const userId = user._id; 
+    const projects = await Project.find({userId})
     // Prepare user data to send as a response
     const profileData = {
+      userId:user._id,
       name: user.name,
       rollNo: user.rollNo,
       phoneNo: user.phoneNo,
@@ -179,7 +182,9 @@ export const getProfile = async (req, res) => {
       department: user.department,
       projects: user.projects, // Assuming this is an array of projects
       profilepic: user.profilepic,
+      projects:projects,
     };
+
 
     res.status(200).json(profileData);
   } catch (error) {
