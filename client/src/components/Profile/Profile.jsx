@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FaCamera } from "react-icons/fa";
 import "./Profile.css";
 import { toast, Slide } from "react-toastify";
+import { FaGithub, FaLinkedin, FaInstagram, FaTwitter, FaExternalLinkAlt } from "react-icons/fa";
 
 const Profile = () => {
   const [profilePhoto, setProfilePhoto] = useState(
@@ -258,33 +259,41 @@ const Profile = () => {
           </span>
         </div>
         <div className="profile-project-row">
-          {/* <span className="profile-page-project-category">
-            Description: {project.description}
-          </span> */}
           <span className="profile-page-project-category">
-            Deployed: {project.deployed}
+            Deployed:
+            {project.deployed ? (
+              <a href={project.deployed} target="_blank" rel="noopener noreferrer">
+                <FaExternalLinkAlt />
+              </a>
+            ) : (
+              " NA"
+            )}
           </span>
           <span className="profile-page-project-category">
             isCompleted: {project.iscompleted ? "Yes" : "No"}
           </span>
         </div>
         <div className="profile-project-row">
-          <span className="profile-page-project-category">
-            Github: {project.linkedin}
-          </span>
-          <span className="profile-page-project-category">
-            Github: {project.instagram}
-          </span>
-          <span className="profile-page-project-category">
-            Github: {project.twitter}
-          </span>
-          <span className="profile-page-project-category">
-            Github: {project.github}
-          </span>
-          <span className="profile-page-project-category">
-            Deployed: {project.deployed ? "Yes" : "No"}
-          </span>
-          
+          {project.github && (
+            <a href={project.github} target="_blank" rel="noopener noreferrer" className="social-icon">
+              <FaGithub />
+            </a>
+          )}
+          {project.linkedin && (
+            <a href={project.linkedin} target="_blank" rel="noopener noreferrer" className="social-icon">
+              <FaLinkedin />
+            </a>
+          )}
+          {project.instagram && (
+            <a href={project.instagram} target="_blank" rel="noopener noreferrer" className="social-icon">
+              <FaInstagram />
+            </a>
+          )}
+          {project.twitter && (
+            <a href={project.twitter} target="_blank" rel="noopener noreferrer" className="social-icon">
+              <FaTwitter />
+            </a>
+          )}
         </div>
       </div>
     </div>
