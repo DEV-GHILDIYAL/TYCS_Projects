@@ -200,7 +200,7 @@ const Profile = () => {
           </div>
         </div>
         <div className="profile-page-right-column">
-          <div className="profile-page-projects">
+          {/* <div className="profile-page-projects">
             {projectData.map((project, index) => (
               <div className="profile-page-project-card" key={index}>
                 <img
@@ -237,7 +237,74 @@ const Profile = () => {
                 </div>
               </div>
             ))}
-          </div>
+          </div> */}
+
+<div className="profile-page-projects">
+  {projectData.slice(0, 2).map((project, index) => (
+    <div className="profile-page-project-card" key={index}>
+      <img
+        src="https://www.baker.edu/wp-content/uploads/game-developer-degree.jpg"
+        alt={project.title}
+        className="profile-page-project-image"
+      />
+      <h2>{project.title}</h2>
+      <div className="profile-project-data">
+        <div className="profile-project-row">
+          <span className="profile-page-project-category">
+            Category: {project.category}
+          </span>
+          <span className="profile-page-project-category">
+            Project No: {project.project}
+          </span>
+        </div>
+        <div className="profile-project-row">
+          {/* <span className="profile-page-project-category">
+            Description: {project.description}
+          </span> */}
+          <span className="profile-page-project-category">
+            Deployed: {project.deployed}
+          </span>
+          <span className="profile-page-project-category">
+            isCompleted: {project.iscompleted ? "Yes" : "No"}
+          </span>
+        </div>
+        <div className="profile-project-row">
+          <span className="profile-page-project-category">
+            Github: {project.linkedin}
+          </span>
+          <span className="profile-page-project-category">
+            Github: {project.instagram}
+          </span>
+          <span className="profile-page-project-category">
+            Github: {project.twitter}
+          </span>
+          <span className="profile-page-project-category">
+            Github: {project.github}
+          </span>
+          <span className="profile-page-project-category">
+            Deployed: {project.deployed ? "Yes" : "No"}
+          </span>
+          
+        </div>
+      </div>
+    </div>
+  ))}
+
+  {/* Render "No Project" cards if less than two projects exist */}
+  {projectData.length < 2 &&
+    Array.from({ length: 2 - projectData.length }).map((_, index) => (
+      <div className="profile-page-project-card no-project-card" key={`no-project-${index}`}>
+        <img
+          src="https://cdn-icons-png.flaticon.com/512/2748/2748558.png"
+          alt="No Project"
+          className="profile-page-project-image"
+        />
+        <h2>No Project</h2>
+        <p>No project is available yet.</p>
+      </div>
+    ))}
+</div>
+
         </div>
       </div>
 
