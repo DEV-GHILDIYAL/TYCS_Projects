@@ -1,7 +1,12 @@
 import React from "react";
 import "./Card.css";
 
-const Card = ({ image, title, description, onViewDetail, name, project, profileImage }) => {
+const Card = ({ image, title, description, onViewDetail, name, project, profilepic }) => {
+  const defaultProfilePic = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
+
+    const handleImageError = (e) => {
+      e.target.src = defaultProfilePic;
+    };
   return (
     <div className="card">
       <img src={image} alt={title} className="card-image" />
@@ -16,7 +21,7 @@ const Card = ({ image, title, description, onViewDetail, name, project, profileI
         </button>
       </div>
       {/* Profile Picture */}
-      <img src={profileImage} alt="Profile" className="profile-picture" />
+      <img src={`${import.meta.env.VITE_BACK_URL}/${profilepic}?t=${Date.now()}`} alt="Profile" className="profile-picture" onError={handleImageError}   />
     </div>
   );
 };

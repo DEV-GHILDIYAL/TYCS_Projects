@@ -74,7 +74,8 @@ export const getUserData = async (req, res) => {
 
 export const fetchProjects = async (req, res) => {
   try {
-    const data = await Project.find();
+    const data = await Project.find().populate('userId', 'profilepic');
+    // console.log("data",data[0].userId.profilepic)
     res
       .status(200)
       .json({ message: "Successfully fetched all the projects", data: data });
