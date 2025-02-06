@@ -6,9 +6,15 @@ import cookieParser from "cookie-parser";
 import jwt from "jsonwebtoken";
 import connectDB from "./config/mongodb.js";
 import express from "express";
+import path from "path"
 import cors from "cors";
 // const morgan = require("morgan");
 import dotenv from "dotenv";
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 // import admin from "./middleware/adminAuth.js";
 
 import multer from "multer";
@@ -41,6 +47,7 @@ app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
 app.use("/auth", authRouter);
 app.use("", authenticate, userRouter);
 app.use("/admin",authenticate, adminRouter);
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // app.get('*', (req, res) => {
 //     res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));

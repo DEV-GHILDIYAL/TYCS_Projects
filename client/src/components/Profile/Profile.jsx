@@ -155,7 +155,7 @@ const Profile = () => {
       });
     }
   };
-
+console.log(`url ${import.meta.env.VITE_BACK_URL}/${profileData.profilepic}`)
   return (
     <div className="profile-page-container">
       <div className="profile-page-card">
@@ -163,7 +163,7 @@ const Profile = () => {
           <header className="profile-page-header">
             <div className="profile-page-photo-container">
               <img
-                src={profileData.profilepic}
+                src={`${import.meta.env.VITE_BACK_URL}/${profileData.profilepic}`}
                 alt="Profile"
                 className="profile-page-photo"
               />
