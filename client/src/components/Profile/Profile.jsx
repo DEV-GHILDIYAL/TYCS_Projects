@@ -2,7 +2,13 @@ import React, { useEffect, useState } from "react";
 import { FaCamera } from "react-icons/fa";
 import "./Profile.css";
 import { toast, Slide } from "react-toastify";
-import { FaGithub, FaLinkedin, FaInstagram, FaTwitter, FaExternalLinkAlt } from "react-icons/fa";
+import {
+  FaGithub,
+  FaLinkedin,
+  FaInstagram,
+  FaTwitter,
+  FaExternalLinkAlt,
+} from "react-icons/fa";
 
 const Profile = () => {
   const [profilePhoto, setProfilePhoto] = useState(
@@ -18,8 +24,8 @@ const Profile = () => {
     batch: "",
     department: "",
     profilepic: "",
-    userId:"",
-    projects:[],
+    userId: "",
+    projects: [],
   });
 
   const projectData = profileData?.projects || [];
@@ -36,9 +42,9 @@ const Profile = () => {
             credentials: "include",
           }
         );
-        
+
         const data = await response.json();
-        console.log(data)
+        console.log(data);
         if (response.ok) {
           setProfileData(data);
           toast.success("Data fetched!", {
@@ -66,11 +72,11 @@ const Profile = () => {
         });
       }
     };
-    
+
     fetchStudents();
   }, []);
-  console.log(profileData.projects)
-  
+  console.log(profileData.projects);
+
   const handleEditDetails = () => {
     setIsPopupVisible(true); // Show the popup
   };
@@ -78,7 +84,6 @@ const Profile = () => {
   const handleClosePopup = () => {
     setIsPopupVisible(false); // Hide the popup
   };
-
 
   if (!profileData) {
     return (
@@ -95,19 +100,22 @@ const Profile = () => {
         phoneNo: document.querySelector('input[type="tel"]').value,
       };
       console.log(updatedProfileData);
-  
-      const response = await fetch(`${import.meta.env.VITE_BACK_URL}/auth/update-profile`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updatedProfileData),
-        credentials: "include",
-      });
-  
+
+      const response = await fetch(
+        `${import.meta.env.VITE_BACK_URL}/auth/update-profile`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updatedProfileData),
+          credentials: "include",
+        }
+      );
+
       const data = await response.json();
       console.log(data);
-  
+
       if (response.ok) {
         toast.success("Profile updated successfully!", {
           position: "top-right",
@@ -123,8 +131,6 @@ const Profile = () => {
           transition: Slide,
           autoClose: 1000,
         });
-        
-        
       }
     } catch (error) {
       console.error("Error saving profile details:", error);
@@ -137,9 +143,8 @@ const Profile = () => {
       });
     }
   };
-  
 
-  return ( 
+  return (
     <div className="profile-page-container">
       <div className="profile-page-card">
         <div className="profile-page-left-column">
@@ -240,80 +245,140 @@ const Profile = () => {
             ))}
           </div> */}
 
-<div className="profile-page-projects">
-  {projectData.slice(0, 2).map((project, index) => (
-    <div className="profile-page-project-card" key={index}>
-      <img
-        src="https://www.baker.edu/wp-content/uploads/game-developer-degree.jpg"
-        alt={project.title}
-        className="profile-page-project-image"
-      />
-      <h2>{project.title}</h2>
-      <div className="profile-project-data">
-        <div className="profile-project-row">
-          <span className="profile-page-project-category">
-            Category: {project.category}
-          </span>
-          <span className="profile-page-project-category">
-            Project No: {project.project}
-          </span>
+          <div className="profile-page-projects">
+            {projectData.slice(0, 2).map((project, index) => (
+              <div className="profile-page-project-card" key={index}>
+                <img
+                  src="https://www.baker.edu/wp-content/uploads/game-developer-degree.jpg"
+                  alt={project.title}
+                  className="profile-page-project-image"
+                />
+                <h2>{project.title}</h2>
+                <div className="profile-project-data">
+                  <div className="profile-project-row">
+                    <span className="profile-page-project-category">
+                      Category: {project.category}
+                    </span>
+                    <span className="profile-page-project-category">
+                      Project No: {project.project}
+                    </span>
+                  </div>
+                  <div className="profile-project-row">
+                    <span className="profile-page-project-category">
+                      Deployed:
+                      {project.deployed ? (
+                        <a
+                          href={project.deployed}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <FaExternalLinkAlt />
+                        </a>
+                      ) : (
+                        " NA"
+                      )}
+                    </span>
+                    <span className="profile-page-project-category">
+                      isCompleted: {project.iscompleted ? "Yes" : "No"}
+                    </span>
+                  </div>
+                  {/* <div className="profile-project-row">
+                    {project.github && (
+                      <a
+                        href={project.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="social-icon"
+                      >
+                        <FaGithub />
+                      </a>
+                    )}
+                    {project.linkedin && (
+                      <a
+                        href={project.linkedin}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="social-icon"
+                      >
+                        <FaLinkedin />
+                      </a>
+                    )}
+                    {project.instagram && (
+                      <a
+                        href={project.instagram}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="social-icon"
+                      >
+                        <FaInstagram />
+                      </a>
+                    )}
+                    {project.twitter && (
+                      <a
+                        href={project.twitter}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="social-icon"
+                      >
+                        <FaTwitter />
+                      </a>
+                    )}
+                  </div> */}
+                  <div className="profile-project-row social-links">
+          <a
+            href={project.github || "#"}
+            target={project.github ? "_blank" : ""}
+            rel="noopener noreferrer"
+            className={!project.github ? "disabled-link" : ""}
+          >
+            <FaGithub />
+          </a>
+          <a
+            href={project.linkedin || "#"}
+            target={project.linkedin ? "_blank" : ""}
+            rel="noopener noreferrer"
+            className={!project.linkedin ? "disabled-link" : ""}
+          >
+            <FaLinkedin />
+          </a>
+          <a
+            href={project.instagram || "#"}
+            target={project.instagram ? "_blank" : ""}
+            rel="noopener noreferrer"
+            className={!project.instagram ? "disabled-link" : ""}
+          >
+            <FaInstagram />
+          </a>
+          <a
+            href={project.twitter || "#"}
+            target={project.twitter ? "_blank" : ""}
+            rel="noopener noreferrer"
+            className={!project.twitter ? "disabled-link" : ""}
+          >
+            <FaTwitter />
+          </a>
         </div>
-        <div className="profile-project-row">
-          <span className="profile-page-project-category">
-            Deployed:
-            {project.deployed ? (
-              <a href={project.deployed} target="_blank" rel="noopener noreferrer">
-                <FaExternalLinkAlt />
-              </a>
-            ) : (
-              " NA"
-            )}
-          </span>
-          <span className="profile-page-project-category">
-            isCompleted: {project.iscompleted ? "Yes" : "No"}
-          </span>
-        </div>
-        <div className="profile-project-row">
-          {project.github && (
-            <a href={project.github} target="_blank" rel="noopener noreferrer" className="social-icon">
-              <FaGithub />
-            </a>
-          )}
-          {project.linkedin && (
-            <a href={project.linkedin} target="_blank" rel="noopener noreferrer" className="social-icon">
-              <FaLinkedin />
-            </a>
-          )}
-          {project.instagram && (
-            <a href={project.instagram} target="_blank" rel="noopener noreferrer" className="social-icon">
-              <FaInstagram />
-            </a>
-          )}
-          {project.twitter && (
-            <a href={project.twitter} target="_blank" rel="noopener noreferrer" className="social-icon">
-              <FaTwitter />
-            </a>
-          )}
-        </div>
-      </div>
-    </div>
-  ))}
+                </div>
+              </div>
+            ))}
 
-  {/* Render "No Project" cards if less than two projects exist */}
-  {projectData.length < 2 &&
-    Array.from({ length: 2 - projectData.length }).map((_, index) => (
-      <div className="profile-page-project-card no-project-card" key={`no-project-${index}`}>
-        <img
-          src="https://upload.wikimedia.org/wikipedia/commons/7/75/No_image_available.png"
-          alt="No Project"
-          className="profile-page-project-image"
-        />
-        <h2>No Project</h2>
-        <p>No project is available yet.</p>
-      </div>
-    ))}
-</div>
-
+            {/* Render "No Project" cards if less than two projects exist */}
+            {projectData.length < 2 &&
+              Array.from({ length: 2 - projectData.length }).map((_, index) => (
+                <div
+                  className="profile-page-project-card no-project-card"
+                  key={`no-project-${index}`}
+                >
+                  <img
+                    src="https://upload.wikimedia.org/wikipedia/commons/7/75/No_image_available.png"
+                    alt="No Project"
+                    className="profile-page-project-image"
+                  />
+                  <h2>No Project</h2>
+                  <p>No project is available yet.</p>
+                </div>
+              ))}
+          </div>
         </div>
       </div>
 
@@ -322,7 +387,11 @@ const Profile = () => {
         <div className="popup-container">
           <div className="popup-content">
             <h2>Edit Details</h2>
-            <form action={`${import.meta.env.VITE_BACK_URL}/upload`} method="POST" encType="multipart/form-data">
+            <form
+              action={`${import.meta.env.VITE_BACK_URL}/upload`}
+              method="POST"
+              encType="multipart/form-data"
+            >
               {/* Profile Image Upload with Preview */}
               <div className="popup-form-row">
                 <label>Profile Image:</label>
@@ -366,7 +435,7 @@ const Profile = () => {
                   className="save-button"
                   onClick={() => {
                     handleClosePopup();
-                    handSaveEditDetails()
+                    handSaveEditDetails();
                   }}
                 >
                   Save

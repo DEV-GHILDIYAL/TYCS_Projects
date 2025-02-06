@@ -238,16 +238,21 @@ button:hover {
 
 .profile-page-projects h2 {
   font-size: 1.5em;
-  margin-bottom: 15px;
+  /* margin-bottom: 10px; */
   /* color: #e0e0e0; */
 }
-.profile-page-projects {
+/* .profile-page-projects {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
   justify-content: space-between;
   gap: 20px;
   height: 100%;
+} */
+.profile-page-projects {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 .profile-project-row {
   display: flex;
@@ -260,15 +265,25 @@ button:hover {
   flex-direction: column;
   gap: 8px; /* Space between rows */
 }
-.profile-page-project-card {
+/* .profile-page-project-card {
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3); /* Stronger shadow */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   width: 100%;
-  /* height: 600px; */
   padding: 10px;
   text-align: center;
+} */
+.profile-page-project-card {
+  flex: 1;
+  min-width: 300px; /* Adjust this based on your design */
+  max-width: 100%; /* Adjust this based on your design */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  padding: 10px;
+  max-height: 320px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  /* margin: 2px 0; */
 }
-
 .profile-page-project-image {
   width: 100%;
   height: 150px;
@@ -301,7 +316,17 @@ button:hover {
 .profile-page-button.primary:hover {
   background: #584de3;
 }
+.social-links a {
+  color: #000;
+  font-size: 24px;
+  margin-right: 10px;
+  transition: opacity 0.3s ease;
+}
 
+.social-links a.disabled-link {
+  opacity: 0.4;
+  pointer-events: none; /* Disable clicking */
+}
 /* Responsive Design */
 @media (max-width: 768px) {
   .profile-page-container {
