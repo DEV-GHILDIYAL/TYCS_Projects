@@ -149,16 +149,19 @@ const Profile = () => {
           autoClose: 1000,
         });
         const fetchUpdatedProfile = async () => {
-          const response = await fetch(`${import.meta.env.VITE_BACK_URL}/auth/get-profile`, {
-            method: "GET",
-            headers: { "Content-Type": "application/json" },
-            credentials: "include",
-          });
-  
+          const response = await fetch(
+            `${import.meta.env.VITE_BACK_URL}/auth/get-profile`,
+            {
+              method: "GET",
+              headers: { "Content-Type": "application/json" },
+              credentials: "include",
+            }
+          );
+
           const updatedData = await response.json();
           if (response.ok) setProfileData(updatedData);
         };
-  
+
         await fetchUpdatedProfile();
         // window.location.reload();
       } else {
@@ -187,9 +190,19 @@ const Profile = () => {
           <header className="profile-page-header">
             <div className="profile-page-photo-container">
               <img
-                src={`${import.meta.env.VITE_BACK_URL}/${profileData.profilepic}?t=${Date.now()}`}
+                src={
+                  profileData.profilepic
+                    ? `${import.meta.env.VITE_BACK_URL}/${
+                        profileData.profilepic
+                      }?t=${Date.now()}`
+                    : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
+                }
                 alt="Profile"
                 className="profile-page-photo"
+                onError={(e) => {
+                  e.target.src =
+                    "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png";
+                }}
               />
             </div>
             <div className="profile-page-header-text">
@@ -432,7 +445,7 @@ const Profile = () => {
               <div className="popup-form-row">
                 <label>Profile Image:</label>
                 <div className="profile-image-preview">
-                <img
+                  <img
                     src={
                       selectedFile
                         ? URL.createObjectURL(selectedFile)
