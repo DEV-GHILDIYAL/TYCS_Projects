@@ -9,7 +9,7 @@ const AdminAttendance = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { data, sessionToView } = location.state || {};
-  const [attendanceStatus, setAttendanceStatus] = useState({});
+  const [attendanceStatus, setAttendanceStatus] = useState("Present");
   const [loading, setLoading] = useState(true);
 
   let main = [];
@@ -18,14 +18,14 @@ const AdminAttendance = () => {
   //only working when created session
   //it contains message and session details with students in there...
   //email is null in there 
-  console.log("admin attendance data console.log",data) 
+  // console.log("admin attendance data console.log",data) 
   if (data?.session) {
     main = data.session.students;
     sessionId = data.session._id;
     date = data.session.date;
   }
   //this has only student data which are inside session
-  console.log("main after data?.session",main)
+  // console.log("main after data?.session",main)
 
   // console.log("now viewing SessionToview",sessionToView)//gives out session we are viewing
   // but error in here is it is not getting in main or data  
@@ -43,11 +43,15 @@ const AdminAttendance = () => {
         const response = await fetch(
           `${import.meta.env.VITE_BACK_URL}/admin/attendance/status/${sessionId}`,
           {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
             credentials: "include", // Pass cookies for authentication
           }
         );
         const data = await response.json();
-        console.log(data);
+        console.log("UNNECESSARY",data);
 
         if (response.ok) {
           // Update attendanceStatus with the fetched data
@@ -55,7 +59,7 @@ const AdminAttendance = () => {
             acc[student._id] = data.attendance[student._id] || null; // Use fetched status or null if not available
             return acc;
           }, {});
-
+          console.log("STATUS", status);
           setAttendanceStatus(status);
         } else {
           console.error("Failed to fetch attendance:", data.error || "Unknown error");
@@ -79,25 +83,9 @@ const AdminAttendance = () => {
     // console.log("checking what is stored in attendance status",attendanceStatus)
   };
 
-  // const handleSubmit = () => {
-  //   const allMarked = Object.values(attendanceStatus).every(
-  //     (status) => status === "present" || status === "absent" // Check if all students have been marked
-  //   );
-
-  //   if (allMarked) {
-  //     navigate("/management/attendance-sessions");
-  //   } else {
-  //     toast.error("Please mark attendance for all students before submitting!");
-  //   }
-  // };
-
   const handleBack = () => {
     navigate("/management/attendance-sessions");
   };
-
-  // const handleEdit = () => {
-  //   toast.info("Edit functionality is not implemented yet!", {autoClose: 1500,});
-  // };
 
   if (loading) {
     return <div>Loading...</div>;
@@ -145,6 +133,7 @@ const AdminAttendance = () => {
                   onAttendanceMarked={(status) =>
                     handleAttendanceMarked(student._id, status)
                   }
+                  status={main.status}
                 />
               ))
             )}
@@ -157,20 +146,6 @@ const AdminAttendance = () => {
               <button className="attendance-student-back" onClick={handleBack}>
                 Back
               </button>
-              {/* <button className="attendance-student-edit" onClick={handleEdit}>
-                Edit
-              </button> */}
-            {/* </> */}
-          {/* )  */}
-          {/* // :( */}
-            {/* // <button */}
-            {/* //   className="attendance-student-submit"
-            //   onClick={handleSubmit}
-            // >
-            //   Submit
-            // </button>
-          // )
-        } */}
         </div>
       </div>
     </div>

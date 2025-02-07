@@ -14,6 +14,7 @@ const ExportDataComponent = () => {
     projectName: false,
     studentName: false,
     projectLink: false,
+    allSessionDetail: false,
   });
 
   // Sample data (replace with actual fetched data)

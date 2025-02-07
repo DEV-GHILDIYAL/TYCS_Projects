@@ -17,8 +17,8 @@ const SessionSchema = new mongoose.Schema({
             status: {type:String , enum: ['Present', 'Absent'],default:""},
         }
     ],
-    presentCount: { type: Number, default: 0 }, // Track present count
-    absentCount: { type: Number, default: 0 },  // Track absent count
+    presentCount: { type: Number, default: 0 },
+    absentCount: { type: Number, default: 0 },
 },{ timestamps: true });
 
 const Session = mongoose.model('Session', SessionSchema);

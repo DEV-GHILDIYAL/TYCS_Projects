@@ -219,7 +219,7 @@ export const getAttendanceStatus = async (req, res) => {
 
     // Convert date string to Date object for accurate comparison
     const formattedDate = new Date(date);
-
+    console.log(formattedDate);
     // Fetch attendance record for the student
     const attendance = await Attendance.findOne({
       userId,
@@ -239,6 +239,7 @@ export const getAttendanceStatus = async (req, res) => {
     );
 
     if (record) {
+      // console.log(record.status);
       return res.status(200).json({ status: record.status });
     } else {
       return res.status(404).json({ status: null });
@@ -248,15 +249,57 @@ export const getAttendanceStatus = async (req, res) => {
     res.status(500).json({ error: "Failed to fetch attendance status" });
   }
 };
+// export const getAttendanceStatusWithId = async (req, res) => {
+//   console.log("Getting Attendance Status");
+//   try {
+//     const { sessionId } = req.params;
+
+//     // Fetch attendance records and populate student details
+//     const attendanceRecords = await Attendance.find({
+//       "attendance.sessionId": sessionId,
+//     }).populate("userId", "name"); // Populate only name field from User
+
+//     if (!attendanceRecords || attendanceRecords.length === 0) {
+//       return res
+//         .status(404)
+//         .json({ error: "No attendance records found for this session" });
+//     }
+
+//     // Process the attendance data safely
+//     const attendanceData = attendanceRecords
+//       .map((record) => {
+//         if (!record.userId) {
+//           console.warn("Missing userId for attendance record:", record._id);
+//           return null; // Skip this record if userId is null
+//         }
+
+//         return {
+//           userId: record.userId._id,
+//           name: record.userId.name || "Unknown",
+//           attendance: record.attendance.filter(
+//             (a) => a.sessionId.toString() === sessionId
+//           ),
+//         };
+//       })
+//       .filter(Boolean); // Remove null values from the array
+//       console.log(attendanceData.attendance);
+//     res.status(200).json({ attendance: attendanceData });
+//   } catch (error) {
+//     console.error("Error fetching attendance status:", error);
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// };
+
 export const getAttendanceStatusWithId = async (req, res) => {
   console.log("Getting Attendance Status");
+
   try {
     const { sessionId } = req.params;
 
-    // Fetch attendance records and populate student details
+    // Fetch attendance records for the given sessionId
     const attendanceRecords = await Attendance.find({
-      "attendance.sessionId": sessionId,
-    }).populate("userId", "name"); // Populate only name field from User
+      attendance: { $elemMatch: { sessionId: sessionId } },
+    });
 
     if (!attendanceRecords || attendanceRecords.length === 0) {
       return res
@@ -264,30 +307,26 @@ export const getAttendanceStatusWithId = async (req, res) => {
         .json({ error: "No attendance records found for this session" });
     }
 
-    // Process the attendance data safely
-    const attendanceData = attendanceRecords
-      .map((record) => {
-        if (!record.userId) {
-          console.warn("Missing userId for attendance record:", record._id);
-          return null; // Skip this record if userId is null
-        }
+    // Extract only the 'status' from the attendance array
+    const attendanceStatus = attendanceRecords.map((record) => {
+      const sessionAttendance = record.attendance.find(
+        (a) => a.sessionId.toString() === sessionId
+      );
+      return {
+        userId: record.userId,
+        status: sessionAttendance ? sessionAttendance.status : "Unknown",
+      };
+    });
 
-        return {
-          userId: record.userId._id,
-          name: record.userId.name || "Unknown",
-          attendance: record.attendance.filter(
-            (a) => a.sessionId.toString() === sessionId
-          ),
-        };
-      })
-      .filter(Boolean); // Remove null values from the array
-
-    res.status(200).json({ attendance: attendanceData });
+    // console.log(attendanceStatus);
+    res.status(200).json({ attendanceStatus });
   } catch (error) {
     console.error("Error fetching attendance status:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
+
 //creating sesssion
 export const createSession = async (req, res) => {
   const { sessionNo, date, batch, project, department, year } = req.body;
