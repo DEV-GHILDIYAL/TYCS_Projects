@@ -214,16 +214,35 @@ button:hover {
   position: relative;
   display: inline-block;
 }
-
 .profile-page-details {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
+  width: 100%;
 }
 
 .profile-page-detail-row {
   display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.profile-page-detail-left {
+  width: 48%; /* Make each detail take half the row */
+  display: flex;
   flex-direction: row;
+}
+
+.profile-page-detail-right {
+  width: 48%; /* Make each detail take half the row */
+  display: flex;
+  flex-direction: row;
+  padding-left: 100px;
+}
+
+.profile-page-detail label {
+  font-weight: bold;
+}
+
+.profile-page-detail p {
+  margin: 0;
 }
 
 .profile-page-detail-row p {
@@ -381,5 +400,58 @@ button:hover {
   .profile-page-button {
     padding: 6px 12px;
     font-size: 0.8em;
+  }
+}
+
+
+
+
+
+
+
+.profile-page-table-container {
+  /* margin-top: 20px; */
+  overflow-x: auto;
+}
+.profile-page-table-container::-webkit-scrollbar {
+  height: 8px; /* Thickness of the scrollbar */
+}
+
+.profile-page-table-container::-webkit-scrollbar-track {
+  background: #f0f0f0;
+  border-radius: 10px;
+}
+
+.profile-page-table-container::-webkit-scrollbar-thumb {
+  background: #888; /* Scrollbar color */
+  border-radius: 10px;
+}
+
+.profile-page-table-container::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Scrollbar color on hover */
+}
+
+.profile-page-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+.profile-page-table th,
+.profile-page-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+}
+
+.profile-page-table th {
+  font-weight: bold;
+}
+
+
+@media (max-width: 768px) {
+  .profile-page-table th,
+  .profile-page-table td {
+    padding: 5px;
+    font-size: 12px;
   }
 }

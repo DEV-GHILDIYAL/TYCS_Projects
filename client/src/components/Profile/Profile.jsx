@@ -213,7 +213,7 @@ const Profile = () => {
             </div>
           </header>
 
-          <div className="profile-page-details">
+          {/* <div className="profile-page-details">
             <div className="profile-page-detail-row">
               <label>Name:</label>
               <p>{profileData.name.toUpperCase()}</p>
@@ -243,7 +243,44 @@ const Profile = () => {
               <label>Department:</label>
               <p>{profileData.department}</p>
             </div>
-          </div>
+          </div> */}
+          <div className="profile-page-details">
+  <div className="profile-page-detail-row">
+    <div className="profile-page-detail-left">
+      <label>Name:</label>
+      <p>{profileData.name.toUpperCase()}</p>
+    </div>
+    {profileData.phoneNo && profileData.phoneNo !== "0" && profileData.phoneNo !== 0 && (
+      <div className="profile-page-detail-right">
+        <label>Phone:</label>
+        <p>{profileData.phoneNo}</p>
+      </div>
+    )}
+  </div>
+
+  <div className="profile-page-detail-row">
+    <div className="profile-page-detail-left">
+      <label>Email:</label>
+      <p>{profileData.email}</p>
+    </div>
+    <div className="profile-page-detail-right">
+      <label>Year:</label>
+      <p>{profileData.year}</p>
+    </div>
+  </div>
+
+  <div className="profile-page-detail-row">
+    <div className="profile-page-detail-left">
+      <label>Batch:</label>
+      <p>{profileData.batch}</p>
+    </div>
+    <div className="profile-page-detail-right">
+      <label>Department:</label>
+      <p>{profileData.department}</p>
+    </div>
+  </div>
+</div>
+
 
           <div className="profile-page-edit-details-container">
             <button
@@ -253,47 +290,34 @@ const Profile = () => {
               Edit Details
             </button>
           </div>
+          <div className="profile-page-table-container">
+    <table className="profile-page-table">
+      <thead>
+        <tr>
+          <th>Project</th>
+          {[...Array(15)].map((_, index) => (
+            <th key={index}>Session {index + 1}</th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Project One</td>
+          {[...Array(15)].map((_, index) => (
+            <td key={index}></td>
+          ))}
+        </tr>
+        <tr>
+          <td>Project Two</td>
+          {[...Array(15)].map((_, index) => (
+            <td key={index}></td>
+          ))}
+        </tr>
+      </tbody>
+    </table>
+  </div>
         </div>
         <div className="profile-page-right-column">
-          {/* <div className="profile-page-projects">
-            {projectData.map((project, index) => (
-              <div className="profile-page-project-card" key={index}>
-                <img
-                  src="https://www.baker.edu/wp-content/uploads/game-developer-degree.jpg"
-                  alt={project.title}
-                  className="profile-page-project-image"
-                />
-                <h2>{project.title}</h2>
-                <div className="profile-project-data">
-                  <div className="profile-project-row">
-                    <span className="profile-page-project-category">
-                      Category: {project.category}
-                    </span>
-                    <span className="profile-page-project-category">
-                      Project No: {project.project}
-                    </span>
-                  </div>
-                  <div className="profile-project-row">
-                    <span className="profile-page-project-category">
-                      Description: {project.description}
-                    </span>
-                    <span className="profile-page-project-category">
-                      isCompleted: {project.iscompleted}
-                    </span>
-                  </div>
-                  <div className="profile-project-row">
-                    <span className="profile-page-project-category">
-                      Github: {project.github}
-                    </span>
-                    <span className="profile-page-project-category">
-                       Deployed: {project.deployed}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div> */}
-
           <div className="profile-page-projects">
             {projectData.slice(0, 2).map((project, index) => (
               <div className="profile-page-project-card" key={index}>
@@ -331,48 +355,7 @@ const Profile = () => {
                       isCompleted: {project.iscompleted ? "Yes" : "No"}
                     </span>
                   </div>
-                  {/* <div className="profile-project-row">
-                    {project.github && (
-                      <a
-                        href={project.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="social-icon"
-                      >
-                        <FaGithub />
-                      </a>
-                    )}
-                    {project.linkedin && (
-                      <a
-                        href={project.linkedin}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="social-icon"
-                      >
-                        <FaLinkedin />
-                      </a>
-                    )}
-                    {project.instagram && (
-                      <a
-                        href={project.instagram}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="social-icon"
-                      >
-                        <FaInstagram />
-                      </a>
-                    )}
-                    {project.twitter && (
-                      <a
-                        href={project.twitter}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="social-icon"
-                      >
-                        <FaTwitter />
-                      </a>
-                    )}
-                  </div> */}
+                  
                   <div className="profile-project-row social-links">
                     <a
                       href={project.github || "#"}
