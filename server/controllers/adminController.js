@@ -77,10 +77,28 @@ export const addstudent = async (req, res) => {
 
 export const attendanceMark = async (req, res) => {
   try {
-    const { userId, name, rollNo, date, status, sessionId } = req.body;
+    const {
+      userId,
+      name,
+      rollNo,
+      date,
+      status,
+      projectName,
+      sessionNo,
+      sessionId,
+    } = req.body;
 
     // Validate input
-    if (!userId || !name || !rollNo || !date || !status || !sessionId) {
+    if (
+      !userId ||
+      !name ||
+      !rollNo ||
+      !date ||
+      !status ||
+      !sessionId ||
+      !projectName ||
+      !sessionNo
+    ) {
       return res.status(400).json({ error: "Missing required fields" });
     }
 
@@ -127,13 +145,17 @@ export const attendanceMark = async (req, res) => {
       );
 
       if (student) {
-        // Check the previous status and update the counts accordingly
-        // if (student.status === "Present" && formattedStatus !== "Present") {
-        //   session.presentCount -= 1;
-      // }else  
-        if (student.status === "Absent" && formattedStatus !== "Absent") {
-          session.absentCount += 1;
-        }
+        // Adjust counts based on previous status
+        // if (student.status === "Present" && formattedStatus === "Absent") {
+        //   // session.presentCount -= 1; // Reduce present count
+        //   session.absentCount += 1; // Increase absent count
+        // } else if (
+        //   student.status === "Absent" &&
+        //   formattedStatus === "Present"
+        // ) {
+        //   // session.absentCount -= 1; // Reduce absent count
+        //   session.presentCount += 1; // Increase present count
+        // }
 
         // Update the status of the student
         student.status = formattedStatus;
@@ -159,6 +181,51 @@ export const attendanceMark = async (req, res) => {
 
       // await session.save();
 
+      // const existingAttendance = await Attendance.findOne({ userId });
+
+      // if (existingAttendance) {
+      //   // Find if the user already has an attendance entry for this session
+      //   const existingRecord = existingAttendance.attendance.find(
+      //     (entry) =>
+      //       entry.date.toISOString() === formattedDate &&
+      //       entry.sessionId.toString() === sessionId
+      //   );
+
+      //   if (existingRecord) {
+      //     // If changing status, adjust totalPresent & totalAbsent
+      //     if (existingRecord.status !== formattedStatus) {
+      //       if (existingRecord.status === "Present") {
+      //         existingAttendance.totalPresent -= 1;
+      //       } else {
+      //         existingAttendance.totalAbsent -= 1;
+      //       }
+
+      //       if (formattedStatus === "Present") {
+      //         existingAttendance.totalPresent += 1;
+      //       } else {
+      //         existingAttendance.totalAbsent += 1;
+      //       }
+
+      //       existingRecord.status = formattedStatus; // Update status
+      //     }
+      //   } else {
+      //     // If no existing record, add new attendance entry
+      //     existingAttendance.attendance.push({
+      //       date: formattedDate,
+      //       status: formattedStatus,
+      //       sessionId,
+      //       projectName,
+      //       sessionNo,
+      //     });
+
+      //     if (formattedStatus === "Present") {
+      //       existingAttendance.totalPresent += 1;
+      //     } else {
+      //       existingAttendance.totalAbsent += 1;
+      //     }
+      //   }
+      // }
+      // await existingAttendance.save();
       // Update existing attendance record
       const updatedAttendance = await Attendance.findOneAndUpdate(
         { userId },
@@ -168,6 +235,8 @@ export const attendanceMark = async (req, res) => {
               date: formattedDate,
               status: formattedStatus,
               sessionId,
+              projectName,
+              sessionNo,
             },
           },
           $inc: {
@@ -176,7 +245,6 @@ export const attendanceMark = async (req, res) => {
         },
         { new: true }
       );
-
       return res.status(200).json({
         message: "Attendance updated successfully",
         data: updatedAttendance,
@@ -188,7 +256,13 @@ export const attendanceMark = async (req, res) => {
         name,
         rollNo,
         attendance: [
-          { date: formattedDate, status: formattedStatus, sessionId },
+          {
+            date: formattedDate,
+            status: formattedStatus,
+            sessionId,
+            projectName,
+            sessionNo,
+          },
         ],
         totalPresent: formattedStatus === "Present" ? 1 : 0,
         totalAbsent: formattedStatus === "Absent" ? 1 : 0,
@@ -544,10 +618,9 @@ export const dashboard = async (req, res) => {
   }
 };
 
-
-export const uploadStudentData = async(req, res) => {
+export const uploadStudentData = async (req, res) => {
   try {
-    let {students} = req.query;
+    let { students } = req.query;
     console.log(students);
     if (typeof students === "string") {
       students = JSON.parse(students);
@@ -555,23 +628,23 @@ export const uploadStudentData = async(req, res) => {
     if (!Array.isArray(students)) {
       return res.status(400).json({ error: "Invalid students data format" });
     }
-      const bulkOps = students?.map(student => ({
-        updateOne: {
-          filter: { rollNo: student.rollNo },
-          update: { $setOnInsert: student }, // Only set if the document does not exist
-          upsert: true // Insert if the document doesn't exist
-        }
-      }));
-  
-      const result = await userModel.bulkWrite(bulkOps);
-      console.log(`${result.upsertedCount} new student(s) inserted`);
-      console.log(`${result.modifiedCount} existing student(s) updated`);
-    } catch (error) {
-      console.error("Error connecting to MongoDB or updating data:", error);
-    }
-}
+    const bulkOps = students?.map((student) => ({
+      updateOne: {
+        filter: { rollNo: student.rollNo },
+        update: { $setOnInsert: student }, // Only set if the document does not exist
+        upsert: true, // Insert if the document doesn't exist
+      },
+    }));
 
-export const exportUserData = async(req, res) => {
+    const result = await userModel.bulkWrite(bulkOps);
+    console.log(`${result.upsertedCount} new student(s) inserted`);
+    console.log(`${result.modifiedCount} existing student(s) updated`);
+  } catch (error) {
+    console.error("Error connecting to MongoDB or updating data:", error);
+  }
+};
+
+export const exportUserData = async (req, res) => {
   try {
     const attendanceData = await Attendance.find()
       .populate("userId", "name rollNo email") // Populate user details (e.g., name, rollNo, email)
@@ -582,4 +655,4 @@ export const exportUserData = async(req, res) => {
   } catch (error) {
     console.error("Error fetching attendance data:", error);
   }
-}
+};
