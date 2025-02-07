@@ -144,18 +144,8 @@ export const attendanceMark = async (req, res) => {
         (student) => student.userId === userId
       );
 
+      console.log("stu",formattedStatus)
       if (student) {
-        // Adjust counts based on previous status
-        // if (student.status === "Present" && formattedStatus === "Absent") {
-        //   // session.presentCount -= 1; // Reduce present count
-        //   session.absentCount += 1; // Increase absent count
-        // } else if (
-        //   student.status === "Absent" &&
-        //   formattedStatus === "Present"
-        // ) {
-        //   // session.absentCount -= 1; // Reduce absent count
-        //   session.presentCount += 1; // Increase present count
-        // }
 
         // Update the status of the student
         student.status = formattedStatus;
@@ -163,24 +153,13 @@ export const attendanceMark = async (req, res) => {
         // Update the present or absent count based on the new status
         if (formattedStatus === "Present") {
           session.presentCount += 1;
-        } else if (formattedStatus === "Absent") {
+        } else if (formattedStatus=== "Absent") {
           session.absentCount += 1;
         }
 
         // Save the updated session
         await session.save();
       }
-
-      // // Update present and absent count
-      // if (formattedStatus === "Present") {
-      //   session.presentCount += 1;
-      //   // session.students.status = "Present"
-      // } else if (formattedStatus === "Absent") {
-      //   session.absentCount += 1;
-      // }
-
-      // await session.save();
-
       // const existingAttendance = await Attendance.findOne({ userId });
 
       // if (existingAttendance) {
@@ -227,6 +206,7 @@ export const attendanceMark = async (req, res) => {
       // }
       // await existingAttendance.save();
       // Update existing attendance record
+
       const updatedAttendance = await Attendance.findOneAndUpdate(
         { userId },
         {

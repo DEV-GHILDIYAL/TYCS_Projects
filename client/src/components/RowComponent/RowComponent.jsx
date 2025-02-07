@@ -10,6 +10,7 @@ export const RowComponentForAttendance = ({
   name,
   projectName,
   sessionId,
+  sessionNo,
   userId,
   date,
   onAttendanceMarked,
@@ -20,10 +21,10 @@ export const RowComponentForAttendance = ({
 
   // console.log("THIS IS TEXT", rollNo, name, sessionId);
   // Fetch attendance status for the student
-  
+
   useEffect(() => {
     const fetchAttendanceStatus = async () => {
-      console.log(onAttendanceMarked);
+      // console.log(onAttendanceMarked);
       try {
         const response = await fetch(
           `${import.meta.env.VITE_BACK_URL}/admin/attendance/status`,
@@ -65,7 +66,7 @@ export const RowComponentForAttendance = ({
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ userId, date, status, sessionId, name, rollNo }),
+          body: JSON.stringify({ userId, date, status, sessionId,projectName,sessionNo, name, rollNo }),
           credentials: "include", // Pass cookies for authentication
         }
       );

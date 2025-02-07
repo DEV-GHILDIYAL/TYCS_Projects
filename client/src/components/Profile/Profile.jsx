@@ -13,6 +13,7 @@ import {
 const Profile = () => {
   const [selectedFile, setSelectedFile] = useState();
   const [isPopupVisible, setIsPopupVisible] = useState(false); // State for popup visibility
+  const [attendance, setAttendance] = useState([]);
   const [profileData, setProfileData] = useState({
     name: "",
     rollNo: "",
@@ -183,6 +184,59 @@ const Profile = () => {
       });
     }
   };
+
+  useEffect(() => {
+    if (!profileData?.userId) return; // Exit if userId is not available
+
+    const fetchAttend = async () => {
+      try {
+        const id = profileData.userId;
+        const response = await fetch(
+          `${import.meta.env.VITE_BACK_URL}/attendance`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ id }),
+            credentials: "include",
+          }
+        );
+
+        const data = await response.json();
+        console.log("this is data of attendance", data);
+        if (response.ok) {
+          setAttendance(data[0].attendance);
+          console.log("attendance, array", data[0].attendance);
+          toast.success("Data fetched!", {
+            position: "top-right",
+            theme: "light",
+            transition: Slide,
+            autoClose: 1000,
+          });
+        } else {
+          console.error("Server error:", data.message);
+          toast.error("Student data is not fetched!", {
+            position: "top-right",
+            theme: "dark",
+            transition: Slide,
+            autoClose: 1000,
+          });
+        }
+      } catch (error) {
+        console.error("Failed to fetch students:", error);
+        toast.error("Failed to fetch students. Please try again!", {
+          position: "top-right",
+          theme: "dark",
+          transition: Slide,
+          autoClose: 1000,
+        });
+      }
+    };
+
+    fetchAttend();
+  }, [profileData]);
+
   return (
     <div className="profile-page-container">
       <div className="profile-page-card">
@@ -245,42 +299,43 @@ const Profile = () => {
             </div>
           </div> */}
           <div className="profile-page-details">
-  <div className="profile-page-detail-row">
-    <div className="profile-page-detail-left">
-      <label>Name:</label>
-      <p>{profileData.name.toUpperCase()}</p>
-    </div>
-    {profileData.phoneNo && profileData.phoneNo !== "0" && profileData.phoneNo !== 0 && (
-      <div className="profile-page-detail-right">
-        <label>Phone:</label>
-        <p>{profileData.phoneNo}</p>
-      </div>
-    )}
-  </div>
+            <div className="profile-page-detail-row">
+              <div className="profile-page-detail-left">
+                <label>Name:</label>
+                <p>{profileData.name.toUpperCase()}</p>
+              </div>
+              {profileData.phoneNo &&
+                profileData.phoneNo !== "0" &&
+                profileData.phoneNo !== 0 && (
+                  <div className="profile-page-detail-right">
+                    <label>Phone:</label>
+                    <p>{profileData.phoneNo}</p>
+                  </div>
+                )}
+            </div>
 
-  <div className="profile-page-detail-row">
-    <div className="profile-page-detail-left">
-      <label>Email:</label>
-      <p>{profileData.email}</p>
-    </div>
-    <div className="profile-page-detail-right">
-      <label>Year:</label>
-      <p>{profileData.year}</p>
-    </div>
-  </div>
+            <div className="profile-page-detail-row">
+              <div className="profile-page-detail-left">
+                <label>Email:</label>
+                <p>{profileData.email}</p>
+              </div>
+              <div className="profile-page-detail-right">
+                <label>Year:</label>
+                <p>{profileData.year}</p>
+              </div>
+            </div>
 
-  <div className="profile-page-detail-row">
-    <div className="profile-page-detail-left">
-      <label>Batch:</label>
-      <p>{profileData.batch}</p>
-    </div>
-    <div className="profile-page-detail-right">
-      <label>Department:</label>
-      <p>{profileData.department}</p>
-    </div>
-  </div>
-</div>
-
+            <div className="profile-page-detail-row">
+              <div className="profile-page-detail-left">
+                <label>Batch:</label>
+                <p>{profileData.batch}</p>
+              </div>
+              <div className="profile-page-detail-right">
+                <label>Department:</label>
+                <p>{profileData.department}</p>
+              </div>
+            </div>
+          </div>
 
           <div className="profile-page-edit-details-container">
             <button
@@ -291,31 +346,44 @@ const Profile = () => {
             </button>
           </div>
           <div className="profile-page-table-container">
-    <table className="profile-page-table">
-      <thead>
-        <tr>
-          <th>Project</th>
-          {[...Array(15)].map((_, index) => (
-            <th key={index}>Session {index + 1}</th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Project One</td>
-          {[...Array(15)].map((_, index) => (
-            <td key={index}></td>
-          ))}
-        </tr>
-        <tr>
-          <td>Project Two</td>
-          {[...Array(15)].map((_, index) => (
-            <td key={index}></td>
-          ))}
-        </tr>
-      </tbody>
-    </table>
-  </div>
+          <table className="profile-page-table">
+  <thead>
+    <tr>
+      <th>Project</th>
+      {[...Array(15)].map((_, index) => (
+        <th key={index}>{`Session ${index + 1}`}</th>
+      ))}
+    </tr>
+  </thead>
+  <tbody>
+    {["Project One", "Project Two"].map((project) => (
+      <tr key={project}>
+        <td>{project}</td>
+        {[...Array(15)].map((_, index) => {
+          const sessionKey = `Session${index + 1}`; // Matches the "sessionNo" format
+
+          // Debugging logs (Check console for correctness)
+          // console.log("Checking:", { project, sessionKey });
+
+          // Finding a matching attendance record
+          const record = attendance?.find(
+            (entry) =>
+              entry?.projectName?.trim()?.toLowerCase() === project.trim().toLowerCase() &&
+              entry?.sessionNo?.trim()?.toLowerCase() === sessionKey.trim().toLowerCase()
+          );
+
+          return (
+            <td key={sessionKey}>
+              {record ? (record.status === "Present" ? "✔" : "❌") : "-"}
+            </td>
+          );
+        })}
+      </tr>
+    ))}
+  </tbody>
+</table>
+
+          </div>
         </div>
         <div className="profile-page-right-column">
           <div className="profile-page-projects">
@@ -355,7 +423,7 @@ const Profile = () => {
                       isCompleted: {project.iscompleted ? "Yes" : "No"}
                     </span>
                   </div>
-                  
+
                   <div className="profile-project-row social-links">
                     <a
                       href={project.github || "#"}

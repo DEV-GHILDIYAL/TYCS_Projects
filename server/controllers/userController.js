@@ -1,3 +1,4 @@
+import Attendance from "../models/attendModel.js";
 import Project from "../models/projectModel.js";
 import userModel from "../models/userModel.js";
 import jwt from "jsonwebtoken"
@@ -84,7 +85,27 @@ export const fetchProjects = async (req, res) => {
     res.status(500).json({ message: "Error fetching projects", error });
   }
 };
+export const fetchAttendance = async (req, res) => {
+  try {
+    const { id } = req.body;
 
+    if (!id) {
+      return res.status(400).json({ message: "User ID is required" });
+    }
+
+    // Fetch attendance only for the given user ID
+    const data = await Attendance.find({ userId: id });
+
+    if (!data || data.length === 0) {
+      return res.status(404).json({ message: "No attendance records found" });
+    }
+    console.log(data)
+    res.status(200).json(data);
+  } catch (error) {
+    console.error("Error fetching attendance:", error);
+    res.status(500).json({ message: "Error fetching attendance", error });
+  }
+};
 export const UserProject = async (req, res) => {
   try {
     const project = await Project.find({ userId: req.user.id });
