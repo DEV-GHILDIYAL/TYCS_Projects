@@ -242,6 +242,123 @@ const projects = [
     project: "Project Two",//Project One
     github: "http://localhost:5173/"
 },
+{name: "aarav singh",
+    email:"g22.aaravv.singhas@gnkhalsa.edu.in",
+    rollno: 510,//477
+    iscompleted:"true",
+    title: "ABCfdaDEF",
+    description: "To streamline and automate the management of library operations, such as book inventory, user management, borrowing/returning books, and fines tracking. To streamline and automate the management of library operations, such as book inventory, user management, borrowing/returning books, and fines tracking.",
+    category: "Web Development",
+    deployed: "http://localhost:5173/",
+    batch:"Batch3",
+    year:"2024-2025",//2025-2026
+    department:"CS",//IT
+    project: "Project Two",//Project One
+    github: "http://localhost:5173/"},
+    {name: "aarav singh",
+        email:"g22.aaravdsfv.singhas@gnkhalsa.edu.in",
+        rollno: 511,//477
+        iscompleted:"true",
+        title: "ABCfdaDEF",
+        description: "To streamline and automate the management of library operations, such as book inventory, user management, borrowing/returning books, and fines tracking. To streamline and automate the management of library operations, such as book inventory, user management, borrowing/returning books, and fines tracking.",
+        category: "Web Development",
+        deployed: "http://localhost:5173/",
+        batch:"Batch3",
+        year:"2024-2025",//2025-2026
+        department:"CS",//IT
+        project: "Project Two",//Project One
+        github: "http://localhost:5173/"},
+        {name: "aarav singh",
+            email:"g22.aaravxcdsfv.singhas@gnkhalsa.edu.in",
+            rollno: 512,//477
+            iscompleted:"true",
+            title: "ABCfdaDEF",
+            description: "To streamline and automate the management of library operations, such as book inventory, user management, borrowing/returning books, and fines tracking. To streamline and automate the management of library operations, such as book inventory, user management, borrowing/returning books, and fines tracking.",
+            category: "Web Development",
+            deployed: "http://localhost:5173/",
+            batch:"Batch2",
+            year:"2024-2025",//2025-2026
+            department:"CS",//IT
+            project: "Project Two",//Project One
+            github: "http://localhost:5173/"},
+            {name: "aarav singh",
+                email:"g22.aaravdfdsfsfv.singhas@gnkhalsa.edu.in",
+                rollno: 513,//477
+                iscompleted:"true",
+                title: "ABCfdaDEF",
+                description: "To streamline and automate the management of library operations, such as book inventory, user management, borrowing/returning books, and fines tracking. To streamline and automate the management of library operations, such as book inventory, user management, borrowing/returning books, and fines tracking.",
+                category: "Web Development",
+                deployed: "http://localhost:5173/",
+                batch:"Batch2",
+                year:"2024-2025",//2025-2026
+                department:"CS",//IT
+                project: "Project Two",//Project One
+                github: "http://localhost:5173/"},
+                {name: "aarav singh",
+                    email:"g22.aaravdsfv.sidfsnghas@gnkhalsa.edu.in",
+                    rollno: 514,//477
+                    iscompleted:"true",
+                    title: "ABCfdaDEF",
+                    description: "To streamline and automate the management of library operations, such as book inventory, user management, borrowing/returning books, and fines tracking. To streamline and automate the management of library operations, such as book inventory, user management, borrowing/returning books, and fines tracking.",
+                    category: "Web Development",
+                    deployed: "http://localhost:5173/",
+                    batch:"Batch1",
+                    year:"2024-2025",//2025-2026
+                    department:"CS",//IT
+                    project: "Project Two",//Project One
+                    github: "http://localhost:5173/"},
+                    {name: "aarav singh",
+                        email:"g22.aaravdsfv.sifsnghas@gnkhalsa.edu.in",
+                        rollno: 515,//477
+                        iscompleted:"true",
+                        title: "ABCfdaDEF",
+                        description: "To streamline and automate the management of library operations, such as book inventory, user management, borrowing/returning books, and fines tracking. To streamline and automate the management of library operations, such as book inventory, user management, borrowing/returning books, and fines tracking.",
+                        category: "Web Development",
+                        deployed: "http://localhost:5173/",
+                        batch:"Batch1",
+                        year:"2024-2025",//2025-2026
+                        department:"CS",//IT
+                        project: "Project Two",//Project One
+                        github: "http://localhost:5173/"},
+                        {name: "aarav singh",
+                            email:"g22.daf.fsad@gnkhalsa.edu.in",
+                            rollno: 517,//477
+                            iscompleted:"true",
+                            title: "ABCfdaDEF",
+                            description: "To streamline and automate the management of library operations, such as book inventory, user management, borrowing/returning books, and fines tracking. To streamline and automate the management of library operations, such as book inventory, user management, borrowing/returning books, and fines tracking.",
+                            category: "Web Development",
+                            deployed: "http://localhost:5173/",
+                            batch:"Batch1",
+                            year:"2024-2025",//2025-2026
+                            department:"CS",//IT
+                            project: "Project One",//Project One
+                            github: "http://localhost:5173/"},
+                            {name: "aarav singh",
+                                email:"g22.daf.fsdfad@gnkhalsa.edu.in",
+                                rollno: 518,//477
+                                iscompleted:"true",
+                                title: "ABCfdaDEF",
+                                description: "To streamline and automate the management of library operations, such as book inventory, user management, borrowing/returning books, and fines tracking. To streamline and automate the management of library operations, such as book inventory, user management, borrowing/returning books, and fines tracking.",
+                                category: "Web Development",
+                                deployed: "http://localhost:5173/",
+                                batch:"Batch1",
+                                year:"2024-2025",//2025-2026
+                                department:"CS",//IT
+                                project: "Project One",//Project One
+                                github: "http://localhost:5173/"},
+                                {name: "aarav singh",
+                                    email:"g22.daf.fsfdad@gnkhalsa.edu.in",
+                                    rollno: 517,//477
+                                    iscompleted:"true",
+                                    title: "ABCfdaDEF",
+                                    description: "To streamline and automate the management of library operations, such as book inventory, user management, borrowing/returning books, and fines tracking. To streamline and automate the management of library operations, such as book inventory, user management, borrowing/returning books, and fines tracking.",
+                                    category: "Web Development",
+                                    deployed: "http://localhost:5173/",
+                                    batch:"Batch2",
+                                    year:"2024-2025",//2025-2026
+                                    department:"CS",//IT
+                                    project: "Project One",//Project One
+                                    github: "http://localhost:5173/"},
   ];
 
 const DBconnect = async () => {
@@ -249,17 +366,17 @@ const DBconnect = async () => {
     await mongoose.connect(process.env.MONGODB_URI);
     console.log("Connected to MongoDB");
 
-    // const bulkOps = projects.map(project => ({
-    //   updateOne: {
-    //     filter: { email: project.email },
-    //     update: { $setOnInsert: project }, // Only set if the document does not exist
-    //     upsert: true // Insert if the document doesn't exist
-    //   }
-    // }));
+    const bulkOps = projects.map(project => ({
+      updateOne: {
+        filter: { email: project.email },
+        update: { $setOnInsert: project }, // Only set if the document does not exist
+        upsert: true // Insert if the document doesn't exist
+      }
+    }));
 
-    // const result = await projectModel.bulkWrite(bulkOps);
-    // console.log(`${result.upsertedCount} new project(s) inserted`);
-    // console.log(`${result.modifiedCount} existing project(s) updated`);
+    const result = await projectModel.bulkWrite(bulkOps);
+    console.log(`${result.upsertedCount} new project(s) inserted`);
+    console.log(`${result.modifiedCount} existing project(s) updated`);
   } catch (error) {
     console.error("Error connecting to MongoDB or updating data:", error);
   }

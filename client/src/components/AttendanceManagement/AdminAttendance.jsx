@@ -15,6 +15,7 @@ const AdminAttendance = () => {
   let main = [];
   let sessionId = null;
   let date = null;
+  let sessionNo = null;
   //only working when created session
   //it contains message and session details with students in there...
   //email is null in there 
@@ -22,16 +23,18 @@ const AdminAttendance = () => {
   if (data?.session) {
     main = data.session.students;
     sessionId = data.session._id;
+    sessionNo =  data.session.sessionNo;
     date = data.session.date;
   }
   //this has only student data which are inside session
   // console.log("main after data?.session",main)
 
-  // console.log("now viewing SessionToview",sessionToView)//gives out session we are viewing
+  console.log("now viewing SessionToview",sessionToView)//gives out session we are viewing
   // but error in here is it is not getting in main or data  
   if (sessionToView) {
     main = sessionToView.students || [];
     sessionId = sessionToView._id;
+    sessionNo = sessionToView.sessionNo;
     date = sessionToView.date;
   }
   console.log("main in here",main)
@@ -128,6 +131,8 @@ const AdminAttendance = () => {
                 name={student.name}
                   projectName={student.projectName}
                   sessionId={sessionId}
+                  // projectName={student.projectName}
+                  sessionNo={sessionNo}
                   userId={student.userId}
                   date={date}
                   onAttendanceMarked={(status) =>
