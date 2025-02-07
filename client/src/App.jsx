@@ -98,6 +98,7 @@ function App() {
               <>
                 <Route path="/my-projects" element={<MyProjects />} />
                 <Route path="/create-project" element={<EventDetailsForm />} />
+                <Route path="/profile" element={isLoggedIn ? <Profile /> : <Navigate to="/login" />} />
               </>
             ) : null}
 
@@ -129,7 +130,6 @@ function App() {
             <Route path="/about-us" element={<About />} />
             <Route path="/login" element={<LoginComponent />} />
             <Route path="/register" element={<SetPassword />} />
-            <Route path="/profile" element={isLoggedIn ? <Profile /> : <Navigate to="/login" />} />
             <Route path="/otp" element={<OtpInput />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
@@ -144,6 +144,7 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/my-projects" element={<MyProjects />} />
                 <Route path="/create-project" element={<EventDetailsForm />} />
+                <Route path="/profile" element={isLoggedIn ? <Profile /> : <Navigate to="/login" />} />
               </>
             ) : null}
 
@@ -175,7 +176,6 @@ function App() {
             <Route path="/about-us" element={<About />} />
             <Route path="/login" element={<LoginComponent />} />
             <Route path="/register" element={<SetPassword />} />
-            <Route path="/profile" element={isLoggedIn ? <Profile /> : <Navigate to="/login" />} />
             <Route path="/otp" element={<OtpInput />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>

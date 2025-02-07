@@ -88,10 +88,6 @@ const SideBar = ({ children }) => {
       try {
         const response = await fetch(`${import.meta.env.VITE_BACK_URL}/auth/user-role`, { credentials: "include" });
         const data = await response.json();
-        // console.log(isLoggedIn);
-        // console.log(data.role);
-        // const userRole = Cookies.get("userRole");
-        // setUserRole(userRole);
         setUserRole(data.role);
         if (data.role == "admin" || data.role == "student"){
           setIsLoggedIn(true);
@@ -103,7 +99,6 @@ const SideBar = ({ children }) => {
         setUserRole(null);
         setIsLoggedIn(false);
       }
-      // console.log(userRole);
     };
 
     checkAuth();
@@ -188,43 +183,46 @@ const SideBar = ({ children }) => {
           </section>
         </div>
         <div className="bottom_section">
-          {isLoggedIn ? (
-            <>
-              <NavLink to="/profile" className="link" activeClassName="active">
-                <div className="icon">
-                  <FaUser />
-                </div>
-                {isOpen && <div className="link_text">Profile</div>}
-              </NavLink>
-              <NavLink
-                to="/login"
-                className="link"
-                onClick={handleLogout}
-                activeClassName="active"
-              >
-                <div className="icon">
-                  <FaLock />
-                </div>
-                {isOpen && <div className="link_text">Logout</div>}
-              </NavLink>
-            </>
-          ) : (
-            <>
-              <NavLink to="/login" className="link" activeClassName="active">
-                <div className="icon">
-                  <FaLock />
-                </div>
-                {isOpen && <div className="link_text">Login</div>}
-              </NavLink>
-              <NavLink to="/register" className="link" activeClassName="active">
-                <div className="icon">
-                  <FaUser />
-                </div>
-                {isOpen && <div className="link_text">Register</div>}
-              </NavLink>
-            </>
-          )}
+  {isLoggedIn ? (
+    <>
+      {userRole !== "admin" && (
+        <NavLink to="/profile" className="link" activeClassName="active">
+          <div className="icon">
+            <FaUser />
+          </div>
+          {isOpen && <div className="link_text">Profile</div>}
+        </NavLink>
+      )}
+      <NavLink
+        to="/login"
+        className="link"
+        onClick={handleLogout}
+        activeClassName="active"
+      >
+        <div className="icon">
+          <FaLock />
         </div>
+        {isOpen && <div className="link_text">Logout</div>}
+      </NavLink>
+    </>
+  ) : (
+    <>
+      <NavLink to="/login" className="link" activeClassName="active">
+        <div className="icon">
+          <FaLock />
+        </div>
+        {isOpen && <div className="link_text">Login</div>}
+      </NavLink>
+      <NavLink to="/register" className="link" activeClassName="active">
+        <div className="icon">
+          <FaUser />
+        </div>
+        {isOpen && <div className="link_text">Register</div>}
+      </NavLink>
+    </>
+  )}
+</div>
+
       </div>
       <main>{children}</main>
     </div>
