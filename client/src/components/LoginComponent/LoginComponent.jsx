@@ -45,7 +45,7 @@ const LoginComponent = () => {
         setErrorMessage(errorMessage);
         return;
       }else{
-        console.log(`Failed to parse error JSON, ${import.meta.env.VITE_BACK_URL}`);
+        console.log(`Failed to parse error JSON, ${import.meta.env.VITE_BACK_URL}/auth/login`);
       }
       
       // Assuming the server sets a secure, HTTP-only cookie for authentication
@@ -61,7 +61,7 @@ const LoginComponent = () => {
       setErrorMessage("An error occurred. Please check your network connection.");
     }
     navigate("/");
-    // window.location.reload();v
+    // window.location.reload();
   };
 
   return (
