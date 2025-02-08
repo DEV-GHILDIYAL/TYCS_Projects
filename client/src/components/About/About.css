@@ -2,7 +2,7 @@
 .about-container {
   width: 100%; 
    /* width: 1250px; */
-  display: flex;
+  display:flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between; /* Distribute space between items */
