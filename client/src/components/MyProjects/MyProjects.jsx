@@ -4,7 +4,6 @@ import "./MyProjects.css";
 import EventDetailsForm from "../CreateEventForm/EventDetailsFrom";
 import { toast } from "react-toastify"; // Import toast for notifications
 import img from "../../assets/images/images1.png";
-import User from "../../../../server/models/userModel";
 import "./ProjectCard.css";
 const MyProjects = () => {
   // const [userd, setUserD] = useState({}); // State to store user data

@@ -13,6 +13,7 @@ const HomeComponent = () => {
   const [searchByRollNumber, setSearchByRollNumber] = useState(false);
   const [year, setYear] = useState('');
   const [department, setDepartment] = useState('');
+  // const [categoryType, setCategoryType] = useState('');
   const [projectType, setProjectType] = useState('');
   const [batchFilter, setBatchFilter] = useState('');
 
@@ -41,6 +42,7 @@ const HomeComponent = () => {
             year={year}
             setYear={setYear}
             department={department}
+            // categoryType={setCategoryType}
             setDepartment={setDepartment}
             projectType={projectType}
             setProjectType={setProjectType}

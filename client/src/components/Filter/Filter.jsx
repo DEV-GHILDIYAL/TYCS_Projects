@@ -7,6 +7,7 @@ export const Filter = ({
   searchByRollNumber, setSearchByRollNumber,
   year, setYear,
   department, setDepartment,
+  // categoryType, setCategoryType,
   projectType, setProjectType,
   batchFilter, setBatchFilter,
   isGridView, toggleGridView
@@ -59,6 +60,16 @@ export const Filter = ({
         <option value="Project One">Project 1</option>
         <option value="Project Two">Project 2</option>
       </select>
+      {/* <select
+        className="filter-dropdown"
+        value={categoryType}
+        onChange={(e) => setCategoryType(e.target.value)}
+      >
+        <option value="">Select Category</option>
+        <option value="Web Developmen">Web Development</option>
+        <option value="App Developmen">App Development</option>
+        <option value="Game Developmen">Game Development</option>
+      </select> */}
       <select
         className="filter-dropdown"
         value={batchFilter}
