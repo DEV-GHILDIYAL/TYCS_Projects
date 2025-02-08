@@ -1,8 +1,12 @@
 import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react"; // ✅ Add this
 import { visualizer } from "rollup-plugin-visualizer";
 
 export default defineConfig({
-  plugins: [visualizer({ open: true })], // Opens a report after build
+  plugins: [
+    react(), // ✅ Add React support
+    visualizer({ open: true }), // Opens a report after build
+  ],
   build: {
     rollupOptions: {
       output: {
