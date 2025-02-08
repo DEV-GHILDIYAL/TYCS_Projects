@@ -44,6 +44,8 @@ const LoginComponent = () => {
 
         setErrorMessage(errorMessage);
         return;
+      }else{
+        console.log("Failed to parse error JSON");
       }
       
       // Assuming the server sets a secure, HTTP-only cookie for authentication
@@ -59,7 +61,7 @@ const LoginComponent = () => {
       setErrorMessage("An error occurred. Please check your network connection.");
     }
     navigate("/");
-    // window.location.reload();
+    // window.location.reload();v
   };
 
   return (
