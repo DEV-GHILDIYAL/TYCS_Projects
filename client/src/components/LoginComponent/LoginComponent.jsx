@@ -59,7 +59,7 @@ const LoginComponent = () => {
       setErrorMessage("An error occurred. Please check your network connection.");
     }
     navigate("/");
-    window.location.reload();
+    // window.location.reload();
   };
 
   return (
