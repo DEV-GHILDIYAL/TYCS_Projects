@@ -530,6 +530,7 @@ const DBconnect = async () => {
     console.log("Connected to MongoDB");
 
     // const bulkOps = realprojects.map(project => ({
+    // const bulkOps = real.map(project => ({
     //   updateOne: {
     //     filter: { email: project.email },
     //     update: { $setOnInsert: project }, // Only set if the document does not exist

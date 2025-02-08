@@ -41,6 +41,9 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
 
+app.use(express.static(path.join(__dirname, '../client/dist')));
+
+
 // app.use(morgan("dev"));
 
 //APT Endpoints
