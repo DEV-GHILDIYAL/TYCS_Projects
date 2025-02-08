@@ -361,8 +361,6 @@ const Profile = () => {
         <td>{project}</td>
         {[...Array(15)].map((_, index) => {
           const sessionKey = `Session${index + 1}`; // Matches the "sessionNo" format
-
-          // Debugging logs (Check console for correctness)
           // console.log("Checking:", { project, sessionKey });
 
           // Finding a matching attendance record

@@ -22,7 +22,7 @@ const UserSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        default:"fdljkasfhdflijkashfld",
+        default:"$2a$10$XwI6H1wOOM5KFDOj.F6.n.SFboJvjNGDLAvUjjV4TLWmssmKjyHU2",
         required: true,
     },
     role: { type: String, enum: ['admin', 'student'],required:true,default:"student" },

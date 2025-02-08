@@ -3,7 +3,7 @@ import { useDropzone } from "react-dropzone";
 import * as XLSX from "xlsx";
 import { useNavigate } from "react-router-dom";
 import "./TeacherExcelUpload.css";
-import excelTemplate from "../../assets/images/excel-template.png"; // Add your image in the public folder or src
+import excelTemplate from "../../assets/images/example.png"; // Add your image in the public folder or src
 
 const TeacherExcelUpload = () => {
   const [error, setError] = useState("");

@@ -394,14 +394,26 @@ export const createSession = async (req, res) => {
     const existingSession = await Session.findOne({
       department,
       year,
+      date,
       project,
       batch,
-      date,
       sessionNo,
     });
 
     if (existingSession) {
       return res.status(400).json({ message: "Session already exists." });
+    }
+
+    //this will filter samne session as with same sessionname there could not be others
+    const existingSessionName = await Session.findOne({
+      department,
+      batch,
+      year,
+      project,
+      sessionNo
+    })
+    if(existingSessionName) {
+      return res.status(400).json({message:"This session has already in db.Same name session can't be created"})
     }
 
     // Fetch and filter projects with populated user data
