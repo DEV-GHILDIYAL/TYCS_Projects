@@ -50,7 +50,7 @@ const AdminAttendance = () => {
             headers: {
               "Content-Type": "application/json",
             },
-            credentials: "include", // Pass cookies for authentication
+            credentials: "include",
           }
         );
         const data = await response.json();

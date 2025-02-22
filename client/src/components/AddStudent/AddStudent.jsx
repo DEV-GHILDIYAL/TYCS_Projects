@@ -40,7 +40,7 @@ const AddStudent = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(student),
-          credentials: "include", // Required to include cookies
+          credentials: "include",
         }
       );
       const data = await response.json(); // Parse response JSON

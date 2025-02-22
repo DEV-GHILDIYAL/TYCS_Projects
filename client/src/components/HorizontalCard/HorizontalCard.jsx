@@ -13,7 +13,7 @@ const HorizontalCard = ({ profilepic, title, name, rollNo, onViewDetail, project
       {/* Left section with profile picture, name, and roll number */}
       <div className="horizontal-card-left">
         <img
-          src={`${import.meta.env.VITE_BACK_URL}/${profilepic}?t=${Date.now()}`}
+          src={profilepic}
           alt={name}
           className="horizontal-card-profile-pic"
           onError={handleImageError}

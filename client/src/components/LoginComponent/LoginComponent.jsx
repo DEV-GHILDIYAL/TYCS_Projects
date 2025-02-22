@@ -27,26 +27,23 @@ const LoginComponent = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ email, password }),
-          credentials: "include", // Required to include cookies
+          credentials: "include",
         }
       );
 
       if (!response.ok) {
         const errorText = await response.text();
         let errorMessage = "Login failed. Please try again.";
-
+  
         try {
           const errorData = JSON.parse(errorText);
           errorMessage = errorData.message || errorMessage;
         } catch (jsonError) {
           console.error("Failed to parse error JSON:", jsonError);
         }
-
+  
         setErrorMessage(errorMessage);
         return;
-      }else{
-        // console.log(`Failed to parse error JSON, ${import.meta.env.VITE_BACK_URL}/auth/login`);
-        navigate('/');
       }
       
       // Assuming the server sets a secure, HTTP-only cookie for authentication
@@ -57,11 +54,15 @@ const LoginComponent = () => {
         autoClose: 1000,
       });
 
+    setTimeout(() => {
+      navigate("/");
+    }, 500);
+
     } catch (error) {
       console.error("Error during login:", error);
       setErrorMessage("An error occurred. Please check your network connection.");
     }
-    navigate("/");
+    // navigate("/");
     // window.location.reload();
   };
 

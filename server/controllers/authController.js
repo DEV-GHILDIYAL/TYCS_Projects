@@ -207,6 +207,7 @@ export const userRole = async (req, res) => {
     try {
       // Check if token exists in cookies
       const token = req.cookies?.token;
+      console.log("User Token", token);
       if (!token) {
         return res.json({ role: "guest" }); // If no token, treat as guest
       }
@@ -306,7 +307,7 @@ export const storeProfilePicture = async (req, res) => {
     const updatedData = {
       profilepic: req.file.path,
     };
-    console.log(updatedData);
+    console.log("Updated Data:", updatedData);
     // Save updated user profile
     user = await userModel.findByIdAndUpdate(decoded.id, updatedData, { new: true });
     

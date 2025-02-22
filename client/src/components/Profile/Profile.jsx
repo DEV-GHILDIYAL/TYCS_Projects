@@ -52,7 +52,7 @@ const Profile = () => {
         if (response.ok) {
           setProfileData(data);
           setProfilephoto(data.profilepic);
-          console.log(profilephoto);
+          console.log("THIS IS PHOTO",profilephoto);
           toast.success("Data fetched!", {
             position: "top-right",
             theme: "light",
@@ -140,7 +140,7 @@ const Profile = () => {
       );
 
       const data = await response.json();
-      console.log(data);
+      console.log("PROFILE",data);
 
       if (response.ok) {
         toast.success("Profile updated successfully!", {
@@ -245,13 +245,8 @@ const Profile = () => {
             <div className="profile-page-photo-container">
               <img
                 src={
-                  profileData.profilepic
-                    ? `${import.meta.env.VITE_BACK_URL}/${
-                        profileData.profilepic
-                      }?t=${Date.now()}`
-                    : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
-                }
-                alt="Profile"
+                  profileData.profilepic}
+                alt="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
                 className="profile-page-photo"
                 onError={(e) => {
                   e.target.src =

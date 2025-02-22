@@ -29,7 +29,7 @@ const Dashboard = () => {
             import.meta.env.VITE_BACK_URL
           }/admin/dashboard?project=${currentProject}`,
           {
-            credentials: "include", // Pass cookies for authentication
+            credentials: "include",
           }
         );
         const datas = await response.json();

@@ -34,7 +34,7 @@ const CreateSessionForm = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(formData),
-          credentials: "include", // Include cookies if needed
+          credentials: "include",
         }
       );
       const data = await response.json();

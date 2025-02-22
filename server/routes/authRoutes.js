@@ -2,6 +2,8 @@ import express from 'express';
 import { logout, loginUser,sendResetOtp, resetPassword, getProfile, userRole, editProfile,storeProfilePicture } from '../controllers/authController.js';
 
 import multer from "multer";
+import cloudinary from '../config/cloudinaryConfig.js';
+import { CloudinaryStorage } from "multer-storage-cloudinary";
 const authRouter = express.Router();
 authRouter.post('/login', loginUser);
 authRouter.post('/logout', logout);
@@ -10,14 +12,22 @@ authRouter.post('/set-password', resetPassword);
 authRouter.get('/get-profile', getProfile);
 authRouter.post('/update-profile', editProfile);
 authRouter.get('/user-role', userRole);
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        return cb(null, "./uploads");
+// const storage = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//         return cb(null, "./uploads");
+//     },
+//     filename: function (req, file, cb) {
+//         return cb(null, `${Date.now()}-${file.originalname}`);
+//     },
+// });
+const storage = new CloudinaryStorage({
+    cloudinary: cloudinary,
+    params: {
+      folder: "user_profile_pictures", // Folder name in Cloudinary
+      format: async (req, file) => "png", // Convert images to PNG
+      public_id: (req, file) => Date.now() + "-" + file.originalname, // Unique filename
     },
-    filename: function (req, file, cb) {
-        return cb(null, `${Date.now()}-${file.originalname}`);
-    },
-});
+  });
 // const upload = multer({dest: "uploads/"});
 const upload = multer({storage})
 authRouter.post('/upload', upload.single('profilePicture'), storeProfilePicture);

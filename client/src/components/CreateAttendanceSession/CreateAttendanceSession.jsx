@@ -17,7 +17,7 @@ const CreateAttendanceSession = () => {
             headers: {
               "Content-Type": "application/json",
             },
-            credentials: "include", // Include cookies if needed
+            credentials: "include", 
           }
         );
         const data = await response.json();
