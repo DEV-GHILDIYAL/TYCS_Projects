@@ -15,6 +15,7 @@ const ExportDataComponent = () => {
     studentName: false,
     projectLink: false,
     allSessionDetail: false,
+    projectNo: false,  // New state for project number
   });
 
   // Sample data (replace with actual fetched data)
@@ -65,7 +66,7 @@ const ExportDataComponent = () => {
       <form className="export-data-form">
         {Object.keys(columns).map((col) => (
           <div key={col} className="export-data-checkbox-item">
-            {col === 'department' || col === 'year' ? (
+            {col === 'department' || col === 'year' || col === 'projectNo' ? (
               <div className="export-data-dropdown">
                 <label className="export-data-label">
                   {col.charAt(0).toUpperCase() + col.slice(1).replace(/([A-Z])/g, ' $1')}
@@ -86,13 +87,19 @@ const ExportDataComponent = () => {
                       <option value="CS">CS</option>
                       <option value="IT">IT</option>
                     </>
-                  ) : (
+                  ) : col === 'year' ? (
                     <>
                       <option value="2024-2025">2024-2025</option>
                       <option value="2025-2026">2025-2026</option>
                     </>
-                  )}
+                  ) : col === 'projectNo' ? (
+                    <>
+                      <option value="Project 1">Project 1</option>
+                      <option value="Project 2">Project 2</option>
+                    </>
+                  ) : null}
                 </select>
+                
               </div>
             ) : (
               <label className="export-data-label">
