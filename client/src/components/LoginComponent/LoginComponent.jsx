@@ -45,7 +45,8 @@ const LoginComponent = () => {
         setErrorMessage(errorMessage);
         return;
       }else{
-        console.log(`Failed to parse error JSON, ${import.meta.env.VITE_BACK_URL}/auth/login`);
+        // console.log(`Failed to parse error JSON, ${import.meta.env.VITE_BACK_URL}/auth/login`);
+        navigate('/');
       }
       
       // Assuming the server sets a secure, HTTP-only cookie for authentication

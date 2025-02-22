@@ -49,6 +49,30 @@ const ProjectDetail = ({ project, onBack }) => {
                     </a>
                 </div>
             )}
+            {project.linkedin && (
+                <div className="social-media-section">
+                    <h3>Social Media Links</h3>
+                    <a href={project.github} target="_blank" rel="noopener noreferrer">
+                        <FontAwesomeIcon icon={faProjectDiagram} className="social-icon" /> GitHub
+                    </a>
+                </div>
+            )}
+            {project.github && (
+                <div className="social-media-section">
+                    <h3>Social Media Links</h3>
+                    <a href={project.github} target="_blank" rel="noopener noreferrer">
+                        <FontAwesomeIcon icon={faProjectDiagram} className="social-icon" /> GitHub
+                    </a>
+                </div>
+            )}
+            {project.github && (
+                <div className="social-media-section">
+                    <h3>Social Media Links</h3>
+                    <a href={project.github} target="_blank" rel="noopener noreferrer">
+                        <FontAwesomeIcon icon={faProjectDiagram} className="social-icon" /> GitHub
+                    </a>
+                </div>
+            )}
         </div>
     );
 }
