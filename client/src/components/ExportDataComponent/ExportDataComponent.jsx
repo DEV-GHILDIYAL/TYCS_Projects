@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
-// import './ExportDataComponent.css';
-import './NewExport.css'
+import './ExportDataComponent.css';
+// import './NewExport.css'
 
 const ExportDataComponent = () => {
   const [columns, setColumns] = useState({
