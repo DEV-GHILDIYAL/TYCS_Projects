@@ -207,7 +207,7 @@ export const userRole = async (req, res) => {
     try {
       // Check if token exists in cookies
       const token = req.cookies?.token;
-      console.log("User Token", token);
+      // console.log("User Token", token);
       if (!token) {
         return res.json({ role: "guest" }); // If no token, treat as guest
       }
