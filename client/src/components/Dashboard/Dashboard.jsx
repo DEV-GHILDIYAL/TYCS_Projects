@@ -64,9 +64,40 @@ const Dashboard = () => {
     }
   };
 
+  // const handleExport = async () => {
+  //   try {
+  //     const response = await fetch(
+  //       // `${import.meta.env.VITE_BACK_URL}/admin/export?project=${currentProject}`,
+  //       `${import.meta.env.VITE_BACK_URL}/admin/exportdata`,
+  //       {
+  //         method: "GET",
+  //         credentials: "include",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //       }
+  //     );
+
+  //     if (!response.ok) {
+  //       throw new Error("Failed to export data");
+  //     }
+
+  //     const blob = await response.blob();
+  //     const url = window.URL.createObjectURL(blob);
+  //     const a = document.createElement("a");
+  //     a.href = url;
+  //     a.download = `Export_${currentProject}.csv`; // Change format if needed
+  //     document.body.appendChild(a);
+  //     a.click();
+  //     document.body.removeChild(a);
+  //   } catch (error) {
+  //     console.error("Error exporting data:", error);
+  //   }
+  // };
   const handleExport = () => {
     console.log("Exporting data...");
     navigate("/export-data");
+    // window.open(`${import.meta.env.VITE_BACK_URL}/admin/exportdata`, "_blank");
   };
   const handleAddStudent = () => {
     navigate("/add-student"); // Navigate to the add-student page when the button is clicked

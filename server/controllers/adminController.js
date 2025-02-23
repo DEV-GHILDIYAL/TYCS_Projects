@@ -2,6 +2,9 @@ import userModel from "../models/userModel.js";
 import Project from "../models/projectModel.js";
 import Session from "../models/sessionModel.js";
 import Attendance from "../models/attendModel.js";
+import { Parser } from "json2csv"; // CSV conversion package
+import fs from "fs";
+import path from "path";
 
 export const addstudent = async (req, res) => {
   const { email, name, rollNo, batch, role, department, year } = req.body;
@@ -380,7 +383,6 @@ export const getAttendanceStatusWithId = async (req, res) => {
   }
 };
 
-
 //creating sesssion
 export const createSession = async (req, res) => {
   const { sessionNo, date, batch, project, department, year } = req.body;
@@ -635,16 +637,62 @@ export const uploadStudentData = async (req, res) => {
     console.error("Error connecting to MongoDB or updating data:", error);
   }
 };
-
-export const exportUserData = async (req, res) => {
+export const exportData = async (req, res) => {
   try {
-    const attendanceData = await Attendance.find()
-      .populate("userId", "name rollNo email") // Populate user details (e.g., name, rollNo, email)
-      .populate("attendance.sessionId", "date sessionNo project") // Populate session details
-      .exec();
+    // Get query parameters
+    const { department, year, project } = req.query;
 
-    console.log(attendanceData);
+    // Fetch all data in parallel
+    const [sessions, users] = await Promise.all([
+      Session.find(department || year || project ? { department, year, project } : {}).sort({ date: 1 }).lean(),
+      userModel.find({ role: 'student' })
+        .select('name email rollNo department batch year')
+        .populate('projects', 'title deployed github') // Fetch projects related to user
+        .populate('attendance', 'attendance totalPresent totalAbsent') // Fetch attendance
+        .lean(),
+    ]);
+
+    // Transform data
+    const transformedData = users.map((user) => {
+      const userProject = user.projects?.[0] || {}; // Default empty object if no project found
+      const userAttendance = user.attendance?.[0] || {}; // Default empty object if no attendance found
+
+      // Base record with user info
+      const record = {
+        "Roll No": user.rollNo,
+        "Name": user.name,
+        "Email": user.email,
+        "Department": user.department,
+        "Batch": user.batch,
+        "Year": user.year,
+        "Project Title": userProject.title || "Not Submitted",
+        "Project Link": userProject.deployed || "Not Submitted",
+        "Github Link": userProject.github || "Not Submitted",
+        "Total Present": userAttendance.totalPresent || 0,
+        "Total Absent": userAttendance.totalAbsent || 0,
+      };
+
+      // Add a column for each session
+      sessions.forEach((session) => {
+        const sessionAttendance = userAttendance.attendance?.find(
+          (a) => a.sessionId.toString() === session._id.toString()
+        );
+        record[`${session.project} - ${session.sessionNo} (${new Date(session.date).toLocaleDateString()})`] =
+          sessionAttendance?.status || "Not Marked";
+      });
+
+      return record;
+    });
+
+    if (!transformedData.length) {
+      return res.status(404).json({ success: false, message: "No data found for the given filters." });
+    }
+
+    // Send response
+    res.json({ success: true, data: transformedData });
+
   } catch (error) {
-    console.error("Error fetching attendance data:", error);
+    console.error("Export error:", error);
+    res.status(500).json({ success: false, message: "Failed to export data", error: error.message });
   }
 };

@@ -32,6 +32,9 @@ const UserSchema = new mongoose.Schema({
     year:{type:String,default:""},
     resetOtp: { type: String, default:''},
     resetOtpExpireAt: { type: Number, default:0},
+    projects: [{ type: mongoose.Schema.Types.ObjectId, ref: "Project" }] , // 🔥 ADD THIS LINE
+    attendance: [{ type: mongoose.Schema.Types.ObjectId, ref: "Attendance" }] // ✅ Make sure this exists
+
     //add attendance object and fileds like no of days present
 },{ timestamps: true });
 
