@@ -4,6 +4,7 @@ import { RowComponentForAttendance } from "../RowComponent/RowComponent";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import LoadingPage from "../LoadingPage/LoadingPage";
 
 const AdminAttendance = () => {
   const navigate = useNavigate();
@@ -91,7 +92,7 @@ const AdminAttendance = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <LoadingPage/>;
   }
 
   return (

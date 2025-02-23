@@ -22,65 +22,80 @@ import ExportDataComponent from "./components/ExportDataComponent/ExportDataComp
 import NotFoundPage from "./components/NotFoundPage/NotFoundPage";
 import MassStudentUpload from "./pages/MassStudentUpload";
 import ExcelTable from "./components/ExcelTable/ExcelTable";
+import LoadingPage from "./components/LoadingPage/LoadingPage";
 
-import Cookies from "js-cookie";
 function App() {
   const [isDesktop, setIsDesktop] = useState(window.innerWidth > 800);
   const [userRole, setUserRole] = useState("");
   const [loading, setLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false); // To manage the login state
 
-  const navigate = useNavigate()
-  useEffect(() => {
-    const fetchUserRole = async () => {
-      console.log("Fetching user role", isLoggedIn);
-      try {
-        const response = await fetch(
-          `${import.meta.env.VITE_BACK_URL}/auth/user-role`,
-          { credentials: "include" }
-        );
-        const data = await response.json();
-        console.log(data.role);
-        setUserRole(data.role);
-        console.log(userRole);
-        setIsLoggedIn((prevState) => {
-          const newLoginState =
-            data.role === "admin" || data.role === "student";
-          console.log("Setting isLoggedIn:", newLoginState);
-          return newLoginState;
-        });
-        navigate("/");
-      } catch (error) {
-        console.error("Error fetching user role:", error);
-        setIsLoggedIn(false); // Set to false if there is an error fetching role
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUserRole();
-  }, []);
-  useEffect(() => {
-    console.log("Updated userRole:", userRole);
-  }, [userRole]);
-
-  useEffect(() => {
-    console.log("Updated isLoggedIn:", isLoggedIn);
-  }, [isLoggedIn]);
-  const dashboardData = async () => {
-    // Fetch dashboard data from backend
+  const navigate = useNavigate();
+  const fetchUserRole = async () => {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_BACK_URL}/dashboard`,
+        `${import.meta.env.VITE_BACK_URL}/auth/user-role`,
         { credentials: "include" }
       );
       const data = await response.json();
-      return data;
+
+      setUserRole(data.role);
+      setIsLoggedIn(data.role === "admin" || data.role === "student");
     } catch (error) {
-      console.error("Error fetching dashboard data:", error);
-      return null;
+      console.error("Error fetching user role:", error);
+      setIsLoggedIn(false);
+    } finally {
+      setLoading(false);
     }
   };
+
+  // Run this effect **whenever `isLoggedIn` changes**
+  useEffect(() => {
+    // console.log("Fetching user role from App.jsx", isLoggedIn);
+    fetchUserRole();
+  }, [isLoggedIn]);
+
+  // Function to manually refresh login state after login
+  const handleLoginSuccess = () => {
+    setIsLoggedIn(true);
+  };
+
+  // useEffect(() => {
+  //   console.log("Fetching user role from App.jsx", isLoggedIn);
+  //   const fetchUserRole = async () => {
+  //     try {
+  //       const response = await fetch(
+  //         `${import.meta.env.VITE_BACK_URL}/auth/user-role`,
+  //         { credentials: "include" }
+  //       );
+  //       const data = await response.json();
+  //       // console.log(data.role);
+  //       setUserRole(data.role);
+  //       // console.log("HELLOOOOOOOOOOO", userRole);
+  //       setIsLoggedIn((prevState) => {
+  //         const newLoginState =
+  //           data.role === "admin" || data.role === "student";
+  //         // console.log("Setting isLoggedIn:", newLoginState);
+  //         return newLoginState;
+  //       });
+  //       // navigate("/");
+  //     } catch (error) {
+  //       console.error("Error fetching user role:", error);
+  //       setIsLoggedIn(false); // Set to false if there is an error fetching role
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchUserRole();
+  // }, []);
+  // useEffect(() => {
+  //   console.log("Updated userRole:", userRole);
+  // }, [userRole]);
+
+  // useEffect(() => {
+  //   console.log("Updated isLoggedIn:", isLoggedIn);
+  // }, [isLoggedIn]);
   // Handle screen size changes
   useEffect(() => {
     const handleResize = () => setIsDesktop(window.innerWidth > 800);
@@ -88,25 +103,19 @@ function App() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const handleAddStudent = () => {
-    console.log("Opening Add Student form...");
-  };
-
-  const handleLogout = () => {
-    // Log out the user by clearing cookies/session, then redirect to login page
-    setIsLoggedIn(false);
-    setUserRole(null);
-    navigate("/login");
-  };
-
   if (loading) {
-    return <div>Loading...</div>;
+    return <LoadingPage />;
   }
 
   return (
     <>
       {isDesktop ? (
-        <SideBar isLoggedIn={isLoggedIn} userRole={userRole}>
+        <SideBar
+          isLoggedIn={isLoggedIn}
+          userRole={userRole}
+          setIsLoggedIn={setIsLoggedIn}
+          setUserRole={setUserRole}
+        >
           <Routes>
             {/* NORMAL USER ROUTES */}
             {isLoggedIn && userRole === "student" ? (
@@ -149,8 +158,8 @@ function App() {
                   element={<MassStudentUpload />}
                 />
               </>
-            ) : isLoggedIn && userRole !== "admin" ? (
-              <Route path="/dashboard" element={<Navigate to="/" replace />} />
+            ) : isLoggedIn && userRole === "student" ? (
+              <Route path="*" element={<NotFoundPage />} />
             ) : null}
 
             {/* COMMON ROUTES */}
@@ -159,9 +168,24 @@ function App() {
               element={isLoggedIn ? <Home /> : <Navigate to="/login" />}
             />
             <Route path="/about-us" element={<About />} />
-            <Route path="/login" element={<LoginComponent />} />
-            <Route path="/register" element={<SetPassword />} />
-            <Route path="/otp" element={<OtpInput />} />
+            <Route
+              path="/login"
+              element={
+                isLoggedIn ? (
+                  <Navigate to="/" />
+                ) : (
+                  <LoginComponent onLoginSuccess={handleLoginSuccess} />
+                )
+              }
+            />
+            <Route
+              path="/register"
+              element={isLoggedIn ? <Navigate to="/" /> : <SetPassword />}
+            />
+            <Route
+              path="/otp"
+              element={isLoggedIn ? <Navigate to="/" /> : <OtpInput />}
+            />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </SideBar>
@@ -211,9 +235,9 @@ function App() {
                   element={<MassStudentUpload />}
                 />
               </>
-            ) : (
-              <Route path="/dashboard" element={<Navigate to="/" replace />} />
-            )}
+            ) : isLoggedIn && userRole === "student" ? (
+              <Route path="*" element={<NotFoundPage />} />
+            ) : null}
 
             {/* COMMON ROUTES */}
             <Route
@@ -221,9 +245,24 @@ function App() {
               element={isLoggedIn ? <Home /> : <Navigate to="/login" />}
             />
             <Route path="/about-us" element={<About />} />
-            <Route path="/login" element={<LoginComponent />} />
-            <Route path="/register" element={<SetPassword />} />
-            <Route path="/otp" element={<OtpInput />} />
+            <Route
+              path="/login"
+              element={
+                isLoggedIn ? (
+                  <Navigate to="/" />
+                ) : (
+                  <LoginComponent onLoginSuccess={handleLoginSuccess} />
+                )
+              }
+            />
+            <Route
+              path="/register"
+              element={isLoggedIn ? <Navigate to="/" /> : <SetPassword />}
+            />
+            <Route
+              path="/otp"
+              element={isLoggedIn ? <Navigate to="/" /> : <OtpInput />}
+            />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </>

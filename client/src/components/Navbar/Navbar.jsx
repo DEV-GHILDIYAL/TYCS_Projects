@@ -36,6 +36,7 @@ const Navbar = () => {
     document.documentElement.setAttribute("data-theme", newTheme);
   };
   useEffect(() => {
+    console.log("Fetching user role from Navbar.jsx", isLoggedIn);
     document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);
   const handleLogout = async () => {
@@ -49,7 +50,6 @@ const Navbar = () => {
         );
   
         if (response.ok) {
-          Cookies.remove("userRole");
           setIsLoggedIn(false);
           setUserRole(null);
         } else {
@@ -66,12 +66,12 @@ const Navbar = () => {
         const response = await fetch(`${import.meta.env.VITE_BACK_URL}/auth/user-role`, { credentials: "include" });
         const data = await response.json();
         setUserRole(data.role);
-        if (data.role == "admin" || data.role == "student"){
-          setIsLoggedIn(true);
-        } else {
-          setUserRole(null);
-          setIsLoggedIn(false);
-        }
+        setIsLoggedIn((prevState) => {
+          const newLoginState =
+            data.role === "admin" || data.role === "student";
+          console.log("Setting isLoggedIn:", newLoginState);
+          return newLoginState;
+        });
       } catch (err) {
         setUserRole(null);
         setIsLoggedIn(false);

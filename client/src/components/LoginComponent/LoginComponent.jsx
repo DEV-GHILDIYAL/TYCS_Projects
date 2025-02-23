@@ -3,7 +3,7 @@ import "./Login.css";
 import { useNavigate } from "react-router-dom";
 import { toast, Slide } from "react-toastify";
 
-const LoginComponent = () => {
+const LoginComponent = ({ onLoginSuccess }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -54,9 +54,12 @@ const LoginComponent = () => {
         autoClose: 1000,
       });
 
-    setTimeout(() => {
-      navigate("/");
-    }, 500);
+      if (response.ok) {
+        // console.log("Navigating now...");
+        onLoginSuccess();
+        navigate("/");
+      }
+      
 
     } catch (error) {
       console.error("Error during login:", error);
