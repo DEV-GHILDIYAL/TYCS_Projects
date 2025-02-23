@@ -191,7 +191,11 @@ function App() {
         </SideBar>
       ) : (
         <>
-          <Navbar />
+          <Navbar 
+          isLoggedIn={isLoggedIn}
+          userRole={userRole}
+          setIsLoggedIn={setIsLoggedIn}
+          setUserRole={setUserRole} />
           <Routes>
             {/* NORMAL STUDENT ROUTES */}
             {isLoggedIn && userRole === "student" ? (

@@ -10,15 +10,12 @@ import {
   FaSun,
 } from "react-icons/fa";
 import { useState, useEffect } from "react";
-import Cookies from "js-cookie";
 import "./Sidebar.css";
 import SidebarMenu from "./SidebarMenu";
 
 const SideBar = ({ children,  isLoggedIn, userRole, setIsLoggedIn, setUserRole}) => {
   const [isOpen, setIsOpen] = useState(true);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
-  // const [userRole, setUserRole] = useState(null);
-  // const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const [theme, setTheme] = useState("dark"); // Theme state
 
@@ -30,7 +27,6 @@ const SideBar = ({ children,  isLoggedIn, userRole, setIsLoggedIn, setUserRole})
   };
   // Apply default theme on mount
   useEffect(() => {
-    // console.log("Fetching user role from Sidebar.jsx", isLoggedIn);
     document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);
 
@@ -83,27 +79,6 @@ const SideBar = ({ children,  isLoggedIn, userRole, setIsLoggedIn, setUserRole})
     },
   ];
 
-  // Decode Token and Set Role
-  // useEffect(() => {
-  //   const checkAuth = async () => {
-  //     try {
-  //       const response = await fetch(`${import.meta.env.VITE_BACK_URL}/auth/user-role`, { credentials: "include" });
-  //       const data = await response.json();
-  //       setUserRole(data.role);
-  //       if (data.role == "admin" || data.role == "student"){
-  //         setIsLoggedIn(true);
-  //       } else {
-  //         setUserRole(null);
-  //         setIsLoggedIn(false);
-  //       }
-  //     } catch (err) {
-  //       setUserRole(null);
-  //       setIsLoggedIn(false);
-  //     }
-  //   };
-
-  //   checkAuth();
-  // }, []);
 
   const handleLogout = async () => {
     try {
@@ -138,6 +113,7 @@ const SideBar = ({ children,  isLoggedIn, userRole, setIsLoggedIn, setUserRole})
     });
   };
 
+  console.log("DESKTOP:", userRole);
   const visibleRoutes = getVisibleRoutes();
 
   return (

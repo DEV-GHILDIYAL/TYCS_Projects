@@ -12,13 +12,10 @@ import {
   FaMoon,
   FaSun,
 } from "react-icons/fa";
-import SidebarMenu from "../Sidebar/SidebarMenu";
 import SidebarMenuAndroid from "../Sidebar/SidebarMenuAndroid";
 
-const Navbar = () => {
+const Navbar = ({isLoggedIn, userRole, setIsLoggedIn, setUserRole}) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false); // State to toggle the menu visibility
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Login status
-  const [userRole, setUserRole] = useState(null); // User role
   
   const [isOpen, setIsOpen] = useState(true); // For desktop sidebar
   const [isMobileOpen, setIsMobileOpen] = useState(false); // Mobile menu state
@@ -36,7 +33,6 @@ const Navbar = () => {
     document.documentElement.setAttribute("data-theme", newTheme);
   };
   useEffect(() => {
-    console.log("Fetching user role from Navbar.jsx", isLoggedIn);
     document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);
   const handleLogout = async () => {
@@ -60,47 +56,54 @@ const Navbar = () => {
       }
     };
 
-  useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const response = await fetch(`${import.meta.env.VITE_BACK_URL}/auth/user-role`, { credentials: "include" });
-        const data = await response.json();
-        setUserRole(data.role);
-        setIsLoggedIn((prevState) => {
-          const newLoginState =
-            data.role === "admin" || data.role === "student";
-          console.log("Setting isLoggedIn:", newLoginState);
-          return newLoginState;
-        });
-      } catch (err) {
-        setUserRole(null);
-        setIsLoggedIn(false);
-      }
-      // console.log(userRole);
-    };
 
-    checkAuth();
-  }, []);
-
-  const routes = [
-    { path: "/", name: "Home", icon: <FaHome />, roles: ["all"] },
-    { path: "/my-projects", name: "My Projects", icon: <FaFolderOpen />, roles: ["student", "loggedIn"] },
-    { path: "/about-us", name: "About Us", icon: <FaFileAlt />, roles: ["all"] },
-    { path: "/dashboard", name: "Dashboard", icon: <FaHome />, roles: ["admin", "loggedIn"] },
-    { path: "/management/attendance-sessions", name: "Attendance Sessions", icon: <FaLock />, roles: ["admin", "loggedIn"] },
-    {
-      path: "/mass-student-upload",
-      name: "Mass Student Upload",
-      icon: <FaHome />,
-      roles: ["admin", "loggedIn"],
-    },
-    {
-      path: "/file-manager", name: "Management", icon: <FaFolderOpen />, roles: ["admin", "loggedIn"], subRoutes: [
-        { path: "/management/students", name: "Student", icon: <FaUser /> },
-        { path: "/management/projects", name: "Project", icon: <FaMoneyBill /> }
-      ]
-    },
-  ];
+    const routes = [
+      { path: "/", name: "Home", icon: <FaHome />, roles: ["all"] },
+      {
+        path: "/my-projects",
+        name: "My Projects",
+        icon: <FaFolderOpen />,
+        roles: ["student", "loggedIn"],
+      },
+      {
+        path: "/about-us",
+        name: "About Us",
+        icon: <FaFileAlt />,
+        roles: ["all"],
+      },
+      {
+        path: "/dashboard",
+        name: "Dashboard",
+        icon: <FaHome />,
+        roles: ["admin", "loggedIn"],
+      },
+      {
+        path: "/mass-student-upload",
+        name: "Mass Student Upload",
+        icon: <FaHome />,
+        roles: ["admin", "loggedIn"],
+      },
+      {
+        path: "/management/attendance-sessions",
+        name: "Attendance Sessions",
+        icon: <FaLock />,
+        roles: ["admin", "loggedIn"],
+      },
+      {
+        path: "/file-manager",
+        name: "Management",
+        icon: <FaFolderOpen />,
+        roles: ["admin", "loggedIn"],
+        subRoutes: [
+          { path: "/management/students", name: "Student", icon: <FaUser /> },
+          {
+            path: "/management/projects",
+            name: "Project",
+            icon: <FaMoneyBill />,
+          },
+        ],
+      },
+    ];
 
   const getVisibleRoutes = () => {
     return routes.filter((route) => {
@@ -111,7 +114,7 @@ const Navbar = () => {
       return false;
     });
   };
-
+  console.log("MOBILE:", userRole);
   const visibleRoutes = getVisibleRoutes();
 
   return (

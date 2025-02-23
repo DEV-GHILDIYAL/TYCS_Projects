@@ -20,13 +20,13 @@
   }
   
   .not-found-link {
+    text-decoration: none;
     font-size: 1.2rem;
-    color: #007bff;
+    /* color: #007bff; */
     text-decoration: none;
     font-weight: bold;
   }
   
   .not-found-link:hover {
-    text-decoration: underline;
+    text-decoration: none;
   }
-  
