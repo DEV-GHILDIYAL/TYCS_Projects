@@ -21,7 +21,7 @@ const Card = ({ image, title, description, onViewDetail, name, project, profilep
         </button>
       </div>
       {/* Profile Picture */}
-      <img src={`${import.meta.env.VITE_BACK_URL}/${profilepic}?t=${Date.now()}`} alt="Profile" className="profile-picture" onError={handleImageError}   />
+      <img src={profilepic} alt={defaultProfilePic} className="profile-picture" onError={handleImageError}   />
     </div>
   );
 };

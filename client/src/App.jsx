@@ -23,6 +23,7 @@ import NotFoundPage from "./components/NotFoundPage/NotFoundPage";
 import MassStudentUpload from "./pages/MassStudentUpload";
 import ExcelTable from "./components/ExcelTable/ExcelTable";
 import LoadingPage from "./components/LoadingPage/LoadingPage";
+import DeveloperPage from "./components/DeveloperPage/DeveloperPage";
 
 function App() {
   const [isDesktop, setIsDesktop] = useState(window.innerWidth > 800);
@@ -167,6 +168,7 @@ function App() {
               path="/"
               element={isLoggedIn ? <Home /> : <Navigate to="/login" />}
             />
+            <Route path="/developer-info" element={<DeveloperPage />} />
             <Route path="/about-us" element={<About />} />
             <Route
               path="/login"
@@ -248,6 +250,7 @@ function App() {
               path="/"
               element={isLoggedIn ? <Home /> : <Navigate to="/login" />}
             />
+            <Route path="/developer-info" element={<DeveloperPage />} />
             <Route path="/about-us" element={<About />} />
             <Route
               path="/login"

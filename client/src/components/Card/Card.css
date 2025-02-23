@@ -1,13 +1,14 @@
 /* Dark Theme for Card Component */
-.card {
+.card { 
+  /* width: calc(25% - 16px); */
   border-radius: 10px;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
   overflow: hidden;
   display: flex;
   flex-direction: row;
   position: relative;
-  min-width: 290px;
-  max-width: 290px; /* For larger screens */
+  min-width: 250px;
+  max-width: 250px; /* For larger screens */
   max-height: 200px;
   margin: 10px 7px; /* Add vertical spacing and center horizontally */
   padding: 0;
@@ -28,8 +29,8 @@
   object-fit: cover;
 }
 .profile-picture {
-  width: 40px; /* Adjust size as needed */
-  height: 40px;
+  width: 30px; /* Adjust size as needed */
+  height: 30px;
   border-radius: 50%; /* Makes the image circular */
   position: absolute;
   bottom: 10px; /* Positioning at the bottom-right */

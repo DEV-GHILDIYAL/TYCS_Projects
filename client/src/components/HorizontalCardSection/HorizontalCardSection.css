@@ -1,5 +1,5 @@
 .horizontal-card-section{
-    height: 80vh;
+    height: auto;
     /* display: flex; */
     flex-wrap: wrap;
     gap: 20px;

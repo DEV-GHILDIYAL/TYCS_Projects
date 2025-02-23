@@ -195,7 +195,7 @@ button{
   border: 2px solid var(--button-border);
 }
 button:hover{
-  background-color: var(--button-hover-background);
+  /* background-color: var(--button-hover-background); */
   color: var(--button-hover-text);
 }
 

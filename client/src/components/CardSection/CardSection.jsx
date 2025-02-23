@@ -81,7 +81,6 @@ const CardSection = ({
       setCurrentPage(newPage);
     }
   };
-
   return (
     <div className="card-section">
       {currentProjects.length > 0 ? (

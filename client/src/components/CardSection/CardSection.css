@@ -1,6 +1,6 @@
 /* Dark Theme for Card Section */
 .card-section {
-  height: 80vh; /* Set height of the section */
+  height: auto; /* Set height of the section */
   display: flex;
   flex-wrap: wrap; /* Allow cards to wrap */
   gap: 20px;

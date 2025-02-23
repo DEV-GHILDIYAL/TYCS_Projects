@@ -97,8 +97,6 @@ const HorizontalCardSection = ({
           <HorizontalCard
             key={project._id}
             rollNo={project.rollno}
-            // image={getRandomImage()} // Assign a random image to each card
-            // image={profile}
             profilepic={project.userId.profilepic}
             title={project.title}
             description={project.description}
