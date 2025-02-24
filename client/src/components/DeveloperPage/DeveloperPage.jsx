@@ -36,7 +36,7 @@ const DeveloperPage = () => {
       linkedin: "https://www.linkedin.com/in/shiwans-vaishya/",
       github: "https://github.com/Shiwans/",
       skills: ["Express.js", "JavaScript", "CSS", "MongoDB", "Node.js"],
-      image: "https://media.licdn.com/dms/image/v2/D4D03AQGQcoNqUBskag/profile-displayphoto-shrink_800_800/B4DZTZQdY0HAAc-/0/1738811761974?e=1746057600&v=beta&t=1q4NOZm7bG0VGOEaR9j_j3id_XEPUUKsGi8U9DYYORk"
+      image: "https://media.licdn.com/dms/image/v2/D4D03AQH6e9hsUBRIUg/profile-displayphoto-shrink_800_800/B4DZU1iKGgG4Ac-/0/1740359917573?e=1746057600&v=beta&t=wpMq4t8OBrB2qbcKlqJPEXGN7lWmCeRhiy6kiLn70lo"
     }
   ];
 

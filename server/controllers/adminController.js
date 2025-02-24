@@ -638,87 +638,31 @@ export const uploadStudentData = async (req, res) => {
   }
 };
 //All working
-// export const exportData = async (req, res) => {
-//   try {
-//     // Get query parameters
-//     const { department, year, project } = req.query;
-
-//     // Fetch all data in parallel
-//     const [sessions, users] = await Promise.all([
-//       Session.find(department || year || project ? { department, year, project } : {}).sort({ date: 1 }).lean(),
-//       userModel.find({ role: 'student' })
-//         .select('name email rollNo department batch year')
-//         .populate('projects', 'title deployed github') // Fetch projects related to user
-//         .populate('attendance', 'attendance totalPresent totalAbsent') // Fetch attendance
-//         .lean(),
-//     ]);
-
-//     // Transform data
-//     const transformedData = users.map((user) => {
-//       const userProject = user.projects?.[0] || {}; // Default empty object if no project found
-//       const userAttendance = user.attendance?.[0] || {}; // Default empty object if no attendance found
-
-//       // Base record with user info
-//       const record = {
-//         "Roll No": user.rollNo,
-//         "Name": user.name,
-//         "Email": user.email,
-//         "Department": user.department,
-//         "Batch": user.batch,
-//         "Year": user.year,
-//         "Project Title": userProject.title || "Not Submitted",
-//         "Project Link": userProject.deployed || "Not Submitted",
-//         "Github Link": userProject.github || "Not Submitted",
-//         "Total Present": userAttendance.totalPresent || 0,
-//         "Total Absent": userAttendance.totalAbsent || 0,
-//       };
-
-//       // Add a column for each session
-//       sessions.forEach((session) => {
-//         const sessionAttendance = userAttendance.attendance?.find(
-//           (a) => a.sessionId.toString() === session._id.toString()
-//         );
-//         record[`${session.project} - ${session.sessionNo} (${new Date(session.date).toLocaleDateString()})`] =
-//           sessionAttendance?.status || "Not Marked";
-//       });
-
-//       return record;
-//     });
-
-//     if (!transformedData.length) {
-//       return res.status(404).json({ success: false, message: "No data found for the given filters." });
-//     }
-
-//     // Send response
-//     res.json({ success: true, data: transformedData });
-
-//   } catch (error) {
-//     console.error("Export error:", error);
-//     res.status(500).json({ success: false, message: "Failed to export data", error: error.message });
-//   }
-// };
-
-import * as XLSX from "xlsx";
-
 export const exportData = async (req, res) => {
   try {
+    // Get query parameters
     const { department, year, project } = req.query;
 
-    // Fetch data
+    // Fetch all data in parallel
+    const sessionFilter = {};
+if (department) sessionFilter.department = department;
+if (year) sessionFilter.year = year;
+if (project) sessionFilter.project = project;
     const [sessions, users] = await Promise.all([
-      Session.find(department || year || project ? { department, year, project } : {}).sort({ date: 1 }).lean(),
-      userModel.find({ role: "student" })
-        .select("name email rollNo department batch year")
-        .populate("projects", "title deployed github")
-        .populate("attendance", "attendance totalPresent totalAbsent")
+      Session.find(sessionFilter).sort({ date: 1 }).lean(),
+      userModel.find({ role: 'student' })
+        .select('name email rollNo department batch year')
+        .populate('projects', 'title deployed github') // Fetch projects related to user
+        .populate('attendance', 'attendance totalPresent totalAbsent') // Fetch attendance
         .lean(),
     ]);
 
     // Transform data
     const transformedData = users.map((user) => {
-      const userProject = user.projects?.[0] || {};
-      const userAttendance = user.attendance?.[0] || {};
+      const userProject = user.projects?.[0] || {}; // Default empty object if no project found
+      const userAttendance = user.attendance?.[0] || {}; // Default empty object if no attendance found
 
+      // Base record with user info
       const record = {
         "Roll No": user.rollNo,
         "Name": user.name,
@@ -733,15 +677,15 @@ export const exportData = async (req, res) => {
         "Total Absent": userAttendance.totalAbsent || 0,
       };
 
+      // Add a column for each session
       sessions.forEach((session) => {
-        const sessionAttendance = userAttendance.attendance?.find(
-          (a) => a.sessionId.toString() === session._id.toString()
-        );
-        record[
-          `${session.project} - ${session.sessionNo} (${new Date(session.date).toLocaleDateString()})`
-        ] = sessionAttendance?.status || "Not Marked";
-      });
+        const sessionAttendance = Array.isArray(userAttendance.attendance)
+  ? userAttendance.attendance.find(a => a.sessionId.toString() === session._id.toString())
+  : undefined;
 
+        record[`${session.project} - ${session.sessionNo} (${new Date(session.date).toLocaleDateString()})`] =
+          sessionAttendance?.status || "Not Marked";
+      });
       return record;
     });
 
@@ -749,31 +693,11 @@ export const exportData = async (req, res) => {
       return res.status(404).json({ success: false, message: "No data found for the given filters." });
     }
 
-    // Create a worksheet
-    const ws = XLSX.utils.json_to_sheet(transformedData);
+    // Send response
+    res.json({ success: true, data: transformedData });
 
-    // Auto-adjust column widths
-    const columnWidths = Object.keys(transformedData[0]).map((key) => ({
-      wch: Math.max(...transformedData.map((row) => (row[key] ? row[key].toString().length : 10)), key.length),
-    }));
-    ws["!cols"] = columnWidths;
-
-    // Create workbook and append worksheet
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Exported Data");
-
-    // Write the workbook to a buffer
-    const buffer = XLSX.write(wb, { bookType: "xlsx", type: "buffer" });
-
-    // **Fix: Set correct response headers for Excel**
-    res.setHeader("Content-Disposition", "attachment; filename=exported_data.xlsx");
-    res.setHeader("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-
-    // Send the file as a buffer
-    res.send(Buffer.from(buffer));
   } catch (error) {
     console.error("Export error:", error);
     res.status(500).json({ success: false, message: "Failed to export data", error: error.message });
   }
 };
-
