@@ -665,6 +665,85 @@ export const uploadStudentData = async (req, res) => {
 
 // console.log(usersWithDetails);
 
+// export const exportData = async (req, res) => {
+//   try {
+//     // Get query parameters
+//     const { department, year, project } = req.query;
+
+//     // Build filters
+//     const sessionFilter = {};
+//     if (department) sessionFilter.department = department;
+//     if (year) sessionFilter.year = year;
+//     // if (project) sessionFilter.project = new mongoose.Types.ObjectId(project); // Ensure ObjectId for project filter
+//     if (project) sessionFilter.project = project; // Ensure ObjectId for project filter
+
+//     const userss = await userModel.find({ role: 'student' })
+//     .populate({ path: 'projects', select: 'title deployed github' })
+//     .populate({ path: 'attendance', select: 'attendance totalPresent totalAbsent' })
+//     .lean();
+  
+//   console.log("Fetched Users with Projects & Attendance:", userss);
+//     // Fetch all data in parallel (Resilient Queries)
+//     const [sessionResult, userResult] = await Promise.allSettled([
+//       Session.find(sessionFilter).sort({ date: 1 }).lean(),
+//       userModel.find({ role: 'student' })
+//         .select('name email rollNo department batch year')
+//         .populate('projects', 'title deployed github')
+//         .populate('attendance', 'attendance totalPresent totalAbsent')
+//         .lean(),
+//     ]);
+
+//     // Handle query results
+//     const sessions = sessionResult.status === "fulfilled" ? sessionResult.value : [];
+//     const users = userResult.status === "fulfilled" ? userResult.value : [];
+
+//     if (!sessions.length && !users.length) {
+//       return res.status(404).json({ success: false, message: "No data found for the given filters." });
+//     }
+
+//     // Transform data
+//     const transformedData = users.map((user) => {
+//       const userProject = user.projects?.[0] || {}; // Default empty object if no project found
+//       const userAttendance = user.attendance?.[0] || {}; // Default empty object if no attendance found
+
+//       // Base record with user info
+//       const record = {
+//         "Roll No": user.rollNo,
+//         "Name": user.name,
+//         "Email": user.email,
+//         "Department": user.department,
+//         "Batch": user.batch,
+//         "Year": user.year,
+//         "Project Title": userProject.title || "Not Submitted",
+//         "Project Link": userProject.deployed || "Not Submitted",
+//         "Github Link": userProject.github || "Not Submitted",
+//         "Total Present": userAttendance.totalPresent || 0,
+//         "Total Absent": userAttendance.totalAbsent || 0,
+//       };
+
+//       // Add session-wise attendance
+//       sessions.forEach((session) => {
+//         const sessionAttendance = Array.isArray(userAttendance?.attendance)
+//           ? userAttendance.attendance.find(a => a.sessionId?.toString() === session._id.toString())
+//           : undefined;
+
+//         record[`${session.project} - ${session.sessionNo} (${new Date(session.date).toLocaleDateString()})`] =
+//           sessionAttendance?.status || "Not Marked";
+//       });
+
+//       return record;
+//     });
+
+//     // Send response
+//     res.json({ success: true, data: transformedData });
+
+//   } catch (error) {
+//     console.error("Export error:", error);
+//     res.status(500).json({ success: false, message: "Failed to export data", error: error.message });
+//   }
+// };
+
+
 
 export const exportData = async (req, res) => {
   try {
