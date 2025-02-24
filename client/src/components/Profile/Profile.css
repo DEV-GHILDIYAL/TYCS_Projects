@@ -355,6 +355,12 @@ button:hover {
 }
 /* Responsive Design */
 @media (max-width: 768px) {
+  .profile-page-detail-row {
+    /* display: flex; */
+    justify-content: space-between;
+    margin-bottom: 10px;
+    gap: 8px;
+  }
   .profile-page-container {
     flex-direction: column;
     width: 100%;

@@ -38,7 +38,7 @@ const ProjectDetail = ({ project, onBack }) => {
             {(project.github || project.linkedin || project.instagram || project.twitter) && (
     <div className="social-media-section">
         <h3>Social Media Links</h3>
-        <div className="social-links">
+        <div className="social-media-links">
             {project.github && (
                 <a href={project.github} target="_blank" rel="noopener noreferrer">
                     <FontAwesomeIcon icon={faGithub} className="social-icon" /> GitHub

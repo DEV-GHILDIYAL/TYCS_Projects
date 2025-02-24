@@ -163,13 +163,13 @@
     width: 20px;
     height: 20px;
 }
-.social-links {
+.social-media-links {
     display: flex;
     justify-content: center;
     gap: 15px;
     margin-top: 10px;
 }
-.social-links a {
+.social-media-links a {
     text-decoration: none;
     font-size: 16px;
     font-weight: bold;
@@ -182,7 +182,7 @@
     border-radius: 8px;
     transition: all 0.3s ease;
 }
-.social-links a:hover {
+.social-media-links a:hover {
     background-color: #f0f0f0;
 }
 
@@ -203,13 +203,13 @@
 }
 
 @media (max-width: 768px) {
-    .social-links {
+    .social-media-links {
         flex-direction: column;
         align-items: center;
         gap: 10px;
     }
 
-    .social-links a {
+    .social-media-links a {
         width: 80%;
         text-align: center;
     }
