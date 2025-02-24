@@ -1,9 +1,10 @@
 import React from 'react';
 import './ProjectDetail.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft, faLink, faProjectDiagram, faUser } from '@fortawesome/free-solid-svg-icons';
-
+import { faArrowLeft, faLink} from '@fortawesome/free-solid-svg-icons';
+import { faGithub, faLinkedin, faInstagram, faTwitter } from "@fortawesome/free-brands-svg-icons";
 const ProjectDetail = ({ project, onBack }) => {
+    console.log(project);
     return (
         <div className="project-detail-container">
             <div className="title-button-container">
@@ -34,45 +35,33 @@ const ProjectDetail = ({ project, onBack }) => {
                 <p>{project.description}</p> 
             </div>
 
-            {project.future && project.future.trim() !== "" && (
-                <div className="project-detail-future">
-                    <strong>Future Enhancement:</strong>
-                    <p>{project.future}</p>
-                </div>
-            )}
-
+            {(project.github || project.linkedin || project.instagram || project.twitter) && (
+    <div className="social-media-section">
+        <h3>Social Media Links</h3>
+        <div className="social-links">
             {project.github && (
-                <div className="social-media-section">
-                    <h3>Social Media Links</h3>
-                    <a href={project.github} target="_blank" rel="noopener noreferrer">
-                        <FontAwesomeIcon icon={faProjectDiagram} className="social-icon" /> GitHub
-                    </a>
-                </div>
+                <a href={project.github} target="_blank" rel="noopener noreferrer">
+                    <FontAwesomeIcon icon={faGithub} className="social-icon" /> GitHub
+                </a>
             )}
             {project.linkedin && (
-                <div className="social-media-section">
-                    <h3>Social Media Links</h3>
-                    <a href={project.github} target="_blank" rel="noopener noreferrer">
-                        <FontAwesomeIcon icon={faProjectDiagram} className="social-icon" /> GitHub
-                    </a>
-                </div>
+                <a href={project.linkedin} target="_blank" rel="noopener noreferrer">
+                    <FontAwesomeIcon icon={faLinkedin} className="social-icon" /> LinkedIn
+                </a>
             )}
-            {project.github && (
-                <div className="social-media-section">
-                    <h3>Social Media Links</h3>
-                    <a href={project.github} target="_blank" rel="noopener noreferrer">
-                        <FontAwesomeIcon icon={faProjectDiagram} className="social-icon" /> GitHub
-                    </a>
-                </div>
+            {project.instagram && (
+                <a href={project.instagram} target="_blank" rel="noopener noreferrer">
+                    <FontAwesomeIcon icon={faInstagram} className="social-icon" /> Instagram
+                </a>
             )}
-            {project.github && (
-                <div className="social-media-section">
-                    <h3>Social Media Links</h3>
-                    <a href={project.github} target="_blank" rel="noopener noreferrer">
-                        <FontAwesomeIcon icon={faProjectDiagram} className="social-icon" /> GitHub
-                    </a>
-                </div>
+            {project.twitter && (
+                <a href={project.twitter} target="_blank" rel="noopener noreferrer">
+                    <FontAwesomeIcon icon={faTwitter} className="social-icon" /> Twitter
+                </a>
             )}
+        </div>
+    </div>
+)}
         </div>
     );
 }
