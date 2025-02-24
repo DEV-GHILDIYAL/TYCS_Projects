@@ -52,21 +52,8 @@ const Profile = () => {
         if (response.ok) {
           setProfileData(data);
           setProfilephoto(data.profilepic);
-          console.log("THIS IS PHOTO",profilephoto);
-          toast.success("Data fetched!", {
-            position: "top-right",
-            theme: "light",
-            transition: Slide,
-            autoClose: 1000,
-          });
         } else {
           console.error("Server error:", data.message);
-          toast.error("Student data is not fetched!", {
-            position: "top-right",
-            theme: "dark",
-            transition: Slide,
-            autoClose: 1000,
-          });
         }
       } catch (error) {
         console.error("Failed to fetch students:", error);
@@ -208,20 +195,8 @@ const Profile = () => {
         if (response.ok) {
           setAttendance(data[0].attendance);
           console.log("attendance, array", data[0].attendance);
-          toast.success("Data fetched!", {
-            position: "top-right",
-            theme: "light",
-            transition: Slide,
-            autoClose: 1000,
-          });
         } else {
           console.error("Server error:", data.message);
-          toast.error("Student data is not fetched!", {
-            position: "top-right",
-            theme: "dark",
-            transition: Slide,
-            autoClose: 1000,
-          });
         }
       } catch (error) {
         console.error("Failed to fetch students:", error);
