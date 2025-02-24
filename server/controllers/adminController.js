@@ -4,6 +4,7 @@ import Session from "../models/sessionModel.js";
 import Attendance from "../models/attendModel.js";
 import { Parser } from "json2csv"; // CSV conversion package
 import fs from "fs";
+import XLSX from 'xlsx'
 import path from "path";
 
 export const addstudent = async (req, res) => {
@@ -637,34 +638,69 @@ export const uploadStudentData = async (req, res) => {
     console.error("Error connecting to MongoDB or updating data:", error);
   }
 };
-//All working
+
+//This will be for individual quering
+// const users = await userModel.find({ role: 'student' })
+//     .select('name email rollNo department batch year')
+//     .lean();
+
+// const userIds = users.map(user => user._id);
+
+// // Fetch projects where userId matches
+// const projects = await Project.find({ user: { $in: userIds } })
+//     .select('title deployed github user')
+//     .lean();
+
+// // Fetch attendance where userId matches
+// const attendance = await Attendance.find({ user: { $in: userIds } })
+//     .select('attendance totalPresent totalAbsent user')
+//     .lean();
+
+// // Merge manually
+// const usersWithDetails = users.map(user => ({
+//     ...user,
+//     projects: projects.filter(project => project.user.toString() === user._id.toString()),
+//     attendance: attendance.filter(att => att.user.toString() === user._id.toString())
+// }));
+
+// console.log(usersWithDetails);
+
+
 export const exportData = async (req, res) => {
   try {
     // Get query parameters
     const { department, year, project } = req.query;
 
-    // Fetch all data in parallel
+    // Build filters
     const sessionFilter = {};
-if (department) sessionFilter.department = department;
-if (year) sessionFilter.year = year;
-if (project) sessionFilter.project = project;
-    const [sessions, users] = await Promise.all([
+    if (department) sessionFilter.department = department;
+    if (year) sessionFilter.year = year;
+    if (project) sessionFilter.project = project;
+
+    // Fetch all data
+    const [sessionResult, userResult] = await Promise.allSettled([
       Session.find(sessionFilter).sort({ date: 1 }).lean(),
       userModel.find({ role: 'student' })
         .select('name email rollNo department batch year')
-        .populate('projects', 'title deployed github') // Fetch projects related to user
-        .populate('attendance', 'attendance totalPresent totalAbsent') // Fetch attendance
+        .populate('projects', 'title deployed github')
+        .populate('attendance', 'attendance totalPresent totalAbsent')
         .lean(),
     ]);
 
+    const sessions = sessionResult.status === "fulfilled" ? sessionResult.value : [];
+    const users = userResult.status === "fulfilled" ? userResult.value : [];
+
+    if (!sessions.length && !users.length) {
+      return res.status(404).json({ success: false, message: "No data found for the given filters." });
+    }
+
     // Transform data
     const transformedData = users.map((user) => {
-      const userProject = user.projects?.[0] || {}; // Default empty object if no project found
-      const userAttendance = user.attendance?.[0] || {}; // Default empty object if no attendance found
+      const userProject = user.projects?.[0] || {};
+      const userAttendance = user.attendance?.[0] || {};
 
-      // Base record with user info
       const record = {
-        "Roll No": user.rollNo,
+        "RollNo": user.rollNo,
         "Name": user.name,
         "Email": user.email,
         "Department": user.department,
@@ -677,24 +713,47 @@ if (project) sessionFilter.project = project;
         "Total Absent": userAttendance.totalAbsent || 0,
       };
 
-      // Add a column for each session
       sessions.forEach((session) => {
-        const sessionAttendance = Array.isArray(userAttendance.attendance)
-  ? userAttendance.attendance.find(a => a.sessionId.toString() === session._id.toString())
-  : undefined;
-
-        record[`${session.project} - ${session.sessionNo} (${new Date(session.date).toLocaleDateString()})`] =
+        const sessionAttendance = userAttendance?.attendance?.find(a => a.sessionId?.toString() === session._id.toString());
+        record[`${session.sessionNo} (${new Date(session.date).toLocaleDateString('en-GB')})`] =
           sessionAttendance?.status || "Not Marked";
       });
+
       return record;
     });
 
-    if (!transformedData.length) {
-      return res.status(404).json({ success: false, message: "No data found for the given filters." });
-    }
+    // Create workbook and worksheet
+    const workbook = XLSX.utils.book_new();
+    const worksheet = XLSX.utils.json_to_sheet(transformedData);
 
-    // Send response
-    res.json({ success: true, data: transformedData });
+    // **Set column widths to improve spacing**
+    worksheet['!cols'] = [
+      { wch: 7 }, // Roll No
+      { wch: 20 }, // Name
+      { wch: 30 }, // Email
+      { wch: 10 }, // Department
+      { wch: 10 }, // Batch
+      { wch: 10 }, // Year
+      { wch: 20 }, // Project Title
+      { wch: 30 }, // Project Link
+      { wch: 30 }, // Github Link
+      { wch: 12 }, // Total Present
+      { wch: 12 }, // Total Absent
+      ...sessions.map(() => ({ wch: 15 })) // Dynamic session columns
+    ];
+
+    // Append worksheet to workbook
+    XLSX.utils.book_append_sheet(workbook, worksheet, "ExportedData");
+
+    // Write file to buffer
+    const excelBuffer = XLSX.write(workbook, { bookType: "xlsx", type: "buffer" });
+
+    // Set response headers for file download
+    res.setHeader("Content-Disposition", "attachment; filename=export.xlsx");
+    res.setHeader("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+
+    // Send file buffer as response
+    res.send(excelBuffer);
 
   } catch (error) {
     console.error("Export error:", error);

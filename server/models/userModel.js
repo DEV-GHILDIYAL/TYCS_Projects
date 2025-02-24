@@ -32,11 +32,28 @@ const UserSchema = new mongoose.Schema({
     year:{type:String,default:""},
     resetOtp: { type: String, default:''},
     resetOtpExpireAt: { type: Number, default:0},
-    projects: [{ type: mongoose.Schema.Types.ObjectId, ref: "Project" }] , // 🔥 ADD THIS LINE
-    attendance: [{ type: mongoose.Schema.Types.ObjectId, ref: "Attendance" }] // ✅ Make sure this exists
+    // projects: [{ type: mongoose.Schema.Types.ObjectId, ref: "Project" }] , // 🔥 ADD THIS LINE
+    // attendance: [{ type: mongoose.Schema.Types.ObjectId, ref: "Attendance" }] // ✅ Make sure this exists
 
     //add attendance object and fileds like no of days present
-},{ timestamps: true });
+},{ timestamps: true,
+     toJSON: { virtuals: true },
+      toObject: { virtuals: true } 
+});
+
+// Virtual populate for projects
+UserSchema.virtual('projects', {
+    ref: 'Project',
+    localField: '_id',
+    foreignField: 'userId'
+});
+
+// Virtual populate for attendance
+UserSchema.virtual('attendance', {
+    ref: 'Attendance',
+    localField: '_id',
+    foreignField: 'userId'
+});
 
 const User = mongoose.model('User', UserSchema);
 export default User;

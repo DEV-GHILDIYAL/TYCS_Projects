@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState} from "react";
 import * as XLSX from "xlsx";
 
 const ExportDataComponent = () => {
@@ -21,7 +21,7 @@ const ExportDataComponent = () => {
     projectLink: false,
     projectNo: false,
     sessions: false,
-  });
+  });  
 
   // Handle checkbox selection
   const handleFieldChange = (field) => {
@@ -32,37 +32,41 @@ const ExportDataComponent = () => {
   };
 
   // Fetch and export data  //Working
-  const fetchData = async () => {
-      setLoading(true);
-      try {
-          // Create query params based on filters
-          const params = new URLSearchParams();
-          if (selectedDepartment) params.append('department', selectedDepartment);
-          if (selectedYear) params.append('year', selectedYear);
-          if (selectedProject) params.append('project', selectedProject);
-  
-          const response = await fetch(
-              `${import.meta.env.VITE_BACK_URL}/admin/exportdata?${params.toString()}`,
-              {
-                  method: "GET",
-                  credentials: "include",
-              }
-          );
-  
-          if (!response.ok) {
-              throw new Error(`HTTP error! Status: ${response.status}`);
+ // Fetch and export data
+const fetchData = async () => {
+  setLoading(true);
+  try {
+      // Create query params based on filters
+      const params = new URLSearchParams();
+      if (selectedDepartment) params.append('department', selectedDepartment);
+      if (selectedYear) params.append('year', selectedYear);
+      if (selectedProject) params.append('project', selectedProject);
+
+      const response = await fetch(
+          `${import.meta.env.VITE_BACK_URL}/admin/exportdata?${params.toString()}`,
+          {
+              method: "GET",
+              credentials: "include",
           }
-  
+      );
+
+      if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const contentType = response.headers.get("content-type");
+
+      if (contentType.includes("application/json")) {
           const result = await response.json();
-          
+
           if (!result.success || !result.data || !result.data.length) {
-              throw new Error('No data available for export');
+              throw new Error("No data available for export");
           }
-  
+
           // Filter columns based on selected fields
           const filteredData = result.data.map(row => {
               const filteredRow = {};
-              
+
               if (selectedFields.rollno) filteredRow['Roll No'] = row['Roll No'];
               if (selectedFields.name) filteredRow['Name'] = row['Name'];
               if (selectedFields.email) filteredRow['Email'] = row['Email'];
@@ -73,7 +77,7 @@ const ExportDataComponent = () => {
               if (selectedFields.projectNo) {
                   filteredRow['Project Github'] = row['Github Link'];
               }
-              
+
               // Add session columns if selected
               if (selectedFields.sessions) {
                   Object.keys(row).forEach(key => {
@@ -82,32 +86,46 @@ const ExportDataComponent = () => {
                       }
                   });
               }
-              
+
               return filteredRow;
           });
-  
+
           // Create workbook
           const wb = XLSX.utils.book_new();
           const ws = XLSX.utils.json_to_sheet(filteredData);
-  
-          // Add some styling
+
+          // Adjust column widths
           const colWidths = {};
           Object.keys(filteredData[0] || {}).forEach(key => {
               colWidths[key] = { wch: Math.max(key.length, 15) };
           });
           ws['!cols'] = colWidths;
-  
+
           XLSX.utils.book_append_sheet(wb, ws, "Project Library Data");
-  
+
           // Save file
           XLSX.writeFile(wb, "ProjectLibrary_Export.xlsx");
-  
-      } catch (error) {
-          console.error("Export error:", error);
-          alert(error.message || "Failed to export data. Please try again.");
+
+      } else {
+          // If backend sends a file (Excel), directly download it
+          const blob = await response.blob();
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = "ProjectLibrary_Export.xlsx";
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          window.URL.revokeObjectURL(url);
       }
-      setLoading(false);
-  };
+
+  } catch (error) {
+      console.error("Export error:", error);
+      alert(error.message || "Failed to export data. Please try again.");
+  }
+  setLoading(false);
+};
+
 
 
   return (
