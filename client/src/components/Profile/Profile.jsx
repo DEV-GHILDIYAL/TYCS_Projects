@@ -459,10 +459,10 @@ const Profile = () => {
               action={`${import.meta.env.VITE_BACK_URL}/upload`}
               method="POST"
               encType="multipart/form-data"
-              onSubmit={(event) => {
+              /*onSubmit={(event) => {
                 handSaveEditDetails(); // Your save function
                 handleClosePopup(); // Close the popup after submission
-              }}
+              }}*/
             >
               {/* Profile Image Upload with Preview */}
               <div className="popup-form-row">
@@ -524,6 +524,7 @@ const Profile = () => {
                 <button
                   type="submit"
                   className="save-button"
+                  onClick={handSaveEditDetails}
                 >
                   Save
                 </button>
