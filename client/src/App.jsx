@@ -61,8 +61,8 @@ function App() {
     setIsLoggedIn(true);
   };
 
-  console.log("APP.jsx loggedIn Check", isLoggedIn);
-  console.log("APP.jsx userRole check", userRole)
+  // console.log("APP.jsx loggedIn Check", isLoggedIn);
+  // console.log("APP.jsx userRole check", userRole)
 
   // useEffect(() => {
   //   console.log("Fetching user role from App.jsx", isLoggedIn);

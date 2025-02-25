@@ -168,8 +168,12 @@
     justify-content: center;
     gap: 15px;
     margin-top: 10px;
-}
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+  }
 .social-media-links a {
+     width: fit-content; /* Add this */
     text-decoration: none;
     font-size: 16px;
     font-weight: bold;
@@ -201,19 +205,39 @@
 .email-link:hover {
     text-decoration: underline;
 }
+.icon-only-link {
+    margin-left: 8px;
+    padding: 5px 8px;
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    transition: background-color 0.2s;
+}
 
+.icon-only-link:hover {
+    background-color: #f0f0f0;
+}
+
+.link-icon {
+    font-size: 16px;
+    color: #0066cc;
+}
 @media (max-width: 768px) {
+    .project-detail-container{
+        
+        padding-top: 40px;
+    }
     .social-media-links {
         flex-direction: column;
         align-items: center;
         gap: 10px;
     }
-
     .social-media-links a {
         width: 80%;
         text-align: center;
     }
     .project-detail-row {
+        padding-top: 20px;
         flex-direction: column;
     }
 

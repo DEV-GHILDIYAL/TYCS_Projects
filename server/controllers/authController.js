@@ -284,11 +284,11 @@ export const editProfile = async (req, res) => {
   }
 };
 export const storeProfilePicture = async (req, res) => {
-  // console.log("Edit Profile Called");
+  console.log("Edit Profile Called");
   try {
     // Get token from the Authorization header
     const token = req.cookies.token;
-    // console.log("Token", token);
+    console.log("Token", token);
     
     if (!token) {
       return res.status(401).json({ message: "No token provided.............." });
@@ -308,7 +308,7 @@ export const storeProfilePicture = async (req, res) => {
     const updatedData = {
       profilepic: req.file.path,
     };
-    // console.log("Updated Data:", updatedData);
+    console.log("Updated Data:", updatedData);
     // Save updated user profile
     user = await userModel.findByIdAndUpdate(decoded.id, updatedData, { new: true });
     

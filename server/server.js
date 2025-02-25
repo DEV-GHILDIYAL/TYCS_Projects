@@ -50,14 +50,14 @@ app.use(express.static(path.join(__dirname, '../client/dist')));
 app.use("/auth", authRouter);
 app.use("", authenticate, userRouter);
 app.use("/admin",authenticate, adminRouter);
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+// app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
+    res.sendFile(path.join(__dirname, '../client/dist/index.html'));
   });
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "../client/build", "index.html"));
-  });
+  // app.get("*", (req, res) => {
+  //   res.sendFile(path.join(__dirname, "../client/build", "index.html"));
+  // });
   
 
 //MULTER IMPLEMENTATION
