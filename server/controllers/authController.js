@@ -285,7 +285,7 @@ export const editProfile = async (req, res) => {
   }
 };
 export const storeProfilePicture = async (req, res) => {
-  // console.log("Edit Profile Called");
+  console.log("Edit Profile Called");
   try {
     // Get token from the Authorization header
     const token = req.cookies.token;
@@ -313,7 +313,7 @@ export const storeProfilePicture = async (req, res) => {
     // Save updated user profile
     user = await userModel.findByIdAndUpdate(decoded.id, updatedData, { new: true });
     
-    res.status(200).json({ message: "Profile updated successfully", profile: user });
+    res.status(200).json({ message: "Profile updated successfully", profile: user, filePath: req.file.path });
   } catch (error) {
     console.error("Error updating profile:", error);
 

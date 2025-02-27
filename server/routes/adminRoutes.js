@@ -7,7 +7,7 @@ const adminRouter = express.Router();
 adminRouter.use(admin);
 // adminRouter.post('/attendance', attendance);
 // adminRouter.get('/user-data')
-adminRouter.post('/addstudent', addstudent);
+adminRouter.post('/addstudent', addstudent); 
 adminRouter.post('/createsession', createSession);
 adminRouter.post('/attendance/mark', attendanceMark);
 adminRouter.post('/attendance/status', getAttendanceStatus);

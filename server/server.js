@@ -30,6 +30,7 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization', 'x-csrf-token', 'Accept', 'x-access-token'],
 }));
 app.use((req, res, next) => {
+  // console.log(`Request Origin: ${req.headers.origin}, Method: ${req.method}, Path: ${req.path}`);
   res.header('Access-Control-Allow-Origin', `${process.env.FRONT_URL}`);
   res.header('Access-Control-Allow-Credentials', true);
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');

@@ -256,6 +256,10 @@ const Profile = () => {
       transition: Slide,
       autoClose: 1000,
     });
+    if (!selectedFile) {
+      console.error("No file selected");
+      return;
+  }
 
     // If a new profile picture is selected, upload it separately
     if (selectedFile) {
@@ -263,6 +267,7 @@ const Profile = () => {
       const formData = new FormData();
       formData.append("profilePicture", selectedFile);
       console.log("Form Data Content:", formData.get("profilePicture"));
+      console.log("Form Data:", formData);
 
       const response1 = await fetch(
         `${import.meta.env.VITE_BACK_URL}/auth/upload`,
@@ -274,7 +279,7 @@ const Profile = () => {
       );
 
       const data1 = await response1.json();
-      console.log(data1);
+      console.log(data1.filePath);
 
       if (response1.ok) {
         console.log("Profile picture uploaded successfully:", data1.filePath);
@@ -586,8 +591,8 @@ const Profile = () => {
                   setPhoneError("Phone number must be either empty or 10 digits.");
                   return;
                 }
-                handSaveEditDetails(); // Your save function
-                handleClosePopup(); // Close the popup after submission
+                // handSaveEditDetails();
+                // handleClosePopup();
               }}
             >
               {/* Profile Image Upload with Preview */}
@@ -622,7 +627,6 @@ const Profile = () => {
                     // console.log("Selected File:", file);
 
                     if (file) {
-                      // console.log("YOOOOOOO");
                       setSelectedFile(file); // Store the file in state
                       const reader = new FileReader();
                       reader.readAsDataURL(file);
@@ -666,7 +670,10 @@ const Profile = () => {
                 <button
                   type="submit"
                   className="save-button"
-                  // onClick={handSaveEditDetails}
+                  onClick={() => {
+                    handleClosePopup();
+                    handSaveEditDetails();
+                  }}
                 >
                   Save
                 </button>
