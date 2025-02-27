@@ -489,14 +489,24 @@ export const createSession = async (req, res) => {
 
 export const getstudentsdata = async (req, res) => {
   try {
-    const users = await userModel.find(); // Fetch all users from the database
-    if (users.length === 0) {
+    const users = await userModel
+    .find() // Fetch only students
+    .select('email rollNo department batch year') // Select necessary fields
+    .populate('attendance', 'totalPresent') // Populate only totalPresent
+    .lean(); // Convert Mongoose docs to plain JSON
+// Fetch all users from the database
+    if (users.length === 0 || !users) {
       // Check if the array is empty
       console.error("No users found");
       return res.status(404).json({ message: "No users found" });
     }
+    const studentsData = users.map(user => ({
+      ...user,
+      noOfDaysPresent: user.attendance?.[0]?.totalPresent || "-" // Default to 0 if not available
+    }));
 
-    res.status(200).json({ message: "Students fetched", data: users });
+    // console.log("students data",studentsData)
+    res.status(200).json({ message: "Students fetched", data: studentsData });
   } catch (error) {
     console.error("Error fetching students:", error);
     res.status(500).json({ message: "Unable to fetch students", error });
@@ -535,23 +545,58 @@ export const deleteSession = async (req, res) => {
     }
 
     // Now, delete all attendance records associated with this session
-    const deletedAttendance = await Attendance.updateMany(
-      { "attendance.sessionId": sessionId }, // Find all attendance records with this sessionId
-      { $pull: { attendance: { sessionId } } } // Remove the sessionId from the attendance array
+    // const deletedAttendance = await Attendance.updateMany(
+    //   { "attendance.sessionId": sessionId }, // Find all attendance records with this sessionId
+    //   { $pull: { attendance: { sessionId } } } // Remove the sessionId from the attendance array
+    // );
+
+    // // If no attendance records were updated, return a message
+    // if (deletedAttendance.modifiedCount === 0) {
+    //   return res
+    //     .status(404)
+    //     .json({ message: "No attendance records found for this session" });
+    // }
+
+    // Find all users whose attendance contains this sessionId
+    const affectedUsers = await Attendance.find({ "attendance.sessionId": sessionId });
+
+    if (!affectedUsers.length) {
+      return res.status(404).json({
+        message: "No attendance records found for this session",
+      });
+    }
+
+    // Remove attendance entries related to this session
+    await Attendance.updateMany(
+      { "attendance.sessionId": sessionId },
+      { $pull: { attendance: { sessionId } } }
     );
 
-    // If no attendance records were updated, return a message
-    if (deletedAttendance.modifiedCount === 0) {
-      return res
-        .status(404)
-        .json({ message: "No attendance records found for this session" });
+    // Recalculate totalPresent and totalAbsent for affected users
+    for (const user of affectedUsers) {
+      const updatedAttendance = await Attendance.findById(user._id);
+
+      if (updatedAttendance) {
+        const newTotalPresent = updatedAttendance.attendance.filter(
+          (entry) => entry.status === "Present"
+        ).length;
+        const newTotalAbsent = updatedAttendance.attendance.filter(
+          (entry) => entry.status === "Absent"
+        ).length;
+
+        // Update the totalPresent and totalAbsent in DB
+        await Attendance.findByIdAndUpdate(user._id, {
+          totalPresent: newTotalPresent,
+          totalAbsent: newTotalAbsent,
+        });
+      }
     }
 
     // Return success message
     res.status(200).json({
       message: "Session and associated attendance records deleted successfully",
       session,
-      deletedAttendanceCount: deletedAttendance.modifiedCount,
+      // deletedAttendanceCount: deletedAttendance.modifiedCount,
     });
   } catch (error) {
     console.error("Error fetching sessions:", error);

@@ -1,10 +1,9 @@
 // src/pages/AdminAttendance.jsx
 import React from "react";
+import { useState, useEffect } from "react";
 import "./StudentManagement.css";
-// import student from "../../data/students"
 import { RowComponentForStudent } from "../RowComponent/RowComponent";
 import { toast, Slide } from "react-toastify";
-import { useState, useEffect } from "react";
 
 const StudentManagement = () => {
   const [allstudents, setallstudents] = useState([]);
@@ -29,8 +28,7 @@ const StudentManagement = () => {
       (!filters.department || stud.department === filters.department) &&
       (!filters.batch || stud.batch === filters.batch) &&
       (!filters.year || stud.year === filters.year) &&
-      (!filters.projectNumber ||
-        stud.projectNumber === filters.projectNumber) &&
+      (!filters.projectNumber || stud.projectNumber === filters.projectNumber) &&
       (!filters.category || stud.category === filters.category)
     );
   });
@@ -47,6 +45,7 @@ const StudentManagement = () => {
         });
 
         const data = await response.json();
+        console.log('frontend',data)
         if (response.ok) {
           setallstudents(data.data || []); // Assuming `data` contains `data` field with students array
           toast.success("Data fetched!", {
@@ -155,7 +154,7 @@ const StudentManagement = () => {
                 srNo={index + 1}
                 rollNo={student.rollNo}
                 name={student.email}
-                noOfDaysPresent={student.noOfDayPresent || "N/A"}
+                noOfDaysPresent={student.noOfDaysPresent}
                 department={student.department}
               />
             ))}

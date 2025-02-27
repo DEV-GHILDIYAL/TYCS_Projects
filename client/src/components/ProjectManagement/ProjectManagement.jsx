@@ -8,7 +8,7 @@ import { useState,useEffect } from "react";
 
 // getproject
 const ProjectManagement = () => {
-  const [allstudents, setallstudents] = useState([]);
+  const [allprojects, setallprojects] = useState([]);
     const [filters, setFilters] = useState({
       department: "",
       batch: "",
@@ -25,14 +25,13 @@ const ProjectManagement = () => {
       }));
     };
   
-    const filteredStudents = allstudents.filter((stud) => {
+    const filteredStudents = allprojects.filter((project) => {
       return (
-        (!filters.department || stud.department === filters.department) &&
-        (!filters.batch || stud.batch === filters.batch) &&
-        (!filters.year || stud.year === filters.year) &&
-        (!filters.project ||
-          stud.project === filters.project) &&
-        (!filters.category || stud.category === filters.category)
+        (!filters.department || project.department === filters.department) &&
+        (!filters.batch || project.batch === filters.batch) &&
+        (!filters.year || project.year === filters.year) &&
+        (!filters.project || project.project === filters.project) &&
+        (!filters.category || project.category === filters.category)
       );
     });
     // console.log(filteredStudents)
@@ -50,7 +49,7 @@ const ProjectManagement = () => {
     
             const data = await response.json();
             if (response.ok) {
-              setallstudents(data.data || []); // Assuming `data` contains `data` field with students array
+              setallprojects(data.data || []); // Assuming `data` contains `data` field with students array
               toast.success("Data fetched!", {
                 position: "top-right",
                 theme: "light",
@@ -168,15 +167,15 @@ const ProjectManagement = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredStudents.map((student, index) => (
+            {filteredStudents.map((project, index) => (
               <RowComponentForProjects
-                key={student.rollno}
+                key={project._id }
                 srNo={index + 1}
-                rollNo={student.rollno}
-                name={student.name}
-                projectName={student.title}
-                projectNo={student.project}
-                projectLink={student.deployed}
+                rollNo={project.rollno}
+                name={project.name}
+                projectName={project.title}
+                projectNo={project.project}
+                projectLink={project.deployed}
               />
             ))}
           </tbody>
