@@ -50,6 +50,7 @@ const OtpComponent = () => {
   const [email, setEmail] = useState(location.state);
   const [otp, setOtp] = useState("");
   const [newPassword, setNewPassword] = useState("");
+  const [error, setError] = useState("");
 
   const handleOtpChange = (value) => {
     setOtp(value);
@@ -65,6 +66,13 @@ const OtpComponent = () => {
       });
       return;
     }
+    const passwordError = validatePassword(newPassword);
+    if (passwordError) {
+      setError(passwordError);
+      return;
+    }
+
+    setError(""); 
 
     // alert(`Email: ${email}\nOTP: ${otp}\nNew Password: ${newPassword}`);
     try {
@@ -105,7 +113,19 @@ const OtpComponent = () => {
       console.error("Error during registration:", error);
     }
   };
-
+  const validatePassword = (password) => {
+    const minLength = 8;
+    const maxLength = 16;
+    const hasAlphabet = /[a-zA-Z]/.test(password);
+    
+    if (password.length < minLength || password.length > maxLength) {
+      return `Password must be between ${minLength} and ${maxLength} characters long.`;
+    }
+    if (!hasAlphabet) {
+      return "Password must contain at least one alphabetical character.";
+    }
+    return "";
+  };
   return (
     <div className="otp-main-component">
     <div className="otp-component">
@@ -134,14 +154,15 @@ const OtpComponent = () => {
       <div className="form-group">
         <label htmlFor="new-password">New Password:</label>
         <input
-          type="password"
-          id="new-password"
-          className="password-input"
-          value={newPassword}
-          onChange={(e) => setNewPassword(e.target.value)}
-          placeholder="Enter your new password"
-        />
-      </div>
+            type="password"
+            id="new-password"
+            className="password-input"
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+            placeholder="Enter your new password"
+          />
+          {error && <p className="error-message">{error}</p>}
+        </div>
 
       <button className="submit-button" onClick={handleSubmit}>
         Submit
