@@ -121,101 +121,6 @@ const Profile = () => {
       </div>
     );
   }
-/*
-  const handSaveEditDetails = async () => {
-    try {
-      // console.log("HELLO");
-      const updatedProfileData = {
-        name: document.querySelector('input[type="text"]').value,
-        phoneNo: document.querySelector('input[type="tel"]').value,
-      };
-      const formData = new FormData();
-      formData.append("profilePicture", selectedFile);
-      // console.log(updatedProfileData);
-      console.log("PROFILE PHOTO", selectedFile);
-      console.log("FORM DATA CHECK:", formData.get("profilePicture"));
-    for (let [key, value] of formData.entries()) {
-      // console.log("Hi");
-      console.log(key, value);
-    }
-    
-
-      const response1 = await fetch(
-        `${import.meta.env.VITE_BACK_URL}/auth/upload`,
-        {
-          method: "POST",
-          //encType="multipart/form-data",
-          body: formData,
-          credentials: "include",
-        } 
-      );
-
-      const data1 = await response1.json();
-      // console.log("Server Response:", data1);
-
-      if (response1.ok) {
-        setProfileData((prev) => ({
-          ...prev,
-          profilepic: data1.filePath, // Ensure this matches your backend response
-        }));
-      }
-
-      const response = await fetch(
-        `${import.meta.env.VITE_BACK_URL}/auth/update-profile`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(updatedProfileData),
-          credentials: "include",
-        }
-      );
-
-      const data = await response.json();
-      // console.log("PROFILE", data);
-
-      if (response.ok) {
-        toast.success("Profile updated successfully!", {
-          position: "top-right",
-          theme: "light",
-          transition: Slide,
-          autoClose: 1000,
-        });
-        const fetchUpdatedProfile = async () => {
-          const response = await fetch(
-            `${import.meta.env.VITE_BACK_URL}/auth/get-profile`,
-            {
-              method: "GET",
-              headers: { "Content-Type": "application/json" },
-              credentials: "include",
-            }
-          );
-
-          const updatedData = await response.json();
-          if (response.ok) setProfileData(updatedData);
-        };
-
-        await fetchUpdatedProfile();
-        // window.location.reload();
-      } else {
-        toast.error("Error updating profile: " + data.message, {
-          position: "top-right",
-          theme: "light",
-          transition: Slide,
-          autoClose: 1000,
-        });
-      }
-    } catch (error) {
-      toast.error("An error occurred while saving your profile.", {
-        position: "top-right",
-        theme: "light",
-        transition: Slide,
-        autoClose: 1000,
-      });
-    }
-  };
-  */
  const handSaveEditDetails = async () => {
   try {
     const updatedProfileData = {
@@ -268,7 +173,9 @@ const Profile = () => {
       formData.append("profilePicture", selectedFile);
       console.log("Form Data Content:", formData.get("profilePicture"));
       console.log("Form Data:", formData);
-
+      for (let [key, value] of formData.entries()) {
+        console.log(`${key}:`, value);
+      }
       const response1 = await fetch(
         `${import.meta.env.VITE_BACK_URL}/auth/upload`,
         {
@@ -582,8 +489,8 @@ const Profile = () => {
           <div className="popup-content">
             <h2>Edit Details</h2>
             <form
-              action={`${import.meta.env.VITE_BACK_URL}/auth/upload`}
-              method="POST"
+              // action={`${import.meta.env.VITE_BACK_URL}/auth/upload`}
+              // method="POST"
               encType="multipart/form-data"
               onSubmit={(event) => {
                 event.preventDefault();
@@ -591,8 +498,8 @@ const Profile = () => {
                   setPhoneError("Phone number must be either empty or 10 digits.");
                   return;
                 }
-                // handSaveEditDetails();
-                // handleClosePopup();
+                handSaveEditDetails();
+                handleClosePopup();
               }}
             >
               {/* Profile Image Upload with Preview */}

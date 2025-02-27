@@ -22,6 +22,18 @@ const storage = new CloudinaryStorage({
 });
 // const upload = multer({dest: "uploads/"});
 const upload = multer({storage})
-authRouter.post('/upload', upload.single('profilePicture'), storeProfilePicture);
+console.log(upload);
+const uploadMiddleware = upload.single('profilePicture');
+authRouter.post('/upload', (req, res, next) => {
+  console.log("Route /auth/upload reached");
+  uploadMiddleware(req, res, (err) => {
+    if (err) {
+      console.error("Multer error:", err);
+      return res.status(400).json({ message: "File upload error", error: err.message });
+    }
+    console.log("Multer middleware executed");
+    next();
+  });
+}, storeProfilePicture);
 
 export default authRouter;

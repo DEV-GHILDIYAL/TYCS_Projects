@@ -286,6 +286,7 @@ export const editProfile = async (req, res) => {
 };
 export const storeProfilePicture = async (req, res) => {
   console.log("Edit Profile Called");
+  console.log(req.body);
   try {
     // Get token from the Authorization header
     const token = req.cookies.token;
