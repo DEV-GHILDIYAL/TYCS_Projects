@@ -90,7 +90,6 @@ const Profile = () => {
         );
 
         const data = await response.json();
-        // console.log("this is data of attendance", data);
         if (response.ok) {
           setAttendance(data[0].attendance);
           // console.log("attendance, array", data[0].attendance);
@@ -129,20 +128,14 @@ const Profile = () => {
         name: document.querySelector('input[type="text"]').value,
         phoneNo: document.querySelector('input[type="tel"]').value,
       };
-      // Ensure file is selected before proceeding
-    if (!selectedFile) {
-      // console.error("No file selected!");
-      toast.error("Please select a profile picture before saving.");
-      return;
-    }
       const formData = new FormData();
       formData.append("profilePicture", selectedFile);
       // console.log(updatedProfileData);
-      // console.log("PROFILE PHOTO", selectedFile); // Debugging file before upload
-    // console.log("FORM DATA CHECK:", formData.get("profilePicture")); // Check if file is appended
+      console.log("PROFILE PHOTO", selectedFile);
+      console.log("FORM DATA CHECK:", formData.get("profilePicture"));
     for (let [key, value] of formData.entries()) {
       // console.log("Hi");
-      // console.log(key, value);
+      console.log(key, value);
     }
     
 
@@ -213,8 +206,6 @@ const Profile = () => {
         });
       }
     } catch (error) {
-      // console.error("Error saving profile details:", error);
-      // alert("An error occurred while saving your profile.");
       toast.error("An error occurred while saving your profile.", {
         position: "top-right",
         theme: "light",

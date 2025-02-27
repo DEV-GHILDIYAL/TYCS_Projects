@@ -223,6 +223,10 @@
     color: #0066cc;
 }
 @media (max-width: 768px) {
+    .project-title{
+        text-align: center;
+        position: sticky;
+    }
     .project-detail-container{
         
         padding-top: 40px;

@@ -129,7 +129,7 @@ const fetchData = async () => {
 
 
   return (
-    <div style={{ padding: "20px", backgroundColor: "#f4f4f4", borderRadius: "8px", width: "350px" }}>
+    <div className="export-data-container">
       <h2>EXPORT DATA</h2>
       <div>
         <label>Department</label>

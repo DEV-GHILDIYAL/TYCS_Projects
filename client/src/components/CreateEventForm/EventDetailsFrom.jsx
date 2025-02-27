@@ -212,7 +212,7 @@ const EventDetailsForm = ({
       projectCategory &&
       selectedProject && // Check for selected project
       selectedBatch && // Check for selected batch
-      githubLink && // Check for
+      // githubLink && // Check for
       (isCompletedProject ? deployedLink : true
       );
 
@@ -497,7 +497,7 @@ const EventDetailsForm = ({
         </div>
         <div className="form-group">
           <label>
-            Github Link: <span className="required">*</span>
+            Github Link:
           </label>
           <input
             type="url"

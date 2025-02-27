@@ -57,6 +57,12 @@ const ProjectDetail = ({ project, onBack }) => {
         <strong>Project Description:</strong>
         <p>{project.description}</p>
       </div>
+      {(project.future && (
+      <div className="project-detail-description">
+        <strong>Future Enhancement:</strong>
+        <p>{project.future}</p>
+      </div>
+      ))}
 
       {(project.github ||
         project.linkedin ||

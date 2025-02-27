@@ -16,7 +16,7 @@ const ProjectSchema = new mongoose.Schema({
   year:{type:String,required:true},
   department:{type:String, enum: ['CS','IT'],required:true},
   project: { type: String, required:true,}, //this is for project pehchano 1 or2  ...for unique true we need to check for each person not from everyone
-  github: { type: String, required: true },
+  github: { type: String },
   twitter: { type: String },
   linkedin: { type: String },
   instagram: { type: String },
