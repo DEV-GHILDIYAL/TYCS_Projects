@@ -1,5 +1,6 @@
 import React, { useState} from "react";
 import * as XLSX from "xlsx";
+import "./ExportDataComponent.css";
 
 const ExportDataComponent = () => {
   const [data, setData] = useState([]);
