@@ -9,7 +9,7 @@ import {
   faTwitter,
 } from "@fortawesome/free-brands-svg-icons";
 const ProjectDetail = ({ project, onBack }) => {
-  console.log(project);
+  // console.log(project);
   return (
     <div className="project-detail-container">
       <div className="title-button-container">

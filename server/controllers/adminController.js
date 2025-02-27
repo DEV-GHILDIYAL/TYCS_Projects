@@ -14,7 +14,7 @@ export const addstudent = async (req, res) => {
       return res.status(400).json({ message: "Missing required fields" });
     }
     const userExist = await userModel.findOne({ email: email });
-    console.log(userExist);
+    // console.log(userExist);
     if (userExist) {
       console.error("User exist with this email:", email);
       return res.status(401).json({ message: "Email exist" });
@@ -152,7 +152,7 @@ export const attendanceMark = async (req, res) => {
         (student) => student.userId === userId
       );
 
-      console.log("stu",formattedStatus)
+      // console.log("stu",formattedStatus)
       if (student) {
 
         // Update the status of the student
@@ -281,7 +281,7 @@ export const getAttendanceStatus = async (req, res) => {
 
     // Convert date string to Date object for accurate comparison
     const formattedDate = new Date(date);
-    console.log(formattedDate);
+    // console.log(formattedDate);
     // Fetch attendance record for the student
     const attendance = await Attendance.findOne({
       userId,
@@ -353,7 +353,7 @@ export const getAttendanceStatus = async (req, res) => {
 // };
 
 export const getAttendanceStatusWithId = async (req, res) => {
-  console.log("Getting Attendance Status");
+  // console.log("Getting Attendance Status");
 
   try {
     const { sessionId } = req.params;
@@ -620,7 +620,7 @@ export const dashboard = async (req, res) => {
 export const uploadStudentData = async (req, res) => {
   try {
     let { students } = req.query;
-    console.log(students);
+    // console.log(students);
     if (typeof students === "string") {
       students = JSON.parse(students);
     }

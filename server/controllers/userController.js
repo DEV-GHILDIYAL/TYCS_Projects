@@ -81,7 +81,7 @@ export const fetchProjects = async (req, res) => {
       .status(200)
       .json({ message: "Successfully fetched all the projects", data: data });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.status(500).json({ message: "Error fetching projects", error });
   }
 };
@@ -99,7 +99,7 @@ export const fetchAttendance = async (req, res) => {
     if (!data || data.length === 0) {
       return res.json({ message: "No attendance records found" });
     }
-    console.log(data)
+    // console.log(data)
     res.status(200).json(data);
   } catch (error) {
     console.error("Error fetching attendance:", error);
@@ -119,7 +119,7 @@ export const UserProject = async (req, res) => {
       .status(200)
       .json({ message: "Successfully fetched your project", data: project });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.status(500).json({ message: "Error fetching your project", error });
   }
 };
@@ -204,7 +204,7 @@ export const addProject = async (req, res) => {
     await newP.save();
     res.status(201).json({ message: "New Project added", newP });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.status(500).json({ message: "Error adding Project", error });
   }
 };
@@ -226,7 +226,7 @@ export const updateProject = async (req, res) => {
       .status(200)
       .json({ message: "Project updated successfully", updateProject });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.status(500).json({ message: "Error updating project", error });
   }
 };
@@ -248,7 +248,7 @@ export const deleteProject = async (req, res) => {
     await Project.findByIdAndDelete(req.params.id);
     res.status(200).json({ message: "Project deleted successfully" });
   } catch (error) {
-    console.log("Error deleting project", error);
+    // console.log("Error deleting project", error);
     return res.status(500).json({ message: "Error deleting project", error });
   }
 };

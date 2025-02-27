@@ -63,7 +63,7 @@ const EventDetailsForm = ({
         });
         
         const data = await response.json();
-        console.log(data)
+        // console.log(data)
         if (response.ok) {
           setUserD(data.userData);
           setName(data.userData.name)
@@ -108,7 +108,7 @@ const EventDetailsForm = ({
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Convert the name to uppercase
-    console.log("name from userstate",name)
+    // console.log("name from userstate",name)
     const upperCaseName = name.toUpperCase();
     try {
       const url = editingProjectId
@@ -170,7 +170,7 @@ const EventDetailsForm = ({
           // `Error ${editingProjectId ? "updating" : "saving"} project!`,
           // { autoClose: 1000 }
         // );
-        console.log(data.message)
+        // console.log(data.message)
         toast.error(data.message || `Error occurred. `, { autoClose: 1000 });
       }
     } catch (error) {

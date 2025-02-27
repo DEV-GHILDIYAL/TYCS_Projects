@@ -10,13 +10,13 @@ import DBconnect from './massproject.js';
 
 const students = [
     {
-      rollNo: 491,
+      rollNo: 500,
       name:"Shiwans Vaishya",
       email: "shiwans.vaishya@gmail.com",
       role:"admin",
-      department:"Adi",
-      batch:"Batch",
-      year:"2027-2028"
+      department:"CS",
+      batch:"Batch0",
+      year:"2024-2025"
     },
   ];
 
@@ -29,7 +29,7 @@ const connectDB = async () => {
       updateOne: {
         filter: { rollNo: student.rollNo },
         update: { $setOnInsert: student }, // Only set if the document does not exist
-        upsert: true // Insert if the document doesn't exist
+        upsert: true
       }
     }));
 

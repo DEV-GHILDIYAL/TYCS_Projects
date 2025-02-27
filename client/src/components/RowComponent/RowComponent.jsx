@@ -41,12 +41,12 @@ export const RowComponentForAttendance = ({
         const data = await response.json();
         // console.log(attendance);
         if (response.ok) {
-          console.log("HELLO",data.status);
+          // console.log("HELLO",data.status);
           setAttendance(data.status); // "present" or "absent"
         } else {
           console.error("Failed to fetch attendance status:", data.error || "Unknown error");
         }
-        console.log(attendance);
+        // console.log(attendance);
       } catch (error) {
         console.error("Error fetching attendance status:", error);
       } finally {
@@ -72,10 +72,10 @@ export const RowComponentForAttendance = ({
       );
 
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
       const formattedStatus = status.charAt(0).toUpperCase() + status.slice(1).toLowerCase();
       if (response.ok) {
-        console.log("Attendance marked successfully:", data);
+        // console.log("Attendance marked successfully:", data);
         setAttendance(formattedStatus); // Update the UI to reflect the attendance
         onAttendanceMarked(userId); // Notify parent component
       } else {

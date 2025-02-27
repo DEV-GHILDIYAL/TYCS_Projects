@@ -39,7 +39,7 @@ const HorizontalCardSection = ({
         });
         
         const data = await response.json();
-        console.log(data);
+        // console.log(data);
         if (Array.isArray(data.data)) {
           setProjects(data.data);
           // console.log("Projects fetched and set:", data.data);

@@ -94,7 +94,7 @@ const OtpComponent = () => {
           theme: "light",
           transition: Slide,
         });
-        console.log("Registration failed", checkdata.errorMessage || checkdata.message);
+        // console.log("Registration failed", checkdata.errorMessage || checkdata.message);
       }
     } catch (error) {
       toast.error("Error during registration", {

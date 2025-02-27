@@ -11,14 +11,14 @@ const ExcelTable = () => {
     if (storedData) {
       setData(JSON.parse(storedData));
       
-    console.log(storedData);
+    // console.log(storedData);
     } else {
       navigate("/"); // Redirect if no data is available
     }
   }, [navigate]);
 
   const handleContinue = async() => {
-    console.log("Continue button clicked");
+    // console.log("Continue button clicked");
     // Perform further actions here, such as saving the data to the database or making API requests
     // const response = await fetch(`${import.meta.env.VITE_BACK_URL}/admin/student-data-upload?student=${storedData}`, { credentials: "include" });
 
@@ -35,7 +35,7 @@ const ExcelTable = () => {
       }
     );
         const data = await response.json();
-        console.log(data);
+        // console.log(data);
     // You can define further navigation or actions here
   };
 

@@ -3,7 +3,7 @@ import './ProjectCard.css';
 import img from '../../assets/images/images.png';
 
 const ProjectCard = ({ project, onEdit, onDelete }) => {
-    console.log("project card ",project)
+    // console.log("project card ",project)
     return (
         <div className="project-card">
             <img src={img} alt={project.title} className="project-image" />

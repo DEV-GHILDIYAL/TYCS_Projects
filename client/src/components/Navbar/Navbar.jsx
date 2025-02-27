@@ -114,7 +114,7 @@ const Navbar = ({isLoggedIn, userRole, setIsLoggedIn, setUserRole}) => {
       return false;
     });
   };
-  console.log("MOBILE:", userRole);
+  // console.log("MOBILE:", userRole);
   const visibleRoutes = getVisibleRoutes();
 
   return (

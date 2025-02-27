@@ -35,7 +35,7 @@ const CardSection = ({
         const data = await response.json();
         if (Array.isArray(data.data)) {
           setProjects(data.data);
-          console.log("Projects fetched and set:", data.data);
+          // console.log("Projects fetched and set:", data.data);
         } else {
           console.error("Fetched data is not an array:", data.data);
         }

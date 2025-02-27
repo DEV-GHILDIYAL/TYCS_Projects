@@ -30,7 +30,7 @@ const AdminAttendance = () => {
   //this has only student data which are inside session
   // console.log("main after data?.session",main)
 
-  console.log("now viewing SessionToview",sessionToView)//gives out session we are viewing
+  // console.log("now viewing SessionToview",sessionToView)
   // but error in here is it is not getting in main or data  
   if (sessionToView) {
     main = sessionToView.students || [];
@@ -38,7 +38,7 @@ const AdminAttendance = () => {
     sessionNo = sessionToView.sessionNo;
     date = sessionToView.date;
   }
-  console.log("main in here",main)
+  // console.log("main in here",main)
   // Fetch attendance data when the component loads
   useEffect(() => {
     const fetchAttendanceStatus = async () => {
@@ -55,7 +55,7 @@ const AdminAttendance = () => {
           }
         );
         const data = await response.json();
-        console.log("UNNECESSARY",data);
+        // console.log("UNNECESSARY",data);
 
         if (response.ok) {
           // Update attendanceStatus with the fetched data
@@ -63,7 +63,7 @@ const AdminAttendance = () => {
             acc[student._id] = data.attendance[student._id] || null; // Use fetched status or null if not available
             return acc;
           }, {});
-          console.log("STATUS", status);
+          // console.log("STATUS", status);
           setAttendanceStatus(status);
         } else {
           console.error("Failed to fetch attendance:", data.error || "Unknown error");
@@ -79,7 +79,6 @@ const AdminAttendance = () => {
   }, [sessionId, main]);
 
   const handleAttendanceMarked = (userId, status) => {
-    console.log()
     setAttendanceStatus((prev) => ({
       ...prev,
       [userId]: status, // Update the status for the specific student

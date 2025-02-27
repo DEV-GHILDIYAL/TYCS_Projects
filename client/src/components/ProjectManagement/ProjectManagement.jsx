@@ -35,7 +35,7 @@ const ProjectManagement = () => {
         (!filters.category || stud.category === filters.category)
       );
     });
-    console.log(filteredStudents)
+    // console.log(filteredStudents)
 
       useEffect(() => {
         const fetchProjects = async () => {

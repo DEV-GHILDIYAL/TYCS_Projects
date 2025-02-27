@@ -64,13 +64,13 @@ export const setpassword = async (req, res) => {
 
     transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
-        console.log(error);
+        // console.log(error);
       } else {
-        console.log("Email sent: " + info.response);
+        // console.log("Email sent: " + info.response);
       }
     });
 
-    console.log(link); // For testing purposes
+    // console.log(link);
 
     return res.status(200).json({ status: "Reset link sent", link });
   } catch (error) {

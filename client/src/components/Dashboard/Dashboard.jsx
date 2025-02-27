@@ -43,7 +43,7 @@ const Dashboard = () => {
     fetchdash();
   }, [currentProject, currentSession]);
 
-  console.log(data);
+  // console.log(data);
 
   const currentProjectData = data || { totalStudents: 0, sessions: {} };
   const sessionData = data.sessions;
@@ -95,7 +95,7 @@ const Dashboard = () => {
   //   }
   // };
   const handleExport = () => {
-    console.log("Exporting data...");
+    // console.log("Exporting data...");
     navigate("/export-data");
     // window.open(`${import.meta.env.VITE_BACK_URL}/admin/exportdata`, "_blank");
   };

@@ -113,7 +113,7 @@ const SideBar = ({ children,  isLoggedIn, userRole, setIsLoggedIn, setUserRole})
     });
   };
 
-  console.log("DESKTOP:", userRole);
+  // console.log("DESKTOP:", userRole);
   const visibleRoutes = getVisibleRoutes();
 
   return (

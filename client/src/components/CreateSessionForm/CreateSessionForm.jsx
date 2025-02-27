@@ -17,7 +17,7 @@ const CreateSessionForm = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-    console.log(formData.batch);
+    // console.log(formData.batch);
   };
 
   const handleSubmit = async (e) => {

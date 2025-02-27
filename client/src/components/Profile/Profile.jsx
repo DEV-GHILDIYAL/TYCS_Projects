@@ -48,7 +48,7 @@ const Profile = () => {
         );
 
         const data = await response.json();
-        console.log(data);
+        // console.log(data);
         if (response.ok) {
           setProfileData(data);
           setProfilephoto(data.profilepic);
@@ -90,10 +90,10 @@ const Profile = () => {
         );
 
         const data = await response.json();
-        console.log("this is data of attendance", data);
+        // console.log("this is data of attendance", data);
         if (response.ok) {
           setAttendance(data[0].attendance);
-          console.log("attendance, array", data[0].attendance);
+          // console.log("attendance, array", data[0].attendance);
         } else {
           console.error("Server error:", data.message);
         }
@@ -331,7 +331,7 @@ const Profile = () => {
               <thead>
                 <tr>
                   <th>Project</th>
-                  {[...Array(15)].map((_, index) => (
+                  {[...Array(6)].map((_, index) => (
                     <th key={index}>{`Session ${index + 1}`}</th>
                   ))}
                 </tr>
@@ -340,7 +340,7 @@ const Profile = () => {
                 {["Project One", "Project Two"].map((project) => (
                   <tr key={project}>
                     <td>{project}</td>
-                    {[...Array(15)].map((_, index) => {
+                    {[...Array(6)].map((_, index) => {
                       const sessionKey = `Session${index + 1}`; // Matches the "sessionNo" format
                       // console.log("Checking:", { project, sessionKey });
 
@@ -508,12 +508,12 @@ const Profile = () => {
                   accept="image/*"
                   name="profilePicture"
                   onChange={(event) => {
-                    console.log("File Input Change Event Triggered"); // Debugging
+                    // console.log("File Input Change Event Triggered");
                     const file = event.target.files[0];
-                    console.log("Selected File:", file); // Debugging
+                    // console.log("Selected File:", file);
 
                     if (file) {
-                      console.log("YOOOOOOO");
+                      // console.log("YOOOOOOO");
                       setSelectedFile(file); // Store the file in state
                       const reader = new FileReader();
                       reader.readAsDataURL(file);

@@ -57,7 +57,7 @@ const SetPassword = () => {
 
         navigate("/otp",{state:email});
       } else {
-        console.log("Registration failed", checkdata.errorMessage || checkdata.message);
+        // console.log("Registration failed", checkdata.errorMessage || checkdata.message);
         toast.error("Unable to send data to server", {
           position: "top-right",
           theme: "light",
