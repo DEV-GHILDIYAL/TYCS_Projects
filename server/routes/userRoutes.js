@@ -3,7 +3,7 @@ import { getUserData,fetchProjects, addProject, updateProject, deleteProject,fet
 const userRouter = express.Router();
 
 userRouter.get('/data', getUserData);
-userRouter.get('/', fetchProjects);
+userRouter.get('/get-all-project', fetchProjects);
 userRouter.get('/user', UserProject);
 userRouter.post('/',addProject );
 userRouter.post('/attendance', fetchAttendance);

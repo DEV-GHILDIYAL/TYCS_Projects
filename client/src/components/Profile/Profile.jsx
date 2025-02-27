@@ -71,155 +71,6 @@ const Profile = () => {
   const handleEditDetails = () => {
     setIsPopupVisible(true); // Show the popup
   };
-
-  const handleClosePopup = () => {
-    setIsPopupVisible(false); // Hide the popup
-  };
-
-  if (!profileData) {
-    return (
-      <div className="profile-loader">
-        <p>Loading profile data...</p>
-      </div>
-    );
-  }
-
-const handSaveEditDetails = async () => {
-  console.log("Hello Event Update Attempt");
-
-  try {
-    if (!selectedFile) {
-      console.error("No file selected!");
-      return;
-    }
-    
-      const updatedProfileData = {
-          name: document.querySelector('input[type="text"]').value,
-          phoneNo: document.querySelector('input[type="tel"]').value,
-      };
-
-      const formData = new FormData();
-      formData.append("profilePicture", selectedFile);
-      console.log("PROFILE FormData:", formData);
-
-      let data1;
-      try {
-          const response1 = await fetch(
-              `${import.meta.env.VITE_BACK_URL}/auth/upload`,
-              {
-                  method: "POST",
-                  body: formData,
-                  credentials: "include",
-              } 
-          );
-
-          if (!response1.ok) {
-              throw new Error(`File upload failed with status: ${response1.status}`);
-          }else{
-            console.error("File upload succeeded:", response1);
-            toast.success("File uploaded successfully.", {
-                position: "top-right",
-                theme: "light",
-                transition: Slide,
-                autoClose: 1000,
-            });
-          }
-
-          data1 = await response1.json();
-          console.log("Server Response (Upload):", data1);
-
-          setProfileData((prev) => ({
-              ...prev,
-              profilepic: data1.filePath, // Ensure this matches your backend response
-          }));
-      } catch (uploadError) {
-          console.error("Error uploading file:", uploadError);
-          toast.error("File upload failed.", {
-              position: "top-right",
-              theme: "light",
-              transition: Slide,
-              autoClose: 1000,
-          });
-          return; // Stop further execution if file upload fails
-      }
-
-      let data;
-      try {
-          const response = await fetch(
-              `${import.meta.env.VITE_BACK_URL}/auth/update-profile`,
-              {
-                  method: "POST",
-                  headers: { "Content-Type": "application/json" },
-                  body: JSON.stringify(updatedProfileData),
-                  credentials: "include",
-              }
-          );
-
-          if (!response.ok) {
-              throw new Error(`Profile update failed with status: ${response.status}`);
-          }
-
-          data = await response.json();
-          console.log("PROFILE Update Response:", data);
-      } catch (updateError) {
-          console.error("Error updating profile:", updateError);
-          toast.error("Error updating profile: " + updateError.message, {
-              position: "top-right",
-              theme: "light",
-              transition: Slide,
-              autoClose: 1000,
-          });
-          return;
-      }
-
-      try {
-          const fetchUpdatedProfile = async () => {
-              const response = await fetch(
-                  `${import.meta.env.VITE_BACK_URL}/auth/get-profile`,
-                  {
-                      method: "GET",
-                      headers: { "Content-Type": "application/json" },
-                      credentials: "include",
-                  }
-              );
-
-              if (!response.ok) {
-                  throw new Error(`Failed to fetch updated profile with status: ${response.status}`);
-              }
-
-              const updatedData = await response.json();
-              setProfileData(updatedData);
-          };
-
-          await fetchUpdatedProfile();
-
-          toast.success("Profile updated successfully!", {
-              position: "top-right",
-              theme: "light",
-              transition: Slide,
-              autoClose: 1000,
-          });
-      } catch (fetchError) {
-          console.error("Error fetching updated profile:", fetchError);
-          toast.error("Failed to fetch updated profile.", {
-              position: "top-right",
-              theme: "light",
-              transition: Slide,
-              autoClose: 1000,
-          });
-      }
-
-  } catch (error) {
-      console.error("Unexpected error:", error);
-      toast.error("An unexpected error occurred.", {
-          position: "top-right",
-          theme: "light",
-          transition: Slide,
-          autoClose: 1000,
-      });
-  }
-};
-
   useEffect(() => {
     if (!profileData?.userId) return; // Exit if userId is not available
 
@@ -247,18 +98,131 @@ const handSaveEditDetails = async () => {
           console.error("Server error:", data.message);
         }
       } catch (error) {
-        console.error("Failed to fetch students:", error);
-        toast.error("Failed to fetch students. Please try again!", {
-          position: "top-right",
-          theme: "dark",
-          transition: Slide,
-          autoClose: 1000,
-        });
+        // console.error("Failed to fetch students:", error);
+        // toast.error("Failed to fetch students. Please try again!", {
+        //   position: "top-right",
+        //   theme: "dark",
+        //   transition: Slide,
+        //   autoClose: 1000,
+        // });
       }
     };
 
     fetchAttend();
   }, [profileData]);
+  const handleClosePopup = () => {
+    setIsPopupVisible(false); // Hide the popup
+  };
+
+  if (!profileData) {
+    return (
+      <div className="profile-loader">
+        <p>Loading profile data...</p>
+      </div>
+    );
+  }
+
+  const handSaveEditDetails = async () => {
+    try {
+      // console.log("HELLO");
+      const updatedProfileData = {
+        name: document.querySelector('input[type="text"]').value,
+        phoneNo: document.querySelector('input[type="tel"]').value,
+      };
+      // Ensure file is selected before proceeding
+    if (!selectedFile) {
+      // console.error("No file selected!");
+      toast.error("Please select a profile picture before saving.");
+      return;
+    }
+      const formData = new FormData();
+      formData.append("profilePicture", selectedFile);
+      // console.log(updatedProfileData);
+      // console.log("PROFILE PHOTO", selectedFile); // Debugging file before upload
+    // console.log("FORM DATA CHECK:", formData.get("profilePicture")); // Check if file is appended
+    for (let [key, value] of formData.entries()) {
+      // console.log("Hi");
+      // console.log(key, value);
+    }
+    
+
+      const response1 = await fetch(
+        `${import.meta.env.VITE_BACK_URL}/auth/upload`,
+        {
+          method: "POST",
+          //encType="multipart/form-data",
+          body: formData,
+          credentials: "include",
+        } 
+      );
+
+      const data1 = await response1.json();
+      // console.log("Server Response:", data1);
+
+      if (response1.ok) {
+        setProfileData((prev) => ({
+          ...prev,
+          profilepic: data1.filePath, // Ensure this matches your backend response
+        }));
+      }
+
+      const response = await fetch(
+        `${import.meta.env.VITE_BACK_URL}/auth/update-profile`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updatedProfileData),
+          credentials: "include",
+        }
+      );
+
+      const data = await response.json();
+      // console.log("PROFILE", data);
+
+      if (response.ok) {
+        toast.success("Profile updated successfully!", {
+          position: "top-right",
+          theme: "light",
+          transition: Slide,
+          autoClose: 1000,
+        });
+        const fetchUpdatedProfile = async () => {
+          const response = await fetch(
+            `${import.meta.env.VITE_BACK_URL}/auth/get-profile`,
+            {
+              method: "GET",
+              headers: { "Content-Type": "application/json" },
+              credentials: "include",
+            }
+          );
+
+          const updatedData = await response.json();
+          if (response.ok) setProfileData(updatedData);
+        };
+
+        await fetchUpdatedProfile();
+        // window.location.reload();
+      } else {
+        toast.error("Error updating profile: " + data.message, {
+          position: "top-right",
+          theme: "light",
+          transition: Slide,
+          autoClose: 1000,
+        });
+      }
+    } catch (error) {
+      // console.error("Error saving profile details:", error);
+      // alert("An error occurred while saving your profile.");
+      toast.error("An error occurred while saving your profile.", {
+        position: "top-right",
+        theme: "light",
+        transition: Slide,
+        autoClose: 1000,
+      });
+    }
+  };
 
   return (
     <div className="profile-page-container">
@@ -267,8 +231,7 @@ const handSaveEditDetails = async () => {
           <header className="profile-page-header">
             <div className="profile-page-photo-container">
               <img
-                src={
-                  profileData.profilepic}
+                src={profileData.profilepic}
                 alt="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
                 className="profile-page-photo"
                 onError={(e) => {
@@ -364,41 +327,46 @@ const handSaveEditDetails = async () => {
             </button>
           </div>
           <div className="profile-page-table-container">
-          <table className="profile-page-table">
-  <thead>
-    <tr>
-      <th>Project</th>
-      {[...Array(15)].map((_, index) => (
-        <th key={index}>{`Session ${index + 1}`}</th>
-      ))}
-    </tr>
-  </thead>
-  <tbody>
-    {["Project One", "Project Two"].map((project) => (
-      <tr key={project}>
-        <td>{project}</td>
-        {[...Array(15)].map((_, index) => {
-          const sessionKey = `Session${index + 1}`; // Matches the "sessionNo" format
-          // console.log("Checking:", { project, sessionKey });
+            <table className="profile-page-table">
+              <thead>
+                <tr>
+                  <th>Project</th>
+                  {[...Array(15)].map((_, index) => (
+                    <th key={index}>{`Session ${index + 1}`}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {["Project One", "Project Two"].map((project) => (
+                  <tr key={project}>
+                    <td>{project}</td>
+                    {[...Array(15)].map((_, index) => {
+                      const sessionKey = `Session${index + 1}`; // Matches the "sessionNo" format
+                      // console.log("Checking:", { project, sessionKey });
 
-          // Finding a matching attendance record
-          const record = attendance?.find(
-            (entry) =>
-              entry?.projectName?.trim()?.toLowerCase() === project.trim().toLowerCase() &&
-              entry?.sessionNo?.trim()?.toLowerCase() === sessionKey.trim().toLowerCase()
-          );
+                      // Finding a matching attendance record
+                      const record = attendance?.find(
+                        (entry) =>
+                          entry?.projectName?.trim()?.toLowerCase() ===
+                            project.trim().toLowerCase() &&
+                          entry?.sessionNo?.trim()?.toLowerCase() ===
+                            sessionKey.trim().toLowerCase()
+                      );
 
-          return (
-            <td key={sessionKey}>
-              {record ? (record.status === "Present" ? "✔" : "❌") : "-"}
-            </td>
-          );
-        })}
-      </tr>
-    ))}
-  </tbody>
-</table>
-
+                      return (
+                        <td key={sessionKey}>
+                          {record
+                            ? record.status === "Present"
+                              ? "✔"
+                              : "❌"
+                            : "-"}
+                        </td>
+                      );
+                    })}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
         <div className="profile-page-right-column">
@@ -540,8 +508,12 @@ const handSaveEditDetails = async () => {
                   accept="image/*"
                   name="profilePicture"
                   onChange={(event) => {
+                    console.log("File Input Change Event Triggered"); // Debugging
                     const file = event.target.files[0];
+                    console.log("Selected File:", file); // Debugging
+
                     if (file) {
+                      console.log("YOOOOOOO");
                       setSelectedFile(file); // Store the file in state
                       const reader = new FileReader();
                       reader.readAsDataURL(file);
@@ -573,7 +545,7 @@ const handSaveEditDetails = async () => {
                 <button
                   type="submit"
                   className="save-button"
-                  onClick={handSaveEditDetails}
+                  // onClick={handSaveEditDetails}
                 >
                   Save
                 </button>

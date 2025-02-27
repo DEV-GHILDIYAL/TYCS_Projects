@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './HomeComponent.css';
 import CardSection from '../CardSection/CardSection';
 import ProjectDetail from '../ProjectDetail/ProjectDetail';
@@ -20,7 +20,6 @@ const HomeComponent = () => {
   const handleViewDetail = (projectDetails) => {
     setSelectedProject(projectDetails);
   };
-
   const handleBack = () => {
     setSelectedProject(null);
   };

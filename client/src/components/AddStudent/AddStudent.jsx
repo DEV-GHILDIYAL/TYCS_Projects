@@ -44,7 +44,7 @@ const AddStudent = () => {
         }
       );
       const data = await response.json(); // Parse response JSON
-      console.log("Server response:", data); // Debug response
+      // console.log("Server response:", data);
 
       if (response.ok) {
         setStudent({
@@ -64,7 +64,7 @@ const AddStudent = () => {
           autoClose: 1000,
         });
       } else {
-        toast.error("Email already exist", {
+        toast.error(data.message, {
           position: "top-right",
           theme: "dark",
           transition: Slide,
@@ -180,6 +180,7 @@ const AddStudent = () => {
               <option value="" disabled>
                 Select Batch
               </option>
+              <option value="Batch0">Batch0</option>
               <option value="Batch1">Batch1</option>
               <option value="Batch2">Batch2</option>
               <option value="Batch3">Batch3</option>

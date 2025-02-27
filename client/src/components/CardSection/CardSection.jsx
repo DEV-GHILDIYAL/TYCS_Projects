@@ -25,7 +25,7 @@ const CardSection = ({
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_BACK_URL}`, {
+        const response = await fetch(`${import.meta.env.VITE_BACK_URL}/get-all-project`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

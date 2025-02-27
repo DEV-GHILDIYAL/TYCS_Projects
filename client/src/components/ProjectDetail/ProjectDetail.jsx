@@ -38,6 +38,7 @@ const ProjectDetail = ({ project, onBack }) => {
       </div>
 
       <div className="project-detail-row">
+      {project.deployed && (
         <div>
           <strong>Deployed Link:</strong>
           <a
@@ -49,7 +50,7 @@ const ProjectDetail = ({ project, onBack }) => {
           >
             <FontAwesomeIcon icon={faLink} className="link-icon" />
           </a>
-        </div>
+        </div>)}
       </div>
 
       <div className="project-detail-description">

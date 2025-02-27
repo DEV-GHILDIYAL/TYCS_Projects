@@ -79,8 +79,9 @@ const OtpComponent = () => {
       });
 
       const checkdata = await response.json();
+      // console.log(checkdata);
 
-      if (response.ok) {
+      if (checkdata.success) {
         toast.success("Password sent successfully", {
           position: "top-right",
           theme: "light",

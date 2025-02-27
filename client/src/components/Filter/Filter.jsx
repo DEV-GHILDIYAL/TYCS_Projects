@@ -36,7 +36,10 @@ export const Filter = ({
       <select
         className="filter-dropdown"
         value={year}
-        onChange={(e) => setYear(e.target.value)}
+        onChange={(e) => {
+          // console.log("Year selected:", e.target.value);
+          setYear(e.target.value)
+        }}
       >
         <option value="">Select Year</option>
         <option value="2024-2025">2024-2025</option>

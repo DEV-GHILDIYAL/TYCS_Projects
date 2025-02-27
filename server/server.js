@@ -63,5 +63,5 @@ app.get("*", (req, res) => {
 //MULTER IMPLEMENTATION
 
 // MULTER IMPLEMENTATION END
-const port = process.env.PORT || 4000;
+const port = process.env.PORT;
 app.listen(port, () => console.log(`listening on port:${port}`));

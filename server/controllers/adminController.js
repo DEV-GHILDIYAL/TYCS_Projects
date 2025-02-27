@@ -10,8 +10,12 @@ import path from "path";
 export const addstudent = async (req, res) => {
   const { email, name, rollNo, batch, role, department, year } = req.body;
   try {
+    if(!email || !name || !rollNo || !batch || !role || !department || !year) {
+      return res.status(400).json({ message: "Missing required fields" });
+    }
     const userExist = await userModel.findOne({ email: email });
-    if (!userExist) {
+    console.log(userExist);
+    if (userExist) {
       console.error("User exist with this email:", email);
       return res.status(401).json({ message: "Email exist" });
     }

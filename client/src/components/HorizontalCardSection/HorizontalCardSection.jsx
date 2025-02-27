@@ -14,7 +14,8 @@ const HorizontalCardSection = ({
   onViewDetail,
   searchTerm = "",
   searchByRollNumber = false,
-  batch = "",
+  year="",
+  // batch = "",
   department = "",
   projectType = "",
   batchFilter = "",
@@ -24,18 +25,21 @@ const HorizontalCardSection = ({
   const [itemsPerPage] = useState(13); // Number of items per page
   
   const images = [img2, img3, img4, img5, img6];
-
+  
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_BACK_URL}`, {
+        // console.log("Fetching from:", import.meta.env.VITE_BACK_URL);
+        const response = await fetch(`${import.meta.env.VITE_BACK_URL}/get-all-project`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
           },
           credentials: "include",
         });
+        
         const data = await response.json();
+        console.log(data);
         if (Array.isArray(data.data)) {
           setProjects(data.data);
           // console.log("Projects fetched and set:", data.data);
@@ -58,7 +62,7 @@ const HorizontalCardSection = ({
       : project.name?.toLowerCase().includes(term);
 
     // Filter by batch
-    const matchesBatch = batch ? project.batch === batch : true;
+    const matchesBatch = year ? project.year === year : true;
 
     // Filter by department
     const matchesDepartment = department ? project.department === department : true;
