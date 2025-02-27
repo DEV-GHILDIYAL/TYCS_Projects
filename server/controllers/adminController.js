@@ -688,7 +688,7 @@ export const uploadStudentData = async (req, res) => {
   }
 };
 
-//This will be for individual quering
+
 // const users = await userModel.find({ role: 'student' })
 //     .select('name email rollNo department batch year')
 //     .lean();
@@ -793,25 +793,22 @@ export const uploadStudentData = async (req, res) => {
 // };
 
 
-
+// Working except session
 export const exportData = async (req, res) => {
   try {
-    // Get query parameters
-    const { department, year, project } = req.query;
+    const { department, year, project } = req.query;  
 
-    // Build filters
     const sessionFilter = {};
     if (department) sessionFilter.department = department;
     if (year) sessionFilter.year = year;
     if (project) sessionFilter.project = project;
 
-    // Fetch all data
     const [sessionResult, userResult] = await Promise.allSettled([
       Session.find(sessionFilter).sort({ date: 1 }).lean(),
-      userModel.find({ role: 'student' })
-        .select('name email rollNo department batch year')
-        .populate('projects', 'title deployed github')
-        .populate('attendance', 'attendance totalPresent totalAbsent')
+      userModel.find({ role: "student" })
+        .select("name email rollNo department batch year")
+        .populate("projects", "title deployed github")
+        .populate("attendance", "attendance totalPresent totalAbsent")
         .lean(),
     ]);
 
@@ -822,69 +819,62 @@ export const exportData = async (req, res) => {
       return res.status(404).json({ success: false, message: "No data found for the given filters." });
     }
 
-    // Transform data
     const transformedData = users.map((user) => {
       const userProject = user.projects?.[0] || {};
       const userAttendance = user.attendance?.[0] || {};
-
-      const record = {
-        "RollNo": user.rollNo,
-        "Name": user.name,
-        "Email": user.email,
-        "Department": user.department,
+      let record = {
+        "Roll No": user.rollNo || "N/A",
+        "Name": user.name || "N/A",
+        "Email": user.email || "N/A",
         "Batch": user.batch,
-        "Year": user.year,
-        "Project Title": userProject.title || "Not Submitted",
-        "Project Link": userProject.deployed || "Not Submitted",
-        "Github Link": userProject.github || "Not Submitted",
         "Total Present": userAttendance.totalPresent || 0,
         "Total Absent": userAttendance.totalAbsent || 0,
+        "Project Title": userProject.title || "Not Submitted",
+        "Project Link": userProject.deployed ? { t: "n", f: `HYPERLINK("${userProject.deployed}", "Project Link")` } : "Not Submitted",
+        "Github Link": userProject.github ? { t: "n", f: `HYPERLINK("${userProject.github}", "Github Repo")` } : "Not Submitted",
       };
 
       sessions.forEach((session) => {
-        const sessionAttendance = userAttendance?.attendance?.find(a => a.sessionId?.toString() === session._id.toString());
-        record[`${session.sessionNo} (${new Date(session.date).toLocaleDateString('en-GB')})`] =
+        const sessionAttendance = userAttendance.attendance?.find(
+          (a) => a.sessionId?.toString() === session._id.toString()
+        );
+      
+        record[`${session.sessionNo} (${new Date(session.date).toLocaleDateString("en-GB")})`] =
           sessionAttendance?.status || "Not Marked";
       });
 
       return record;
     });
 
-    // Create workbook and worksheet
     const workbook = XLSX.utils.book_new();
-    const worksheet = XLSX.utils.json_to_sheet(transformedData);
+    const worksheet = XLSX.utils.json_to_sheet(transformedData, {
+      cellDates: true,
+    });
 
-    // **Set column widths to improve spacing**
-    worksheet['!cols'] = [
-      { wch: 7 }, // Roll No
-      { wch: 20 }, // Name
-      { wch: 30 }, // Email
-      { wch: 10 }, // Department
+    worksheet["!cols"] = [
+      { wch: 7 },
+      { wch: 20 },
+      { wch: 35 },
       { wch: 10 }, // Batch
-      { wch: 10 }, // Year
-      { wch: 20 }, // Project Title
-      { wch: 30 }, // Project Link
-      { wch: 30 }, // Github Link
-      { wch: 12 }, // Total Present
-      { wch: 12 }, // Total Absent
-      ...sessions.map(() => ({ wch: 15 })) // Dynamic session columns
+      { wch: 12 },
+      { wch: 12 },
+      { wch: 25 },
+      { wch: 15 },
+      { wch: 15 },
+      { wch: 15 },
+      ...sessions.map(() => ({ wch: 15 })), // Dynamic session columns
     ];
 
-    // Append worksheet to workbook
     XLSX.utils.book_append_sheet(workbook, worksheet, "ExportedData");
 
-    // Write file to buffer
     const excelBuffer = XLSX.write(workbook, { bookType: "xlsx", type: "buffer" });
 
-    // Set response headers for file download
     res.setHeader("Content-Disposition", "attachment; filename=export.xlsx");
     res.setHeader("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
 
-    // Send file buffer as response
     res.send(excelBuffer);
-
   } catch (error) {
     console.error("Export error:", error);
     res.status(500).json({ success: false, message: "Failed to export data", error: error.message });
   }
-};
+}
