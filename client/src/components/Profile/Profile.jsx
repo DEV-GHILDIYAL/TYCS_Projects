@@ -14,6 +14,7 @@ const Profile = () => {
   const [selectedFile, setSelectedFile] = useState();
   const [isPopupVisible, setIsPopupVisible] = useState(false); // State for popup visibility
   const [attendance, setAttendance] = useState([]);
+  const [phoneError, setPhoneError] = useState("");
   const [profileData, setProfileData] = useState({
     name: "",
     rollNo: "",
@@ -120,7 +121,7 @@ const Profile = () => {
       </div>
     );
   }
-
+/*
   const handSaveEditDetails = async () => {
     try {
       // console.log("HELLO");
@@ -214,7 +215,120 @@ const Profile = () => {
       });
     }
   };
+  */
+ const handSaveEditDetails = async () => {
+  try {
+    const updatedProfileData = {
+      name: document.querySelector('input[type="text"]').value,
+      phoneNo: document.querySelector('input[type="tel"]').value,
+    };
 
+    console.log("Selected File:", selectedFile ? selectedFile.name : "No file selected");
+    // Update Profile Details First
+    const response = await fetch(
+      `${import.meta.env.VITE_BACK_URL}/auth/update-profile`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedProfileData),
+        credentials: "include",
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      toast.error("Error updating profile: " + data.message, {
+        position: "top-right",
+        theme: "light",
+        transition: Slide,
+        autoClose: 1000,
+      });
+      return;
+    }
+
+    // If profile details updated successfully, show success message
+    toast.success("Profile updated successfully!", {
+      position: "top-right",
+      theme: "light",
+      transition: Slide,
+      autoClose: 1000,
+    });
+
+    // If a new profile picture is selected, upload it separately
+    if (selectedFile) {
+      console.log("Uploading new profile picture...");
+      const formData = new FormData();
+      formData.append("profilePicture", selectedFile);
+      console.log("Form Data Content:", formData.get("profilePicture"));
+
+      const response1 = await fetch(
+        `${import.meta.env.VITE_BACK_URL}/auth/upload`,
+        {
+          method: "POST",
+          body: formData,
+          credentials: "include",
+        }
+      );
+
+      const data1 = await response1.json();
+      console.log(data1);
+
+      if (response1.ok) {
+        console.log("Profile picture uploaded successfully:", data1.filePath);
+        setProfileData((prev) => ({
+          ...prev,
+          profilepic: data1.filePath, // Ensure this matches your backend response
+        }));
+        toast.success("Profile picture updated!", {
+          position: "top-right",
+          theme: "light",
+          transition: Slide,
+          autoClose: 1000,
+        });
+      } else {
+        console.error("Error updating profile picture:", data1.message);
+        toast.error("Error updating profile picture: " + data1.message, {
+          position: "top-right",
+          theme: "light",
+          transition: Slide,
+          autoClose: 1000,
+        });
+      }
+    }
+
+    // Fetch updated profile data
+    const fetchUpdatedProfile = async () => {
+      const response = await fetch(
+        `${import.meta.env.VITE_BACK_URL}/auth/get-profile`,
+        {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+        }
+      );
+
+      const updatedData = await response.json();
+      if (response.ok) setProfileData(updatedData);
+    };
+
+    await fetchUpdatedProfile();
+
+  } catch (error) {
+    toast.error("An error occurred while saving your profile.", {
+      position: "top-right",
+      theme: "light",
+      transition: Slide,
+      autoClose: 1000,
+    });
+  }
+};
+
+  const validatePhoneNumber = (phone) => {
+    return phone === "" || /^[0-9]{10}$/.test(phone);
+  };
   return (
     <div className="profile-page-container">
       <div className="profile-page-card">
@@ -468,6 +582,10 @@ const Profile = () => {
               encType="multipart/form-data"
               onSubmit={(event) => {
                 event.preventDefault();
+                if (!validatePhoneNumber(profileData.phoneNo)) {
+                  setPhoneError("Phone number must be either empty or 10 digits.");
+                  return;
+                }
                 handSaveEditDetails(); // Your save function
                 handleClosePopup(); // Close the popup after submission
               }}
@@ -527,9 +645,21 @@ const Profile = () => {
 
               {/* Phone Number */}
               <div className="popup-form-row">
-                <label>Phone Number:</label>
-                <input type="tel" defaultValue={profileData.phoneNo} />
-              </div>
+          <label>Phone Number:</label>
+          <input
+            type="tel"
+            value={profileData.phoneNo}
+            onChange={(e) => {
+              setProfileData((prevData) => ({
+                ...prevData,
+                phoneNo: e.target.value,
+              }));
+              setPhoneError(""); // Clear error when typing
+            }}
+            placeholder="Enter 10-digit phone number"
+          />
+          {phoneError && <p className="error-message">{phoneError}</p>}
+        </div>
 
               {/* Buttons */}
               <div className="popup-buttons">
