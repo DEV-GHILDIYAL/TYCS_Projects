@@ -34,12 +34,11 @@ export const loginUser = async (req, res) => {
       expiresIn: "7d",
     });
 
-    console.log(process.env.NODE_ENV);
+    // console.log(process.env.NODE_ENV === "production");
     res.cookie("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-      domain: process.env.FRONT_URL,
       path: "/",
       maxAge: 1000 * 60 * 60 * 24 * 7,
     });
